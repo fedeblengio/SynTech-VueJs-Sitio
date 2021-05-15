@@ -1,0 +1,38 @@
+.pie {
+    background-color: black !important;
+    color: white;
+}
+
+.menuActivoL {
+    color: #fff !important;
+    text-decoration:none;
+}
+.menuActivo {
+    color: black !important;
+    text-decoration-color: underline 1px black;
+    text-decoration:none;
+}
+
+.navMargin{
+    margin-left:10px;
+    margin-right:10px;
+}
+
+footer{
+    margin-top:5%;
+}
+
+h1{
+  text-align: center;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+  }
+
+  em{
+      color:red;
+  }
