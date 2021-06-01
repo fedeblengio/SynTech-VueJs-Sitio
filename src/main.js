@@ -6,10 +6,9 @@ import FlashMessage from "@smartweb/vue-flash-message";
 
 
 import HomeComponent from './components/HomeComponent.vue';
-import LoginComponent from './components/LoginComponent.vue'
+import LoginComponent from './components/LoginComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
-import miPerfilComponent from './components/miPerfilComponent.vue';
-
+import MiPerfilComponent from './components/MiPerfilComponent.vue';
 
 Vue.config.productionTip = false
 
@@ -22,7 +21,7 @@ const routes = [
     { path: '/', redirect: '/home' },
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/login', name: 'login', component: LoginComponent },
-    { path: '/miPerfil', name: 'miPerfil', component: miPerfilComponent },
+    { path: '/miPerfil', name: 'miPerfil', component: MiPerfilComponent },
     { path: '*', name: 'error404', component: ErrorComponent} 
 ];
 

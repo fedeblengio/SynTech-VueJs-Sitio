@@ -1,10 +1,10 @@
 <template>
 <div>
-  <vue-headful :title="title" />
-  <h1>Página Home</h1>
-  <div class="container p-3 my-3 border">
-    <h2>Hola {{ nombre }}</h2>
-  </div>
+<h1>Bienvenido</h1>
+<div class="container p-3 my-3 ">
+    <vue-headful :title="title" />
+    
+</div>
 </div>
 </template>
 
@@ -17,19 +17,10 @@ export default {
   },
   data() {
     return {
-      title: "Home",
-      nombre: "",
+      title: "Inicio",
     };
   },
 
-  mounted() {
-   /*  if (localStorage.getItem("auth_ou") != "Profesores") {      
-     this.$router.push("/login");
-    }  */
-
-  this.nombre = localStorage.getItem("auth_nombre");
-
-  },
  
 };
 </script>

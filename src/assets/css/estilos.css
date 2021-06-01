@@ -4,11 +4,11 @@
 }
 
 .menuActivoL {
-    color: #fff !important;
+    color: white !important;
     text-decoration:none;
 }
 .menuActivo {
-    color: black !important;
+    color:white !important;
     text-decoration-color: underline 1px black;
     text-decoration:none;
 }
@@ -21,9 +21,13 @@
 footer{
     margin-top:5%;
 }
-
+nav{
+    background:#1d1d1f;
+    text-decoration: none;
+}
 h1{
   text-align: center;
+  color:black;
 }
 
 .center {

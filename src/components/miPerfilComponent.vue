@@ -1,8 +1,17 @@
 <template>
   <div>
-  <vue-headful :title="title" />
-  <h1>{{datos}}</h1>
+    <h1>Mi Perfil</h1>
+    <div class="container p-3 my-3 border">
+      <vue-headful :title="title" />
 
+      <p class="form-control"><b> Username :</b> {{ usuarioDatos.username }}</p>
+    <p class="form-control"><b>Nombre :</b> {{ usuarioDatos.nombre }}</p>
+    <p class="form-control"><b> Email : </b>{{ usuarioDatos.email }}</p>
+    <p class="form-control">
+      <b> Unidad Organizativa : </b>{{ usuarioDatos.ou }}
+    </p>
+
+    </div>
   </div>
 </template>
 
@@ -18,58 +27,30 @@ export default {
   data() {
     return {
       title: "Mi Perfil",
-      persona:{
-        username:''
-      },
-      datos:'',
+      usuarioDatos:"",
     };
   },
-  
   mounted() {
-   if(localStorage.getItem("auth_token")){
-      this.persona.username = localStorage.getItem("auth_username");
-      this.procesar();
-    }else{
-      this.$router.push("/login");
+    if (!localStorage.getItem("auth_token")) {
+      this.$router.push("/home");
+    } else {
+      this.cargarUsuarioData();
     }
-
   },
-    methods: {
-    procesar() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(Global.url + "usuario", this.persona, config)
-        .then((response) => {
-          if (response.status == 200) {
-            
 
-            this.datos =  response.data;      
-          }
+  methods: {
+    cargarUsuarioData() {
+      let username = localStorage.getItem("auth_username");
 
-        
-         
-        })
-        .catch((error) => {
-          console.error();
-          this.flashMessage.show({
-            status: "error",
-            title: "BackOffice",
-            message: "Los datos ingresados no son válidos." + error,
-          });
-          document.form.reset();
-        });
+      axios.get(Global.urlBackOffice + "usuario?username=" + username).then((res) => {
+        //console.log('servicios', res.status);
+        if (res.status == 200) {
+          this.usuarioDatos = res.data;
+        } else {
+          alert("no se pudo conectar");
+        }
+      });
     },
   },
-  
-}
+};
 </script>
-
-
-
-<style>
-</style>
