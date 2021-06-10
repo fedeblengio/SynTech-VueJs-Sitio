@@ -5,12 +5,11 @@
       <vue-headful :title="title" />
 
       <p class="form-control"><b> Username :</b> {{ usuarioDatos.username }}</p>
-    <p class="form-control"><b>Nombre :</b> {{ usuarioDatos.nombre }}</p>
-    <p class="form-control"><b> Email : </b>{{ usuarioDatos.email }}</p>
-    <p class="form-control">
-      <b> Unidad Organizativa : </b>{{ usuarioDatos.ou }}
-    </p>
-
+      <p class="form-control"><b>Nombre :</b> {{ usuarioDatos.nombre }}</p>
+      <p class="form-control"><b> Email : </b>{{ usuarioDatos.email }}</p>
+      <p class="form-control">
+        <b> Unidad Organizativa : </b>{{ usuarioDatos.ou }}
+      </p>
     </div>
   </div>
 </template>
@@ -27,7 +26,7 @@ export default {
   data() {
     return {
       title: "Mi Perfil",
-      usuarioDatos:"",
+      usuarioDatos: "",
     };
   },
   mounted() {
@@ -40,16 +39,18 @@ export default {
 
   methods: {
     cargarUsuarioData() {
-      let username = localStorage.getItem("auth_username");
+      let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
 
-      axios.get(Global.urlBackOffice + "usuario?username=" + username).then((res) => {
-        //console.log('servicios', res.status);
-        if (res.status == 200) {
-          this.usuarioDatos = res.data;
-        } else {
-          alert("no se pudo conectar");
-        }
-      });
+      axios
+        .get(Global.urlBackOffice + "usuario?username=" + usuario.username)
+        .then((res) => {
+          //console.log('servicios', res.status);
+          if (res.status == 200) {
+            this.usuarioDatos = res.data;
+          } else {
+            alert("no se pudo conectar");
+          }
+        });
     },
   },
 };

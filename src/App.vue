@@ -64,7 +64,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            {{ usuario }}
+            {{ usuario.nombre }}
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <router-link class="dropdown-item" to="/miPerfil">
@@ -119,7 +119,7 @@ export default {
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
-        this.usuario = localStorage.getItem("auth_nombre");
+        this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
       }
     },
     cerrarSesion() {

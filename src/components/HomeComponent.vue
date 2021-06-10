@@ -1,11 +1,10 @@
 <template>
-<div>
-<h1>Bienvenido</h1>
-<div class="container p-3 my-3 ">
-    <vue-headful :title="title" />
-    
-</div>
-</div>
+  <div>
+    <h1>Bienvenido {{ usuario.ou }}</h1>
+    <div class="container p-3 my-3">
+      <vue-headful :title="title" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -18,10 +17,12 @@ export default {
   data() {
     return {
       title: "Inicio",
+      usuario: "",
     };
   },
-
- 
+  mounted() {
+    this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
+  },
 };
 </script>
 

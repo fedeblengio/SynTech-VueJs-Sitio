@@ -72,14 +72,10 @@ export default {
         .post(Global.urlBackOffice + "login", this.contacto, config)
         .then((response) => {
           if (response.status == 200) {
-            let uncodeResponseData = JSON.parse(
-              window.atob(response.data.datos)
-            );
-            localStorage.setItem("auth_token", response.data.datos);
-            localStorage.setItem("auth_nombre", uncodeResponseData.nombre);
-            localStorage.setItem("auth_username", uncodeResponseData.username);
-              this.$router.push("/home");
-              location.reload();
+          localStorage.setItem("auth_token", response.data.datos);
+             this.$router.push("/home");
+             location.reload();
+              
           }
         })
         .catch((error) => {
