@@ -34,14 +34,24 @@
               >Home</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="profesor">
             <router-link
-              to="/listarUsuarios"
+              to="/mis-grupos"
               class="nav-link navMargin"
               active-class="menuActivo"
               title="Listar Usuarios"
               style="color: lightgrey; text-decoration: none"
-              >Listar Usuarios</router-link
+              >Mis Grupos</router-link
+            >
+          </li>
+          <li class="nav-item" v-else>
+            <router-link
+              to="/foro"
+              class="nav-link navMargin"
+              active-class="menuActivo"
+              title="Listar Usuarios"
+              style="color: lightgrey; text-decoration: none"
+              >Clases</router-link
             >
           </li>
           <li class="nav-item">
@@ -81,7 +91,7 @@
           active-class="menuActivoL"
           class="btn btn-success my-2 my-sm-0"
           title="Login"
-          style="color:white;"
+          style="color: white"
           >Login</router-link
         >
       </div>
@@ -109,6 +119,7 @@ export default {
     return {
       usuario: "",
       logged: false,
+      profesor: false,
       title: "BackOffice",
     };
   },
@@ -119,7 +130,12 @@ export default {
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
-        this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
+        this.usuario = JSON.parse(
+          window.atob(localStorage.getItem("auth_token"))
+        );
+        if (this.usuario.ou == "Profesor") {
+          this.profesor = true;
+        }
       }
     },
     cerrarSesion() {
@@ -133,6 +149,11 @@ export default {
 <style>
 body {
   background-color: lightgrey;
+  background-image: url(./assets/images/fondo-aflv.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 @import "./assets/css/estilos.css";
 </style>

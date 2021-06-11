@@ -3,18 +3,21 @@ import App from './App.vue'
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import FlashMessage from "@smartweb/vue-flash-message";
-
+import CKEditor from 'ckeditor4-vue';
 
 import HomeComponent from './components/HomeComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 import MiPerfilComponent from './components/MiPerfilComponent.vue';
+import foroComponent from './components/foroComponent.vue';
+import gruposComponent from './components/gruposComponent.vue';
 
 Vue.config.productionTip = false
 
 Vue.use(FlashMessage);
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
+Vue.use(CKEditor);
 
 //acá declaramos todas nuestras rutas de navegación
 const routes = [
@@ -22,6 +25,8 @@ const routes = [
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/miPerfil', name: 'miPerfil', component: MiPerfilComponent },
+    { path: '/foro', name: 'Foro', component: foroComponent },
+    { path: '/mis-grupos', name: 'mis-grupos', component: gruposComponent },
     { path: '*', name: 'error404', component: ErrorComponent} 
 ];
 
