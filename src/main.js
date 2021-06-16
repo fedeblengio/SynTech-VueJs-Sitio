@@ -11,6 +11,8 @@ import ErrorComponent from './components/ErrorComponent.vue';
 import MiPerfilComponent from './components/MiPerfilComponent.vue';
 import foroComponent from './components/foroComponent.vue';
 import gruposComponent from './components/gruposComponent.vue';
+import ClaseComponent from './components/ClaseComponent.vue';
+import MateriasAlumnoComponent from './components/MateriasAlumnoComponent.vue'
 
 Vue.config.productionTip = false
 
@@ -27,8 +29,13 @@ const routes = [
     { path: '/miPerfil', name: 'miPerfil', component: MiPerfilComponent },
     { path: '/foro', name: 'Foro', component: foroComponent },
     { path: '/mis-grupos', name: 'mis-grupos', component: gruposComponent },
+    { path: '/clases/:idGrupo/:materia/:idMateria', name: 'clase-profesor', component: ClaseComponent },
+    { path: '/materias', name: 'alumno-materias', component: MateriasAlumnoComponent},
     { path: '*', name: 'error404', component: ErrorComponent} 
+    
 ];
+
+
 
 
 const router = new VueRouter({ routes, mode: 'history' });

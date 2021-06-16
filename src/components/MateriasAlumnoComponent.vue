@@ -1,26 +1,26 @@
 <template>
   <div>
-    <h1>Mis grupos</h1>
+    <h1>Materias</h1>
 
     <div class="container p-3 my-3">
       <vue-headful :title="title" />
 
 
       <div style="display:flex;flex-wrap: wrap;justify-content:center">
-        <div class="carta-grupos card" v-for="todo in profesorGrupo" :key="todo.id">
+        <div class="carta-grupos card" v-for="todo in alumnoGrupo" :key="todo.id">
           <img  src="../assets/images/grupos-image.jpg" style="border-top-right-radius:15px;border-top-left-radius:15px;" class="card-img-top" alt="..." />
           <div class="card-body">
-            <h5 class="card-title">{{ todo.idGrupo }} {{ todo.anioElectivo }}  - {{ todo.Materia }}</h5>
+            <h5 class="card-title">{{ todo.nombre }} - {{ todo.idGrupo }} </h5>
             <p class="card-text">
-              Profesor: {{ todo.Profesor }}
-              Informacion : {{ todo.nombreCompleto }} 
+              Profesor: 
+              Informacion :
             </p>
-            <router-link class="btn btn-primary"  :to="{
+           <!--  <router-link class="btn btn-primary"  :to="{
                 name: 'clase-profesor',
                 params: { idGrupo: todo.idGrupo, materia: todo.Materia , idMateria: todo.idMateria},
               }">
               Entrar
-            </router-link>
+            </router-link> -->
            
           </div>
         </div>
@@ -45,10 +45,10 @@ export default {
   },
   data() {
     return {
-      title: "Mis Grupos",
+      title: "Mis Materias",
       usuario: "",
       editorData: "",
-      profesorGrupo: "",
+      alumnoGrupo: "",
     };
   },
   mounted() {
@@ -59,12 +59,12 @@ export default {
     getDatos() {
       axios
         .get(
-          Global.urlSitio + "profesor-grupo?idProfesor=" + this.usuario.username
+          Global.urlSitio + "alumno?idAlumno=" + this.usuario.username
         )
         .then((res) => {
           //console.log('servicios', res.status);
           if (res.status == 200) {
-            this.profesorGrupo = res.data;
+            this.alumnoGrupo = res.data;
           } else {
             alert("no se pudo conectar");
           }

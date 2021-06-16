@@ -46,12 +46,12 @@
           </li>
           <li class="nav-item" v-else>
             <router-link
-              to="/foro"
+              to="/materias"
               class="nav-link navMargin"
               active-class="menuActivo"
               title="Listar Usuarios"
               style="color: lightgrey; text-decoration: none"
-              >Clases</router-link
+              >Grupo</router-link
             >
           </li>
           <li class="nav-item">
