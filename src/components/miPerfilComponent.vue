@@ -11,6 +11,7 @@
         <b> Unidad Organizativa : </b>{{ usuarioDatos.ou }}
       </p>
     </div>
+  
   </div>
 </template>
 
@@ -22,6 +23,7 @@ export default {
   name: "miPerfilComponent",
   components: {
     vueHeadful,
+    
   },
   data() {
     return {

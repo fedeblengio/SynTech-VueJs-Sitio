@@ -82,7 +82,7 @@ export default {
           console.log(error);
           this.flashMessage.show({
             status: "error",
-            title: "BackOffice",
+            title: "Sitio",
             message: "Error , credenciales invalidas" + error,
           });
           document.form.reset();

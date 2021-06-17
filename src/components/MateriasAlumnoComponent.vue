@@ -15,12 +15,12 @@
               Profesor: 
               Informacion :
             </p>
-           <!--  <router-link class="btn btn-primary"  :to="{
-                name: 'clase-profesor',
-                params: { idGrupo: todo.idGrupo, materia: todo.Materia , idMateria: todo.idMateria},
+          <router-link class="btn btn-primary"  :to="{
+                name: 'clase-foro',
+                params: { idGrupo: todo.idGrupo, materia: todo.nombre , idMateria: todo.idMateria},
               }">
-              Entrar
-            </router-link> -->
+              Entrar a Foro
+            </router-link> 
            
           </div>
         </div>
@@ -47,7 +47,6 @@ export default {
     return {
       title: "Mis Materias",
       usuario: "",
-      editorData: "",
       alumnoGrupo: "",
     };
   },
@@ -70,6 +69,7 @@ export default {
           }
         });
     },
+    
   },
 };
 </script>

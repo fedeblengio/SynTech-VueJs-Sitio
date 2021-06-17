@@ -16,7 +16,7 @@
               Informacion : {{ todo.nombreCompleto }} 
             </p>
             <router-link class="btn btn-primary"  :to="{
-                name: 'clase-profesor',
+                name: 'clase-foro',
                 params: { idGrupo: todo.idGrupo, materia: todo.Materia , idMateria: todo.idMateria},
               }">
               Entrar

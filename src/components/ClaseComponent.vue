@@ -4,10 +4,7 @@
     <div class="container p-3 my-3 border">
       <vue-headful :title="title" />
 
-      <ckeditor
-        :editor="editor"
-        v-model="editorData"
-      ></ckeditor>
+      <ckeditor :editor="editor" v-model="editorData"></ckeditor>
 
       <input
         type="submit"
@@ -15,6 +12,12 @@
         class="btn btn-danger"
         v-on:click="enviarPost()"
       />
+
+      <br>
+    <br>
+    <h1>Foro</h1>
+    <br>
+   <p>{{responseDatos}}</p> 
     </div>
   </div>
 </template>
@@ -36,12 +39,12 @@ export default {
         idMateria: "",
         materia: "",
         idGrupo: "",
-        idProfesor: "",
+        idUsuario: "",
       },
       responseDatos: "",
       editorData: "",
-      editor:"",
-
+      editor: "",
+      datosforo: "",
     };
   },
   mounted() {
@@ -49,11 +52,12 @@ export default {
       this.$router.push("/home");
     }
     let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
-    this.datos.idProfesor = usuario.username;
+    this.datos.idUsuario = usuario.username;
     this.datos.idMateria = this.$route.params.idMateria;
     this.datos.materia = this.$route.params.materia;
     this.datos.idGrupo = this.$route.params.idGrupo;
     this.getDatos();
+    this.traerDatosForo();
   },
   methods: {
     getDatos() {
@@ -61,15 +65,28 @@ export default {
         .get(
           Global.urlSitio +
             "profesor-foro?" +
-            "idProfesor=" +
-            this.datos.idProfesor +
-            "&idMateria=" +
-            this.datos.idMateria
+            "idMateria=" +
+            this.datos.idMateria +
+            "&idGrupo=" +
+            this.datos.idGrupo
         )
         .then((res) => {
           //console.log('servicios', res.status);
           if (res.status == 200) {
             this.responseDatos = res.data;
+          } else {
+            alert("no se pudo conectar");
+          }
+        });
+    },
+    traerDatosForo() {
+       alert("a")
+      axios
+        .get( Global.urlSitio + "foro-grupo?idForo="+ this.responseDatos.idForo)
+        .then((res) => {
+          //console.log('servicios', res.status);
+          if (res.status == 200) {
+            this.datosforo = res.data;
           } else {
             alert("no se pudo conectar");
           }
@@ -86,7 +103,6 @@ export default {
         idUsuario: this.responseDatos.idProfesor,
         mensaje: window.btoa(this.editorData),
       };
-     alert(parametros.mensaje);
 
       axios
         .post(Global.urlSitio + "foro", parametros, config)
@@ -96,7 +112,7 @@ export default {
             this.flashMessage.show({
               status: "success",
               title: "Sitio",
-              message: "Mensaje publicado" ,
+              message: "Mensaje publicado",
             });
           }
         })

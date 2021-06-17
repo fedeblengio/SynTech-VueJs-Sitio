@@ -29,7 +29,7 @@ const routes = [
     { path: '/miPerfil', name: 'miPerfil', component: MiPerfilComponent },
     { path: '/foro', name: 'Foro', component: foroComponent },
     { path: '/mis-grupos', name: 'mis-grupos', component: gruposComponent },
-    { path: '/clases/:idGrupo/:materia/:idMateria', name: 'clase-profesor', component: ClaseComponent },
+    { path: '/clases/:idGrupo/:materia/:idMateria', name: 'clase-foro', component: ClaseComponent },
     { path: '/materias', name: 'alumno-materias', component: MateriasAlumnoComponent},
     { path: '*', name: 'error404', component: ErrorComponent} 
     
