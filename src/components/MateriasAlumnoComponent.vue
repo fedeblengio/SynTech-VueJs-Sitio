@@ -1,37 +1,29 @@
 <template>
   <div>
-    <h1>Materias</h1>
-
-    <div class="container p-3 my-3">
-      <vue-headful :title="title" />
 
 
-      <div style="display:flex;flex-wrap: wrap;justify-content:center">
-        <div class="carta-grupos card" v-for="todo in alumnoGrupo" :key="todo.id">
-          <img  src="../assets/images/grupos-image.jpg" style="border-top-right-radius:15px;border-top-left-radius:15px;" class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">{{ todo.nombre }} - {{ todo.idGrupo }} </h5>
-            <p class="card-text">
-              Profesor: 
-              Informacion :
-            </p>
-          <router-link class="btn btn-primary"  :to="{
-                name: 'clase-foro',
-                params: { idGrupo: todo.idGrupo, materia: todo.nombre , idMateria: todo.idMateria},
-              }">
-              Entrar a Foro
-            </router-link> 
-           
-          </div>
-        </div>
+    <vue-headful :title="title" />
 
-        
-    </div>
+    <div class="grupoComonentMateria">
+      <h2>Tus Materias</h2>
+      <table class="tableClass">
+        <tr v-for="todo in alumnoGrupo" :key="todo.id" class="list-group-item">
+          <router-link
+            :to="{
+              name: 'clase-foro',
+              params: {
+                idGrupo: todo.idGrupo,
+                materia: todo.nombre,
+                idMateria: todo.idMateria,
+              },
+            }"
+          style="	text-decoration: none;" >
+            <td style='color:black;'>{{ todo.nombre }}</td>
+          </router-link>
+        </tr>
+      </table>
     </div>
   </div>
-
-
-  
 </template>
 
 <script>
@@ -57,9 +49,7 @@ export default {
   methods: {
     getDatos() {
       axios
-        .get(
-          Global.urlSitio + "alumno?idAlumno=" + this.usuario.username
-        )
+        .get(Global.urlSitio + "alumno?idAlumno=" + this.usuario.username)
         .then((res) => {
           //console.log('servicios', res.status);
           if (res.status == 200) {
@@ -69,7 +59,6 @@ export default {
           }
         });
     },
-    
   },
 };
 </script>

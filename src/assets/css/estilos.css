@@ -9,7 +9,7 @@ a{
     color: white;
 }
 router-link{
-    color: white;
+    color: rgb(206, 223, 202) !important;
 }
 
 .menuActivoL {
@@ -30,13 +30,13 @@ router-link{
 footer {
   margin-top: 5%;
 }
-nav {
+/* nav {
   background: #1d1d1f;
   text-decoration: none;
-}
+} */
 h1 {
   text-align: center;
-  color: white;
+  color: hite;
 }
 
 .center {

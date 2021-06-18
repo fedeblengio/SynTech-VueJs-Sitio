@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Mi Perfil</h1>
+     <button class="btn btn-danger" v-on:click="cerrarSesion()">Cerrar Sesion</button>
     <div class="container p-3 my-3 border">
       <vue-headful :title="title" />
 
@@ -11,7 +12,7 @@
         <b> Unidad Organizativa : </b>{{ usuarioDatos.ou }}
       </p>
     </div>
-  
+   
   </div>
 </template>
 
@@ -53,6 +54,11 @@ export default {
             alert("no se pudo conectar");
           }
         });
+    },
+      cerrarSesion() {
+      localStorage.clear();
+      this.$router.push("/login");
+      location.reload();
     },
   },
 };

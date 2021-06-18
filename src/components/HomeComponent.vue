@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Bienvenido {{ usuario.ou }}</h1>
+    <h1>Bienvenido {{ usuario.nombre }}</h1>
     <div class="container p-3 my-3">
       <vue-headful :title="title" />
     </div>
