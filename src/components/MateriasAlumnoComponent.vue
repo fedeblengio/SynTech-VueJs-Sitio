@@ -1,14 +1,41 @@
 <template>
   <div>
-
-
     <vue-headful :title="title" />
 
-    <div class="grupoComonentMateria">
-      <h2>Tus Materias</h2>
-      <table class="tableClass">
-        <tr v-for="todo in alumnoGrupo" :key="todo.id" class="list-group-item">
+  
+
+<div class="grupoComonentMateria">
+    <h1>Mis Materias</h1>
+    <vue-headful :title="title" />
+    <div
+      class="contenedorMateria"
+      style="display: flex; flex-wrap: wrap; justify-content: center"
+    >
+      <div
+        class="card"
+        style="
+          width: 18rem;
+          margin: 15px;
+          border-radius: 10px;
+         border-radius: 10px; box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+        "
+         v-for="todo in alumnoGrupo"
+          :key="todo.id"
+      >
+        <img
+          class="card-img-top"
+          src="../assets/images/grupos-image.jpg"
+          alt="Card image cap"
+        />
+        <hr>
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ todo.idGrupo }} -
+            {{ todo.nombre }} 
+
+          </h5>
           <router-link
+          class="btn btn-primary"
             :to="{
               name: 'clase-foro',
               params: {
@@ -17,13 +44,18 @@
                 idMateria: todo.idMateria,
               },
             }"
-          style="	text-decoration: none;" >
-            <td style='color:black;'>{{ todo.nombre }}</td>
+            style="text-decoration: none"
+          >
+            
+            Ir Foro
           </router-link>
-        </tr>
-      </table>
+        </div>
+      </div>
     </div>
   </div>
+  </div>
+
+  
 </template>
 
 <script>

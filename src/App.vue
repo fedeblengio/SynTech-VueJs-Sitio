@@ -18,10 +18,7 @@
     </header>
 
     <div class="ContenedorSup" v-if="logged">
-      <div class="info">
-        <materias v-if="usuario.ou === 'Alumno'"></materias>
-        <grupos v-else></grupos>
-      </div>
+     
       <div class="cont">
         <router-view> </router-view>
       </div>
@@ -42,14 +39,11 @@
 
 <script>
 import vueHeadful from "vue-headful";
-import materias from "./components/MateriasAlumnoComponent.vue";
-import grupos from "./components/gruposComponent.vue";
 export default {
   name: "App",
   components: {
     vueHeadful,
-    materias,
-    grupos,
+  
   },
   data() {
     return {

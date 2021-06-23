@@ -1,29 +1,42 @@
 <template>
   <div class="grupoComonentMateria">
-    <h2>Mis grupos</h2>
-      <vue-headful :title="title" />
-      <div class="contenedorMateria">
-        <table class="tableClass">
-          <tr v-for="todo in profesorGrupo" :key="todo.id" class="list-group-item" >
-            <router-link
-              :to="{
-                name: 'clase-foro',
-                params: {
-                  idGrupo: todo.idGrupo,
-                  materia: todo.Materia,
-                  idMateria: todo.idMateria,
-                },
-              }"
-              style="	text-decoration: none;">
-              <td style='color:rgba(38, 87, 153);'>
-                {{ todo.idGrupo }} {{ todo.anioElectivo }} - {{ todo.Materia }}
-              </td>
-            </router-link>
-          </tr>
-        </table>
+    <h1>Mis Cursos</h1>
+    <vue-headful :title="title" />
+    <div class="contenedorMateria" style="display: flex; flex-wrap: wrap;justify-content: center;">
+      <div
+        class="card"
+        style="width: 18rem; margin:15px; border-radius: 10px; box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;"
+        v-for="todo in profesorGrupo"
+        :key="todo.id"
+      >
+        <img
+          class="card-img-top"
+          src="../assets/images/grupos-image.jpg"
+          alt="Card image cap"
+        />
+        <hr>
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ todo.idGrupo }} {{ todo.anioElectivo }} - {{ todo.Materia }}
+          </h5>
+          <router-link
+            class="btn btn-primary"
+            :to="{
+              name: 'clase-foro',
+              params: {
+                idGrupo: todo.idGrupo,
+                materia: todo.Materia,
+                idMateria: todo.idMateria,
+              },
+            }"
+            style="text-decoration: none"
+          >
+            Ir Foro
+          </router-link>
+        </div>
       </div>
     </div>
-
+  </div>
 </template>
 
 <script>
