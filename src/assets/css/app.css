@@ -85,10 +85,13 @@ header label {
   display: flex;
   margin-top: 60px;
   width: 100%;
-  text-align: center;
+
   
 }
 
+.ContenedorSup h1,h2{
+  text-align: center;
+}
 .info {
   background-color: white;
   width: 25%;
@@ -121,45 +124,58 @@ table {
   border-radius:8px;
 }
 
-/* .tableClass tr:hover{
-	text-decoration: underline;
-} */
+
+
+
+/******Foro******************************************************************/
+
+.contenedorForo{
+  background-color:rebeccapurple;
+  width:65%;
+  justify-content: center;
+  height:auto;
+  border-radius: 5px;
+  color:white;
+  margin:auto;
+
+}
+
+.div{
+  display:none;
+  background-color:sandybrown;
+  color:black;
+  margin-top: 3px;
+}
 
 
 
 
+.fas{
+  cursor: pointer;
+}
+
+.modeloContenedor{
+  padding: 5px;
+}
+
+.modeloContenedor input{
+  margin-top: 3px;
+
+}
 
 
+.customImput {
+  width: 50%;
+  justify-content: center;
+  text-align: center;
+  margin:auto;
+}
 
+.imputCss{
+  margin-bottom: 10px;
+  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
