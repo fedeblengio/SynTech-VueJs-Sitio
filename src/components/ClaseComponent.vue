@@ -49,13 +49,7 @@
                   v-model="nuevoPost.titulo"
                 />
               </div>
-
-              <div class="customImput input-group mb-3">
-                <div class="custom-file">
-                
-                </div>
-              </div>
-
+              <input type="file" name="image" @change="getImage" />
               <ckeditor
                 :editor="editor"
                 v-model="nuevoPost.ckeditor"
@@ -80,7 +74,6 @@ import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import JQuery from "jquery";
-
 export default {
   name: "ClaseComponent.vue",
 
@@ -116,6 +109,11 @@ export default {
   },
 
   methods: {
+    getImage(event) {
+      //Asignamos la imagen a  nuestra data
+      this.nuevoPost.archivo = event.target.files[0];
+    },
+
     flechas(id, mensaje) {
       let $ = JQuery;
       let div2 = document.getElementById(id);
@@ -173,9 +171,10 @@ export default {
     enviarPost() {
       let config = {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       };
+
       let parametros = {
         idForo: this.responseDatos.idForo,
         idUsuario: this.responseDatos.idProfesor,
@@ -184,7 +183,8 @@ export default {
         titulo: this.nuevoPost.titulo,
       };
       console.log(parametros.archivo);
-      alert("gggg");
+
+      alert(parametros.archivo);
       axios
         .post(Global.urlSitio + "foro", parametros, config)
         .then((response) => {

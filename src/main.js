@@ -4,7 +4,8 @@ import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import FlashMessage from "@smartweb/vue-flash-message";
 import CKEditor from 'ckeditor4-vue';
-
+import VFileInput from 'v-file-input';
+ 
 
 import HomeComponent from './components/HomeComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
@@ -22,6 +23,7 @@ Vue.use(FlashMessage);
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
 Vue.use(CKEditor);
+Vue.use(VFileInput);
 
 
 //acá declaramos todas nuestras rutas de navegación
