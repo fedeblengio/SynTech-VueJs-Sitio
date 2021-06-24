@@ -52,12 +52,7 @@
 
               <div class="customImput input-group mb-3">
                 <div class="custom-file">
-                 <VFileInput>
-                   
-                   
-                   
-                   
-                  </VFileInput>
+                
                 </div>
               </div>
 
@@ -85,13 +80,12 @@ import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import JQuery from "jquery";
-import VFileInput from 'v-file-input'
+
 export default {
   name: "ClaseComponent.vue",
 
   components: {
     vueHeadful,
-    VFileInput,
   },
   data() {
     return {
