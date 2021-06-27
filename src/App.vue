@@ -4,7 +4,7 @@
 
     <header>
       <div class="contenedor">
-        <h1><i class="fas fa-books"></i> LMS</h1>
+        <a href="/home" style="text-decoration:none;"><h1><i class="fas fa-books"></i> LMS</h1></a>
         <input type="checkbox" id="menu-barra" />
         <label class="icon-menu" for="menu-barra"></label>
         <nav class="menu">
@@ -12,7 +12,9 @@
             <i class="fa fa-home" aria-hidden="true"></i>
           </a>
           <a href="/miPerfil" v-if="logged"> {{ usuario.nombre }}</a>
+
           <a href="/login" v-else> Login</a>
+          <a href="" v-on:click="cerrarSesion()" v-if="logged"><i class="fal fa-sign-out-alt"></i></a>
         </nav>
       </div>
     </header>
@@ -67,6 +69,11 @@ export default {
           this.profesor = true;
         }
       }
+    },
+     cerrarSesion() {
+      localStorage.clear();
+      this.$router.push("/login");
+      location.reload();
     },
   },
 };

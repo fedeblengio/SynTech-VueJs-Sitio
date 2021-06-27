@@ -29,7 +29,15 @@ export default {
     };
   },
   mounted() {
-    this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
+     if (!localStorage.getItem("auth_token")) {
+      this.$router.push("/login");
+      this.flashMessage.show({
+            status: "error",
+            title: "Sitio",
+            message: "Error , debes iniciar sesión",
+          });
+     }
+   this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
   },
 };
 </script>
