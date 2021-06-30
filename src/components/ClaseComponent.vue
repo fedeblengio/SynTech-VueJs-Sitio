@@ -16,16 +16,21 @@
 
       <div>
         <h1>Foro</h1>
-        <div v-for="datos in datosForo" :key="datos.id">
-          <div class="contenedorForo">
+        <div
+          v-for="datos in datosForo"
+          :key="datos.id"
+          class="contenedorPrincipal"
+        >
+          <div class="contenedorForo mb-1">
             <i
               class="fas fa-arrow-right"
               v-on:click="flechas(datos.id, datos.mensaje)"
             >
             </i>
             {{ datos.titulo }}
+            {{ datos.datos }}
           </div>
-          <div class="contenedorForo div" v-bind:id="datos.id"></div>
+          <div class="contenedorForo div mb-1" v-bind:id="datos.id"></div>
         </div>
       </div>
 
@@ -38,27 +43,55 @@
       >
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <div class="modeloContenedor">
-              <h2>Nuevo Post</h2>
-              <hr />
-              <div>
-                <p>Titulo:</p>
-                <input
-                  type="text"
-                  class="form-control imputCss"
-                  v-model="nuevoPost.titulo"
-                />
-              </div>
-              <input type="file" name="image" @change="getImage" />
-              <ckeditor
-                :editor="editor"
-                v-model="nuevoPost.ckeditor"
-              ></ckeditor>
+            <hr />
+            <h2>Nuevo Post</h2>
 
+            <div class="modeloContenedor">
+              <div class="mb-3 mt-1 row">
+                <label for="titulo" class="col-sm-2 col-form-label"
+                  >Titulo:</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="nuevoPost.titulo"
+                    id="titulo"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-3 row">
+                <label for="inputFile" class="col-sm-2 col-form-label"
+                  >Archivo:</label
+                >
+                <div class="col-sm-10">
+                  <input
+                    @change="getFile"
+                    type="file"
+                    class="form-control-file"
+                    id="file"
+                    accept=".pdf"
+                  />
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label for="mensaje" class="col-sm-2 col-form-label"
+                  >Mensaje:</label
+                >
+                <div class="col-sm-10">
+                  <ckeditor
+                    id="mensaje"
+                    :editor="editor"
+                    v-model="nuevoPost.ckeditor"
+                  ></ckeditor>
+                </div>
+              </div>
+              <hr />
               <input
                 type="submit"
-                value="Datos"
-                class="btn btn-primary"
+                value="Publicar Post"
+                class="btn btn-secondary btn btn-block"
                 v-on:click="enviarPost()"
               />
             </div>
@@ -68,6 +101,9 @@
     </div>
   </div>
 </template>
+
+
+
 
 <script>
 import vueHeadful from "vue-headful";
@@ -89,6 +125,7 @@ export default {
         idGrupo: "",
         idUsuario: "",
       },
+      file: null,
       responseDatos: "",
       nuevoPost: {
         ckeditor: "",
@@ -98,6 +135,8 @@ export default {
       editor: "",
       datosForo: "",
       alumno: false,
+      keyStr:
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
     };
   },
   mounted() {
@@ -109,9 +148,70 @@ export default {
   },
 
   methods: {
-    getImage(event) {
+    handleFileUpload(event) {
+      this.file = event.target.files[0];
+    },
+
+    encode: function (input) {
+      var output = "";
+      var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+      var i = 0;
+
+      input = this._utf8_encode(input);
+
+      while (i < input.length) {
+        chr1 = input.charCodeAt(i++);
+        chr2 = input.charCodeAt(i++);
+        chr3 = input.charCodeAt(i++);
+
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+        enc4 = chr3 & 63;
+
+        if (isNaN(chr2)) {
+          enc3 = enc4 = 64;
+        } else if (isNaN(chr3)) {
+          enc4 = 64;
+        }
+
+        output =
+          output +
+          this.keyStr.charAt(enc1) +
+          this.keyStr.charAt(enc2) +
+          this.keyStr.charAt(enc3) +
+          this.keyStr.charAt(enc4);
+      }
+
+      return output;
+    },
+
+    _utf8_encode: function (string) {
+      string = string.replace(/\r\n/g, "\n");
+      var utftext = "";
+
+      for (var n = 0; n < string.length; n++) {
+        var c = string.charCodeAt(n);
+
+        if (c < 128) {
+          utftext += String.fromCharCode(c);
+        } else if (c > 127 && c < 2048) {
+          utftext += String.fromCharCode((c >> 6) | 192);
+          utftext += String.fromCharCode((c & 63) | 128);
+        } else {
+          utftext += String.fromCharCode((c >> 12) | 224);
+          utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+          utftext += String.fromCharCode((c & 63) | 128);
+        }
+      }
+
+      return utftext;
+    },
+
+    getFile(event) {
       //Asignamos la imagen a  nuestra data
-      this.nuevoPost.archivo = event.target.files[0];
+      this.file = event.target.files[0];
+      
     },
 
     flechas(id, mensaje) {
@@ -175,18 +275,15 @@ export default {
         },
       };
 
-      let parametros = {
-        idForo: this.responseDatos.idForo,
-        idUsuario: this.responseDatos.idProfesor,
-        mensaje: window.btoa(this.nuevoPost.ckeditor),
-        archivo: this.nuevoPost.archivo,
-        titulo: this.nuevoPost.titulo,
-      };
-      console.log(parametros.archivo);
+      let formData = new FormData();
+      formData.append("archivo", this.file);
+      formData.append("idForo", this.responseDatos.idForo);
+      formData.append("idUsuario", this.responseDatos.idProfesor);
+      formData.append("mensaje", window.btoa(this.nuevoPost.ckeditor));
+      formData.append("titulo", this.nuevoPost.titulo);
 
-      alert(parametros.archivo);
       axios
-        .post(Global.urlSitio + "foro", parametros, config)
+        .post(Global.urlSitio + "foro", formData, config)
         .then((response) => {
           if (response.status == 200) {
             location.reload();

@@ -3,8 +3,7 @@
     <div class="container">
       <div class="login-container">
         <div id="output"></div>
-        <div class="avatar">
-        </div>
+        <div class="avatar"></div>
         <div class="form-box">
           <form form name="form" id="form" v-on:submit.prevent="procesar()">
             <p class="letraslogin">
@@ -20,7 +19,7 @@
 
             <p class="letraslogin">
               Contraseña:
-              
+
               <input
                 type="password"
                 name="password"
@@ -30,13 +29,13 @@
               />
             </p>
 
-            <br>
-           <input
-          type="submit"
-          value="Iniciar Sesion"
-          title="Enviar"
-          class="btn btn-primary"
-        />
+            <br />
+            <input
+              type="submit"
+              value="Iniciar Sesion"
+              title="Enviar"
+              class="btn btn-primary"
+            />
           </form>
         </div>
       </div>
@@ -58,7 +57,16 @@ export default {
     };
   },
   mounted() {
-    localStorage.clear();
+    if (localStorage.getItem("auth_token")) {
+      this.$router.push("/home");
+      this.flashMessage.show({
+        status: "success",
+        title: "Sitio",
+        message: "Ya has iniciado sesión",
+      });
+    } else {
+      localStorage.clear();
+    }
   },
 
   methods: {
@@ -72,10 +80,9 @@ export default {
         .post(Global.urlBackOffice + "login", this.contacto, config)
         .then((response) => {
           if (response.status == 200) {
-          localStorage.setItem("auth_token", response.data.datos);
-             this.$router.push("/home");
-             location.reload();
-              
+            localStorage.setItem("auth_token", response.data.datos);
+            this.$router.push("/home");
+            location.reload();
           }
         })
         .catch((error) => {
@@ -93,7 +100,6 @@ export default {
 </script>
 
 <style>
-
 .login-container {
   position: relative;
   width: 300px;
@@ -102,26 +108,23 @@ export default {
   text-align: center;
   background: #1d1d1f;
   border: 1px solid rgb(0, 0, 0);
-  border-radius:10px;
+  border-radius: 10px;
 
-  -webkit-box-shadow: 10px 10px 22px 0px rgba(0,0,0,0.55);
-  -moz-box-shadow: 10px 10px 22px 0px rgba(0,0,0,0.55);
-  box-shadow: 10px 10px 22px 0px rgba(0,0,0,0.55);
+  -webkit-box-shadow: 10px 10px 22px 0px rgba(0, 0, 0, 0.55);
+  -moz-box-shadow: 10px 10px 22px 0px rgba(0, 0, 0, 0.55);
+  box-shadow: 10px 10px 22px 0px rgba(0, 0, 0, 0.55);
 }
 
-
 .avatar {
-  background:url(../assets/images/logoLogin.png);
+  background: url(../assets/images/logoLogin.png);
   width: 100px;
   height: 100px;
   margin: 10px auto 30px;
   background-size: cover;
-  
 }
-.letraslogin{
-  text-align:left;
-  margin-bottom:25px;
-  color:white;
+.letraslogin {
+  text-align: left;
+  margin-bottom: 25px;
+  color: white;
 }
-
 </style>
