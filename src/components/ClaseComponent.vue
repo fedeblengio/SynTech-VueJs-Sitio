@@ -78,11 +78,8 @@
                 >Mensaje:</label
               >
               <div class="col-sm-10">
-                <ckeditor
-                  id="mensaje"
-                  :editor="editor"
-                  v-model="nuevoPost.ckeditor"
-                ></ckeditor>
+                <ckeditor :editor="editor" v-model="nuevoPost.ckeditor" :config="editorConfig"  id="mensaje"></ckeditor>
+          
               </div>
             </div>
             <hr />
@@ -103,6 +100,7 @@
 
 
 <script>
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
@@ -122,6 +120,9 @@ export default {
         idGrupo: "",
         idUsuario: "",
       },
+      editorConfig: {
+            
+        },
       file: null,
       responseDatos: "",
       nuevoPost: {
@@ -129,7 +130,7 @@ export default {
         titulo: "",
         archivo: null,
       },
-      editor: "",
+      editor: ClassicEditor,
       datosForo: "",
       alumno: false,
       keyStr:

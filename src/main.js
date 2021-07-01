@@ -3,9 +3,9 @@ import App from './App.vue'
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import FlashMessage from "@smartweb/vue-flash-message";
-import CKEditor from 'ckeditor4-vue';
+import CKEditor from '@ckeditor/ckeditor5-vue2'; 
 import VFileInput from 'v-file-input';
- 
+
 
 import HomeComponent from './components/HomeComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
