@@ -2,13 +2,12 @@
   <div>
     <vue-headful :title="title" />
     <div class="container emp-profile">
-      <form method="post">
         <div class="row">
           <div class="col-md-4">
             <div class="profile-img">
               <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog"
-                alt=""
+                src="https://i.pinimg.com/736x/de/63/f5/de63f54cf84928dadab9ffd3642f5ec9.jpg"
+                alt="Foto de Perfil"
               />
               <div class="file btn btn-lg btn-primary">
                 Change Photo
@@ -46,7 +45,8 @@
               type="submit"
               class="profile-edit-btn"
               name="btnAddMore"
-              value="Editar Perfil"
+              value="Cambiar contraseña"
+              v-on:click="editProfile=true"
             />
           </div>
         </div>
@@ -138,9 +138,32 @@
                 </div>
               </div>
             </div>
+               <div v-if="editProfile" style="background-color:whitesmoke; padding:10px; border-radius:5px;  -webkit-box-shadow: 3px 0px 29px -12px rgba(0,0,0,0.75);
+-moz-box-shadow: 3px 0px 29px -12px rgba(0,0,0,0.75);
+box-shadow: 3px 0px 29px -12px rgba(0,0,0,0.75);" class="container mt-5">
+                  <h5>Cambiar Contraseña</h5>
+                  <div class="container">
+                    <p>Contraseña</p>
+                  
+              
+                    <p><input type="text" v-model="contrasenia"> </p>
+                 
+                 
+                    <p>Repita Contraseña</p>
+                  
+                   
+                    <p><input type="text" v-model="contrasenia2"> </p>
+                  </div>
+                  
+
+                  <input type="button" class="btn btn-danger mr-1" value="Cancelar"/>
+                  <input type="button" class="btn btn-success  ml-1" value="Aceptar"/>
+              </div>
           </div>
+            
         </div>
-      </form>
+   
+
     </div>
   </div>
 </template>
@@ -160,6 +183,9 @@ export default {
       usuarioDatos: "",
       materias: "",
       profesor: false,
+      editProfile:false,
+      contrasenia: "",
+       contrasenia2: "",
     };
   },
   mounted() {
