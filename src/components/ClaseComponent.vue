@@ -1,100 +1,97 @@
 <template>
   <div>
-    <button
-      v-if="!alumno"
-      type="button"
-      class="btn btn-primary"
-      data-toggle="modal"
-      data-target=".bd-example-modal-lg"
-    >
-      Agregar Post
-    </button>
-
     <h1>Grupo {{ datos.idGrupo }} - {{ datos.materia }}</h1>
-    <div class="container p-3 my-3 border">
-      <vue-headful :title="title" />
 
-      <div>
-        <h1>Foro</h1>
-        <div
-          v-for="datos in datosForo"
-          :key="datos.id"
-          class="contenedorPrincipal"
-        >
-          <div class="contenedorForo mb-1">
-            <i
-              class="fas fa-arrow-right"
-              v-on:click="flechas(datos.id, datos.mensaje)"
-            >
-            </i>
-            {{ datos.titulo }}
-            {{ datos.datos }}
-          </div>
-          <div class="contenedorForo div mb-1" v-bind:id="datos.id"></div>
-        </div>
-      </div>
+    <vue-headful :title="title" />
 
-      <div
-        class="modal fade bd-example-modal-lg"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="myLargeModalLabel"
-        aria-hidden="true"
+    <div>
+      <h1>Foro</h1>
+      <button
+        v-if="!alumno"
+        type="button"
+        class="btn btn-primary boton-foro"
+        data-toggle="modal"
+        data-target=".bd-example-modal-lg"
       >
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <hr />
-            <h2>Nuevo Post</h2>
+        Agregar Post
+      </button>
+      <div
+        v-for="datos in datosForo"
+        :key="datos.id"
+        class="contenedorPrincipal"
+      >
+        <div class="contenedorForo">
+          <i
+            class="fal fa-plus"
+            v-on:click="flechas(datos.id, datos.mensaje)"
+          >
+            {{ datos.titulo }}
+          </i>
+        </div>
+        <div class="test contenedorResulado" v-bind:id="datos.id"></div>
+      </div>
+    </div>
 
-            <div class="modeloContenedor">
-              <div class="mb-3 mt-1 row">
-                <label for="titulo" class="col-sm-2 col-form-label"
-                  >Titulo:</label
-                >
-                <div class="col-sm-10">
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="nuevoPost.titulo"
-                    id="titulo"
-                  />
-                </div>
-              </div>
+    <div
+      class="modal fade bd-example-modal-lg"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="myLargeModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <hr />
+          <h2>Nuevo Post</h2>
 
-              <div class="mb-3 row">
-                <label for="inputFile" class="col-sm-2 col-form-label"
-                  >Archivo:</label
-                >
-                <div class="col-sm-10">
-                  <input
-                    @change="getFile"
-                    type="file"
-                    class="form-control-file"
-                    id="file"
-                    accept=".pdf"
-                  />
-                </div>
+          <div class="modeloContenedor">
+            <div class="mb-3 mt-1 row">
+              <label for="titulo" class="col-sm-2 col-form-label"
+                >Titulo:</label
+              >
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="nuevoPost.titulo"
+                  id="titulo"
+                />
               </div>
-              <div class="mb-3 row">
-                <label for="mensaje" class="col-sm-2 col-form-label"
-                  >Mensaje:</label
-                >
-                <div class="col-sm-10">
-                  <ckeditor
-                    id="mensaje"
-                    :editor="editor"
-                    v-model="nuevoPost.ckeditor"
-                  ></ckeditor>
-                </div>
-              </div>
-              <hr />
-              <input
-                type="submit"
-                value="Publicar Post"
-                class="btn btn-secondary btn btn-block"
-                v-on:click="enviarPost()"
-              />
             </div>
+
+            <div class="mb-3 row">
+              <label for="inputFile" class="col-sm-2 col-form-label"
+                >Archivo:</label
+              >
+              <div class="col-sm-10">
+                <input
+                  @change="getFile"
+                  type="file"
+                  class="form-control-file"
+                  id="file"
+                  accept=".pdf"
+                />
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <label for="mensaje" class="col-sm-2 col-form-label"
+                >Mensaje:</label
+              >
+              <div class="col-sm-10">
+                <ckeditor
+                  id="mensaje"
+                  :editor="editor"
+                  v-model="nuevoPost.ckeditor"
+                ></ckeditor>
+              </div>
+            </div>
+            <hr />
+            <input
+              type="submit"
+              value="Publicar Post"
+              class="btn btn-secondary btn btn-block"
+              v-on:click="enviarPost()"
+            />
           </div>
         </div>
       </div>
@@ -211,7 +208,6 @@ export default {
     getFile(event) {
       //Asignamos la imagen a  nuestra data
       this.file = event.target.files[0];
-      
     },
 
     flechas(id, mensaje) {
