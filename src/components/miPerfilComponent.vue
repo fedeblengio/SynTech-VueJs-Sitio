@@ -146,18 +146,18 @@ box-shadow: 3px 0px 29px -12px rgba(0,0,0,0.75);" class="container mt-5">
                     <p>Contraseña</p>
                   
               
-                    <p><input type="text" v-model="contrasenia"> </p>
+                    <p><input type="password" v-model="contrasenia" required> </p>
                  
                  
                     <p>Repita Contraseña</p>
                   
                    
-                    <p><input type="text" v-model="contrasenia2"> </p>
+                    <p><input type="password" v-model="contrasenia2" required> </p>
                   </div>
                   
 
-                  <input type="button" class="btn btn-danger mr-1" value="Cancelar"/>
-                  <input type="button" class="btn btn-success  ml-1" value="Aceptar"/>
+                  <input type="button" class="btn btn-danger mr-1" value="Cancelar" v-on:click="editProfile=false"/>
+                  <input type="button" class="btn btn-success  ml-1" value="Aceptar" v-on:click="cambiarContrasenia()"/>
               </div>
           </div>
             
@@ -185,7 +185,7 @@ export default {
       profesor: false,
       editProfile:false,
       contrasenia: "",
-       contrasenia2: "",
+      contrasenia2: "",
     };
   },
   mounted() {
@@ -252,8 +252,55 @@ export default {
             alert("no se pudo conectar");
           }
         });
-    }
+    },
+    cambiarContrasenia() {
+      let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
+      let parametros = {  
+            "username": usuario.username,
+            "newPassword": this.contrasenia,
+         };
+      let config = {
+        headers: {
+            "Content-Type": "application/json",
+             token: Global.token
+        },
+      };
+      
+      if ( this.contrasenia === this.contrasenia2){
+   axios
+        .put(Global.urlSitio + "usuario",parametros,config)
+        .then((response) => {
+          if (response.status == 200) {
+        
+    
+            this.flashMessage.show({
+              status: "success",
+              title: "Sitio",
+              message: "Contraseña Modificada",
+            });
+            location.reload();
+          }
+        })
+        .catch((error) => {
+          this.flashMessage.show({
+            status: "error",
+            title: "Sitio",
+            message: "Error inesperado." + error,
+          });
+        });
+        }else{
+           this.flashMessage.show({
+            status: "error",
+            title: "BackOffice",
+            message: "Las contraseñas no son iguales",
+          });
+        }
+    },
+
   },
+
+
+
 };
 </script>
 

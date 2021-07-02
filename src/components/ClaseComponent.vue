@@ -21,11 +21,17 @@
         class="contenedorPrincipal"
       >
         <div class="contenedorForo">
-          <i
-            class="fal fa-plus"
-            v-on:click="flechas(datos.id, datos.mensaje)"
-          >
+          <i class="fal fa-plus" v-on:click="flechas(datos.id, datos.mensaje)">
             {{ datos.titulo }}
+            <button
+             v-if="datos.datos"
+              class="float-right btn btn-outline-danger"
+              style="font-size: 10px"
+              v-on:click="descargarPDF(datos.datos)"
+            >
+              <i style="color: red" class="far fa-file-pdf"></i>
+              {{ datos.datos }}
+            </button>
           </i>
         </div>
         <div class="test contenedorResulado" v-bind:id="datos.id"></div>
@@ -78,8 +84,12 @@
                 >Mensaje:</label
               >
               <div class="col-sm-10">
-                <ckeditor :editor="editor" v-model="nuevoPost.ckeditor" :config="editorConfig"  id="mensaje"></ckeditor>
-          
+                <ckeditor
+                  :editor="editor"
+                  v-model="nuevoPost.ckeditor"
+                  :config="editorConfig"
+                  id="mensaje"
+                ></ckeditor>
               </div>
             </div>
             <hr />
@@ -100,7 +110,7 @@
 
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
@@ -121,8 +131,23 @@ export default {
         idUsuario: "",
       },
       editorConfig: {
-            
-        },
+        toolbar: {
+                      items: [
+                        'heading','|',
+                            'bold',
+                            'italic',
+                            'link','|',
+                            'numberedList',
+                            'bulletedList', '|',
+                            'insertTable', '|',
+                            'outdent', 'indent', '|',
+                            'blockQuote','|',
+                          
+                            'undo',
+                            'redo',
+                        ],
+        }
+      },
       file: null,
       responseDatos: "",
       nuevoPost: {
@@ -133,8 +158,6 @@ export default {
       editor: ClassicEditor,
       datosForo: "",
       alumno: false,
-      keyStr:
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
     };
   },
   mounted() {
@@ -146,66 +169,6 @@ export default {
   },
 
   methods: {
-    handleFileUpload(event) {
-      this.file = event.target.files[0];
-    },
-
-    encode: function (input) {
-      var output = "";
-      var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-      var i = 0;
-
-      input = this._utf8_encode(input);
-
-      while (i < input.length) {
-        chr1 = input.charCodeAt(i++);
-        chr2 = input.charCodeAt(i++);
-        chr3 = input.charCodeAt(i++);
-
-        enc1 = chr1 >> 2;
-        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-        enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-        enc4 = chr3 & 63;
-
-        if (isNaN(chr2)) {
-          enc3 = enc4 = 64;
-        } else if (isNaN(chr3)) {
-          enc4 = 64;
-        }
-
-        output =
-          output +
-          this.keyStr.charAt(enc1) +
-          this.keyStr.charAt(enc2) +
-          this.keyStr.charAt(enc3) +
-          this.keyStr.charAt(enc4);
-      }
-
-      return output;
-    },
-
-    _utf8_encode: function (string) {
-      string = string.replace(/\r\n/g, "\n");
-      var utftext = "";
-
-      for (var n = 0; n < string.length; n++) {
-        var c = string.charCodeAt(n);
-
-        if (c < 128) {
-          utftext += String.fromCharCode(c);
-        } else if (c > 127 && c < 2048) {
-          utftext += String.fromCharCode((c >> 6) | 192);
-          utftext += String.fromCharCode((c & 63) | 128);
-        } else {
-          utftext += String.fromCharCode((c >> 12) | 224);
-          utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-          utftext += String.fromCharCode((c & 63) | 128);
-        }
-      }
-
-      return utftext;
-    },
-
     getFile(event) {
       //Asignamos la imagen a  nuestra data
       this.file = event.target.files[0];
@@ -214,12 +177,11 @@ export default {
     flechas(id, mensaje) {
       let $ = JQuery;
       let div2 = document.getElementById(id);
-      let mensaje2 = window.atob(mensaje);
 
       if (div2.style.display === "none") {
         div2.style.display = "block";
         $(id).removeClass("fa-arrow-right").addClass("fa-arrow-down");
-        div2.innerHTML = mensaje2;
+        div2.innerHTML = mensaje;
       } else {
         div2.style.display = "none";
         $(id).removeClass("fa-arrow-down").addClass("fa-arrow-right");
@@ -276,7 +238,7 @@ export default {
       formData.append("archivo", this.file);
       formData.append("idForo", this.responseDatos.idForo);
       formData.append("idUsuario", this.responseDatos.idProfesor);
-      formData.append("mensaje", window.btoa(this.nuevoPost.ckeditor));
+      formData.append("mensaje", this.nuevoPost.ckeditor);
       formData.append("titulo", this.nuevoPost.titulo);
 
       axios
@@ -300,6 +262,27 @@ export default {
           });
         });
     },
+   
+  descargarPDF (label) {
+     let url = Global.urlSitio + "archivo?archivo=" + label;
+    axios.get(url, { responseType: 'blob' })
+      .then(response => {
+        const blob = new Blob([response.data], { type: 'application/pdf' })
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = label
+        link.click()
+        URL.revokeObjectURL(link.href)
+      }).catch(console.error)
+  }
+
+        
+
+
+
+
+
+   
   },
 };
 </script>
