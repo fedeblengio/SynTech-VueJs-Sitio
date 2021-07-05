@@ -74,8 +74,11 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
+         
         },
       };
+     
+      
       axios
         .post(Global.urlBackOffice + "login", this.contacto, config)
         .then((response) => {

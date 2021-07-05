@@ -15,29 +15,22 @@
       >
         Agregar Post
       </button>
-      <div
-        v-for="datos in datosForo"
-        :key="datos.id"
-        class="contenedorPrincipal"
-      >
-        <div class="contenedorForo">
-          <i class="fal fa-plus" v-on:click="flechas(datos.id, datos.mensaje)">
-            {{ datos.titulo }}
-            <button
-             v-if="datos.datos"
-              class="float-right btn btn-outline-danger"
-              style="font-size: 10px"
-              v-on:click="descargarPDF(datos.datos)"
+
+      <div class="ContenedorSup">
+        <div class="info">
+          <div v-for="dato in datosForo" :key="dato.id">
+            <a
+              style="text-decoration: none"
+              v-on:click="traderDatosForo(dato.id)"
             >
-              <i style="color: red" class="far fa-file-pdf"></i>
-              {{ datos.datos }}
-            </button>
-          </i>
+              {{ dato.titulo }}
+            </a>
+          </div>
         </div>
-        <div class="test contenedorResulado" v-bind:id="datos.id"></div>
+
+        <div class="cont" id="datos"></div>
       </div>
     </div>
-
     <div
       class="modal fade bd-example-modal-lg"
       tabindex="-1"
@@ -114,7 +107,6 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-import JQuery from "jquery";
 export default {
   name: "ClaseComponent.vue",
 
@@ -132,21 +124,28 @@ export default {
       },
       editorConfig: {
         toolbar: {
-                      items: [
-                        'heading','|',
-                            'bold',
-                            'italic',
-                            'link','|',
-                            'numberedList',
-                            'bulletedList', '|',
-                            'insertTable', '|',
-                            'outdent', 'indent', '|',
-                            'blockQuote','|',
-                          
-                            'undo',
-                            'redo',
-                        ],
-        }
+          items: [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "|",
+            "numberedList",
+            "bulletedList",
+            "|",
+            "insertTable",
+            "|",
+            "outdent",
+            "indent",
+            "|",
+            "blockQuote",
+            "|",
+
+            "undo",
+            "redo",
+          ],
+        },
       },
       file: null,
       responseDatos: "",
@@ -174,20 +173,15 @@ export default {
       this.file = event.target.files[0];
     },
 
-    flechas(id, mensaje) {
-      let $ = JQuery;
-      let div2 = document.getElementById(id);
+    traderDatosForo(id) {
+     let dato = document.getElementById('datos'); 
 
-      if (div2.style.display === "none") {
-        div2.style.display = "block";
-        $(id).removeClass("fa-arrow-right").addClass("fa-arrow-down");
-        div2.innerHTML = mensaje;
-      } else {
-        div2.style.display = "none";
-        $(id).removeClass("fa-arrow-down").addClass("fa-arrow-right");
+      for (let i in this.datosForo) {
+        if (this.datosForo[i].id === id) {
+         dato.innerHTML = this.datosForo[i].mensaje;
+        }
       }
     },
-
     guardarRutas() {
       let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
       if (usuario.ou === "Alumno") {
@@ -200,6 +194,12 @@ export default {
     },
 
     getDatos() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
       axios
         .get(
           Global.urlSitio +
@@ -207,7 +207,8 @@ export default {
             "idMateria=" +
             this.datos.idMateria +
             "&idGrupo=" +
-            this.datos.idGrupo
+            this.datos.idGrupo,
+          config
         )
         .then((res) => {
           if (res.status == 200) {
@@ -231,6 +232,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
+          token: "Global.token",
         },
       };
 
@@ -262,27 +264,21 @@ export default {
           });
         });
     },
-   
-  descargarPDF (label) {
-     let url = Global.urlSitio + "archivo?archivo=" + label;
-    axios.get(url, { responseType: 'blob' })
-      .then(response => {
-        const blob = new Blob([response.data], { type: 'application/pdf' })
-        const link = document.createElement('a')
-        link.href = URL.createObjectURL(blob)
-        link.download = label
-        link.click()
-        URL.revokeObjectURL(link.href)
-      }).catch(console.error)
-  }
 
-        
-
-
-
-
-
-   
+    descargarPDF(label) {
+      let url = Global.urlSitio + "archivo?archivo=" + label;
+      axios
+        .get(url, { responseType: "blob" })
+        .then((response) => {
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = label;
+          link.click();
+          URL.revokeObjectURL(link.href);
+        })
+        .catch(console.error);
+    },
   },
 };
 </script>

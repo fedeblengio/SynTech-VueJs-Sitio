@@ -2,10 +2,19 @@
   <div class="grupoComonentMateria">
     <h1>Mis Cursos</h1>
     <vue-headful :title="title" />
-    <div class="contenedorMateria" style="display: flex; flex-wrap: wrap;justify-content: center;">
+    <div
+      class="contenedorMateria"
+      style="display: flex; flex-wrap: wrap; justify-content: center"
+    >
       <div
         class="card"
-        style="width: 18rem; margin:15px; border-radius: 10px; box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;"
+        style="
+          width: 18rem;
+          margin: 15px;
+          border-radius: 10px;
+          box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
+            rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+        "
         v-for="todo in profesorGrupo"
         :key="todo.id"
       >
@@ -14,7 +23,7 @@
           src="../assets/images/grupos-image.jpg"
           alt="Card image cap"
         />
-        <hr>
+        <hr />
         <div class="card-body">
           <h5 class="card-title">
             {{ todo.idGrupo }} {{ todo.anioElectivo }} - {{ todo.Materia }}
@@ -62,9 +71,15 @@ export default {
   },
   methods: {
     getDatos() {
+        let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+        };
       axios
         .get(
-          Global.urlSitio + "profesor-grupo?idProfesor=" + this.usuario.username
+          Global.urlSitio + "profesor-grupo?idProfesor=" + this.usuario.username,config
         )
         .then((res) => {
           //console.log('servicios', res.status);

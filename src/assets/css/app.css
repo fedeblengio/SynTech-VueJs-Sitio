@@ -126,44 +126,20 @@ table {
 
 /******Foro******************************************************************/
 
-.contenedorForo {
 
-  background-color: rgba(99, 147, 218, 0.849);
-  color: black;
-  width: 75%;
-  margin:auto;
-  padding:20px;
-  margin-top: 10px;
-  border-radius:5px 5px 0px 0px;
-  user-select: none;
-  
-}
-.contenedorPrincipal{
-  justify-content: center;
-  height: auto;
-  border-radius: 5px;
-  color: white;
-  
-}
-.test{
-  width: 75%;
-  margin:auto;
-  padding:20px;
-  border-radius:0px 0px 5px 5px;
-}
+
 
 .boton-foro{
   position: absolute;
   right: 45px;
   top: 80px;
 }
-.contenedorResulado {
-  display: none;
-  background-color: rgba(106, 161, 245, 0.603);
-  color: black;
-  margin-top: 3px;
-}
 
+
+
+ img {
+  width: 100% ;
+}
 .fas {
   cursor: pointer;
   user-select: none;
@@ -187,6 +163,51 @@ table {
 .imputCss {
   margin-bottom: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /* MI PERFIL */ 

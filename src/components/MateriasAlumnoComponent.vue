@@ -80,8 +80,14 @@ export default {
   },
   methods: {
     getDatos() {
+       let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
       axios
-        .get(Global.urlSitio + "alumno?idAlumno=" + this.usuario.username)
+        .get(Global.urlSitio + "alumno?idAlumno=" + this.usuario.username,config)
         .then((res) => {
           //console.log('servicios', res.status);
           if (res.status == 200) {

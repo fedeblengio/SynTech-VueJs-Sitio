@@ -11,7 +11,6 @@ import HomeComponent from './components/HomeComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 import miPerfilComponent from './components/miPerfilComponent.vue';
-
 import gruposComponent from './components/gruposComponent.vue';
 import ClaseComponent from './components/ClaseComponent.vue';
 import MateriasAlumnoComponent from './components/MateriasAlumnoComponent.vue'
@@ -26,6 +25,7 @@ Vue.use(CKEditor);
 Vue.use(VFileInput);
 
 
+
 //acá declaramos todas nuestras rutas de navegación
 const routes = [
     { path: '/', redirect: '/home' },
@@ -35,8 +35,7 @@ const routes = [
     { path: '/mis-grupos', name: 'mis-grupos', component: gruposComponent },
     { path: '/clases/:idGrupo/:materia/:idMateria', name: 'clase-foro', component: ClaseComponent },
     { path: '/materias', name: 'alumno-materias', component: MateriasAlumnoComponent},
-    { path: '*', name: 'error404', component: ErrorComponent} 
-    
+    { path: '*', name: 'error404', component: ErrorComponent},  
 ];
 
 
