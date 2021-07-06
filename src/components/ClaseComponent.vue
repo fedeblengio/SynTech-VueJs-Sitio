@@ -1,34 +1,71 @@
 <template>
-  <div>
+  <div style="background-color: whitesmoke; border-radius: 20px">
     <h1>Grupo {{ datos.idGrupo }} - {{ datos.materia }}</h1>
 
     <vue-headful :title="title" />
 
     <div>
       <h1>Foro</h1>
-      <button
-        v-if="!alumno"
-        type="button"
-        class="btn btn-primary boton-foro"
-        data-toggle="modal"
-        data-target=".bd-example-modal-lg"
-      >
-        Agregar Post
-      </button>
-
-      <div class="ContenedorSup">
-        <div class="info">
-          <div v-for="dato in datosForo" :key="dato.id">
+      <div class="ContenedorSup" style="padding: 15px" v-if="hayPost">
+        <div class="info" style="width: 30%">
+          <button
+            v-if="!alumno"
+            type="button"
+            class="btn btn-success boton-foro btn-block"
+            data-toggle="modal"
+            data-target=".bd-example-modal-lg"
+          >
+            Agregar Post
+          </button>
+        </div>
+        <div class="cont" style="padding: 30px; width: 70%">
+          <h2>Realiza una publicación</h2>
+          <img src="../assets/images/newpost.png" alt="">
+        </div>
+      </div>
+      <div class="ContenedorSup" style="padding: 15px" v-else>
+        <div class="info" style="width: 30%">
+          <button
+            v-if="!alumno"
+            type="button"
+            class="btn btn-success boton-foro btn-block"
+            data-toggle="modal"
+            data-target=".bd-example-modal-lg"
+          >
+            Agregar Post
+          </button>
+          <div
+            v-for="dato in datosForo"
+            :key="dato.id"
+            class="list-group"
+            style="color: black"
+          >
             <a
-              style="text-decoration: none"
+              class="list-group-item list-group-item-action"
               v-on:click="traderDatosForo(dato.id)"
             >
               {{ dato.titulo }}
             </a>
           </div>
         </div>
+        <div class="cont" style="padding: 30px; width: 70%">
+          <h2 style="margin-bottom: 4rem">{{ tituloPost }}</h2>
+          <div id="datos"></div>
+          <hr v-if="nombreArchivo" />
+          <div id="archivo">
+            <h2 v-if="nombreArchivo">Documentos:</h2>
 
-        <div class="cont" id="datos"></div>
+            <button
+              v-if="nombreArchivo"
+              class="btn btn-outline-danger"
+              style="font-size: 10px"
+              v-on:click="descargarPDF(nombreArchivo)"
+            >
+              <i style="color: red" class="far fa-file-pdf"></i>
+              {{ nombreArchivo }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -157,6 +194,9 @@ export default {
       editor: ClassicEditor,
       datosForo: "",
       alumno: false,
+      nombreArchivo: "",
+      tituloPost: "",
+      hayPost: false,
     };
   },
   mounted() {
@@ -174,11 +214,13 @@ export default {
     },
 
     traderDatosForo(id) {
-     let dato = document.getElementById('datos'); 
+      let dato = document.getElementById("datos");
 
       for (let i in this.datosForo) {
         if (this.datosForo[i].id === id) {
-         dato.innerHTML = this.datosForo[i].mensaje;
+          dato.innerHTML = this.datosForo[i].mensaje;
+          this.nombreArchivo = this.datosForo[i].datos;
+          this.tituloPost = this.datosForo[i].titulo;
         }
       }
     },
@@ -223,10 +265,15 @@ export default {
       axios.get(Global.urlSitio + "foro-grupo?idForo=" + idForo).then((res) => {
         if (res.status == 200) {
           this.datosForo = res.data;
+        if(res.data.length === 0) {
+          this.hayPost =true;
+        }
         } else {
           alert("no se pudo conectar");
         }
+
       });
+      
     },
     enviarPost() {
       let config = {

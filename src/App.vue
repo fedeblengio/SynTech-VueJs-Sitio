@@ -19,9 +19,9 @@
       </div>
     </header>
 
-    <div class="ContenedorSup" v-if="logged">
+    <div class="ContenedorAppVue" v-if="logged">
      
-      <div class="cont">
+      <div class="cont2">
         <router-view> </router-view>
       </div>
     </div>
