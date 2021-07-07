@@ -20,7 +20,7 @@
         </div>
         <div class="cont" style="padding: 30px; width: 70%">
           <h2>Realiza una publicación</h2>
-          <img src="../assets/images/newpost.png" alt="">
+          <img src="../assets/images/newpost.png" alt="" />
         </div>
       </div>
       <div class="ContenedorSup" style="padding: 15px" v-else>
@@ -34,6 +34,14 @@
           >
             Agregar Post
           </button>
+          <button
+            v-if="!alumno"
+            type="button"
+            class="btn btn-danger btn-block"
+            v-on:click="toggle_eliminar()"
+          >
+            Eliminar Post
+          </button>
           <div
             v-for="dato in datosForo"
             :key="dato.id"
@@ -45,6 +53,12 @@
               v-on:click="traderDatosForo(dato.id)"
             >
               {{ dato.titulo }}
+              <i
+                class="fas fa-times float-right"
+                v-on:click="eliminarPost(dato.id)"
+                style="color: red; font-size: 22px;"
+                v-if="toggle"
+              ></i>
             </a>
           </div>
         </div>
@@ -197,6 +211,7 @@ export default {
       nombreArchivo: "",
       tituloPost: "",
       hayPost: false,
+      toggle: false,
     };
   },
   mounted() {
@@ -208,6 +223,40 @@ export default {
   },
 
   methods: {
+    toggle_eliminar() {
+    
+
+      if (this.toggle) {
+        this.toggle = false;
+      } else {
+        this.toggle = true;
+      }
+    },
+    eliminarPost(id) {
+      console.log(id + " id post");
+
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .delete(Global.urlSitio + "foro?" + "idDatos=" + id, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.flashMessage.show({
+              status: "success",
+              title: "Sitio",
+              message: "El post se ha elminiado correctamente",
+            });
+            location.reload();
+          } else {
+            alert("no se pudo conectar");
+          }
+        });
+    },
     getFile(event) {
       //Asignamos la imagen a  nuestra data
       this.file = event.target.files[0];
@@ -265,15 +314,13 @@ export default {
       axios.get(Global.urlSitio + "foro-grupo?idForo=" + idForo).then((res) => {
         if (res.status == 200) {
           this.datosForo = res.data;
-        if(res.data.length === 0) {
-          this.hayPost =true;
-        }
+          if (res.data.length === 0) {
+            this.hayPost = true;
+          }
         } else {
           alert("no se pudo conectar");
         }
-
       });
-      
     },
     enviarPost() {
       let config = {
