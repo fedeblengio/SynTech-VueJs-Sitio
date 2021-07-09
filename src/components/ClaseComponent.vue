@@ -5,7 +5,7 @@
     <vue-headful :title="title" />
 
     <div>
-      <h1>Foro</h1>
+    
       <div class="ContenedorSup" style="padding: 15px" v-if="hayPost">
         <div class="info" style="width: 30%">
           <button
@@ -17,12 +17,21 @@
           >
             Agregar Post
           </button>
+          <h3 v-else style="text-align: center">Publicaciones</h3>
         </div>
         <div class="cont" style="padding: 30px; width: 70%">
-          <h2>Realiza una publicación</h2>
+          <h2>No hay material publicado</h2>
           <img src="../assets/images/newpost.png" alt="" />
         </div>
       </div>
+
+
+
+
+      
+
+
+
       <div class="ContenedorSup" style="padding: 15px" v-else>
         <div class="info" style="width: 30%">
           <button
@@ -56,7 +65,7 @@
               <i
                 class="fas fa-times float-right"
                 v-on:click="eliminarPost(dato.id)"
-                style="color: red; font-size: 22px;"
+                style="color: red; font-size: 22px"
                 v-if="toggle"
               ></i>
             </a>
@@ -224,8 +233,6 @@ export default {
 
   methods: {
     toggle_eliminar() {
-    
-
       if (this.toggle) {
         this.toggle = false;
       } else {
