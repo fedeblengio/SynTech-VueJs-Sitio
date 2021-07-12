@@ -356,12 +356,12 @@ export default {
             });
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+         
           this.flashMessage.show({
             status: "error",
             title: "Sitio",
-            message: "Error al publicar" + error,
+            message: "Error al publicar" ,
           });
         });
     },

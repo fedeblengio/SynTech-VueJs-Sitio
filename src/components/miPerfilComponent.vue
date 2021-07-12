@@ -312,11 +312,11 @@ export default {
               location.reload();
             }
           })
-          .catch((error) => {
+          .catch(() => {
             this.flashMessage.show({
               status: "error",
               title: "Sitio",
-              message: "Error inesperado." + error,
+              message: "Error inesperado." ,
             });
           });
       } else {

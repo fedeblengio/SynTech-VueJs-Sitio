@@ -88,12 +88,12 @@ export default {
             location.reload();
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          
           this.flashMessage.show({
             status: "error",
             title: "Sitio",
-            message: "Error , credenciales invalidas" + error,
+            message: "Error , credenciales invalidas" ,
           });
           document.form.reset();
         });
