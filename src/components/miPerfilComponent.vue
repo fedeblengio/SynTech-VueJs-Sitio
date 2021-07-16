@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="estiloContenedor">
     <vue-headful :title="title" />
     <div class="container emp-profile">
       <div class="row">
         <div class="col-md-4">
           <div class="profile-img">
             <img
-              src="https://i.pinimg.com/736x/de/63/f5/de63f54cf84928dadab9ffd3642f5ec9.jpg"
+              src="https://blog.cpanel.com/wp-content/uploads/2019/08/user-01.png"
               alt="Foto de Perfil"
             />
             <div class="file btn btn-lg btn-primary">
@@ -113,17 +113,7 @@
                   <p>{{ usuarioDatos.email }}</p>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <label>Telefono</label>
-                </div>
-                <div class="col-md-6 prueba">
-                  <p
-                    color="color:black"
-                    data-placeholder="Introduce tu numero"
-                  ></p>
-                </div>
-              </div>
+
               <div class="row">
                 <div class="col-md-6">
                   <label>Profesión</label>
@@ -135,23 +125,19 @@
             </div>
           </div>
 
-
           <div
             v-if="editProfile"
             style="
-              background-color: whitesmoke;
+              background-color: white;
               padding: 10px;
               border-radius: 5px;
-              -webkit-box-shadow: 3px 0px 29px -12px rgba(0, 0, 0, 0.75);
-              -moz-box-shadow: 3px 0px 29px -12px rgba(0, 0, 0, 0.75);
-              box-shadow: 3px 0px 29px -12px rgba(0, 0, 0, 0.75);
-              width: 50%;
-              margin:auto;
+              width: 100%;
+              margin: auto;
             "
-            class="mt-5"
+            class="mt-5 perfil-text-cambiarContrasenia"
           >
-            <h5 style="text-align: center;">Cambiar Contraseña</h5>
-            <hr>
+            <h5 style="text-align: center">Cambiar Contraseña</h5>
+            <hr />
             <div class="">
               <p>Contraseña</p>
 
@@ -206,8 +192,8 @@ export default {
       this.$router.push("/login");
       this.flashMessage.show({
         status: "error",
-        title: "Sitio",
-        message: "Error , debes iniciar sesión",
+        title: Global.tituloSitio,
+        message: "Error, debes iniciar sesión",
       });
     }
     this.cargarUsuarioData();
@@ -236,11 +222,8 @@ export default {
           config
         )
         .then((res) => {
-          //console.log('servicios', res.status);
           if (res.status == 200) {
             this.usuarioDatos = res.data;
-          } else {
-            alert("no se pudo conectar");
           }
         });
     },
@@ -256,11 +239,8 @@ export default {
       axios
         .get(Global.urlSitio + "alumno?idAlumno=" + usuario.username, config)
         .then((res) => {
-          //console.log('servicios', res.status);
           if (res.status == 200) {
             this.materias = res.data;
-          } else {
-            alert("no se pudo conectar");
           }
         });
     },
@@ -277,13 +257,19 @@ export default {
           Global.urlSitio + "profesor-grupo?idProfesor=" + usuario.username,
           config
         )
+
         .then((res) => {
-          //console.log('servicios', res.status);
+          console.log(res);
           if (res.status == 200) {
             this.materias = res.data;
-          } else {
-            alert("no se pudo conectar");
           }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "warning",
+            title: Global.tituloSitio,
+            message: "Error inesperado.",
+          });
         });
     },
     cambiarContrasenia() {
@@ -306,23 +292,23 @@ export default {
             if (response.status == 200) {
               this.flashMessage.show({
                 status: "success",
-                title: "Sitio",
+                title: Global.tituloSitio,
                 message: "Contraseña Modificada",
               });
               location.reload();
             }
           })
-          .catch((error) => {
+          .catch(() => {
             this.flashMessage.show({
               status: "error",
-              title: "Sitio",
-              message: "Error inesperado." + error,
+              title: Global.tituloSitio,
+              message: "Error inesperado.",
             });
           });
       } else {
         this.flashMessage.show({
           status: "error",
-          title: "BackOffice",
+          title: Global.tituloSitio,
           message: "Las contraseñas no son iguales",
         });
       }
@@ -330,6 +316,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

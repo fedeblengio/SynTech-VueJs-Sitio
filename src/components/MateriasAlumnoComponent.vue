@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='estiloContenedor'>
     <vue-headful :title="title" />
 
   
@@ -47,7 +47,7 @@
             style="text-decoration: none"
           >
             
-            Ir Foro
+            Ver material
           </router-link>
         </div>
       </div>
@@ -89,11 +89,8 @@ export default {
       axios
         .get(Global.urlSitio + "alumno?idAlumno=" + this.usuario.username,config)
         .then((res) => {
-          //console.log('servicios', res.status);
           if (res.status == 200) {
             this.alumnoGrupo = res.data;
-          } else {
-            alert("no se pudo conectar");
           }
         });
     },

@@ -6,8 +6,8 @@ import FlashMessage from "@smartweb/vue-flash-message";
 import CKEditor from '@ckeditor/ckeditor5-vue2'; 
 import VFileInput from 'v-file-input';
 
-
-import HomeComponent from './components/HomeComponent.vue';
+import homeComponent from './components/homeComponent.vue';
+import misMateriasComponent from './components/misMateriasComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
 import miPerfilComponent from './components/miPerfilComponent.vue';
@@ -29,7 +29,8 @@ Vue.use(VFileInput);
 //acá declaramos todas nuestras rutas de navegación
 const routes = [
     { path: '/', redirect: '/home' },
-    { path: '/home', name: 'home', component: HomeComponent },
+    { path: '/misMaterias', name: 'misMaterias', component: misMateriasComponent },
+    { path: '/home', name: 'home', component: homeComponent },
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/miPerfil', name: 'miPerfil', component: miPerfilComponent },
     { path: '/mis-grupos', name: 'mis-grupos', component: gruposComponent },

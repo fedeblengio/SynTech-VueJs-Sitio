@@ -1,11 +1,9 @@
 <template>
-  <div style="background-color: whitesmoke; border-radius: 20px">
-    <h1>Grupo {{ datos.idGrupo }} - {{ datos.materia }}</h1>
-
+  <div class="estiloContenedor">
+    <h2>Grupo {{ datos.idGrupo }} - {{ datos.materia }}</h2>
     <vue-headful :title="title" />
 
     <div>
-    
       <div class="ContenedorSup" style="padding: 15px" v-if="hayPost">
         <div class="info" style="width: 30%">
           <button
@@ -24,13 +22,6 @@
           <img src="../assets/images/newpost.png" alt="" />
         </div>
       </div>
-
-
-
-
-      
-
-
 
       <div class="ContenedorSup" style="padding: 15px" v-else>
         <div class="info" style="width: 30%">
@@ -51,6 +42,7 @@
           >
             Eliminar Post
           </button>
+            <h3 v-else style="text-align: center">Publicaciones</h3>
           <div
             v-for="dato in datosForo"
             :key="dato.id"
@@ -76,7 +68,7 @@
           <div id="datos"></div>
           <hr v-if="nombreArchivo" />
           <div id="archivo">
-            <h2 v-if="nombreArchivo">Documentos:</h2>
+            <h2 v-if="nombreArchivo">Documento:</h2>
 
             <button
               v-if="nombreArchivo"
@@ -240,8 +232,6 @@ export default {
       }
     },
     eliminarPost(id) {
-      console.log(id + " id post");
-
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -255,12 +245,10 @@ export default {
           if (res.status == 200) {
             this.flashMessage.show({
               status: "success",
-              title: "Sitio",
+              title: Global.tituloSitio,
               message: "El post se ha elminiado correctamente",
             });
             location.reload();
-          } else {
-            alert("no se pudo conectar");
           }
         });
     },
@@ -312,11 +300,10 @@ export default {
           if (res.status == 200) {
             this.responseDatos = res.data;
             this.traerDatosForo(this.responseDatos.idForo);
-          } else {
-            alert("no se pudo conectar");
           }
         });
     },
+
     traerDatosForo(idForo) {
       axios.get(Global.urlSitio + "foro-grupo?idForo=" + idForo).then((res) => {
         if (res.status == 200) {
@@ -333,7 +320,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
-          token: "Global.token",
+          token: Global.token,
         },
       };
 
@@ -351,25 +338,31 @@ export default {
             location.reload();
             this.flashMessage.show({
               status: "success",
-              title: "Sitio",
-              message: "Mensaje publicado",
+              title: Global.tituloSitio,
+              message: "Post publicado correctamente",
             });
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "Sitio",
-            message: "Error al publicar" + error,
+            title: Global.tituloSitio,
+            message: "Error al publicar el post",
           });
         });
     },
 
     descargarPDF(label) {
-      let url = Global.urlSitio + "archivo?archivo=" + label;
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+          responseType: "blob",
+        },
+      };
+      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
       axios
-        .get(url, { responseType: "blob" })
+        .get(url, config)
         .then((response) => {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");

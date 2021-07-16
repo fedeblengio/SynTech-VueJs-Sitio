@@ -1,43 +1,49 @@
 <template>
-  <div>
-    <div class="container">
-      <div class="login-container">
-        <div id="output"></div>
-        <div class="avatar"></div>
-        <div class="form-box">
-          <form form name="form" id="form" v-on:submit.prevent="procesar()">
-            <p class="letraslogin">
-              Documento:
-              <input
-                type="text"
-                name="username"
-                placeholder="Documento"
-                class="form-control"
-                v-model="contacto.username"
-              />
-            </p>
-
-            <p class="letraslogin">
-              Contraseña:
-
-              <input
-                type="password"
-                name="password"
-                placeholder="Contraseña"
-                class="form-control"
-                v-model="contacto.password"
-              />
-            </p>
-
-            <br />
+  <div
+    class="contenedor_login"
+    style="
+      background-attachment: fixed;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    "
+  >
+    <div class="login-container">
+      <div id="output"></div>
+      <div class="avatar"></div>
+      <div class="form-box">
+        <form form name="form" id="form" v-on:submit.prevent="procesar()">
+          <p class="letraslogin">
+            Documento:
             <input
-              type="submit"
-              value="Iniciar Sesion"
-              title="Enviar"
-              class="btn btn-primary"
+              type="text"
+              name="username"
+              placeholder="Documento"
+              class="form-control"
+              v-model="contacto.username"
             />
-          </form>
-        </div>
+          </p>
+
+          <p class="letraslogin">
+            Contraseña:
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              class="form-control"
+              v-model="contacto.password"
+            />
+          </p>
+
+          <br />
+          <input
+            type="submit"
+            value="Iniciar Sesion"
+            title="Enviar"
+            class="btn btn-primary"
+          />
+        </form>
       </div>
     </div>
   </div>
@@ -58,10 +64,10 @@ export default {
   },
   mounted() {
     if (localStorage.getItem("auth_token")) {
-      this.$router.push("/home");
+      this.$router.push("/misMaterias");
       this.flashMessage.show({
         status: "success",
-        title: "Sitio",
+        title: Global.tituloSitio,
         message: "Ya has iniciado sesión",
       });
     } else {
@@ -74,26 +80,23 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-         
         },
       };
-     
-      
+
       axios
         .post(Global.urlBackOffice + "login", this.contacto, config)
         .then((response) => {
           if (response.status == 200) {
             localStorage.setItem("auth_token", response.data.datos);
-            this.$router.push("/home");
+            this.$router.push("/misMaterias");
             location.reload();
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
           this.flashMessage.show({
             status: "error",
-            title: "Sitio",
-            message: "Error , credenciales invalidas" + error,
+            title: Global.tituloSitio,
+            message: "Error, credenciales invalidas",
           });
           document.form.reset();
         });
@@ -106,11 +109,11 @@ export default {
 .login-container {
   position: relative;
   width: 300px;
-  margin: 80px auto;
+  margin: 150px auto;
   padding: 20px 40px 40px;
   text-align: center;
-  background: #1d1d1f;
-  border: 1px solid rgb(0, 0, 0);
+  background: #3a4f6b;
+ 
   border-radius: 10px;
 
   -webkit-box-shadow: 10px 10px 22px 0px rgba(0, 0, 0, 0.55);
@@ -118,6 +121,12 @@ export default {
   box-shadow: 10px 10px 22px 0px rgba(0, 0, 0, 0.55);
 }
 
+.contenedor_login {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:url(../assets/images/lines.jpg);
+}
 .avatar {
   background: url(../assets/images/logoLogin.png);
   width: 100px;

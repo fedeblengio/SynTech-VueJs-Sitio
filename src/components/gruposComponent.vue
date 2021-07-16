@@ -1,5 +1,5 @@
 <template>
-  <div class="grupoComonentMateria">
+  <div class='estiloContenedor'>
     <h1>Mis Cursos</h1>
     <vue-headful :title="title" />
     <div
@@ -40,7 +40,7 @@
             }"
             style="text-decoration: none"
           >
-            Ir Foro
+            Ver material
           </router-link>
         </div>
       </div>
@@ -70,26 +70,30 @@ export default {
     this.getDatos();
   },
   methods: {
+
+  
+
     getDatos() {
-        let config = {
+      let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
-        };
+      };
       axios
         .get(
-          Global.urlSitio + "profesor-grupo?idProfesor=" + this.usuario.username,config
+          Global.urlSitio +
+            "profesor-grupo?idProfesor=" +
+            this.usuario.username,
+          config
         )
         .then((res) => {
-          //console.log('servicios', res.status);
           if (res.status == 200) {
             this.profesorGrupo = res.data;
-          } else {
-            alert("no se pudo conectar");
           }
         });
     },
   },
 };
 </script>
+

@@ -2,34 +2,34 @@
   <div>
     <vue-headful :title="title" />
 
-    <header>
+    <header style="z-index: ">
       <div class="contenedor">
-        <a href="/home" style="text-decoration:none;"><h1><i class="fas fa-books"></i> LMS</h1></a>
+        <a :href="url" style="text-decoration: none"
+          ><h1><i class="fas fa-books"></i> LMS</h1></a
+        >
         <input type="checkbox" id="menu-barra" />
         <label class="icon-menu" for="menu-barra"></label>
         <nav class="menu">
-          <a href="/home">
+          <a :href="url">
             <i class="fa fa-home" aria-hidden="true"></i>
           </a>
-          <a href="/miPerfil" v-if="logged"> {{ usuario.nombre }}</a>
+          <a href="/miPerfil" v-if="logged"
+            ><i class="fas fa-user"></i> {{ usuario.nombre }}</a
+          >
 
           <a href="/login" v-else> Login</a>
-          <a href="" v-on:click="cerrarSesion()" v-if="logged"><i class="fal fa-sign-out-alt"></i></a>
+          <a href="" v-on:click="cerrarSesion()" v-if="logged"
+            ><i class="fal fa-sign-out-alt"></i
+          ></a>
         </nav>
       </div>
     </header>
 
-    <div class="ContenedorAppVue" v-if="logged">
-     
-      <div class="cont2">
+    <div class="ContenedorAppVue">
+      <div>
         <router-view> </router-view>
       </div>
     </div>
-
-    <div class="loginSet" v-else>
-      <router-view> </router-view>
-    </div>
-
     <FlashMessage></FlashMessage>
   </div>
 </template>
@@ -45,7 +45,6 @@ export default {
   name: "App",
   components: {
     vueHeadful,
-  
   },
   data() {
     return {
@@ -53,6 +52,7 @@ export default {
       logged: false,
       profesor: false,
       title: "BackOffice",
+      url: "/home",
     };
   },
   mounted() {
@@ -62,6 +62,7 @@ export default {
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
+        this.url = "/misMaterias";
         this.usuario = JSON.parse(
           window.atob(localStorage.getItem("auth_token"))
         );
@@ -70,24 +71,16 @@ export default {
         }
       }
     },
-     cerrarSesion() {
+    
+    cerrarSesion() {
       localStorage.clear();
-      this.$router.push("/login");
+      this.$router.push("/home");
       location.reload();
     },
   },
 };
 </script>
 <style>
-/* body {
-  background-color: lightgrey;
-  background-image: url(./assets/images/fondo-aflv.jpg);
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-} */
-/* @import "./assets/css/estilos.css"; */
 @import "./assets/css/app.css";
 @import "./assets/css/iconos.css";
 </style>
