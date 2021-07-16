@@ -353,16 +353,9 @@ export default {
     },
 
     descargarPDF(label) {
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: Global.token,
-          responseType: "blob",
-        },
-      };
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
       axios
-        .get(url, config)
+        .get(url, { responseType: "blob", token: Global.token})
         .then((response) => {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
