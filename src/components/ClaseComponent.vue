@@ -348,8 +348,8 @@ export default {
             status: "error",
             title: Global.tituloSitio,
             message: "Error al publicar el post",
-          });
         });
+         });
     },
 
     descargarPDF(label) {
