@@ -6,7 +6,7 @@ import FlashMessage from "@smartweb/vue-flash-message";
 import CKEditor from '@ckeditor/ckeditor5-vue2'; 
 import VFileInput from 'v-file-input';
 
-import homeComponent from './components/homeComponent.vue';
+import homeComponent from './components/HomeComponent.vue';
 import misMateriasComponent from './components/misMateriasComponent.vue';
 import LoginComponent from './components/LoginComponent.vue';
 import ErrorComponent from './components/ErrorComponent.vue';
