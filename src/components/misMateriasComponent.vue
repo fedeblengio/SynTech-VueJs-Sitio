@@ -1,11 +1,11 @@
 <template>
   <div class="estiloContenedor">
-   
     <div class="container p-3 my-3">
       <vue-headful :title="title" />
        <div class="fffffffffffff">
         <materias v-if="usuario.ou === 'Alumno'"></materias>
         <grupos v-else></grupos>
+        <title>hola</title>
       </div>
     </div>
   </div>
