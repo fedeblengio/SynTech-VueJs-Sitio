@@ -1,29 +1,63 @@
 <template>
-  <div>
+  <div class="contenedorDiv">
     <vue-headful :title="title" />
 
-    <header style="z-index: ">
-      <div class="contenedor">
-        <a :href="url" style="text-decoration: none"
-          ><h1><i class="fas fa-books"></i> LMS</h1></a
-        >
-        <input type="checkbox" id="menu-barra" />
-        <label class="icon-menu" for="menu-barra"></label>
-        <nav class="menu">
-          <a :href="url">
-            <i class="fa fa-home" aria-hidden="true"></i>
-          </a>
-          <a href="/miPerfil" v-if="logged"
-            ><i class="fas fa-user"></i> {{ usuario.nombre }}</a
-          >
-
-          <a href="/login" v-else> Login</a>
-          <a href="" v-on:click="cerrarSesion()" v-if="logged"
-            ><i class="fal fa-sign-out-alt"></i
-          ></a>
-        </nav>
+    <div class="sidebar">
+      <div class="sidebarUser">
+        <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+        <p>Federico Blengio</p>
       </div>
-    </header>
+      <div class="sidebarOption">
+        <i class="fas fa-home"></i>
+        <h2>Home</h2>
+      </div>
+      <div class="sidebarOption">
+        <i class="fas fa-home"></i>
+        <h2>Materias</h2>
+      </div>
+      <div class="sidebarOption">
+        <i class="fas fa-home"></i>
+        <h2>Calendario</h2>
+      </div>
+    </div>
+
+    <div class="feed">
+      <div class="feed_header">
+        <h2>Home</h2>
+      </div>
+
+      <div class="boxText">
+        <form>
+          <div class="boxText_input">
+            <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+            <input type="text" placeholder="Escribe algo!" />
+          </div>
+          <button class="boxText_btn">Enviar</button>
+        </form>
+      </div>
+
+      <div class="post">
+        <div class="post_avatar">
+          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+        </div>
+        <div class="post_body">
+          <div class="post_title">
+            <span>Federico Blengio publico en TB1</span>
+          </div>
+          <div class="post_body_text">
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, sapiente.          </div>
+          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+          <div class="post_footer"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="event">
+      <img
+        src="https://michelzbinden.com/images/2021/vi/es/calendario-enero-2021-uruguay.jpg"
+        alt=""
+      />
+    </div>
 
     <div class="ContenedorAppVue">
       <div>
@@ -71,7 +105,7 @@ export default {
         }
       }
     },
-    
+
     cerrarSesion() {
       localStorage.clear();
       this.$router.push("/home");
