@@ -112,7 +112,7 @@ body {
 }
 .boxText {
   padding-bottom: 10px;
-  border-bottom: 8px solid var(--background);
+  border-bottom: 1px solid var(--background);
   padding-right: 10px;
 }
 
@@ -164,7 +164,7 @@ body {
 }
 
 .post_body{
-  flex:1;
+  max-width: 500px;
   padding:10px;
 
 }
