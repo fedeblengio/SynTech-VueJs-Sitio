@@ -141,7 +141,20 @@
     </div>
 
     <div class="event">
-      <DatePicker></DatePicker>
+      <div class="calendarioElement">
+        <DatePicker class="calendario"></DatePicker>
+      </div>
+
+      <div class="currentEvent">
+        <div class="currentEvent_contenedor">
+          <h3>Mis Eventos</h3>
+          <div class="sidebarElement">
+            <span class="clases">
+              <span class="sidebarDot_event"></span> 27/07 - Historia</span
+            >
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="ContenedorAppVue">
@@ -149,6 +162,7 @@
         <router-view> </router-view>
       </div>
     </div>
+
     <FlashMessage></FlashMessage>
   </div>
 </template>
