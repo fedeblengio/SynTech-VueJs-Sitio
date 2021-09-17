@@ -19,6 +19,44 @@
         <i class="fas fa-home"></i>
         <h2>Calendario</h2>
       </div>
+      <div class="sidebarClass">
+        <h3>Mis Clases</h3>
+        <div class="sidebarElement">
+          <span class="clases">
+            <span class="sidebarDot"></span> TB1 - Matematica</span
+          >
+        </div>
+        <div class="sidebarElement">
+          <span class="clases">
+            <span class="sidebarDot"></span> TB1 - Matematica</span
+          >
+        </div>
+        <div class="sidebarElement">
+          <span class="clases">
+            <span class="sidebarDot"></span> TB1 - Matematica</span
+          >
+        </div>
+        <div class="sidebarElement">
+          <span class="clases">
+            <span class="sidebarDot"></span> TB1 - Matematica</span
+          >
+        </div>
+        <div class="sidebarElement">
+          <span class="clases">
+            <span class="sidebarDot"></span> TB1 - Matematica</span
+          >
+        </div>
+        <div class="sidebarElement">
+          <span class="clases">
+            <span class="sidebarDot"></span> TB1 - Matematica</span
+          >
+        </div>
+        <div class="sidebarElement">
+          <span class="clases">
+            <span class="sidebarDot"></span> TB1 - Matematica</span
+          >
+        </div>
+      </div>
     </div>
 
     <div class="feed">
@@ -45,7 +83,57 @@
             <span>Federico Blengio publico en TB1</span>
           </div>
           <div class="post_body_text">
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, sapiente.          </div>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
+            sapiente.
+          </div>
+          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+          <div class="post_footer"></div>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post_avatar">
+          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+        </div>
+        <div class="post_body">
+          <div class="post_title">
+            <span>Federico Blengio publico en TB1</span>
+          </div>
+          <div class="post_body_text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
+            sapiente.
+          </div>
+          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+          <div class="post_footer"></div>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post_avatar">
+          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+        </div>
+        <div class="post_body">
+          <div class="post_title">
+            <span>Federico Blengio publico en TB1</span>
+          </div>
+          <div class="post_body_text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
+            sapiente.
+          </div>
+          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+          <div class="post_footer"></div>
+        </div>
+      </div>
+      <div class="post">
+        <div class="post_avatar">
+          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+        </div>
+        <div class="post_body">
+          <div class="post_title">
+            <span>Federico Blengio publico en TB1</span>
+          </div>
+          <div class="post_body_text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
+            sapiente.
+          </div>
           <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
           <div class="post_footer"></div>
         </div>
@@ -53,10 +141,7 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, sapiente.       
     </div>
 
     <div class="event">
-      <img
-        src="https://michelzbinden.com/images/2021/vi/es/calendario-enero-2021-uruguay.jpg"
-        alt=""
-      />
+      <DatePicker></DatePicker>
     </div>
 
     <div class="ContenedorAppVue">
@@ -75,10 +160,13 @@ Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem, sapiente.       
 
 <script>
 import vueHeadful from "vue-headful";
+import DatePicker from "v-calendar/lib/components/date-picker.umd";
 export default {
   name: "App",
   components: {
     vueHeadful,
+
+    DatePicker,
   },
   data() {
     return {

@@ -10,6 +10,7 @@
 body {
   --color: #50b7f5;
   --background: #e6ecf0;
+ 
 }
 .contenedorDiv{
   display: flex;
@@ -64,10 +65,43 @@ body {
   margin-top: 20px;
 }
 
+.sidebarClass{
+border: 1px solid var(--background);
+margin-top: 50px;
+}
+.sidebarClass h3{
+  font-weight: 600;
+  padding: 5px;
+  font-size:1rem;
+  color:#4f5468;
+  text-transform: uppercase;
+}
+.sidebarElement{
+  padding: 10px;
+}
+.clases{
+  padding: 10px; 
+  font-weight: 600;
+  font-size:1rem;
+  color:#4f5468;
+  
+}
+.clases:hover{
+  background-color: var(--background);
+  border-radius: 30px;
+  color: var(--color);
+  transition: color 100ms ease-out;
+  cursor: pointer;
+}
 
-
-
-
+.sidebarDot{
+  height:0.5rem;
+  width: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--color);
+  display: inline-block;
+  margin-bottom: 0.125rem;
+}
 
 
 
