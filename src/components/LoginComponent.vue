@@ -144,8 +144,12 @@ export default {
   height:32px;
 }
 .session{
-  height:40px;
-  width:45%;
-  
+  height:45px;
+  width:60%;
+  background-color: #0069D9;
+  color: white;
+  font-size:15px;
+  border-radius: 7px;
+  border: none;
 }
 </style>
