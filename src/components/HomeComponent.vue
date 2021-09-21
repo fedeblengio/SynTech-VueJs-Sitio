@@ -191,12 +191,14 @@ export default {
         if (this.usuario.ou == "Profesor") {
           this.profesor = true;
         }
+      }else{
+         this.$router.push("/dashboard");
       }
     },
 
     cerrarSesion() {
       localStorage.clear();
-      this.$router.push("/home");
+      this.$router.push("/dashboard");
       location.reload();
     },
   },
