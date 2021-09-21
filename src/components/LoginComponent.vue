@@ -12,7 +12,7 @@
       <div id="output"></div>
       <div class="avatar"></div>
       <div class="form-box">
-        <form form name="form" id="form" v-on:submit.prevent="procesar()">
+        <form form name="form" id="form" v-on:submit.prevent="procesar()" class="form">
           <p class="letraslogin">
             Documento:
             <input
@@ -41,7 +41,7 @@
             type="submit"
             value="Iniciar Sesion"
             title="Enviar"
-            class="btn btn-primary"
+            class="session"
           />
         </form>
       </div>
@@ -138,5 +138,14 @@ export default {
   text-align: left;
   margin-bottom: 25px;
   color: white;
+}
+.letraslogin input{
+  width:100%;
+  height:32px;
+}
+.session{
+  height:40px;
+  width:45%;
+  
 }
 </style>
