@@ -14,7 +14,7 @@ import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 
 import LoginComponent from './components/LoginComponent.vue';
 import HomeComponent from './components/HomeComponent.vue';
-
+import DashboardComponent from './components/DashboardComponent.vue';
 
 
 Vue.config.productionTip = false
@@ -33,6 +33,8 @@ const routes = [
     { path: '/', redirect: '/home' },
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/home', name: 'home', component: HomeComponent },
+    { path: '/dashboard', name: 'dashboard', component: DashboardComponent },
+    
 ];
 
 
