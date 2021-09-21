@@ -13,7 +13,7 @@ import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 
 
 import LoginComponent from './components/LoginComponent.vue';
-
+import HomeComponent from './components/HomeComponent.vue';
 
 
 
@@ -31,12 +31,8 @@ Vue.component('date-picker', DatePicker)
 //acá declaramos todas nuestras rutas de navegación
 const routes = [
     { path: '/', redirect: '/home' },
-  
     { path: '/login', name: 'login', component: LoginComponent },
-  
-  
-    
-   
+    { path: '/home', name: 'home', component: HomeComponent },
 ];
 
 

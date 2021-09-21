@@ -88,7 +88,7 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             localStorage.setItem("auth_token", response.data.datos);
-            this.$router.push("/misMaterias");
+            this.$router.push("/home");
             location.reload();
           }
         })
