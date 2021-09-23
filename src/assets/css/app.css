@@ -10,6 +10,8 @@
 body {
   --color: #50b7f5;
   --background: #CBD5E0;
+  --puntoMisClases: #83c298;
+  --puntoEvento:#ff0000;
  background-color: #F4F4F7;
 }
 .contenedorDiv{
@@ -40,18 +42,26 @@ body {
   margin-left: 15px;
 }
 
+.contenedor-sidebar{
+  border: 1px solid var(--background);
+  background-color:white;
+  margin-top: 30px;
+  border-radius:7px;
+}
 .sidebarOption {
   display: flex;
   align-items: center;
   cursor: pointer;
+ 
 }
 .sidebarOption .fas {
-  padding: 20px;
+  padding: 15px;
 }
 .sidebarOption h2 {
   font-weight: 700;
   font-size: 20px;
   margin-right: 20px;
+ 
 }
 .sidebarOption:hover {
   background-color: var(--background);
@@ -71,13 +81,13 @@ body {
 
 .sidebarClass{
 border: 1px solid var(--background);
-margin-top: 50px;
+margin-top: 30px;
 background-color: white;
 border-radius:7px;
 }
 .sidebarClass h3{
   font-weight: 600;
-  padding: 5px;
+  padding: 10px;
   font-size:1rem;
   color:#4f5468;
   text-transform: uppercase;
@@ -104,7 +114,7 @@ border-radius:7px;
   height:0.5rem;
   width: 0.5rem;
   border-radius: 50%;
-  background-color: var(--color);
+  background-color: var(--puntoMisClases);
   display: inline-block;
   margin-bottom: 0.125rem;
 }
@@ -239,6 +249,13 @@ border-radius:7px;
 .event{
   flex: 0.3;
 }
+.events_header{
+  margin-top: 20px;
+  background-color: white;
+  margin-left: 20px;
+  border: 1px solid var(--background);
+  padding: 12.8px 20px;
+}
 .event img{
   height: 250px;
 }
@@ -247,7 +264,6 @@ border-radius:7px;
   margin-left: 55px;
 
 }
-
 .currentEvents{
   border: 1px solid var(--background);
 }
@@ -261,13 +277,31 @@ border-radius:7px;
 
 .currentEvent_contenedor{
   border: 1px solid var(--background);
-margin-top: 50px;
+  margin-top: 50px;
 }
 .sidebarDot_event{
   height:0.5rem;
   width: 0.5rem;
   border-radius: 50%;
-  background-color: red;
+  background-color: var(--puntoEvento);
   display: inline-block;
   margin-bottom: 0.125rem;
+}
+
+.events_header{
+  display: flex;
+  font-size: 20px;
+  border-radius: 7px;
+
+}
+
+.events_icon{
+  margin:auto;
+   
+}
+.coloricono{
+color:#b2b2b2;
+}
+.sombra:hover{
+  text-shadow: 1px 2px 4px #444444;
 }

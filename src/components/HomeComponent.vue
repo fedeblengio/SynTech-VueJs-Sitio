@@ -4,56 +4,27 @@
     <div class="sidebar">
       <div class="sidebarUser">
         <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-        <p>Federico Blengio</p>
+        <p> {{usuario.nombre}} </p>
       </div>
-      <div class="sidebarOption">
-        <i class="fas fa-home"></i>
-        <h2>Home</h2>
-      </div>
-      <div class="sidebarOption">
-        <i class="fas fa-home"></i>
-        <h2>Materias</h2>
-      </div>
-      <div class="sidebarOption">
-        <i class="fas fa-home"></i>
-        <h2>Calendario</h2>
+      <div class="contenedor-sidebar">
+        <div class="sidebarOption">
+          <i class="fas fa-home"></i>
+          <h2>Home</h2>
+        </div>
+        <div class="sidebarOption">
+          <i class="fas fa-home"></i>
+          <h2>Materias</h2>
+        </div>
+        <div class="sidebarOption">
+          <i class="fas fa-home"></i>
+          <h2>Calendario</h2>
+        </div>
       </div>
       <div class="sidebarClass">
         <h3>Mis Clases</h3>
-        <div class="sidebarElement">
+        <div class="sidebarElement"  v-for="todo in grupoProfesor" :key="todo.id">
           <span class="clases">
-            <span class="sidebarDot"></span> TB1 - Matematica</span
-          >
-        </div>
-        <div class="sidebarElement">
-          <span class="clases">
-            <span class="sidebarDot"></span> TB1 - Matematica</span
-          >
-        </div>
-        <div class="sidebarElement">
-          <span class="clases">
-            <span class="sidebarDot"></span> TB1 - Matematica</span
-          >
-        </div>
-        <div class="sidebarElement">
-          <span class="clases">
-            <span class="sidebarDot"></span> TB1 - Matematica</span
-          >
-        </div>
-        <div class="sidebarElement">
-          <span class="clases">
-            <span class="sidebarDot"></span> TB1 - Matematica</span
-          >
-        </div>
-        <div class="sidebarElement">
-          <span class="clases">
-            <span class="sidebarDot"></span> TB1 - Matematica</span
-          >
-        </div>
-        <div class="sidebarElement">
-          <span class="clases">
-            <span class="sidebarDot"></span> TB1 - Matematica</span
-          >
+            <span class="sidebarDot"></span> {{ todo.idGrupo }} - {{ todo.Materia }}</span>
         </div>
       </div>
     </div>
@@ -139,18 +110,34 @@
       </div>
     </div>
 
-    <div class="event">
-      <div class="calendarioElement">
-        <DatePicker class="calendario"></DatePicker>
+    <div class="events">
+      <div class="events_header">
+        <div class="events_icon">
+          <i class="fas fa-bell sombra coloricono"></i>
+        </div>
+        <div class="events_icon">
+          <i class="fas fa-cog sombra coloricono"></i>
+        </div>
+        <div class="events_icon">
+          <a href="" v-on:click="cerrarSesion()">
+            <i class="fas fa-door-open sombra coloricono"></i>
+          </a>
+        </div>
       </div>
 
-      <div class="currentEvent">
-        <div class="currentEvent_contenedor">
-          <h3>Mis Eventos</h3>
-          <div class="sidebarElement">
-            <span class="clases">
-              <span class="sidebarDot_event"></span> 27/07 - Historia</span
-            >
+      <div class="event">
+        <div class="calendarioElement">
+          <Calendar></Calendar>
+        </div>
+
+        <div class="currentEvent">
+          <div class="currentEvent_contenedor">
+            <h3>Mis Eventos</h3>
+            <div class="sidebarElement">
+              <span class="clases">
+                <span class="sidebarDot_event"></span> 27/07 - Historia</span
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -161,24 +148,27 @@
 
 <script>
 import vueHeadful from "vue-headful";
-import DatePicker from "v-calendar/lib/components/date-picker.umd";
+import { Global } from "../Global";
+import axios from "axios";
+import Calendar from "v-calendar/lib/components/calendar.umd";
 export default {
   name: "App",
   components: {
     vueHeadful,
-    DatePicker,
+    Calendar,
   },
   data() {
     return {
       usuario: "",
-      logged: false,
       profesor: false,
       title: "Home",
       url: "/home",
+      grupoProfesor: "",
     };
   },
   mounted() {
-    this.verificarLogueo();
+    this.verificarLogueo(
+    );
   },
   methods: {
     verificarLogueo() {
@@ -190,9 +180,10 @@ export default {
         );
         if (this.usuario.ou == "Profesor") {
           this.profesor = true;
+          this.traerGrupoProfesor();
         }
-      }else{
-         this.$router.push("/dashboard");
+      } else {
+        this.$router.push("/dashboard");
       }
     },
 
@@ -200,6 +191,27 @@ export default {
       localStorage.clear();
       this.$router.push("/dashboard");
       location.reload();
+    },
+
+    traerGrupoProfesor() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "profesor-grupo?idProfesor=" +
+            this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.grupoProfesor = res.data;
+          }
+        });
     },
   },
 };
