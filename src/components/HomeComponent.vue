@@ -4,7 +4,7 @@
     <div class="sidebar">
       <div class="sidebarUser">
         <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-        <p> {{usuario.nombre}} </p>
+        <p>{{ usuario.nombre }}</p>
       </div>
       <div class="contenedor-sidebar">
         <div class="sidebarOption">
@@ -22,9 +22,15 @@
       </div>
       <div class="sidebarClass">
         <h3>Mis Clases</h3>
-        <div class="sidebarElement"  v-for="todo in grupoProfesor" :key="todo.id">
+        <div
+          class="sidebarElement"
+          v-for="todo in grupoProfesor"
+          :key="todo.id"
+        >
           <span class="clases">
-            <span class="sidebarDot"></span> {{ todo.idGrupo }} - {{ todo.Materia }}</span>
+            <span class="sidebarDot"></span> {{ todo.idGrupo }} -
+            {{ todo.Materia }}</span
+          >
         </div>
       </div>
     </div>
@@ -35,63 +41,54 @@
       </div>
 
       <div class="boxText">
-        <form>
+        <div class="form">
           <div class="boxText_input">
             <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-            <input type="text" placeholder="Escribe algo!" />
+            <input
+              type="text"
+              placeholder="Escribe algo!"
+              required
+              v-model="mensaje"
+            />
           </div>
-          <button class="boxText_btn">Enviar</button>
-        </form>
+          <div class="addArchivos">
+            <select
+              v-on:change="traerIdForo()"
+              class="form-control"
+              v-model="selectedGroup"
+              required
+            >
+              <option
+                v-for="todo in grupoProfesor"
+                :key="todo.id"
+                v-bind:value="[todo.idGrupo, todo.idMateria]"
+              >
+                {{ todo.idGrupo }} - {{ todo.Materia }}
+                >
+              </option>
+            </select>
+            <div class="select_file">
+              <div class="image-upload">
+                <label for="file-input">
+                  <i class="far fa-file-upload"></i>
+                </label>
+
+                <input
+                  @change="getFile"
+                  accept=".pdf"
+                  id="file-input"
+                  type="file"
+                  onchange="previewFile(this);"
+                  style="display: none"
+                />
+              </div>
+            </div>
+          </div>
+
+          <button class="boxText_btn" v-on:click="enviarPost()">Enviar</button>
+        </div>
       </div>
 
-      <div class="post">
-        <div class="post_avatar">
-          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-        </div>
-        <div class="post_body">
-          <div class="post_title">
-            <span>Federico Blengio publico en TB1</span>
-          </div>
-          <div class="post_body_text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
-            sapiente.
-          </div>
-          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-          <div class="post_footer"></div>
-        </div>
-      </div>
-      <div class="post">
-        <div class="post_avatar">
-          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-        </div>
-        <div class="post_body">
-          <div class="post_title">
-            <span>Federico Blengio publico en TB1</span>
-          </div>
-          <div class="post_body_text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
-            sapiente.
-          </div>
-          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-          <div class="post_footer"></div>
-        </div>
-      </div>
-      <div class="post">
-        <div class="post_avatar">
-          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-        </div>
-        <div class="post_body">
-          <div class="post_title">
-            <span>Federico Blengio publico en TB1</span>
-          </div>
-          <div class="post_body_text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
-            sapiente.
-          </div>
-          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-          <div class="post_footer"></div>
-        </div>
-      </div>
       <div class="post">
         <div class="post_avatar">
           <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
@@ -133,9 +130,14 @@
         <div class="currentEvent">
           <div class="currentEvent_contenedor">
             <h3>Mis Eventos</h3>
-            <div class="sidebarElement">
+            <div
+              class="sidebarElement"
+              v-for="todo in grupoProfesor"
+              :key="todo.id"
+            >
               <span class="clases">
-                <span class="sidebarDot_event"></span> 27/07 - Historia</span
+                <span class="sidebarDot_event"></span> {{ todo.idGrupo }} -
+                {{ todo.Materia }}</span
               >
             </div>
           </div>
@@ -164,11 +166,14 @@ export default {
       title: "Home",
       url: "/home",
       grupoProfesor: "",
+      selectedGroup: "",
+      file: null,
+      mensaje: "",
+      foro: "",
     };
   },
   mounted() {
-    this.verificarLogueo(
-    );
+    this.verificarLogueo();
   },
   methods: {
     verificarLogueo() {
@@ -211,6 +216,69 @@ export default {
           if (res.status == 200) {
             this.grupoProfesor = res.data;
           }
+        });
+    },
+
+    traerIdForo() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "foros?idMateria=" +
+            this.selectedGroup[1] +
+            "&idGrupo=" +
+            this.selectedGroup[0],
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.foro = res.data;
+          }
+        });
+    },
+    getFile(event) {
+      //Asignamos la imagen a  nuestra data
+      this.file = event.target.files[0];
+    },
+
+    enviarPost() {
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
+
+      let formData = new FormData();
+      formData.append("archivo", this.file);
+      formData.append("idForo", this.foro.idForo);
+      formData.append("idUsuario", this.usuario.username);
+      formData.append("mensaje", this.mensaje);
+      formData.append("titulo", this.selectedGroup[1]);
+
+      axios
+        .post(Global.urlSitio + "foro", formData, config)
+        .then((response) => {
+          if (response.status == 200) {
+            location.reload();
+            this.flashMessage.show({
+              status: "success",
+              title: Global.tituloSitio,
+              message: "Post publicado correctamente",
+            });
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.tituloSitio,
+            message: "Error al publicar el post",
+          });
         });
     },
   },
