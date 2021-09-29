@@ -80,9 +80,11 @@
                   type="file"
                   onchange="previewFile(this);"
                   style="display: none"
+                  multiple="true"
                 />
               </div>
             </div>
+            <VueFileAgent v-model="fileRecords"></VueFileAgent>
           </div>
 
           <button class="boxText_btn" v-on:click="enviarPost()">Enviar</button>
@@ -121,7 +123,8 @@
           </a>
         </div>
       </div>
-
+      <h2>{{ fileRecords }}</h2>
+      <h2>{{ file }}</h2>
       <div class="event">
         <div class="calendarioElement">
           <Calendar></Calendar>
@@ -167,9 +170,10 @@ export default {
       url: "/home",
       grupoProfesor: "",
       selectedGroup: "",
-      file: null,
+      file: [],
       mensaje: "",
       foro: "",
+      fileRecords: [],
     };
   },
   mounted() {
@@ -243,7 +247,8 @@ export default {
     },
     getFile(event) {
       //Asignamos la imagen a  nuestra data
-      this.file = event.target.files[0];
+      /* this.file = event.target.files[0]; */
+      this.file.push(event.target.files[0]);
     },
 
     enviarPost() {
@@ -254,32 +259,35 @@ export default {
         },
       };
 
-      let formData = new FormData();
-      formData.append("archivo", this.file);
-      formData.append("idForo", this.foro.idForo);
-      formData.append("idUsuario", this.usuario.username);
-      formData.append("mensaje", this.mensaje);
-      formData.append("titulo", this.selectedGroup[1]);
+      for (let i = 0; i < this.file.length; i++) {
+        let formData = new FormData();
+        formData.append("archivo", this.file[i]);
+        console.log(this.file);
+        formData.append("idForo", this.foro.idForo);
+        formData.append("idUsuario", this.usuario.username);
+        formData.append("mensaje", this.mensaje);
+        formData.append("titulo", this.selectedGroup[1]);
 
-      axios
-        .post(Global.urlSitio + "foro", formData, config)
-        .then((response) => {
-          if (response.status == 200) {
-            location.reload();
+        axios
+          .post(Global.urlSitio + "foro", formData, config)
+          .then((response) => {
+            if (response.status == 200) {
+              location.reload();
+              this.flashMessage.show({
+                status: "success",
+                title: Global.tituloSitio,
+                message: "Post publicado correctamente",
+              });
+            }
+          })
+          .catch(() => {
             this.flashMessage.show({
-              status: "success",
+              status: "error",
               title: Global.tituloSitio,
-              message: "Post publicado correctamente",
+              message: "Error al publicar el post",
             });
-          }
-        })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.tituloSitio,
-            message: "Error al publicar el post",
           });
-        });
+      }
     },
   },
 };
