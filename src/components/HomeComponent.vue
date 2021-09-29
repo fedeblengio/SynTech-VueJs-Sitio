@@ -64,7 +64,7 @@
                 v-bind:value="[todo.idGrupo, todo.idMateria]"
               >
                 {{ todo.idGrupo }} - {{ todo.Materia }}
-                >
+              
               </option>
             </select>
             <div class="select_file">
@@ -80,11 +80,10 @@
                   type="file"
                   onchange="previewFile(this);"
                   style="display: none"
-                  multiple="true"
                 />
               </div>
             </div>
-            <VueFileAgent v-model="fileRecords"></VueFileAgent>
+         
           </div>
 
           <button class="boxText_btn" v-on:click="enviarPost()">Enviar</button>
@@ -123,8 +122,8 @@
           </a>
         </div>
       </div>
-      <h2>{{ fileRecords }}</h2>
-      <h2>{{ file }}</h2>
+     
+      <h2>{{ file.size }}</h2>
       <div class="event">
         <div class="calendarioElement">
           <Calendar></Calendar>
@@ -173,7 +172,7 @@ export default {
       file: [],
       mensaje: "",
       foro: "",
-      fileRecords: [],
+    
     };
   },
   mounted() {
@@ -249,6 +248,7 @@ export default {
       //Asignamos la imagen a  nuestra data
       /* this.file = event.target.files[0]; */
       this.file.push(event.target.files[0]);
+      console.log(this.file);
     },
 
     enviarPost() {
@@ -262,7 +262,6 @@ export default {
       for (let i = 0; i < this.file.length; i++) {
         let formData = new FormData();
         formData.append("archivo", this.file[i]);
-        console.log(this.file);
         formData.append("idForo", this.foro.idForo);
         formData.append("idUsuario", this.usuario.username);
         formData.append("mensaje", this.mensaje);
