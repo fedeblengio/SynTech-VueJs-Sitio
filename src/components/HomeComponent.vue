@@ -64,7 +64,6 @@
                 v-bind:value="[todo.idGrupo, todo.idMateria]"
               >
                 {{ todo.idGrupo }} - {{ todo.Materia }}
-              
               </option>
             </select>
             <div class="select_file">
@@ -75,7 +74,7 @@
 
                 <input
                   @change="getFile"
-                  accept=".pdf"
+                 
                   id="file-input"
                   type="file"
                   onchange="previewFile(this);"
@@ -83,7 +82,11 @@
                 />
               </div>
             </div>
-         
+          </div>
+          <div class="preview_contenedor">
+            <h3 class="preview" v-for="files in file" :key="files.id">
+              {{ files.name }}
+            </h3>
           </div>
 
           <button class="boxText_btn" v-on:click="enviarPost()">Enviar</button>
@@ -122,8 +125,7 @@
           </a>
         </div>
       </div>
-     
-      <h2>{{ file.size }}</h2>
+
       <div class="event">
         <div class="calendarioElement">
           <Calendar></Calendar>
@@ -172,7 +174,6 @@ export default {
       file: [],
       mensaje: "",
       foro: "",
-    
     };
   },
   mounted() {
@@ -246,9 +247,7 @@ export default {
     },
     getFile(event) {
       //Asignamos la imagen a  nuestra data
-      /* this.file = event.target.files[0]; */
       this.file.push(event.target.files[0]);
-      console.log(this.file);
     },
 
     enviarPost() {
