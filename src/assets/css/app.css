@@ -9,12 +9,12 @@
 
 body {
   --color: #50b7f5;
-  --background: #CBD5E0;
+  --background: #cbd5e0;
   --puntoMisClases: #83c298;
-  --puntoEvento:#ff0000;
- background-color: #F4F4F7;
+  --puntoEvento: #ff0000;
+  background-color: #f4f4f7;
 }
-.contenedorDiv{
+.contenedorDiv {
   display: flex;
   height: 100%;
   max-width: 1300px;
@@ -30,9 +30,9 @@ body {
 .sidebarUser {
   display: flex;
   align-items: center;
-  padding:8px;
+  padding: 8px;
   border-radius: 5px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: 1px solid var(--background);
 }
 
@@ -42,17 +42,16 @@ body {
   margin-left: 15px;
 }
 
-.contenedor-sidebar{
+.contenedor-sidebar {
   border: 1px solid var(--background);
-  background-color:white;
+  background-color: white;
   margin-top: 30px;
-  border-radius:7px;
+  border-radius: 7px;
 }
 .sidebarOption {
   display: flex;
   align-items: center;
   cursor: pointer;
- 
 }
 .sidebarOption .fas {
   padding: 15px;
@@ -61,7 +60,6 @@ body {
   font-weight: 700;
   font-size: 20px;
   margin-right: 20px;
- 
 }
 .sidebarOption:hover {
   background-color: var(--background);
@@ -79,30 +77,29 @@ body {
   margin-top: 20px;
 }
 
-.sidebarClass{
-border: 1px solid var(--background);
-margin-top: 30px;
-background-color: white;
-border-radius:7px;
+.sidebarClass {
+  border: 1px solid var(--background);
+  margin-top: 30px;
+  background-color: white;
+  border-radius: 7px;
 }
-.sidebarClass h3{
+.sidebarClass h3 {
   font-weight: 600;
   padding: 10px;
-  font-size:1rem;
-  color:#4f5468;
+  font-size: 1rem;
+  color: #4f5468;
   text-transform: uppercase;
 }
-.sidebarElement{
+.sidebarElement {
   padding: 10px;
 }
-.clases{
-  padding: 10px; 
+.clases {
+  padding: 10px;
   font-weight: 600;
-  font-size:1rem;
-  color:#4f5468;
-  
+  font-size: 1rem;
+  color: #4f5468;
 }
-.clases:hover{
+.clases:hover {
   background-color: var(--background);
   border-radius: 30px;
   color: var(--color);
@@ -110,23 +107,14 @@ border-radius:7px;
   cursor: pointer;
 }
 
-.sidebarDot{
-  height:0.5rem;
+.sidebarDot {
+  height: 0.5rem;
   width: 0.5rem;
   border-radius: 50%;
   background-color: var(--puntoMisClases);
   display: inline-block;
   margin-bottom: 0.125rem;
 }
-
-
-
-
-
-
-
-
-
 
 /*feed */
 
@@ -139,7 +127,7 @@ border-radius:7px;
   margin-top: 20px;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  background-color:white;
+  background-color: white;
 }
 .feed::-webkit-scrollbar {
   display: none;
@@ -166,7 +154,6 @@ border-radius:7px;
 .boxText {
   padding-bottom: 10px;
   border-bottom: 1px solid var(--background);
- 
 }
 
 .form {
@@ -177,7 +164,6 @@ border-radius:7px;
 .boxText_input {
   display: flex;
   padding: 20px;
-  
 }
 .boxText_input input {
   flex: 1;
@@ -185,38 +171,53 @@ border-radius:7px;
   font-size: 20px;
   border: none;
   outline: none;
-  
 }
 
-.addArchivos{
-  display: flex;
-}
-.select_file {
-  margin-right: 4px;
-  margin-top: 3px;
-}
-.image-upload i{
-  font-size:26px;
-}
-.preview_contenedor{
-  width:95%;
-  margin: auto;
-  padding:10px;
-}
-.preview{
-  background-color: #50b7f5;
-  padding:5px;
-  border-radius: 7px;
- 
-}
-.boxText select{
- 
+.select_materia select {
   outline: none;
-  width:90%;
-  margin-left:auto;
-  margin-right:auto;
-  height:35px;
-  font-size:15px;
+  width: 90%;
+  height: 35px;
+  font-size: 15px;
+  display: block;
+  margin: 10px auto;
+}
+
+.footer_post{
+display: flex;
+width: 95%;
+}
+.select_file{
+  margin-left: 5%;
+}
+.image-upload{
+  margin-top: 20px;
+}
+.image-upload i {
+  font-size: 26px;
+}
+.preview_contenedor h3{
+  font-size: 18px;
+  font-weight: 500;
+  
+}
+.preview_contenedor {
+  width: 90%;
+  height:55px;
+  margin: auto;
+  padding: 10px;
+  display: flex;
+  background-color: #f4f4f7;
+  border-radius: 7px;
+  border: 1px solid var(--background);
+  margin-top: 6px;
+}
+.preview {
+  
+  padding: 5px;
+  
+}
+.equis{
+  margin-left: auto;
 }
 .boxText_btn {
   background-color: var(--color);
@@ -224,105 +225,90 @@ border-radius:7px;
   color: white;
   font-weight: 900;
   border-radius: 7px;
-  width: 30%;
+  width: 100px;
   height: 35px;
   margin-top: 20px;
   margin-left: auto;
   cursor: pointer;
 }
 
-
-
-
-.post{
+.post {
   display: flex;
   align-items: flex-start;
   border-bottom: 1px solid var(--background);
   padding-bottom: 10px;
- 
 }
 
-.post_avatar{
-  padding:20px;
+.post_avatar {
+  padding: 20px;
 }
 .post_avatar img {
   height: 50px;
   border-radius: 50%;
 }
 
-.post_body{
+.post_body {
   max-width: 500px;
-  padding:10px;
-
+  padding: 10px;
 }
-.post_body img{
-  width:450px;
+.post_body img {
+  width: 450px;
   object-fit: contain;
   border-radius: 20px;
-
 }
 
-.post_title{
+.post_title {
   font-weight: 600;
   font-size: 15px;
-  color:rgb(0, 0, 0);
- 
+  color: rgb(0, 0, 0);
 }
-.post_body_text{
+.post_body_text {
   margin-bottom: 20px;
   font-size: 15px;
   margin-top: 15px;
- 
 }
-
-
-
 
 /* Event */
 
-.event{
+.event {
   flex: 0.3;
 }
-.events_header{
+.events_header {
   margin-top: 20px;
   background-color: white;
   margin-left: 20px;
   border: 1px solid var(--background);
   padding: 12.8px 20px;
 }
-.event img{
+.event img {
   height: 250px;
 }
-.calendarioElement{
+.calendarioElement {
   margin-top: 30px;
   margin-left: 20px;
 }
 
-
-
-.currentEvent{
+.currentEvent {
   margin-top: 30px;
-  background-color:#FFFFFF;
+  background-color: #ffffff;
   border-radius: 7px;
   margin-left: 20px;
-  
 }
 
-.currentEvent_contenedor{
+.currentEvent_contenedor {
   border: 1px solid var(--background);
   border-radius: 7px;
- 
 }
 
-.currentEvent_contenedor h3{
+.currentEvent_contenedor h3 {
   font-weight: 600;
   padding: 10px;
-  font-size:1rem;
-  color:#4f5468;
+  font-size: 1rem;
+  color: #4f5468;
   text-transform: uppercase;
 }
-.sidebarDot_event{
-  height:0.5rem;
+.sidebarDot_event {
+  height: 0.5rem;
   width: 0.5rem;
   border-radius: 50%;
   background-color: var(--puntoEvento);
@@ -330,20 +316,18 @@ border-radius:7px;
   margin-bottom: 0.125rem;
 }
 
-.events_header{
+.events_header {
   display: flex;
   font-size: 20px;
   border-radius: 7px;
-
 }
 
-.events_icon{
-  margin:auto;
-   
+.events_icon {
+  margin: auto;
 }
-.coloricono{
-color:#b2b2b2;
+.coloricono {
+  color: #b2b2b2;
 }
-.sombra:hover{
+.sombra:hover {
   text-shadow: 1px 2px 4px #444444;
 }

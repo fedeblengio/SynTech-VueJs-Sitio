@@ -52,44 +52,62 @@
             />
           </div>
           <div class="addArchivos">
-            <select
-              v-on:change="traerIdForo()"
-              class="form-control"
-              v-model="selectedGroup"
-              required
-            >
-              <option
-                v-for="todo in grupoProfesor"
-                :key="todo.id"
-                v-bind:value="[todo.idGrupo, todo.idMateria]"
+            <div class="select_materia">
+              <select
+                v-on:change="traerIdForo()"
+                class="form-control"
+                v-model="selectedGroup"
+                required
               >
-                {{ todo.idGrupo }} - {{ todo.Materia }}
-              </option>
-            </select>
+                <option
+                  v-for="todo in grupoProfesor"
+                  :key="todo.id"
+                  v-bind:value="[todo.idGrupo, todo.idMateria]"
+                >
+                  {{ todo.idGrupo }} - {{ todo.Materia }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div
+            class="preview_contenedor"
+            v-for="file in file"
+            :key="file.id"
+            :value="file.name"
+          >
+            <img
+              src="https://assets.edmodo.com/images_v2/icons/small/image.png"
+              alt=""
+              srcset=""
+            />
+            <h3 class="preview">
+              {{ file.name }}
+            </h3>
+            <i
+              class="fas fa-times equis"
+              v-on:click="delateFile(file.name)"
+            ></i>
+          </div>
+          <div class="footer_post">
             <div class="select_file">
               <div class="image-upload">
                 <label for="file-input">
-                  <i class="far fa-file-upload"></i>
+                  <i class="fas fa-upload"></i>
                 </label>
 
                 <input
                   @change="getFile"
-                 
                   id="file-input"
                   type="file"
-                  onchange="previewFile(this);"
+                  v-on:onchange="previewFile(this)"
                   style="display: none"
                 />
               </div>
             </div>
+            <button class="boxText_btn" v-on:click="enviarPost()">
+              Enviar
+            </button>
           </div>
-          <div class="preview_contenedor">
-            <h3 class="preview" v-for="files in file" :key="files.id">
-              {{ files.name }}
-            </h3>
-          </div>
-
-          <button class="boxText_btn" v-on:click="enviarPost()">Enviar</button>
         </div>
       </div>
 
@@ -174,6 +192,7 @@ export default {
       file: [],
       mensaje: "",
       foro: "",
+      value: 1,
     };
   },
   mounted() {
@@ -250,6 +269,18 @@ export default {
       this.file.push(event.target.files[0]);
     },
 
+    delateFile(nombre) {
+      let i;
+
+      for (i = 0; i < this.file.length; i++) {
+        if (this.file[i].name === nombre) {
+          this.file.splice(i, 1);
+        }
+      }
+    },
+    add() {
+      this.value += 1;
+    },
     enviarPost() {
       let config = {
         headers: {
