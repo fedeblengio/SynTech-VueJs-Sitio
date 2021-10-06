@@ -75,11 +75,8 @@
             :key="file.id"
             :value="file.name"
           >
-            <img
-              src="https://assets.edmodo.com/images_v2/icons/small/image.png"
-              alt=""
-              srcset=""
-            />
+         <i class="fal fa-file-alt file"></i>
+            
             <h3 class="preview">
               {{ file.name }}
             </h3>
@@ -193,6 +190,7 @@ export default {
       mensaje: "",
       foro: "",
       value: 1,
+    
     };
   },
   mounted() {
@@ -266,7 +264,7 @@ export default {
     },
     getFile(event) {
       //Asignamos la imagen a  nuestra data
-      this.file.push(event.target.files[0]);
+      this.file.push(event.target.files[0]);     
     },
 
     delateFile(nombre) {
