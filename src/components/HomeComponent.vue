@@ -3,7 +3,7 @@
     <vue-headful :title="title" />
     <div class="sidebar">
       <div class="sidebarUser">
-        <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+        <img id="profile_img" />
         <p>{{ usuario.nombre }}</p>
       </div>
       <div class="contenedor-sidebar">
@@ -43,7 +43,7 @@
       <div class="boxText">
         <div class="form">
           <div class="boxText_input">
-            <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+            <img id="post_img" />
             <input
               type="text"
               placeholder="Escribe algo!"
@@ -75,8 +75,8 @@
             :key="file.id"
             :value="file.name"
           >
-         <i class="fal fa-file-alt file"></i>
-            
+            <i class="fal fa-file-alt file"></i>
+
             <h3 class="preview">
               {{ file.name }}
             </h3>
@@ -172,6 +172,8 @@ import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import Calendar from "v-calendar/lib/components/calendar.umd";
+import JQuery from "jquery";
+window.$ = JQuery;
 export default {
   name: "App",
   components: {
@@ -190,7 +192,6 @@ export default {
       mensaje: "",
       foro: "",
       value: 1,
-    
     };
   },
   mounted() {
@@ -204,6 +205,7 @@ export default {
         this.usuario = JSON.parse(
           window.atob(localStorage.getItem("auth_token"))
         );
+        this.cargarFoto();
         if (this.usuario.ou == "Profesor") {
           this.profesor = true;
           this.traerGrupoProfesor();
@@ -264,7 +266,7 @@ export default {
     },
     getFile(event) {
       //Asignamos la imagen a  nuestra data
-      this.file.push(event.target.files[0]);     
+      this.file.push(event.target.files[0]);
     },
 
     delateFile(nombre) {
@@ -278,6 +280,33 @@ export default {
     },
     add() {
       this.value += 1;
+    },
+    cargarFoto() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
+      axios
+        .get(
+          Global.urlSitio +
+            "imagen-perfil?imagen_perfil=" +
+            usuario.imagen_perfil,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            let url_imagen = res.data;
+            localStorage.setItem("perfil_img", url_imagen);
+
+            document.getElementById("profile_img").src = "data:image/png;base64," + localStorage.getItem("perfil_img");
+
+            document.getElementById("post_img").src = "data:image/png;base64," + localStorage.getItem("perfil_img");
+          }
+        });
     },
     enviarPost() {
       let config = {
