@@ -19,6 +19,7 @@
     "v-file-input": "^0.1.2",
     "vue": "^2.6.11",
     "vue-headful": "^2.1.0",
+    "vue-picture-swipe": "^2.1.0",
     "vue-router": "^3.3.4",
     "vuelidate": "^0.7.5"
   },

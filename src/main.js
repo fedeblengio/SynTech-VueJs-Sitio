@@ -7,7 +7,7 @@ import CKEditor from '@ckeditor/ckeditor5-vue2';
 import VFileInput from 'v-file-input';
 import Calendar from 'v-calendar/lib/components/calendar.umd'
 import DatePicker from 'v-calendar/lib/components/date-picker.umd'
-
+import VuePictureSwipe from 'vue-picture-swipe';
 
 
 
@@ -26,7 +26,7 @@ Vue.use(CKEditor);
 Vue.use(VFileInput);
 Vue.component('calendar', Calendar)
 Vue.component('date-picker', DatePicker)
-
+Vue.component('vue-picture-swipe', VuePictureSwipe);
 
 //acá declaramos todas nuestras rutas de navegación
 const routes = [

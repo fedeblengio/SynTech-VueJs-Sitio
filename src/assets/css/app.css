@@ -258,9 +258,10 @@ width: 95%;
   padding: 10px;
 }
 .post_body img {
-  width: 450px;
+  width: 200px;
   object-fit: contain;
   border-radius: 20px;
+  margin-left: 5px;
 }
 
 .post_title {
@@ -273,7 +274,18 @@ width: 95%;
   font-size: 15px;
   margin-top: 15px;
 }
-
+.previw_archivosPost{
+  width: 87%;
+  height:50px;
+  margin-left: 10px;
+  padding: 10px;
+  display: flex;
+  background-color: #f4f4f7;
+  border-radius: 7px;
+  border: 1px solid var(--background);
+  margin-top: 6px;
+  overflow: hidden;
+}
 /* Event */
 
 .event {

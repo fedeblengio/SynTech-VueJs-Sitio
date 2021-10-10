@@ -62,7 +62,12 @@
                 <option
                   v-for="todo in grupoProfesor"
                   :key="todo.id"
-                  v-bind:value="[todo.idGrupo, todo.idMateria]"
+                  v-bind:value="[
+                    todo.idGrupo,
+                    todo.idMateria,
+                    todo.Materia,
+                    todo.Profesor,
+                  ]"
                 >
                   {{ todo.idGrupo }} - {{ todo.Materia }}
                 </option>
@@ -120,8 +125,14 @@
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
             sapiente.
           </div>
-          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
-          <div class="post_footer"></div>
+          <VuePictureSwipe :items="items"></VuePictureSwipe>
+          <div class="post_footer">
+            <div class="contenedor_pdf">
+              <div class="previw_archivosPost">
+                <h3><i class="fal fa-file-alt file"></i> Matematica</h3>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -168,17 +179,20 @@
 
 
 <script>
+import VuePictureSwipe from "vue-picture-swipe";
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import Calendar from "v-calendar/lib/components/calendar.umd";
 import JQuery from "jquery";
 window.$ = JQuery;
+
 export default {
   name: "App",
   components: {
     vueHeadful,
     Calendar,
+    VuePictureSwipe,
   },
   data() {
     return {
@@ -192,6 +206,36 @@ export default {
       mensaje: "",
       foro: "",
       value: 1,
+      items: [
+        {
+          src: "https://images4.alphacoders.com/946/946100.png",
+          thumbnail: "https://images4.alphacoders.com/946/946100.png",
+          w: 1200,
+          h: 900,
+          alt: "some numbers on a grey background", // optional alt attribute for thumbnail image
+        },
+        {
+          src: "https://images4.alphacoders.com/946/946100.png",
+          thumbnail: "https://images4.alphacoders.com/946/946100.png",
+          w: 1100,
+          h: 900,
+          alt: "some numbers on a grey background", // optional alt attribute for thumbnail image
+        },
+        {
+          src: "https://images4.alphacoders.com/946/946100.png",
+          thumbnail: "https://images4.alphacoders.com/946/946100.png",
+          w: 1100,
+          h: 900,
+          alt: "some numbers on a grey background", // optional alt attribute for thumbnail image
+        },
+        {
+          src: "https://images4.alphacoders.com/946/946100.png",
+          thumbnail: "https://images4.alphacoders.com/946/946100.png",
+          w: 1100,
+          h: 900,
+          alt: "some numbers on a grey background", // optional alt attribute for thumbnail image
+        },
+      ],
     };
   },
   mounted() {
@@ -220,7 +264,26 @@ export default {
       this.$router.push("/dashboard");
       location.reload();
     },
-
+    traerPost() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "foro?id=" +
+            this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.grupoProfesor = res.data;
+          }
+        });
+    },
     traerGrupoProfesor() {
       let config = {
         headers: {
@@ -302,9 +365,11 @@ export default {
             let url_imagen = res.data;
             localStorage.setItem("perfil_img", url_imagen);
 
-            document.getElementById("profile_img").src = "data:image/png;base64," + localStorage.getItem("perfil_img");
+            document.getElementById("profile_img").src =
+              "data:image/png;base64," + localStorage.getItem("perfil_img");
 
-            document.getElementById("post_img").src = "data:image/png;base64," + localStorage.getItem("perfil_img");
+            document.getElementById("post_img").src =
+              "data:image/png;base64," + localStorage.getItem("perfil_img");
           }
         });
     },
@@ -318,11 +383,19 @@ export default {
 
       for (let i = 0; i < this.file.length; i++) {
         let formData = new FormData();
+        let tituloForo =
+          this.selectedGroup[3] +
+          " publico para " +
+          this.selectedGroup[0] +
+          " - " +
+          this.selectedGroup[2];
+      
+
         formData.append("archivo", this.file[i]);
         formData.append("idForo", this.foro.idForo);
         formData.append("idUsuario", this.usuario.username);
         formData.append("mensaje", this.mensaje);
-        formData.append("titulo", this.selectedGroup[1]);
+        formData.append("titulo", tituloForo);
 
         axios
           .post(Global.urlSitio + "foro", formData, config)
