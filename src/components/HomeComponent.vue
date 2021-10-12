@@ -106,7 +106,7 @@
                 />
               </div>
             </div>
-            <button class="boxText_btn" v-on:click="enviarPost()">
+            <button class="boxText_btn" v-on:click="enviarArchivos()">
               Enviar
             </button>
           </div>
@@ -272,12 +272,7 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio +
-            "foro?id=" +
-            this.usuario.username,
-          config
-        )
+        .get(Global.urlSitio + "foro?id=" + this.usuario.username, config)
         .then((res) => {
           if (res.status == 200) {
             this.grupoProfesor = res.data;
@@ -329,6 +324,7 @@ export default {
     },
     getFile(event) {
       //Asignamos la imagen a  nuestra data
+
       this.file.push(event.target.files[0]);
     },
 
@@ -373,7 +369,35 @@ export default {
           }
         });
     },
-    enviarPost() {
+
+    enviarArchivos() {
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
+      let nombres = [];
+      for (let i = 0; i < this.file.length; i++) {
+        nombres.push(this.file[i].name);
+        let formData = new FormData();
+
+        formData.append("archivo", this.file[i]);
+        formData.append("nombre", this.file[i].name);
+
+        axios
+          .post(Global.urlSitio + "ftpForo", formData, config)
+          .then((response) => {
+            if (response.status == 200) {
+              location.reload();
+            }
+          })
+          .catch(() => {});
+      }
+      this.enviarPost(nombres)
+    
+    },
+    enviarPost(nombres) {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -381,42 +405,39 @@ export default {
         },
       };
 
-      for (let i = 0; i < this.file.length; i++) {
-        let formData = new FormData();
-        let tituloForo =
-          this.selectedGroup[3] +
-          " publico para " +
-          this.selectedGroup[0] +
-          " - " +
-          this.selectedGroup[2];
-      
+      let formData = new FormData();
+      let tituloForo =
+        this.selectedGroup[3] +
+        " publico para " +
+        this.selectedGroup[0] +
+        " - " +
+        this.selectedGroup[2];
 
-        formData.append("archivo", this.file[i]);
-        formData.append("idForo", this.foro.idForo);
-        formData.append("idUsuario", this.usuario.username);
-        formData.append("mensaje", this.mensaje);
-        formData.append("titulo", tituloForo);
+      formData.append("idForo", this.foro.idForo);
+      formData.append("idUsuario", this.usuario.username);
+      formData.append("mensaje", this.mensaje);
+      formData.append("titulo", tituloForo);
+      formData.append("nombre_archivos", nombres);
 
-        axios
-          .post(Global.urlSitio + "foro", formData, config)
-          .then((response) => {
-            if (response.status == 200) {
-              location.reload();
-              this.flashMessage.show({
-                status: "success",
-                title: Global.tituloSitio,
-                message: "Post publicado correctamente",
-              });
-            }
-          })
-          .catch(() => {
+      axios
+        .post(Global.urlSitio + "foro", formData, config)
+        .then((response) => {
+          if (response.status == 200) {
+            location.reload();
             this.flashMessage.show({
-              status: "error",
+              status: "success",
               title: Global.tituloSitio,
-              message: "Error al publicar el post",
+              message: "Post publicado correctamente",
             });
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.tituloSitio,
+            message: "Error al publicar el post",
           });
-      }
+        });
     },
   },
 };
