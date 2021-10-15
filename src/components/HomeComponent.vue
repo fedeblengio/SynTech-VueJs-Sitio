@@ -113,28 +113,28 @@
         </div>
       </div>
 
-      <div class="post">
+      <div class="post" v-for="post in traerArchivos" :key="post.id" :id=post.id>
         <div class="post_avatar">
           <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
         </div>
         <div class="post_body">
           <div class="post_title">
-            <span>Federico Blengio publico en TB1</span>
+            <span> {{ post.data.titulo }}</span>
           </div>
           <div class="post_body_text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem,
-            sapiente.
+            {{ post.data.mensaje }}
           </div>
           <VuePictureSwipe :items="items"></VuePictureSwipe>
-          <div class="post_footer">
+          <div class="post_footer" v-for="arc in post.archivos" :key="arc.id">
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
-                <h3><i class="fal fa-file-alt file"></i> Matematica</h3>
+                <h3><i class="fal fa-file-alt file"></i>{{ arc }}</h3>
               </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
     <div class="events">
@@ -172,6 +172,7 @@
             </div>
           </div>
         </div>
+        {{ traerArchivos}}
       </div>
     </div>
   </div>
@@ -206,6 +207,7 @@ export default {
       mensaje: "",
       foro: "",
       value: 1,
+      traerArchivos: "",
       items: [
         {
           src: "https://images4.alphacoders.com/946/946100.png",
@@ -240,6 +242,7 @@ export default {
   },
   mounted() {
     this.verificarLogueo();
+    this.traerPostarchivos();
   },
   methods: {
     verificarLogueo() {
@@ -298,6 +301,33 @@ export default {
             this.grupoProfesor = res.data;
           }
         });
+    },
+
+    traerPostarchivos() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "foro?idUsuario=" +
+            this.usuario.username +
+            "&ou=" +
+            this.usuario.ou,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerArchivos = res.data;
+          }
+        });
+
+      
+
+
     },
 
     traerIdForo() {
@@ -394,8 +424,7 @@ export default {
           })
           .catch(() => {});
       }
-      this.enviarPost(nombres)
-    
+      this.enviarPost(nombres);
     },
     enviarPost(nombres) {
       let config = {
