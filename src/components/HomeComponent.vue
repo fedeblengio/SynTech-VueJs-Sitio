@@ -113,7 +113,12 @@
         </div>
       </div>
 
-      <div class="post" v-for="post in traerArchivos" :key="post.id" :id=post.id>
+      <div
+        class="post"
+        v-for="post in traerArchivos"
+        :key="post.id"
+        :id="post.id"
+      >
         <div class="post_avatar">
           <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
         </div>
@@ -134,7 +139,6 @@
           </div>
         </div>
       </div>
-
     </div>
 
     <div class="events">
@@ -172,7 +176,7 @@
             </div>
           </div>
         </div>
-        {{ traerArchivos}}
+        {{ traerArchivos }}
       </div>
     </div>
   </div>
@@ -324,10 +328,6 @@ export default {
             this.traerArchivos = res.data;
           }
         });
-
-      
-
-
     },
 
     traerIdForo() {
@@ -401,6 +401,16 @@ export default {
     },
 
     enviarArchivos() {
+      var hoy = new Date();
+      var fecha =
+        hoy.getDate() +
+        hoy.getMonth() +
+        hoy.getFullYear() +
+        hoy.getHours() +
+        hoy.getMinutes() +
+        hoy.getSeconds() +
+        "_";
+
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -409,11 +419,11 @@ export default {
       };
       let nombres = [];
       for (let i = 0; i < this.file.length; i++) {
-        nombres.push(this.file[i].name);
+        nombres.push(fecha + this.file[i].name);
         let formData = new FormData();
 
         formData.append("archivo", this.file[i]);
-        formData.append("nombre", this.file[i].name);
+        formData.append("nombre", fecha + this.file[i].name);
 
         axios
           .post(Global.urlSitio + "ftpForo", formData, config)
