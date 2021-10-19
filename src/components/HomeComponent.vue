@@ -129,7 +129,12 @@
           <div class="post_body_text">
             {{ post.data.mensaje }}
           </div>
-          <VuePictureSwipe :items="items"></VuePictureSwipe>
+          <div :id="post.data.id">
+            <VuePictureSwipe
+              :items="cargarImg(post.imagenes)"
+            ></VuePictureSwipe>
+          </div>
+
           <div class="post_footer" v-for="arc in post.archivos" :key="arc.id">
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
@@ -176,7 +181,6 @@
             </div>
           </div>
         </div>
-        {{ traerArchivos }}
       </div>
     </div>
   </div>
@@ -212,36 +216,6 @@ export default {
       foro: "",
       value: 1,
       traerArchivos: "",
-      items: [
-        {
-          src: "https://images4.alphacoders.com/946/946100.png",
-          thumbnail: "https://images4.alphacoders.com/946/946100.png",
-          w: 1200,
-          h: 900,
-          alt: "some numbers on a grey background", // optional alt attribute for thumbnail image
-        },
-        {
-          src: "https://images4.alphacoders.com/946/946100.png",
-          thumbnail: "https://images4.alphacoders.com/946/946100.png",
-          w: 1100,
-          h: 900,
-          alt: "some numbers on a grey background", // optional alt attribute for thumbnail image
-        },
-        {
-          src: "https://images4.alphacoders.com/946/946100.png",
-          thumbnail: "https://images4.alphacoders.com/946/946100.png",
-          w: 1100,
-          h: 900,
-          alt: "some numbers on a grey background", // optional alt attribute for thumbnail image
-        },
-        {
-          src: "https://images4.alphacoders.com/946/946100.png",
-          thumbnail: "https://images4.alphacoders.com/946/946100.png",
-          w: 1100,
-          h: 900,
-          alt: "some numbers on a grey background", // optional alt attribute for thumbnail image
-        },
-      ],
     };
   },
   mounted() {
@@ -306,7 +280,20 @@ export default {
           }
         });
     },
+    cargarImg(imagen) {
+      let arrayImg = [];
 
+      for (let i = 0; i < imagen.length; i++) {
+        arrayImg.push({
+          src: "data:image/png;base64," + imagen[i],
+          thumbnail: "data:image/png;base64," + imagen[i],
+          w: 12000,
+          h: 900,
+          alt: "some numbers on a grey background",
+        });
+      }
+      return arrayImg;
+    },
     traerPostarchivos() {
       let config = {
         headers: {
@@ -353,8 +340,6 @@ export default {
         });
     },
     getFile(event) {
-      //Asignamos la imagen a  nuestra data
-
       this.file.push(event.target.files[0]);
     },
 
