@@ -258,10 +258,10 @@ width: 95%;
   padding: 10px;
 }
 .post_body img {
-  width: 200px;
-  object-fit: contain;
-  border-radius: 20px;
-  margin-left: 5px;
+  width:12vw;
+  height:10vw;
+
+ 
 }
 
 .post_title {
@@ -285,6 +285,9 @@ width: 95%;
   border: 1px solid var(--background);
   margin-top: 6px;
   overflow: hidden;
+}
+.previw_archivosPost h3:hover{
+cursor: pointer;
 }
 /* Event */
 

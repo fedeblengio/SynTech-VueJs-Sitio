@@ -138,7 +138,7 @@
           <div class="post_footer" v-for="arc in post.archivos" :key="arc.id">
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
-                <h3><i class="fal fa-file-alt file"></i>{{ arc }}</h3>
+                <h3 v-on:click="descargarPDF(arc)"><i class="fal fa-file-alt file"></i> {{ arc }}</h3>
               </div>
             </div>
           </div>
@@ -287,8 +287,8 @@ export default {
         arrayImg.push({
           src: "data:image/png;base64," + imagen[i],
           thumbnail: "data:image/png;base64," + imagen[i],
-          w: 12000,
-          h: 900,
+          w: 1000,
+          h: 700,
           alt: "some numbers on a grey background",
         });
       }
@@ -462,6 +462,20 @@ export default {
             message: "Error al publicar el post",
           });
         });
+    },
+    descargarPDF(label) {
+      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+      axios
+        .get(url, { responseType: "blob", token: Global.token })
+        .then((response) => {
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = label;
+          link.click();
+          URL.revokeObjectURL(link.href);
+        })
+        .catch(console.error);
     },
   },
 };
