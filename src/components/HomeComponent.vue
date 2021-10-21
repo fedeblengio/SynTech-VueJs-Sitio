@@ -60,14 +60,9 @@
                 required
               >
                 <option
-                  v-for="todo in grupoProfesor"
+                  v-for="todo in traerMaterias"
                   :key="todo.id"
-                  v-bind:value="[
-                    todo.idGrupo,
-                    todo.idMateria,
-                    todo.Materia,
-                    todo.Profesor,
-                  ]"
+                  v-bind:value="[todo.idGrupo, todo.idMateria, todo.Materia]"
                 >
                   {{ todo.idGrupo }} - {{ todo.Materia }}
                 </option>
@@ -120,7 +115,7 @@
         :id="post.id"
       >
         <div class="post_avatar">
-          <img :src=returnImgProfile(post.data.profile_picture)  alt="" />
+          <img :src="returnImgProfile(post.data.profile_picture)" alt="" />
         </div>
         <div class="post_body">
           <div class="post_title">
@@ -211,17 +206,22 @@ export default {
       profesor: false,
       title: "Home",
       url: "/home",
-      grupoProfesor: "",
       selectedGroup: "",
       file: [],
       mensaje: "",
       foro: "",
       value: 1,
-      traerArchivos: "",
+      traerMaterias: "",
     };
   },
   mounted() {
     this.verificarLogueo();
+    if (this.usuario.ou == "Profesor") {
+      this.traerGrupoProfesor();
+    } else {
+      this.traerMateriasUser();
+    }
+
     this.traerPostarchivos();
   },
   methods: {
@@ -278,7 +278,24 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.grupoProfesor = res.data;
+            this.traerMaterias = res.data;
+          }
+        });
+    },
+    traerMateriasUser() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio + "listarMaterias?idUsuario=" + this.usuario.username,config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
           }
         });
     },
@@ -344,15 +361,15 @@ export default {
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
-   
+
       if (this.file.length <= 4) {
         if (res <= 50) {
           this.file.push(event.target.files[0]);
         } else {
           alert("El tamaño del archivo excede el límite máximo permitido");
         }
-      }else{
-        alert("5 archivos por post")
+      } else {
+        alert("5 archivos por post");
       }
     },
 
@@ -397,8 +414,8 @@ export default {
           }
         });
     },
-    returnImgProfile(sexo){
-return 'data:image/png;base64,' + sexo 
+    returnImgProfile(img) {
+      return "data:image/png;base64," + img;
     },
 
     enviarArchivos() {
@@ -447,7 +464,7 @@ return 'data:image/png;base64,' + sexo
 
       let formData = new FormData();
       let tituloForo =
-        this.selectedGroup[3] +
+        this.usuario.nombre +
         " publico para " +
         this.selectedGroup[0] +
         " - " +
