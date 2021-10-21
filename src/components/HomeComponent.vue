@@ -120,7 +120,7 @@
         :id="post.id"
       >
         <div class="post_avatar">
-          <img src="https://images4.alphacoders.com/946/946100.png" alt="" />
+          <img :src=returnImgProfile(post.data.profile_picture)  alt="" />
         </div>
         <div class="post_body">
           <div class="post_title">
@@ -138,7 +138,9 @@
           <div class="post_footer" v-for="arc in post.archivos" :key="arc.id">
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
-                <h3 v-on:click="descargarPDF(arc)"><i class="fal fa-file-alt file"></i> {{ arc }}</h3>
+                <h3 v-on:click="descargarPDF(arc)">
+                  <i class="fal fa-file-alt file"></i> {{ arc }}
+                </h3>
               </div>
             </div>
           </div>
@@ -340,7 +342,18 @@ export default {
         });
     },
     getFile(event) {
-      this.file.push(event.target.files[0]);
+      let size = event.target.files[0].size;
+      let res = size * 0.000001;
+   
+      if (this.file.length <= 4) {
+        if (res <= 50) {
+          this.file.push(event.target.files[0]);
+        } else {
+          alert("El tamaño del archivo excede el límite máximo permitido");
+        }
+      }else{
+        alert("5 archivos por post")
+      }
     },
 
     delateFile(nombre) {
@@ -383,6 +396,9 @@ export default {
               "data:image/png;base64," + localStorage.getItem("perfil_img");
           }
         });
+    },
+    returnImgProfile(sexo){
+return 'data:image/png;base64,' + sexo 
     },
 
     enviarArchivos() {
