@@ -17,7 +17,7 @@ body {
 .contenedorDiv {
   display: flex;
   height: 100%;
-  max-width: 1300px;
+  max-width: 1100px;
   margin-right: auto;
   margin-left: auto;
   padding: 0 10px;
@@ -122,7 +122,7 @@ body {
   flex: 0.5;
   border-right: 1px solid var(--background);
   border-top: 1px solid var(--background);
-  min-width: fit-content;
+  min-width: 530px;
   overflow-y: scroll;
   margin-top: 20px;
   -ms-overflow-style: none;
@@ -171,6 +171,7 @@ body {
   font-size: 20px;
   border: none;
   outline: none;
+  width:419px;
 }
 
 .select_materia select {
@@ -182,27 +183,26 @@ body {
   margin: 10px auto;
 }
 
-.footer_post{
-display: flex;
-width: 95%;
+.footer_post {
+  display: flex;
+  width: 95%;
 }
-.select_file{
+.select_file {
   margin-left: 5%;
 }
-.image-upload{
+.image-upload {
   margin-top: 20px;
 }
 .image-upload i {
   font-size: 26px;
 }
-.preview_contenedor h3{
+.preview_contenedor h3 {
   font-size: 18px;
   font-weight: 500;
-  
 }
 .preview_contenedor {
   width: 90%;
-  height:50px;
+  height: 50px;
   margin: auto;
   padding: 10px;
   display: flex;
@@ -211,18 +211,15 @@ width: 95%;
   border: 1px solid var(--background);
   margin-top: 6px;
   overflow: hidden;
- 
 }
 .preview {
-  
   padding: 5px;
-  
 }
-.file{
-  font-size:30px;
-  color:var(--color);
+.file {
+  font-size: 30px;
+  color: var(--color);
 }
-.equis{
+.equis {
   margin-left: auto;
 }
 .boxText_btn {
@@ -258,10 +255,13 @@ width: 95%;
   padding: 10px;
 }
 .post_body img {
-  width:12vw;
-  height:10vw;
+  width: 165px;
+  height: 10vw;
+}
 
- 
+.post_ImgContenedor img {
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .post_title {
@@ -274,10 +274,18 @@ width: 95%;
   font-size: 15px;
   margin-top: 15px;
 }
-.previw_archivosPost{
-  width: 87%;
-  height:50px;
-  margin-left: 10px;
+.post_body p {
+  font-weight: 1000;
+  font-size: 12px;
+  color: grey;
+}
+.post_body span {
+  font-weight: 600;
+  font-size: 18px;
+}
+.previw_archivosPost {
+  width: 90%;
+  height: 50px;
   padding: 10px;
   display: flex;
   background-color: #f4f4f7;
@@ -286,8 +294,8 @@ width: 95%;
   margin-top: 6px;
   overflow: hidden;
 }
-.previw_archivosPost h3:hover{
-cursor: pointer;
+.previw_archivosPost h3:hover {
+  cursor: pointer;
 }
 /* Event */
 

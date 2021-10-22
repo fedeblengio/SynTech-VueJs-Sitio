@@ -24,7 +24,7 @@
         <h3>Mis Clases</h3>
         <div
           class="sidebarElement"
-          v-for="todo in grupoProfesor"
+          v-for="todo in traerMaterias"
           :key="todo.id"
         >
           <span class="clases">
@@ -48,8 +48,8 @@
               type="text"
               placeholder="Escribe algo!"
               required
-              v-model="mensaje"
-            />
+              v-model="mensaje"   
+            />   
           </div>
           <div class="addArchivos">
             <div class="select_materia">
@@ -107,7 +107,6 @@
           </div>
         </div>
       </div>
-
       <div
         class="post"
         v-for="post in traerArchivos"
@@ -119,7 +118,8 @@
         </div>
         <div class="post_body">
           <div class="post_title">
-            <span> {{ post.data.titulo }}</span>
+            <span> {{ post.data.titulo }} </span>
+            <p>{{ post.data.fecha }}</p>
           </div>
           <div class="post_body_text">
             {{ post.data.mensaje }}
@@ -168,7 +168,7 @@
             <h3>Mis Eventos</h3>
             <div
               class="sidebarElement"
-              v-for="todo in grupoProfesor"
+              v-for="todo in traerMaterias"
               :key="todo.id"
             >
               <span class="clases">
@@ -291,7 +291,8 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio + "listarMaterias?idUsuario=" + this.usuario.username,config
+          Global.urlSitio + "listarMaterias?idUsuario=" + this.usuario.username,
+          config
         )
         .then((res) => {
           if (res.status == 200) {
@@ -306,8 +307,8 @@ export default {
         arrayImg.push({
           src: "data:image/png;base64," + imagen[i],
           thumbnail: "data:image/png;base64," + imagen[i],
-          w: 1000,
-          h: 700,
+          w: 1300,
+          h: 1000,
           alt: "some numbers on a grey background",
         });
       }
@@ -382,9 +383,6 @@ export default {
         }
       }
     },
-    add() {
-      this.value += 1;
-    },
     cargarFoto() {
       let config = {
         headers: {
@@ -444,7 +442,7 @@ export default {
         formData.append("nombre", fecha + this.file[i].name);
 
         axios
-          .post(Global.urlSitio + "ftpForo", formData, config)
+          .post(Global.urlSitio + "FTP", formData, config)
           .then((response) => {
             if (response.status == 200) {
               location.reload();
