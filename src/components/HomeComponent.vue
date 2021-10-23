@@ -44,12 +44,12 @@
         <div class="form">
           <div class="boxText_input">
             <img id="post_img" />
-            <input
-              type="text"
+            <textarea
+              id="textarea"
               placeholder="Escribe algo!"
               required
-              v-model="mensaje"   
-            />   
+              v-model="mensaje"
+            ></textarea>
           </div>
           <div class="addArchivos">
             <div class="select_materia">
@@ -142,7 +142,6 @@
         </div>
       </div>
     </div>
-
     <div class="events">
       <div class="events_header">
         <div class="events_icon">
@@ -223,6 +222,13 @@ export default {
     }
 
     this.traerPostarchivos();
+
+    let textarea = document.getElementById("textarea");
+
+    textarea.oninput = function () {
+      textarea.style.height = "";
+      textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
+    };
   },
   methods: {
     verificarLogueo() {
