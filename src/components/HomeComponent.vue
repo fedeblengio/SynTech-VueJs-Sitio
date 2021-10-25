@@ -124,7 +124,7 @@
           <div class="post_body_text">
             {{ post.data.mensaje }}
           </div>
-          <div :id="post.data.id">
+          <div :id="post.data.id" class="imgContnedor">
             <VuePictureSwipe
               :items="cargarImg(post.imagenes)"
             ></VuePictureSwipe>

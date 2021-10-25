@@ -261,10 +261,6 @@ body {
   height: 10vw;
 }
 
-.post_ImgContenedor img {
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
 .post_title {
   font-weight: 600;
@@ -286,8 +282,8 @@ body {
   font-size: 18px;
 }
 .previw_archivosPost {
-  width: 90%;
-  height: 50px;
+  width: 80%;
+  height: 55px;
   padding: 10px;
   display: flex;
   background-color: #f4f4f7;
@@ -298,6 +294,11 @@ body {
 }
 .previw_archivosPost h3:hover {
   cursor: pointer;
+}
+.previw_archivosPost h3{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow:hidden;
 }
 /* Event */
 
