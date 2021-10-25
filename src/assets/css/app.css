@@ -261,7 +261,6 @@ body {
   height: 10vw;
 }
 
-
 .post_title {
   font-weight: 600;
   font-size: 15px;
@@ -282,7 +281,7 @@ body {
   font-size: 18px;
 }
 .previw_archivosPost {
-  width: 80%;
+  width: 398px;
   height: 55px;
   padding: 10px;
   display: flex;
@@ -296,14 +295,30 @@ body {
   cursor: pointer;
   text-decoration: underline;
 }
-.previw_archivosPost h3{
+.previw_archivosPost h3 {
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow:hidden;
+  overflow: hidden;
 }
 .previw_archivosPost span {
   margin-left: 5px;
 }
+
+.contenedorImg {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+}
+.imgPost img {
+  object-fit: cover;
+  width: 170px;
+  height: 150px;
+  margin:3px;
+  border-radius:4px;
+  border: 0.5px solid rgb(255, 255, 255);
+}
+
 /* Event */
 
 .event {

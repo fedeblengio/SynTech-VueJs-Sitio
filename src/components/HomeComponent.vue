@@ -124,17 +124,29 @@
           <div class="post_body_text">
             {{ post.data.mensaje }}
           </div>
-          <div :id="post.data.id" class="imgContnedor">
-            <VuePictureSwipe
-              :items="cargarImg(post.imagenes)"
-            ></VuePictureSwipe>
-          </div>
+          <div :id="post.data.id" class="cont">
+           <!--  <vue-gallery-slideshow
+            
+               :images="cargarImg(post.imagenes)"
+                :index="index"
+                @close="index = null"
+              ></vue-gallery-slideshow> -->
+
+              <div class="contenedorImg">
+                <div class="imgPost" v-for="img in cargarImg(post.imagenes)" :key="img.id">
+                  <img :src="img" alt="">
+                </div>
+                
+              </div>
+            </div>
+
+        
 
           <div class="post_footer" v-for="arc in post.archivos" :key="arc.id">
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
                 <h3 v-on:click="descargarPDF(arc)">
-                  <i class="fal fa-file-alt file"></i> 
+                  <i class="fal fa-file-alt file"></i>
                   <span>{{ arc }}</span>
                 </h3>
               </div>
@@ -185,12 +197,12 @@
 
 
 <script>
-import VuePictureSwipe from "vue-picture-swipe";
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import Calendar from "v-calendar/lib/components/calendar.umd";
 import JQuery from "jquery";
+
 window.$ = JQuery;
 
 export default {
@@ -198,7 +210,7 @@ export default {
   components: {
     vueHeadful,
     Calendar,
-    VuePictureSwipe,
+      
   },
   data() {
     return {
@@ -212,6 +224,7 @@ export default {
       foro: "",
       value: 1,
       traerMaterias: "",
+      index: null,
     };
   },
   mounted() {
@@ -311,13 +324,9 @@ export default {
       let arrayImg = [];
 
       for (let i = 0; i < imagen.length; i++) {
-        arrayImg.push({
-          src: "data:image/png;base64," + imagen[i],
-          thumbnail: "data:image/png;base64," + imagen[i],
-          w: 1300,
-          h: 1000,
-          alt: "some numbers on a grey background",
-        });
+        arrayImg.push(
+          "data:image/png;base64," + imagen[i],
+        );
       }
       return arrayImg;
     },
