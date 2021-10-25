@@ -294,11 +294,15 @@ body {
 }
 .previw_archivosPost h3:hover {
   cursor: pointer;
+  text-decoration: underline;
 }
 .previw_archivosPost h3{
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow:hidden;
+}
+.previw_archivosPost span {
+  margin-left: 5px;
 }
 /* Event */
 

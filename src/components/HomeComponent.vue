@@ -134,7 +134,8 @@
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
                 <h3 v-on:click="descargarPDF(arc)">
-                  <i class="fal fa-file-alt file"></i> {{ arc }}
+                  <i class="fal fa-file-alt file"></i> 
+                  <span>{{ arc }}</span>
                 </h3>
               </div>
             </div>
