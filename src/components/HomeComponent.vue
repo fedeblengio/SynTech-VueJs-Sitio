@@ -34,7 +34,6 @@
         </div>
       </div>
     </div>
-
     <div class="feed">
       <div class="feed_header">
         <h2>Home</h2>
