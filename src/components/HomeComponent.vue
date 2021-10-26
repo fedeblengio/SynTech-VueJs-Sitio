@@ -125,13 +125,6 @@
             {{ post.data.mensaje }}
           </div>
           <div :id="post.data.id" class="cont">
-           <!--  <vue-gallery-slideshow
-            
-               :images="cargarImg(post.imagenes)"
-                :index="index"
-                @close="index = null"
-              ></vue-gallery-slideshow> -->
-
               <div class="contenedorImg">
                 <div class="imgPost" v-for="img in cargarImg(post.imagenes)" :key="img.id">
                   <img :src="img" alt="">
