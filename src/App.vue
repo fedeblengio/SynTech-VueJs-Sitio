@@ -3,8 +3,12 @@
     <vue-headful :title="title" />
 
     <div class="ContenedorAppVue">
-      <div>
+      <div v-if=logged>
+        
         <router-view> </router-view>
+      </div>
+       <div v-else>
+        <DashboardComponent> </DashboardComponent>
       </div>
     </div>
     <FlashMessage></FlashMessage>
@@ -18,44 +22,34 @@
 
 <script>
 import vueHeadful from "vue-headful";
-
+import DashboardComponent from "./components/DashboardComponent.vue";
 export default {
   name: "App",
   components: {
     vueHeadful,
+    DashboardComponent,
   },
-  data() {
+   data() {
     return {
-      usuario: "",
-      logged: false,
-      profesor: false,
-      title: "BackOffice",
-      url: "/home",
+    title: "BackOffice",
+    logged: false,
     };
+
   },
+ 
+  
   mounted() {
-    this.verificarLogueo();
+    if (localStorage.getItem("auth_token") || localStorage.getItem("logged")) {
+      this.logged = true
+    }else{
+       this.logged =  false
+    }
   },
   methods: {
-    verificarLogueo() {
-      if (localStorage.getItem("auth_token")) {
-        this.logged = true;
-        this.url = "/misMaterias";
-        this.usuario = JSON.parse(
-          window.atob(localStorage.getItem("auth_token"))
-        );
-        if (this.usuario.ou == "Profesor") {
-          this.profesor = true;
-        }
-      }
+  
     },
 
-    cerrarSesion() {
-      localStorage.clear();
-      this.$router.push("/home");
-      location.reload();
-    },
-  },
+
 };
 </script>
 <style>

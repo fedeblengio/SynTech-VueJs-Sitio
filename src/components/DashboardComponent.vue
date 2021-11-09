@@ -3,23 +3,16 @@
     <vue-headful :title="title" />
     <header style="z-index: ">
       <div class="contenedor">
-        <a :href="url" style="text-decoration: none"
+        <a href="#" style="text-decoration: none"
           ><h1><i class="fas fa-books"></i> LMS</h1></a
         >
         <input type="checkbox" id="menu-barra" />
         <label class="icon-menu" for="menu-barra"></label>
         <nav class="menu">
-          <a :href="url">
+          <a href="#">
             <i class="fa fa-home" aria-hidden="true"></i>
           </a>
-          <a href="/miPerfil" v-if="logged"
-            ><i class="fas fa-user"></i> {{ usuario.nombre }}</a
-          >
-
-          <a href="/login" v-else> Login</a>
-          <a href="" v-on:click="cerrarSesion()" v-if="logged"
-            ><i class="fal fa-sign-out-alt"></i
-          ></a>
+          <a v-on:click='cambiarValorLocalStorage()' href="/login"> Login</a>
         </nav>
       </div>
     </header>
@@ -39,7 +32,7 @@
             <p>
               Administra tu aula. Involucra a tus estudiantes. Seguro. Simple.
             </p>
-            <a href="/login" class="btn btn-warning">Login</a>
+            <a v-on:click='cambiarValorLocalStorage()' href="/login" class="btn btn-warning">Login</a>
           </div>
         </div>
       </div>
@@ -99,19 +92,26 @@ export default {
   data() {
     return {
       title: "Home",
+
     };
   },
   mounted() {
-    if (localStorage.getItem("auth_token")) {
+
+
+    /* if (localStorage.getItem("auth_token")) {
       this.$router.push("/home");
       this.flashMessage.show({
         status: "success",
         title: "Sitio",
         message: "Ya has iniciado sesión",
       });
-    }
-    this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
+    } */
   },
+   methods: {
+     cambiarValorLocalStorage(){
+       localStorage.setItem('logged', true);
+     }
+   }
 };
 </script>
 <style>

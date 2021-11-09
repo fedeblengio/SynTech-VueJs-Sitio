@@ -1,39 +1,8 @@
 <template>
   <div class="contenedorDiv">
     <vue-headful :title="title" />
-    <div class="sidebar">
-      <div class="sidebarUser">
-        <img id="profile_img" />
-        <p>{{ usuario.nombre }}</p>
-      </div>
-      <div class="contenedor-sidebar">
-        <div class="sidebarOption">
-          <i class="fas fa-home"></i>
-          <h2>Home</h2>
-        </div>
-        <div class="sidebarOption">
-          <i class="fas fa-home"></i>
-          <h2>Materias</h2>
-        </div>
-        <div class="sidebarOption">
-          <i class="fas fa-home"></i>
-          <h2>Calendario</h2>
-        </div>
-      </div>
-      <div class="sidebarClass">
-        <h3>Mis Clases</h3>
-        <div
-          class="sidebarElement"
-          v-for="todo in traerMaterias"
-          :key="todo.id"
-        >
-          <span class="clases">
-            <span class="sidebarDot"></span> {{ todo.idGrupo }} -
-            {{ todo.Materia }}</span
-          >
-        </div>
-      </div>
-    </div>
+     <SectionLeft></SectionLeft> 
+
     <div class="feed">
       <div class="feed_header">
         <h2>Home</h2>
@@ -146,44 +115,9 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="events">
-      <div class="events_header">
-        <div class="events_icon">
-          <i class="fas fa-bell sombra coloricono"></i>
-        </div>
-        <div class="events_icon">
-          <i class="fas fa-cog sombra coloricono"></i>
-        </div>
-        <div class="events_icon">
-          <a href="" v-on:click="cerrarSesion()">
-            <i class="fas fa-door-open sombra coloricono"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="event">
-        <div class="calendarioElement">
-          <Calendar></Calendar>
-        </div>
-
-        <div class="currentEvent">
-          <div class="currentEvent_contenedor">
-            <h3>Mis Eventos</h3>
-            <div
-              class="sidebarElement"
-              v-for="todo in traerMaterias"
-              :key="todo.id"
-            >
-              <span class="clases">
-                <span class="sidebarDot_event"></span> {{ todo.idGrupo }} -
-                {{ todo.Materia }}</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </div> 
+ 
+    <SectionRight></SectionRight>
   </div>
 </template>
 
@@ -192,26 +126,26 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-import Calendar from "v-calendar/lib/components/calendar.umd";
 import JQuery from "jquery";
-
+import SectionLeft from "./SectionLeft.vue"; 
+import SectionRight from "./SectionRight.vue"; 
 window.$ = JQuery;
 
 export default {
   name: "App",
   components: {
     vueHeadful,
-    Calendar,
-      
+   SectionLeft,
+   SectionRight
   },
   data() {
     return {
       usuario: "",
       profesor: false,
       title: "Home",
-      url: "/home",
       selectedGroup: "",
       file: [],
+      traerArchivos:"",
       mensaje: "",
       foro: "",
       value: 1,
@@ -220,7 +154,7 @@ export default {
     };
   },
   mounted() {
-    this.verificarLogueo();
+     this.verificarLogueo(); 
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
     } else {
@@ -240,7 +174,7 @@ export default {
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
-        this.url = "/misMaterias";
+        
         this.usuario = JSON.parse(
           window.atob(localStorage.getItem("auth_token"))
         );
@@ -249,16 +183,10 @@ export default {
           this.profesor = true;
           this.traerGrupoProfesor();
         }
-      } else {
-        this.$router.push("/dashboard");
-      }
+      } 
     },
 
-    cerrarSesion() {
-      localStorage.clear();
-      this.$router.push("/dashboard");
-      location.reload();
-    },
+    
     traerPost() {
       let config = {
         headers: {
@@ -381,17 +309,7 @@ export default {
         alert("5 archivos por post");
       }
     },
-
-    delateFile(nombre) {
-      let i;
-
-      for (i = 0; i < this.file.length; i++) {
-        if (this.file[i].name === nombre) {
-          this.file.splice(i, 1);
-        }
-      }
-    },
-    cargarFoto() {
+cargarFoto() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -417,9 +335,20 @@ export default {
 
             document.getElementById("post_img").src =
               "data:image/png;base64," + localStorage.getItem("perfil_img");
+           
           }
         });
     },
+    delateFile(nombre) {
+      let i;
+
+      for (i = 0; i < this.file.length; i++) {
+        if (this.file[i].name === nombre) {
+          this.file.splice(i, 1);
+        }
+      }
+    },
+    
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
