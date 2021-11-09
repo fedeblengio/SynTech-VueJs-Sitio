@@ -103,12 +103,12 @@
 
         
 
-          <div class="post_footer" v-for="arc in post.archivos" :key="arc.id">
+          <div class="post_footer" v-for="archivo in post.archivos" :key="archivo.id">
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
-                <h3 v-on:click="descargarPDF(arc)">
+                <h3 v-on:click="descargarPDF(archivo)">
                   <i class="fal fa-file-alt file"></i>
-                  <span>{{ arc }}</span>
+                  <span>{{ archivo }}</span>
                 </h3>
               </div>
             </div>
