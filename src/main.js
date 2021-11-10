@@ -14,7 +14,7 @@ import VuePictureSwipe from 'vue-picture-swipe';
 import ErrorComponent from './components/ErrorComponent';
 import LoginComponent from './components/LoginComponent.vue';
 import HomeComponent from './components/HomeComponent.vue';
-/* import DashboardComponent from './components/DashboardComponent.vue'; */
+import TareasComponent from './components/TareasComponent.vue';
 import ProfileComponent from './components/ProfileComponent.vue';
 
 Vue.config.productionTip = false
@@ -33,9 +33,10 @@ const routes = [
     { path: '/', redirect: '/home' },
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/home', name: 'home', component: HomeComponent },
-    /* { path: '/dashboard', name: 'dashboard', component: DashboardComponent }, */
-    { path: '*', name: 'error404', component: ErrorComponent},
+    { path: '/tareas', name: 'tareas', component: TareasComponent},
     { path: '/profile', name: 'profile', component: ProfileComponent},
+    { path: '*', name: 'error404', component: ErrorComponent},
+    
 ];
 
 

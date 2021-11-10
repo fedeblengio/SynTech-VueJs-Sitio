@@ -19,6 +19,12 @@
           <h2>Materias</h2>
         </router-link>
       </div>
+       <div class="sidebarOption">
+        <i class="fas fa-home"></i>
+        <router-link to="/tareas">
+          <h2>Tareas</h2>
+        </router-link>
+      </div>
       <div class="sidebarOption">
         <i class="fas fa-home"></i>
         <router-link to="/calendario">
