@@ -37,7 +37,7 @@ const routes = [
     { path: '/profile', name: 'profile', component: ProfileComponent},
     { path: '/tareas', name: 'tareas', component: TareasComponent},
     { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent},
-    { path: '/entregas/:idGrupo', name: 'error404', component: EntregasComponent},
+    { path: '/entregas/:idGrupo/:idMateria/:idTarea/', name: 'entregas', component: EntregasComponent},
     { path: '*', name: 'error404', component: ErrorComponent},
     
 ];

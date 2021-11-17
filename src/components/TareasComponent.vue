@@ -75,18 +75,50 @@
         </div>
       </div>
       <div class="boxText" v-if="!alumno">
+        <div class="select_materia">
+          <label for="selectMateria">Filtrar por Grupo y Materia</label>
+          <select
+            v-on:change="cargarTareasCreadas()"
+            class="form-control"
+            v-model="filtro.materiaGrupo"
+            required
+            placeholder="Seleccione Grupo y Asignatura"
+          >
+            <option
+              selected="selected"
+              v-for="todo in traerGrupoMateria"
+              :key="todo.id"
+              v-bind:value="[todo.idGrupo, todo.idMateria, todo.Materia]"
+            >
+              {{ todo.idGrupo }} - {{ todo.Materia }}
+            </option>
+          </select>
+        </div>
         <div v-for="tarea in cargarTareas" :key="tarea.id" class="post">
-          <div class="post_body">
-            {{ tarea.idTareas }}
-            <!-- {{tarea.idProfesor}} -->
-            <!--      {{tarea.nombreUsuario}} -->
-            {{ tarea.nombreMateria }}
-            <!--  {{tarea.idMateria}} -->
-            {{ tarea.idGrupo }}
-            <!-- {{tarea.turnoGrupo}} -->
-            {{ tarea.titulo }}
-            <!--  {{tarea.fecha_vencimiento}} -->
-          </div>
+          <router-link
+            :to="{
+              name: 'entregas',
+              params: {
+                idGrupo: tarea.idGrupo,
+                idMateria: tarea.idMateria,
+                idTarea: tarea.idTarea,
+                titulo: tarea.titulo,
+              },
+            }"
+            style="text-decoration: none"
+          >
+            <div class="post_body">
+              {{ tarea.idTareas }}
+              <!-- {{tarea.idProfesor}} -->
+              <!--      {{tarea.nombreUsuario}} -->
+              {{ tarea.nombreMateria }}
+              <!--  {{tarea.idMateria}} -->
+              {{ tarea.idGrupo }}
+              <!-- {{tarea.turnoGrupo}} -->
+              {{ tarea.titulo }}
+              <!--  {{tarea.fecha_vencimiento}} -->
+            </div>
+          </router-link>
         </div>
       </div>
       <div class="boxText" v-else>
@@ -117,7 +149,7 @@
             </router-link>
           </div>
         </div>
-        <h3 >Tareas para Re Hacer</h3>
+        <h3>Tareas para Re Hacer</h3>
         <div
           v-for="re_tarea in cargarTareas.re_hacer"
           :key="re_tarea.id"
@@ -132,11 +164,9 @@
                   idTarea: re_tarea.idTarea,
                   re_hacer: true,
                 },
-             
               }"
               style="text-decoration: none"
             >
-
               {{ re_tarea.idTarea }}
               <!-- {{tarea.idProfesor}} -->
               <!--      {{tarea.nombreUsuario}} -->
@@ -184,6 +214,9 @@ export default {
         materiaGrupo: [],
         file: [],
       },
+      filtro: {
+        materiaGrupo: ["", ""],
+      },
     };
   },
   mounted() {
@@ -215,7 +248,11 @@ export default {
             "tareas?idUsuario=" +
             this.usuario.username +
             "&ou=" +
-            this.usuario.ou,
+            this.usuario.ou +
+            "&idMateria=" +
+            this.filtro.materiaGrupo[1] +
+            "&idGrupo=" +
+            this.filtro.materiaGrupo[0],
           config
         )
         .then((res) => {
