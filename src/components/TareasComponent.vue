@@ -19,7 +19,7 @@
         </div>
         <div>
           <label for="datePicker">Fecha de Vencimiento : </label>
-          <input type="date" v-model="tarea.fecha_vencimiento"  required/>
+          <input type="date" v-model="tarea.fecha_vencimiento" required />
         </div>
         <div class="footer_post">
           <div class="select_file">
@@ -87,24 +87,68 @@
             {{ tarea.titulo }}
             <!--  {{tarea.fecha_vencimiento}} -->
           </div>
-
         </div>
       </div>
       <div class="boxText" v-else>
-        <div v-for="tarea in cargarTareas" :key="tarea.id" class="post">
+        <h3>Pendientes</h3>
+        <div v-for="tarea in cargarTareas.tareas" :key="tarea.id" class="post">
           <div class="post_body">
-            {{ tarea.idTarea }}
-            <!-- {{tarea.idProfesor}} -->
-            <!--      {{tarea.nombreUsuario}} -->
-            {{ tarea.nombreMateria }}
-            <!--  {{tarea.idMateria}} -->
-            {{ tarea.idGrupo }}
-            <!-- {{tarea.turnoGrupo}} -->
-            {{ tarea.titulo }}
-             {{ tarea.vencido }}
-            <!--  {{tarea.fecha_vencimiento}} -->
+            <router-link
+              :to="{
+                name: 'tarea-seleccionada',
+                params: {
+                  materia: tarea.Materia,
+                  idTarea: tarea.idTarea,
+                  re_hacer: false,
+                },
+              }"
+              style="text-decoration: none"
+            >
+              {{ tarea.idTarea }}
+              <!-- {{tarea.idProfesor}} -->
+              <!--      {{tarea.nombreUsuario}} -->
+              {{ tarea.Materia }}
+              <!--  {{tarea.idMateria}} -->
+              {{ tarea.idGrupo }}
+              <!-- {{tarea.turnoGrupo}} -->
+              {{ tarea.titulo }}
+              {{ tarea.vencido }}
+              <!--  {{tarea.fecha_vencimiento}} -->
+            </router-link>
           </div>
-         
+        </div>
+        <h3 >Tareas para Re Hacer</h3>
+        <div
+          v-for="re_tarea in cargarTareas.re_hacer"
+          :key="re_tarea.id"
+          class="post"
+        >
+          <div class="post_body">
+            <router-link
+              :to="{
+                name: 'tarea-seleccionada',
+                params: {
+                  materia: re_tarea.Materia,
+                  idTarea: re_tarea.idTarea,
+                  re_hacer: true,
+                },
+             
+              }"
+              style="text-decoration: none"
+            >
+
+              {{ re_tarea.idTarea }}
+              <!-- {{tarea.idProfesor}} -->
+              <!--      {{tarea.nombreUsuario}} -->
+              {{ re_tarea.Materia }}
+              <!--  {{tarea.idMateria}} -->
+              {{ re_tarea.idGrupo }}
+              <!-- {{tarea.turnoGrupo}} -->
+              {{ re_tarea.titulo }}
+              {{ re_tarea.vencido }}
+              <!--  {{tarea.fecha_vencimiento}} -->
+            </router-link>
+          </div>
         </div>
       </div>
     </div>

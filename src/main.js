@@ -10,11 +10,12 @@ import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 import VuePictureSwipe from 'vue-picture-swipe';
 
 
-
+import EntregasComponent from './components/EntregasComponent';
 import ErrorComponent from './components/ErrorComponent';
 import LoginComponent from './components/LoginComponent.vue';
 import HomeComponent from './components/HomeComponent.vue';
 import TareasComponent from './components/TareasComponent.vue';
+import TareaSeleccionadaComponent from './components/TareaSeleccionadaComponent.vue';
 import ProfileComponent from './components/ProfileComponent.vue';
 
 Vue.config.productionTip = false
@@ -33,8 +34,10 @@ const routes = [
     { path: '/', redirect: '/home' },
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/home', name: 'home', component: HomeComponent },
-    { path: '/tareas', name: 'tareas', component: TareasComponent},
     { path: '/profile', name: 'profile', component: ProfileComponent},
+    { path: '/tareas', name: 'tareas', component: TareasComponent},
+    { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent},
+    { path: '/entregas/:idGrupo', name: 'error404', component: EntregasComponent},
     { path: '*', name: 'error404', component: ErrorComponent},
     
 ];
