@@ -1,7 +1,7 @@
 <template>
   <div class="contenedorDiv">
     <vue-headful :title="title" />
-     <SectionLeft></SectionLeft> 
+    <SectionLeft></SectionLeft>
 
     <div class="feed">
       <div class="feed_header">
@@ -93,17 +93,22 @@
             {{ post.data.mensaje }}
           </div>
           <div :id="post.data.id" class="cont">
-              <div class="contenedorImg">
-                <div class="imgPost" v-for="img in cargarImg(post.imagenes)" :key="img.id">
-                  <img :src="img" alt="">
-                </div>
-                
+            <div class="contenedorImg">
+              <div
+                class="imgPost"
+                v-for="img in cargarImg(post.imagenes)"
+                :key="img.id"
+              >
+                <img :src="img" alt="" />
               </div>
             </div>
+          </div>
 
-        
-
-          <div class="post_footer" v-for="archivo in post.archivos" :key="archivo.id">
+          <div
+            class="post_footer"
+            v-for="archivo in post.archivos"
+            :key="archivo.id"
+          >
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
                 <h3 v-on:click="descargarPDF(archivo)">
@@ -115,8 +120,8 @@
           </div>
         </div>
       </div>
-    </div> 
- 
+    </div>
+
     <SectionRight></SectionRight>
   </div>
 </template>
@@ -127,16 +132,16 @@ import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import JQuery from "jquery";
-import SectionLeft from "./SectionLeft.vue"; 
-import SectionRight from "./SectionRight.vue"; 
+import SectionLeft from "./SectionLeft.vue";
+import SectionRight from "./SectionRight.vue";
 window.$ = JQuery;
 
 export default {
   name: "App",
   components: {
     vueHeadful,
-   SectionLeft,
-   SectionRight
+    SectionLeft,
+    SectionRight,
   },
   data() {
     return {
@@ -145,7 +150,7 @@ export default {
       title: "Home",
       selectedGroup: "",
       file: [],
-      traerArchivos:"",
+      traerArchivos: "",
       mensaje: "",
       foro: "",
       value: 1,
@@ -154,7 +159,7 @@ export default {
     };
   },
   mounted() {
-     this.verificarLogueo(); 
+    this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
     } else {
@@ -174,7 +179,7 @@ export default {
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
-        
+
         this.usuario = JSON.parse(
           window.atob(localStorage.getItem("auth_token"))
         );
@@ -183,10 +188,9 @@ export default {
           this.profesor = true;
           this.traerGrupoProfesor();
         }
-      } 
+      }
     },
 
-    
     traerPost() {
       let config = {
         headers: {
@@ -244,9 +248,7 @@ export default {
       let arrayImg = [];
 
       for (let i = 0; i < imagen.length; i++) {
-        arrayImg.push(
-          "data:image/png;base64," + imagen[i],
-        );
+        arrayImg.push("data:image/png;base64," + imagen[i]);
       }
       return arrayImg;
     },
@@ -309,7 +311,7 @@ export default {
         alert("5 archivos por post");
       }
     },
-cargarFoto() {
+    cargarFoto() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -335,7 +337,6 @@ cargarFoto() {
 
             document.getElementById("post_img").src =
               "data:image/png;base64," + localStorage.getItem("perfil_img");
-           
           }
         });
     },
@@ -348,7 +349,7 @@ cargarFoto() {
         }
       }
     },
-    
+
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
@@ -434,7 +435,11 @@ cargarFoto() {
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
       axios
-        .get(url, { responseType: "blob", token: Global.token })
+        .get(url, {
+          headers: {
+            token: Global.token, 
+          },
+        })
         .then((response) => {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");

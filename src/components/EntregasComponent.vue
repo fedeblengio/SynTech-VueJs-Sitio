@@ -4,7 +4,7 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>Entregas {{ this.$route.params.titulo}} </h2>
+        <h2>Entregas {{ this.$route.params.titulo }}</h2>
       </div>
       <p>Entregas</p>
 
@@ -13,61 +13,56 @@
         :key="tarea.id"
         class="post"
       >
-        <!-- <router-link
+        <router-link
           :to="{
-            name: 'entregas',
+            name: 'calificar-alumnos',
             params: {
-              idGrupo: tarea.idGrupo,
-              idMateria: tarea.idMateria,
-              idTarea: tarea.idTarea,
+              idTareas: tarea.idTarea,
+              idAlumnos: tarea.idAlumnos,
             },
           }"
           style="text-decoration: none"
-        > -->
+        >
+        <div class="post_body">
+          {{ tarea.idAlumnos }}
+          <!-- {{tarea.idProfesor}} -->
+          <!--      {{tarea.nombreUsuario}} -->
+          {{ tarea.usuario }}
+          <!--  {{tarea.idMateria}} -->
+          <p v-if="tarea.calificacion">{{ tarea.calificacion }}</p>
+          <p v-else>TAREA NO CALIFICADA</p>
+          <!-- {{tarea.turnoGrupo}} -->
+          <!--  {{tarea.fecha_vencimiento}} -->
+        </div>
+       </router-link> 
+      </div>
+      <br />
+      <p>RE Entregas</p>
+
+      <div v-for="tarea in entregas.re_hacer" :key="tarea.id" class="post">
+        <router-link
+          :to="{
+            name: 'calificar-alumnos',
+            params: {
+              idTareas: tarea.idTarea,
+              idAlumnos: tarea.idAlumnos,
+            },
+          }"
+          style="text-decoration: none"
+        >
+        
           <div class="post_body">
             {{ tarea.idAlumnos }}
             <!-- {{tarea.idProfesor}} -->
             <!--      {{tarea.nombreUsuario}} -->
             {{ tarea.usuario }}
             <!--  {{tarea.idMateria}} -->
-            <p v-if="tarea.calificacion"> {{ tarea.calificacion }}</p>
-           <p v-else>TAREA NO CALIFICADA</p>
+            <p v-if="tarea.calificacion">{{ tarea.calificacion }}</p>
+            <p v-else>TAREA NO CALIFICADA</p>
             <!-- {{tarea.turnoGrupo}} -->
             <!--  {{tarea.fecha_vencimiento}} -->
           </div>
-        <!-- </router-link> -->
-      </div>
-      <br />
-      <p>RE Entregas</p>
-
-      <div
-        v-for="tarea in entregas.re_hacer"
-        :key="tarea.id"
-        class="post"
-      >
-        <!-- <router-link
-          :to="{
-            name: 'entregas',
-            params: {
-              idGrupo: tarea.idGrupo,
-              idMateria: tarea.idMateria,
-              idTarea: tarea.idTarea,
-            },
-          }"
-          style="text-decoration: none"
-        > -->
-             <div class="post_body">
-            {{ tarea.idAlumnos }}
-            <!-- {{tarea.idProfesor}} -->
-            <!--      {{tarea.nombreUsuario}} -->
-            {{ tarea.usuario }}
-            <!--  {{tarea.idMateria}} -->
-            <p v-if="tarea.calificacion"> {{ tarea.calificacion }}</p>
-           <p v-else>TAREA NO CALIFICADA</p>
-            <!-- {{tarea.turnoGrupo}} -->
-            <!--  {{tarea.fecha_vencimiento}} -->
-          </div>
-       <!--  </router-link> -->
+        </router-link>
       </div>
     </div>
     <SectionRight></SectionRight>

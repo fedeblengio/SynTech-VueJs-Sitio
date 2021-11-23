@@ -201,7 +201,11 @@ export default {
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
       axios
-        .get(url, { responseType: "blob", token: Global.token })
+        .get(url, {
+          headers: {
+            token: Global.token, 
+          },
+        })
         .then((response) => {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
