@@ -434,10 +434,13 @@ export default {
     },
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+
       axios
         .get(url, {
+          responseType: "blob",
           headers: {
-            token: Global.token, 
+            "Content-Type": "multipart/form-data",
+            token: Global.token,
           },
         })
         .then((response) => {
