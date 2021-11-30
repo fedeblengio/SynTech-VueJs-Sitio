@@ -6,8 +6,10 @@
       <div class="feed_header">
         <h2>Tareas</h2>
       </div>
-
+    <router-link to="entregas-realizadas" style="text-decoration:none;float:right;padding-right:5px" v-if="alumno">Tareas Entregadas</router-link>
+      <br>
       <div class="boxText" v-if="!alumno">
+   
         <div>
           <label for="titulo">Titulo : </label>
           <input type="text" v-model="tarea.titulo" required />
@@ -121,7 +123,10 @@
           </router-link>
         </div>
       </div>
+      
       <div class="boxText" v-else>
+        
+        
         <h3>Pendientes</h3>
         <div v-for="tarea in cargarTareas.tareas" :key="tarea.id" class="post">
           <div class="post_body">

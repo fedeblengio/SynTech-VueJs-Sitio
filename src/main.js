@@ -17,7 +17,8 @@ import HomeComponent from './components/HomeComponent.vue';
 import TareasComponent from './components/TareasComponent.vue';
 import TareaSeleccionadaComponent from './components/TareaSeleccionadaComponent.vue';
 import ProfileComponent from './components/ProfileComponent.vue';
-import CalificarAlumnoComponent from './components/CalificarAlumnoComponent';
+import CalificarAlumnoComponent from './components/CalificarAlumnoComponent.vue';
+import TareasEntregadasComponent from './components/TareasEntregadasComponent.vue';
 
 Vue.config.productionTip = false
 
@@ -40,6 +41,7 @@ const routes = [
     { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent},
     { path: '/entregas/:idGrupo/:idMateria/:idTarea/', name: 'entregas', component: EntregasComponent},
     { path: '/entregas/:idAlumnos/:idTareas', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
+    { path: '/entregas-realizadas', name: 'entregas-realizadas', component: TareasEntregadasComponent},
     { path: '*', name: 'error404', component: ErrorComponent},
     
 ];
