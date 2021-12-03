@@ -175,10 +175,18 @@ export default {
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
+    
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+
       axios
-        .get(url, { responseType: "blob", token: Global.token })
+        .get(url, {
+          responseType: "blob",
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token: Global.token,
+          },
+        })
         .then((response) => {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");

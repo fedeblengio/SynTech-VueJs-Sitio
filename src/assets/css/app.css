@@ -12,6 +12,7 @@ body {
   --background: #cbd5e0;
   --puntoMisClases: #83c298;
   --puntoEvento: #ff0000;
+  --colorLetra: #4f5468;
   background-color: #f4f4f7;
 }
 .contenedorDiv {
@@ -40,6 +41,8 @@ body {
   font-size: 17px;
   font-weight: 600;
   margin-left: 15px;
+  text-decoration: none;
+  color: var(--colorLetra);
 }
 
 .contenedor-sidebar {
@@ -60,7 +63,20 @@ body {
   font-weight: 700;
   font-size: 20px;
   margin-right: 20px;
+  text-decoration: none;
+  color: var(--colorLetra);
 }
+
+details {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.router-link {
+  text-decoration: none;
+  color: var(--colorLetra);
+}
+
 .sidebarOption:hover {
   background-color: var(--background);
   border-radius: 30px;
@@ -69,13 +85,12 @@ body {
 }
 
 .sidebar {
- 
   flex: 0.2;
   min-width: 250px;
   padding: 20px;
   height: 100vh;
   position: sticky;
-  top:0;
+  top: 0;
 }
 
 .sidebarClass {
@@ -130,17 +145,15 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
   background-color: white;
-  
 }
 .feed::-webkit-scrollbar {
   display: none;
 }
 
 .feed_header {
-  
   position: sticky;
   top: 0;
-  
+
   background-color: white;
   border-bottom: 1px solid var(--background);
   padding: 15px 20px;
@@ -265,6 +278,20 @@ body {
   height: 10vw;
 }
 
+.posts_style {
+  height: 50px;
+  margin: auto;
+  padding: 8px;
+  display: flex;
+  background-color: #f4f4f7;
+  border-radius: 7px;
+  border: 1px solid var(--background);
+  color: black;
+  text-decoration: bold;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
 .post_title {
   font-weight: 600;
   font-size: 15px;
@@ -318,12 +345,11 @@ body {
   object-fit: cover;
   width: 170px;
   height: 150px;
-  margin:3px;
-  border-radius:4px;
+  margin: 3px;
+  border-radius: 4px;
   border: 0.5px solid rgb(255, 255, 255);
- 
 }
-.imgPost img:hover{
+.imgPost img:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
@@ -333,7 +359,7 @@ body {
   flex: 0.3;
   height: 100vh;
   position: sticky;
-  top:0;
+  top: 0;
 }
 .events_header {
   margin-top: 20px;
@@ -341,7 +367,6 @@ body {
   margin-left: 20px;
   border: 1px solid var(--background);
   padding: 12.8px 20px;
-  
 }
 
 .calendarioElement {
@@ -354,13 +379,11 @@ body {
   background-color: #ffffff;
   border-radius: 7px;
   margin-left: 20px;
-  
 }
 
 .currentEvent_contenedor {
   border: 1px solid var(--background);
   border-radius: 7px;
-  
 }
 
 .currentEvent_contenedor h3 {
@@ -393,4 +416,56 @@ body {
 }
 .sombra:hover {
   text-shadow: 1px 2px 4px #444444;
+}
+
+.styleTarea label {
+  margin-left: 27px;
+}
+
+.styleTarea input ,textarea{
+  outline: none;
+  width: 90%;
+  height: 30px;
+  font-size: 15px;
+  display: block;
+  margin: 10px auto;
+}
+.styleTarea div {
+  margin-top: 10px;
+}
+.select_tarea {
+  outline: none;
+  width: 90%;
+  display: block;
+  margin: 10px auto;
+}
+
+.select_tarea select {
+  float: right;
+  height: 28px;
+  font-size: 15px;
+}
+
+.footer_tarea {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.boxText_btn_tarea{
+  
+  background-color: var(--color);
+  border: none;
+  color: white;
+  font-weight: 900;
+  border-radius: 7px;
+  width: 100px;
+  height: 35px;
+  margin-top: 10px;
+  margin-left: 348px;
+  cursor: pointer;
+}
+.footer_tarea{
+  display: flex;
+  flex-direction: row;
 }

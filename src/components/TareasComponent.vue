@@ -6,54 +6,51 @@
       <div class="feed_header">
         <h2>Tareas</h2>
       </div>
-    <router-link to="entregas-realizadas" style="text-decoration:none;float:right;padding-right:5px" v-if="alumno">Tareas Entregadas</router-link>
-      <br>
-      <div class="boxText" v-if="!alumno">
-   
-        <div>
-          <label for="titulo">Titulo : </label>
-          <input type="text" v-model="tarea.titulo" required />
-        </div>
-        <br />
-        <div>
-          <label for="descripcion">Descripcion : </label>
-          <input type="text" v-model="tarea.descripcion" required />
-        </div>
-        <div>
-          <label for="datePicker">Fecha de Vencimiento : </label>
-          <input type="date" v-model="tarea.fecha_vencimiento" required />
-        </div>
-        <div class="footer_post">
-          <div class="select_file">
-            <div class="image-upload">
-              <label for="file-input">
-                <i class="fas fa-upload"></i>
-              </label>
+      <router-link
+        to="entregas-realizadas"
+        style="text-decoration: none; float: right; padding-right: 5px"
+        v-if="alumno"
+        >Tareas Entregadas</router-link
+      >
 
-              <input
-                @change="getFile"
-                id="file-input"
-                type="file"
-                v-on:onchange="previewFile(this)"
-                style="display: none"
-              />
-            </div>
-            <div class="select_materia">
-              <select
-                class="form-control"
-                v-model="tarea.materiaGrupo"
-                required
-                placeholder="Seleccione Grupo y Asignatura"
+      <div class="boxText" v-if="!alumno">
+        <div class="styleTarea">
+          <div class="select_tarea">
+            <select
+              class="form-control"
+              v-model="tarea.materiaGrupo"
+              required
+              placeholder="Seleccione Grupo y Asignatura"
+            >
+              <option
+                v-for="todo in traerGrupoMateria"
+                :key="todo.id"
+                v-bind:value="[todo.idGrupo, todo.idMateria, todo.Materia]"
               >
-                <option
-                  v-for="todo in traerGrupoMateria"
-                  :key="todo.id"
-                  v-bind:value="[todo.idGrupo, todo.idMateria, todo.Materia]"
-                >
-                  {{ todo.idGrupo }} - {{ todo.Materia }}
-                </option>
-              </select>
-            </div>
+                {{ todo.idGrupo }} - {{ todo.Materia }}
+              </option>
+            </select>
+          </div>
+          <div>
+            <label for="titulo">Titulo : </label>
+            <input type="text" v-model="tarea.titulo" required />
+          </div>
+
+          <div>
+            <label for="descripcion">Descripcion : </label>
+            <textarea
+              id="textarea"
+              placeholder="Escribe algo!"
+              required
+              v-model="tarea.descripcion"
+            ></textarea>
+          </div>
+          <div>
+            <label for="datePicker">Fecha de Vencimiento : </label>
+            <input type="date" v-model="tarea.fecha_vencimiento" required />
+          </div>
+
+          <div >
             <div
               class="preview_contenedor"
               v-for="file in tarea.file"
@@ -61,7 +58,6 @@
               :value="file.name"
             >
               <i class="fal fa-file-alt file"></i>
-
               <h3 class="preview">
                 {{ file.name }}
               </h3>
@@ -71,11 +67,26 @@
               ></i>
             </div>
           </div>
-          <button class="boxText_btn" v-on:click="crearTarea()">
-            Publicar Tarea
-          </button>
+          <div class="footer_tarea">
+            <div class="image-upload">
+              <label for="file-input">
+                <i class="fas fa-upload"></i>
+              </label>
+              <input
+                @change="getFile"
+                id="file-input"
+                type="file"
+                v-on:onchange="previewFile(this)"
+                style="display: none"
+              />
+            </div>
+            <button class="boxText_btn_tarea" v-on:click="crearTarea()">
+              Publicar Tarea
+            </button>
+          </div>
         </div>
       </div>
+
       <div class="boxText" v-if="!alumno">
         <div class="select_materia">
           <label for="selectMateria">Filtrar por Grupo y Materia</label>
@@ -123,37 +134,35 @@
           </router-link>
         </div>
       </div>
-      
+
       <div class="boxText" v-else>
-        
-        
-        <h3>Pendientes</h3>
-        <div v-for="tarea in cargarTareas.tareas" :key="tarea.id" class="post">
-          <div class="post_body">
-            <router-link
-              :to="{
-                name: 'tarea-seleccionada',
-                params: {
-                  materia: tarea.Materia,
-                  idTarea: tarea.idTarea,
-                  re_hacer: false,
-                },
-              }"
-              style="text-decoration: none"
-            >
-              {{ tarea.idTarea }}
-              <!-- {{tarea.idProfesor}} -->
-              <!--      {{tarea.nombreUsuario}} -->
-              {{ tarea.Materia }}
-              <!--  {{tarea.idMateria}} -->
-              {{ tarea.idGrupo }}
-              <!-- {{tarea.turnoGrupo}} -->
-              {{ tarea.titulo }}
-              {{ tarea.vencido }}
-              <!--  {{tarea.fecha_vencimiento}} -->
-            </router-link>
+        <details class="test target-me">
+          <summary>Pendientes</summary>
+          <div
+            v-for="tarea in cargarTareas.tareas"
+            :key="tarea.id"
+            class="posts_style"
+          >
+            <div class="post_body">
+              <router-link
+                :to="{
+                  name: 'tarea-seleccionada',
+                  params: {
+                    materia: tarea.Materia,
+                    idTarea: tarea.idTarea,
+                    re_hacer: false,
+                  },
+                }"
+                class="router-link"
+              >
+                {{ tarea.Materia }}
+                {{ tarea.idGrupo }}
+                {{ tarea.titulo }}
+                <!-- {{ tarea.vencido }} -->
+              </router-link>
+            </div>
           </div>
-        </div>
+        </details>
         <h3>Tareas para Re Hacer</h3>
         <div
           v-for="re_tarea in cargarTareas.re_hacer"
@@ -227,6 +236,7 @@ export default {
   mounted() {
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
     this.verificarRol();
+    this.openListaDetalles();
   },
   methods: {
     verificarRol() {
@@ -384,6 +394,10 @@ export default {
           this.tarea.file.splice(i, 1);
         }
       }
+    },
+    openListaDetalles() {
+      const details = document.querySelector("details");
+      details.setAttribute("open", "");
     },
   },
 };
