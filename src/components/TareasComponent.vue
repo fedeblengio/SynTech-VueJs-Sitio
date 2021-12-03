@@ -50,7 +50,7 @@
             <input type="date" v-model="tarea.fecha_vencimiento" required />
           </div>
 
-          <div >
+          <div>
             <div
               class="preview_contenedor"
               v-for="file in tarea.file"
@@ -136,6 +136,16 @@
       </div>
 
       <div class="boxText" v-else>
+        <select
+          v-on:change="cargarTareasCreadas()"
+          class="form-control"
+          v-model="filtro.materiaGrupo"
+          required
+          placeholder="Seleccione Grupo y Asignatura"
+        >
+          <option v-bind:value="[0, 1]">Matematica 1</option>
+          <option v-bind:value="[0, 2]">Fisica 2</option>
+        </select>
         <details class="test target-me">
           <summary>Pendientes</summary>
           <div
