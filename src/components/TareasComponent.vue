@@ -33,14 +33,19 @@
           </div>
           <div>
             <label for="titulo">Titulo : </label>
-            <input type="text" v-model="tarea.titulo" required />
+            <input
+              type="text"
+              v-model="tarea.titulo"
+              placeholder="Escribe una Titulo"
+              required
+            />
           </div>
 
           <div>
             <label for="descripcion">Descripcion : </label>
             <textarea
               id="textarea"
-              placeholder="Escribe algo!"
+              placeholder="Escribe una Descripcion"
               required
               v-model="tarea.descripcion"
             ></textarea>

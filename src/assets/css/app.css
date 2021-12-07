@@ -514,6 +514,11 @@ textarea {
   font-size: 15px;
   display: block;
   margin: 10px auto;
+
+  background:transparent;
+  border:0;
+  border-bottom: 4px solid var(--background);
+ 
 }
 
 .styleTarea div {
@@ -557,3 +562,4 @@ textarea {
   display: flex;
   flex-direction: row;
 }
+
