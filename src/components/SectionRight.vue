@@ -1,37 +1,62 @@
 <template>
   <div class="events">
     <div class="events_header">
-      <div class="events_icon">
-        <i class="fas fa-bell sombra coloricono"></i>
+      <div class="events_icon" v-if="tareasPendientes">
+        <i
+          id="notificacion"
+          class="fal fa-bell"
+          v-on:click="notificacion()"
+        ></i>
+      </div>
+      <div class="events_icon" v-else>
+        <i class="far fa-bell-slash"></i>
       </div>
       <div class="events_icon">
-       <router-link to="/profile"> <i class="fas fa-cog sombra coloricono"></i></router-link> 
+        <router-link to="/profile">
+          <i class="fal fa-cog" style="color: black"></i>
+        </router-link>
       </div>
       <div class="events_icon">
         <a href="" v-on:click="cerrarSesion()">
-          <i class="fas fa-door-open sombra coloricono"></i>
+          <i class="fal fa-door-open" style="color: black"></i>
         </a>
       </div>
     </div>
 
+    <!-- 
     <div class="event">
       <div class="calendarioElement">
         <Calendar></Calendar>
-      </div>
-
-      <div class="currentEvent">
-        <div class="currentEvent_contenedor">
-          <h3>Mis Eventos</h3>
+      </div> -->
+    <div class="currentEvent">
+      <div class="currentEvent_contenedor">
+        <h3 class="pendientes_titulo">Pendientes</h3>
+        <div class="contenedor_scroll_pendientes">
           <div
-            class="sidebarElement"
-            v-for="todo in traerMaterias"
-            :key="todo.id"
+            class="pendientes sidebarElement "
+            v-for="tareas in cargarTareas.tareas"
+            :key="tareas.id"
           >
-            <span class="clases">
-              <span class="sidebarDot_event"></span> {{ todo.idGrupo }} -
-              {{ todo.Materia }}</span
+            <span class="pendientes_tarea">
+              {{ tareas.titulo }} - {{ tareas.Materia }}</span
             >
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="currentEvent">
+      <div class="currentEvent_contenedor">
+        <h3>Mis Eventos</h3>
+        <div
+          class="sidebarElement"
+          v-for="todo in traerMaterias"
+          :key="todo.id"
+        >
+          <span class="clases">
+            <span class="sidebarDot_event"></span> {{ todo.idGrupo }} -
+            {{ todo.Materia }}</span
+          >
         </div>
       </div>
     </div>
@@ -41,16 +66,18 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-import Calendar from "v-calendar/lib/components/calendar.umd";
+/* import Calendar from "v-calendar/lib/components/calendar.umd"; */
 export default {
   name: "SectionRight",
   components: {
-    Calendar,
+    /* Calendar, */
   },
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       traerMaterias: "",
+      cargarTareas: "",
+      tareasPendientes: false,
     };
   },
   mounted() {
@@ -58,9 +85,41 @@ export default {
       this.traerGrupoProfesor();
     } else {
       this.traerMateriasUser();
+      this.cargarTareasCreadas();
     }
   },
   methods: {
+    notificacion() {
+      let cantTareas =
+        this.cargarTareas.tareas.length + this.cargarTareas.re_hacer.length;
+      alert("Tienes " + cantTareas + " pendientes");
+    },
+    cargarTareasCreadas() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .get(
+          Global.urlSitio +
+            "tareas?idUsuario=" +
+            this.usuario.username +
+            "&ou=" +
+            this.usuario.ou,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.cargarTareas = res.data;
+            if (this.cargarTareas) {
+              this.tareasPendientes = true;
+            }
+          }
+        });
+    },
     cerrarSesion() {
       localStorage.clear();
       location.reload();
