@@ -33,13 +33,27 @@
         <h3 class="pendientes_titulo">Pendientes</h3>
         <div class="contenedor_scroll_pendientes">
           <div
+           v-on:click="refresh()"
             class="pendientes sidebarElement "
             v-for="tareas in cargarTareas.tareas"
             :key="tareas.id"
           >
+            <router-link
+               
+                :to="{
+                  name: 'tarea-seleccionada',
+                  params: {
+                    materia: tareas.Materia,
+                    idTarea: tareas.idTarea,
+                    re_hacer: false,
+                  },
+                }"
+                class="router-link"
+              >
             <span class="pendientes_tarea">
               {{ tareas.titulo }} - {{ tareas.Materia }}</span
             >
+            </router-link>
           </div>
         </div>
       </div>
@@ -67,10 +81,12 @@
 import { Global } from "../Global";
 import axios from "axios";
 /* import Calendar from "v-calendar/lib/components/calendar.umd"; */
+
 export default {
   name: "SectionRight",
   components: {
     /* Calendar, */
+   
   },
   data() {
     return {
@@ -78,9 +94,11 @@ export default {
       traerMaterias: "",
       cargarTareas: "",
       tareasPendientes: false,
+     
     };
   },
   mounted() {
+    
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
     } else {
@@ -89,6 +107,9 @@ export default {
     }
   },
   methods: {
+    refresh(){
+      location.reload();
+    },
     notificacion() {
       let cantTareas =
         this.cargarTareas.tareas.length + this.cargarTareas.re_hacer.length;
@@ -162,6 +183,7 @@ export default {
           }
         });
     },
+   
   },
 };
 </script>
