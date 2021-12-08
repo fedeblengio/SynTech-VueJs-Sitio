@@ -23,12 +23,12 @@
       </div>
     </div>
 
-    <!-- 
-    <div class="event">
-      <div class="calendarioElement">
+    
+  
+      <div class="calendarioElement" v-if='profesor'>
         <Calendar></Calendar>
-      </div> -->
-    <div class="currentEvent">
+      </div>
+    <div class="currentEvent" v-else>
       <div class="currentEvent_contenedor">
         <h3 class="pendientes_titulo">Pendientes</h3>
         <div class="contenedor_scroll_pendientes">
@@ -80,13 +80,13 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-/* import Calendar from "v-calendar/lib/components/calendar.umd"; */
+import Calendar from "v-calendar/lib/components/calendar.umd";
 
 export default {
   name: "SectionRight",
   components: {
-    /* Calendar, */
-   
+   Calendar,
+  
   },
   data() {
     return {
@@ -94,13 +94,14 @@ export default {
       traerMaterias: "",
       cargarTareas: "",
       tareasPendientes: false,
-     
+      profesor: false,  
     };
   },
   mounted() {
     
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
+      this.profesor = true;
     } else {
       this.traerMateriasUser();
       this.cargarTareasCreadas();
