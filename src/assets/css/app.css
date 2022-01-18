@@ -1,8 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 
-
-
 * {
   margin: 0;
   padding: 0;
@@ -35,12 +33,11 @@ body {
 
 .pendientes {
   border-bottom: 1px solid var(--background);
-
 }
 
 .pendientes:hover {
   background-color: var(--background);
- 
+
   transition: color 100ms ease-out;
   cursor: pointer;
 }
@@ -49,16 +46,15 @@ body {
   border-bottom: 1px solid var(--background);
 }
 
-.pendientes_tarea{
+.pendientes_tarea {
   padding: 10px;
   font-weight: 600;
   font-size: 0.95rem;
   color: var(--colorLetra);
 }
-.pendientes_tarea:hover{
+.pendientes_tarea:hover {
   color: var(--color);
 }
-
 
 /*CODIGO        FIN                AuTi*/
 .contenedorDiv {
@@ -164,12 +160,11 @@ details {
 
 .clases {
   padding: 10px;
- 
-  font-weight: 600; 
+
+  font-weight: 600;
   font-size: 0.95rem;
   color: #4f5468;
 }
-
 
 .clases:hover {
   background-color: var(--background);
@@ -219,6 +214,7 @@ details {
 .feed_header h2 {
   font-size: 20px;
   font-weight: 800;
+
 }
 
 .boxText_input img {
@@ -515,10 +511,9 @@ textarea {
   display: block;
   margin: 10px auto;
 
-  background:transparent;
-  border:0;
+  background: transparent;
+  border: 0;
   border-bottom: 4px solid var(--background);
- 
 }
 
 .styleTarea div {
@@ -545,7 +540,6 @@ textarea {
 }
 
 .boxText_btn_tarea {
-
   background-color: var(--color);
   border: none;
   color: white;
@@ -563,3 +557,40 @@ textarea {
   flex-direction: row;
 }
 
+.imgProfile {
+  border: 1px solid var(--background);
+  border-radius: 5px;
+  width: 95%;
+  margin: 15px auto 10px auto;
+  display: flex;
+  flex-direction: row;
+}
+.imgContenedorProfile img {
+  margin: 10px 0px 10px 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+}
+.imgContenedorProfile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: auto;
+
+}
+.textImg h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-left: 25px;
+  text-decoration: none;
+  color: var(--colorLetra);
+}
+
+.textImg h4{
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 20px;
+  text-decoration: none;
+  color: skyblue;
+  text-align: center;
+}
