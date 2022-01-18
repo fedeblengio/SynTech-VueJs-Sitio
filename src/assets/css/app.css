@@ -214,7 +214,6 @@ details {
 .feed_header h2 {
   font-size: 20px;
   font-weight: 800;
-
 }
 
 .boxText_input img {
@@ -576,7 +575,6 @@ textarea {
   flex-direction: row;
   align-items: center;
   margin: auto;
-
 }
 .textImg h3 {
   font-size: 17px;
@@ -586,11 +584,60 @@ textarea {
   color: var(--colorLetra);
 }
 
-.textImg h4{
+.textImg h4:hover {
+  cursor: pointer;
+}
+.textImg h4 {
   font-size: 13px;
   font-weight: 600;
   margin-left: 20px;
   text-decoration: none;
   color: skyblue;
   text-align: center;
+}
+
+.contenedorPerfil {
+  width: 95%;
+  margin: auto;
+}
+
+.tipoDeUser {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.contenidoUser {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid var(--background);
+  height: 50px;
+  padding: 10px;
+  min-width: 220px;
+  margin-top: 5px;
+  justify-content: space-between;
+  border-radius: 7px;
+}
+.contenidoUser i {
+  font-size: 30px;
+}
+
+.infoUserContenedor {
+  width: 95%;
+}
+.infoUser h4{
+  border: 1px solid var(--background);
+  height: 40px;
+  padding: 8px;
+  border-radius:7px;
+ 
+  
+}
+.infoUser span {
+  font-weight: bold;
+}
+.infoUser{
+  width:500px;
+  margin-top: 5px;
 }
