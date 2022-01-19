@@ -19,6 +19,12 @@
           <h2>Materias</h2>
         </router-link>
       </div>
+         <div class="sidebarOption">
+        <i class="fas fa-home"></i>
+        <router-link to="/agenda-virtual" class="router-link">
+          <h2>Agenda Virtual</h2>
+        </router-link>
+      </div>
        <div class="sidebarOption">
         <i class="fas fa-home"></i>
         <router-link to="/tareas" class="router-link">

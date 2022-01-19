@@ -3,7 +3,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import FlashMessage from "@smartweb/vue-flash-message";
-import CKEditor from '@ckeditor/ckeditor5-vue2'; 
+import CKEditor from '@ckeditor/ckeditor5-vue2';
 import VFileInput from 'v-file-input';
 import Calendar from 'v-calendar/lib/components/calendar.umd'
 import DatePicker from 'v-calendar/lib/components/date-picker.umd'
@@ -19,7 +19,7 @@ import TareaSeleccionadaComponent from './components/TareaSeleccionadaComponent.
 import ProfileComponent from './components/ProfileComponent.vue';
 import CalificarAlumnoComponent from './components/CalificarAlumnoComponent.vue';
 import TareasEntregadasComponent from './components/TareasEntregadasComponent.vue';
-
+import AgendaVirtualComponent from './components/AgendaVirtualComponent.vue';
 Vue.config.productionTip = false
 
 Vue.use(FlashMessage);
@@ -36,14 +36,15 @@ const routes = [
     { path: '/', redirect: '/home' },
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/home', name: 'home', component: HomeComponent },
-    { path: '/profile', name: 'profile', component: ProfileComponent},
-    { path: '/tareas', name: 'tareas', component: TareasComponent},
-    { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent},
-    { path: '/entregas/:idGrupo/:idMateria/:idTarea/', name: 'entregas', component: EntregasComponent},
+    { path: '/profile', name: 'profile', component: ProfileComponent },
+    { path: '/tareas', name: 'tareas', component: TareasComponent },
+    { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
+    { path: '/entregas/:idGrupo/:idMateria/:idTarea/', name: 'entregas', component: EntregasComponent },
     { path: '/entregas/:idAlumnos/:idTareas', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
-    { path: '/entregas-realizadas', name: 'entregas-realizadas', component: TareasEntregadasComponent},
-    { path: '*', name: 'error404', component: ErrorComponent},
-    
+    { path: '/entregas-realizadas', name: 'entregas-realizadas', component: TareasEntregadasComponent },
+    { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },
+    { path: '*', name: 'error404', component: ErrorComponent },
+
 ];
 
 
