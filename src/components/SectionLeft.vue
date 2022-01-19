@@ -19,7 +19,7 @@
           <h2>Materias</h2>
         </router-link>
       </div>
-         <div class="sidebarOption">
+         <div class="sidebarOption" v-if=profesor>
         <i class="fas fa-home"></i>
         <router-link to="/agenda-virtual" class="router-link">
           <h2>Agenda Virtual</h2>
@@ -60,10 +60,12 @@ export default {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       traerMaterias: "",
+      profesor:false,
     };
   },
   mounted() {
     if (this.usuario.ou == "Profesor") {
+      this.profesor = true;
       this.traerGrupoProfesor();
     } else {
       this.traerMateriasUser();
