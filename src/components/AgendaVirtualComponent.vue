@@ -71,7 +71,17 @@
         </select>
         <label for="meeting-min">min.</label>
       </div>
-      <input type="submit" value="Crear Clase" v-on:click="crearClaseVirtual()" />
+      <input
+        type="submit"
+        value="Crear Clase"
+        v-on:click="crearClaseVirtual()"
+      />
+
+      <div  v-for="todo in clasesVirtualesCreadas" :key="todo.id">
+        <span class="clases">
+          <span class="sidebarDot"></span> {{ todo}} -</span
+        >
+      </div>
     </div>
 
     <SectionRight></SectionRight>
@@ -99,6 +109,7 @@ export default {
       today: "",
       usuario: "",
       traerGrupos: "",
+      clasesVirtualesCreadas: "",
       agenda: {
         idProfesor: "",
         idMateria: "",
@@ -114,8 +125,7 @@ export default {
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
     this.traerGrupoProfesor(this.usuario.username);
     this.agenda.idProfesor = this.usuario.username;
-
-    
+    this.listarClaseVirtual();
   },
   methods: {
     traerGrupoProfesor(idProfesor) {
@@ -160,6 +170,29 @@ export default {
           alert("todo Funco");
         }
       });
+    },
+    listarClaseVirtual() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .get(
+          Global.urlSitio +
+            "agenda-clase?idUsuario=" +
+            this.usuario.username +
+            "&ou=" +
+            this.usuario.ou,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.clasesVirtualesCreadas = res.data;
+          }
+        });
     },
   },
 };
