@@ -20,6 +20,7 @@ import ProfileComponent from './components/ProfileComponent.vue';
 import CalificarAlumnoComponent from './components/CalificarAlumnoComponent.vue';
 import TareasEntregadasComponent from './components/TareasEntregadasComponent.vue';
 import AgendaVirtualComponent from './components/AgendaVirtualComponent.vue';
+import CalendarioComponent from './components/CalendarioComponent.vue';
 Vue.config.productionTip = false
 
 Vue.use(FlashMessage);
@@ -43,6 +44,7 @@ const routes = [
     { path: '/entregas/:idAlumnos/:idTareas', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
     { path: '/entregas-realizadas', name: 'entregas-realizadas', component: TareasEntregadasComponent },
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },
+    { path: '/calendario', name: 'calendario', component: CalendarioComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
 
 ];
