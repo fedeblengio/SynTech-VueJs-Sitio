@@ -26,7 +26,7 @@
 </template>
 <script>
 import vueHeadful from "vue-headful";
-import "vue-event-calendar/dist/style.css";
+
 import { Global } from "../Global";
 import axios from "axios";
 import JQuery from "jquery";
