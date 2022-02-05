@@ -64,13 +64,11 @@
         <h3>Mis Eventos</h3>
         <div
           class="sidebarElement"
-          v-for="todo in traerMaterias"
+          v-for="todo in eventos"
           :key="todo.id"
         >
           <span class="clases">
-            <span class="sidebarDot_event"></span> {{ todo.idGrupo }} -
-            {{ todo.Materia }}</span
-          >
+            <span class="sidebarDot_event"></span> {{ evento(todo) }} </span>
         </div>
       </div>
     </div>
@@ -81,7 +79,7 @@
 import { Global } from "../Global";
 import axios from "axios";
 import Calendar from "v-calendar/lib/components/calendar.umd";
-
+import moment from "moment";
 export default {
   name: "SectionRight",
   components: {
@@ -91,7 +89,7 @@ export default {
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
-      traerMaterias: "",
+      eventos: "",
       cargarTareas: "",
       tareasPendientes: false,
       profesor: false,  
@@ -108,6 +106,9 @@ export default {
     }
   },
   methods: {
+    evento(event){
+     return event.idGrupo + " - " + event.materia.substr(0,3) +" | "+ moment(event.fecha_inicio).format("HH:mm") + " - " + moment(event.fecha_fin).format("HH:mm");
+    },
     refresh(){
       location.reload();
     },
@@ -175,12 +176,12 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio + "listarMaterias?idUsuario=" + this.usuario.username,
+          Global.urlSitio + "agenda-clase-eventos?idUsuario=" + this.usuario.username+"&ou=" + this.usuario.ou,
           config
         )
         .then((res) => {
           if (res.status == 200) {
-            this.traerMaterias = res.data;
+            this.eventos = res.data;
           }
         });
     },

@@ -55,7 +55,7 @@
 
         <br /><br />
         <label>Duracion</label>
-        <select name="meeting-hrs" v-model="agenda.duracionHrs">
+        <select name="meeting-hrs" v-model="agenda.duracionHrs" required>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -63,7 +63,7 @@
           <option value="5">5</option>
         </select>
         <label for="meeting-hrs">h</label>
-        <select name="meeting-min" v-model="agenda.duracionMin">
+        <select name="meeting-min" v-model="agenda.duracionMin" required>
           <option value="1">0</option>
           <option value="2">15</option>
           <option value="3">30</option>
@@ -153,6 +153,10 @@ export default {
           token: Global.token,
         },
       };
+
+      if(this.agenda.duracionMin == undefined) {
+        this.agenda.duracionMin = 0;
+      }
       let data = {
         idProfesor: this.agenda.idProfesor,
         idMateria: this.agenda.idMateria,
