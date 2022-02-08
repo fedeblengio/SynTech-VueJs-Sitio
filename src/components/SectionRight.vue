@@ -100,8 +100,9 @@ export default {
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
       this.profesor = true;
+      this.cargarEventos();
     } else {
-      this.traerMateriasUser();
+      this.cargarEventos();
       this.cargarTareasCreadas();
     }
   },
@@ -167,7 +168,7 @@ export default {
           }
         });
     },
-    traerMateriasUser() {
+    cargarEventos() {
       let config = {
         headers: {
           "Content-Type": "application/json",
