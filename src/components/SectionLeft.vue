@@ -10,29 +10,31 @@
       <div class="sidebarOption">
         <i class="fas fa-home"></i>
         <router-link to="/home"  class="router-link">
-          <h2>Home</h2>
+          <h2>Inicio</h2>
         </router-link>
       </div>
       <div class="sidebarOption">
-        <i class="fas fa-home"></i>
+        <i class="fas fa-book"></i>
         <router-link to="/materias" class="router-link">
           <h2>Materias</h2>
         </router-link>
       </div>
          <div class="sidebarOption" v-if=profesor>
-        <i class="fas fa-home"></i>
+       <i class="fas fa-chalkboard-teacher"></i>
+
         <router-link to="/agenda-virtual" class="router-link">
           <h2>Agenda Virtual</h2>
         </router-link>
       </div>
        <div class="sidebarOption">
-        <i class="fas fa-home"></i>
+        <i class="fas fa-pen"></i>
+      
         <router-link to="/tareas" class="router-link">
           <h2>Tareas</h2>
         </router-link>
       </div>
       <div class="sidebarOption">
-        <i class="fas fa-home"></i>
+        <i class="fas fa-calendar"></i>
         <router-link to="/calendario" class="router-link">
           <h2>Calendario</h2>
         </router-link>
