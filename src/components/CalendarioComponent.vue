@@ -54,11 +54,7 @@ export default {
         weekends: false,
         locale: "es",
         timeZone: "GMT-3",
-       
-        events: [
-          { title: "event 1", date: "2022-02-01" },
-          { title: "event 2", date: "2022-02-02" },
-        ],
+        events: [],
       },
       title: "Calendario",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
@@ -66,19 +62,10 @@ export default {
     };
   },
   mounted() {
-    /*  if (this.usuario.ou == "Profesor") {
-      this.calendarioProfesor();
-    } else {
-      this.calendarioAlumno();
-    } */
+ 
    this.clasesVirtualesCreadas(); 
   },
   methods: {
-    /*     handleDateClick: function (arg) {
-      alert("date click! " + arg.dateStr);
-    }, */
-
-
     addClass() {
       let json = { title: "examen", date: "2022-02-09" };
       this.calendarOptions.events.push(json);
@@ -127,12 +114,7 @@ export default {
       }
       this.calendarOptions.events = arr
     }
-    /*    calendarioAlumno() {
-      alert("ES ALUMNO");
-    },
-    calendarioProfesor() {
-      alert("ES PROFESOR");
-    }, */
+
   },
 };
 </script>
