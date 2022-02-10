@@ -10,22 +10,6 @@
         <label>Profesor Cedula</label>
         <input type="text" v-model="agenda.idProfesor" />
         <br /><br />
-        <label>Nombre Materia</label>
-        <select
-          class="form-control"
-          v-model="agenda.idMateria"
-          required
-          placeholder="Seleccione Grupo y Asignatura"
-        >
-          <option
-            v-for="todo in traerGrupos"
-            :key="todo.id"
-            v-bind:value="todo.idMateria"
-          >
-            {{ todo.Materia }}
-          </option>
-        </select>
-        <br /><br />
         <label>Grupo</label>
         <select
           class="form-control"
@@ -33,6 +17,7 @@
           name="grupos"
           required
           placeholder="Seleccione Grupo y Asignatura"
+          v-on:change="filtrarMateria(agenda.idGrupo)"
         >
           <option
             v-for="todo in traerGrupos"
@@ -40,6 +25,22 @@
             v-bind:value="todo.idGrupo"
           >
             {{ todo.idGrupo }}
+          </option>
+        </select>
+
+        <br /><br />
+        <label>Nombre Materia</label>
+        <select
+          class="form-control"
+          v-model="agenda.materia"
+          required
+          placeholder="Seleccione Grupo y Asignatura"
+        >
+          <option
+            v-for="todo in materias"
+            :key="todo.id"
+          >
+            {{ todo }}
           </option>
         </select>
 
@@ -77,9 +78,9 @@
         v-on:click="crearClaseVirtual()"
       />
 
-      <div  v-for="todo in clasesVirtualesCreadas" :key="todo.id">
+      <div v-for="todo in clasesVirtualesCreadas" :key="todo.id">
         <span class="clases">
-          <span class="sidebarDot"></span> {{ todo}} -</span
+          <span class="sidebarDot"></span> {{ todo }} -</span
         >
       </div>
     </div>
@@ -109,10 +110,11 @@ export default {
       today: "",
       usuario: "",
       traerGrupos: "",
+      materias:'',
       clasesVirtualesCreadas: "",
       agenda: {
         idProfesor: "",
-        idMateria: "",
+        materia: "",
         idGrupo: "",
         fecha_inicio: "",
         duracionHrs: "",
@@ -128,6 +130,14 @@ export default {
     this.listarClaseVirtual();
   },
   methods: {
+    filtrarMateria(idGrupo){
+      
+      for (var i = 0; i < this.traerGrupos.length; i++) {
+        if(this.traerGrupos[i].idGrupo == idGrupo){
+          this.materias= this.traerGrupos[i].materias
+        }
+      }
+    },
     traerGrupoProfesor(idProfesor) {
       let config = {
         headers: {
@@ -137,7 +147,7 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio + "profesor-grupo?idProfesor=" + idProfesor,
+          Global.urlSitio + "agenda-clase-grupos?idUsuario=" + idProfesor,
           config
         )
         .then((res) => {
@@ -154,12 +164,12 @@ export default {
         },
       };
 
-      if(this.agenda.duracionMin == undefined) {
+      if (this.agenda.duracionMin == undefined) {
         this.agenda.duracionMin = 0;
       }
       let data = {
         idProfesor: this.agenda.idProfesor,
-        idMateria: this.agenda.idMateria,
+        materia: this.agenda.materia,
         idGrupo: this.agenda.idGrupo,
         fecha_inicio: this.agenda.fecha_inicio,
         fecha_fin: moment(
