@@ -318,7 +318,17 @@ details {
     margin-left: auto;
     cursor: pointer;
 }
-
+.btn_jitsi{
+    background-color: var(--color);
+    border: none;
+    color: white;
+    font-weight: 900;
+    border-radius: 7px;
+    width: 70px;
+    height: 24px;
+    
+    cursor: pointer;
+}
 .post {
     display: flex;
     align-items: flex-start;

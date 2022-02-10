@@ -9,18 +9,30 @@
       <div>
         <FullCalendar :options="calendarOptions" />
       </div>
-   
-      <div v-for="clase in listClasesVirtuales" :key="clase.id" class="post">
-        <div class="post_body">
-          {{ clase.idGrupo }}
-          {{ clase.materia }}
-          {{ clase.fecha_inicio }}
-          {{ clase.fecha_fin }}
-        </div>
-        <button class="boxText_btn" v-on:click="entrarJitsi(clase)">
-          Entrar
-        </button>
-      </div>
+
+     
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Materia</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="clase in listClasesVirtuales" :key="clase.id">
+            <th scope="row">{{ clase.idGrupo }} - {{ clase.materia }}</th>
+            <td>
+              {{ moment(clase.fecha_inicio) }} - {{ moment(clase.fecha_fin) }}
+            </td>
+            <td>
+              <button class="btn_jitsi" v-on:click="entrarJitsi(clase)">
+                Entrar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <SectionRight></SectionRight>
   </div>
@@ -62,10 +74,12 @@ export default {
     };
   },
   mounted() {
- 
-   this.clasesVirtualesCreadas(); 
+    this.clasesVirtualesCreadas();
   },
   methods: {
+    moment: function (fecha) {
+      return moment(fecha).format("h:mm");
+    },
     addClass() {
       let json = { title: "examen", date: "2022-02-09" };
       this.calendarOptions.events.push(json);
@@ -100,21 +114,24 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.listClasesVirtuales = res.data;
-            this.cargarCalendario()
+            this.cargarCalendario();
           }
         });
     },
-    cargarCalendario(){
-       let arr = [];   //    { title: "event 1", date: "2022-02-01" },
-       for (let i = 0; i < this.listClasesVirtuales.length; i++) {
-         let date = moment(this.listClasesVirtuales[i].fecha_inicio).format("YYYY-MM-DD");
-         let materia =this.listClasesVirtuales[i].materia.substr(0,3)
-         let hora = moment(this.listClasesVirtuales[i].fecha_inicio).format("HH:mm");
-        arr.push({ title:materia+". "+ hora, date: date})
+    cargarCalendario() {
+      let arr = []; //    { title: "event 1", date: "2022-02-01" },
+      for (let i = 0; i < this.listClasesVirtuales.length; i++) {
+        let date = moment(this.listClasesVirtuales[i].fecha_inicio).format(
+          "YYYY-MM-DD"
+        );
+        let materia = this.listClasesVirtuales[i].materia.substr(0, 3);
+        let hora = moment(this.listClasesVirtuales[i].fecha_inicio).format(
+          "HH:mm"
+        );
+        arr.push({ title: materia + ". " + hora, date: date });
       }
-      this.calendarOptions.events = arr
-    }
-
+      this.calendarOptions.events = arr;
+    },
   },
 };
 </script>
