@@ -6,10 +6,8 @@
       <div class="feed_header">
         <h2>Agendar Clase Virtual</h2>
       </div>
-      <div class="boxText">
-        <label>Profesor Cedula</label>
-        <input type="text" v-model="agenda.idProfesor" />
-        <br /><br />
+
+      <div class="agendaContenedor">
         <label>Grupo</label>
         <select
           class="form-control"
@@ -27,24 +25,23 @@
             {{ todo.idGrupo }}
           </option>
         </select>
+      </div>
 
-        <br /><br />
-        <label>Nombre Materia</label>
+      <div class="agendaContenedor">
+        <label> Materia</label>
         <select
           class="form-control"
           v-model="agenda.materia"
           required
           placeholder="Seleccione Grupo y Asignatura"
         >
-          <option
-            v-for="todo in materias"
-            :key="todo.id"
-          >
+          <option v-for="todo in materias" :key="todo.id">
             {{ todo }}
           </option>
         </select>
+      </div>
 
-        <br /><br />
+      <div class="agendaContenedor">
         <label>Fecha</label>
         <input
           type="datetime-local"
@@ -52,37 +49,62 @@
           name="meeting-time"
           :min="today"
           v-model="agenda.fecha_inicio"
+          class="imput_fechaAgenda"
         />
+      </div>
 
-        <br /><br />
+      <div class="agendaContenedor">
         <label>Duracion</label>
-        <select name="meeting-hrs" v-model="agenda.duracionHrs" required>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
-        <label for="meeting-hrs">h</label>
-        <select name="meeting-min" v-model="agenda.duracionMin" required>
-          <option value="1">0</option>
-          <option value="2">15</option>
-          <option value="3">30</option>
-          <option value="4">45</option>
-        </select>
-        <label for="meeting-min">min.</label>
-      </div>
-      <input
-        type="submit"
-        value="Crear Clase"
-        v-on:click="crearClaseVirtual()"
-      />
 
-      <div v-for="todo in clasesVirtualesCreadas" :key="todo.id">
-        <span class="clases">
-          <span class="sidebarDot"></span> {{ todo }} -</span
-        >
+        <div class="contenedorDuracion">
+          <select name="meeting-hrs" v-model="agenda.duracionHrs" required>
+            <option value="1">1⠀hr.</option>
+            <option value="2">2 hrs.</option>
+            <option value="3">3 hrs.</option>
+            <option value="4">4 hrs.</option>
+            <option value="5">5 hrs.</option>
+          </select>
+
+          <!--   <select name="meeting-min" v-model="agenda.duracionMin" required>
+            <option value="1">0</option>
+            <option value="2">15</option>
+            <option value="3">30</option>
+            <option value="4">45</option>
+          </select> -->
+        </div>
       </div>
+
+      <div class="agendaContenedor movimientoBtnAgenda">
+        <input
+          type="submit"
+          value="Crear Clase"
+          v-on:click="crearClaseVirtual()"
+          class="btn_crearClase"
+        />
+      </div>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Materia</th>
+            <th scope="col">Hora</th>
+            <th scope="col">Link</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="clase in clasesVirtualesCreadas" :key="clase.id">
+            <th scope="row">{{ clase.idGrupo }} - {{ clase.materia }}</th>
+            <td>
+              {{ moment(clase.fecha_inicio) }} - {{ moment(clase.fecha_fin) }}
+            </td>
+            <td>
+              <button class="btn_jitsi" v-on:click="entrarJitsi(clase)">
+                Entrar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <SectionRight></SectionRight>
@@ -110,7 +132,7 @@ export default {
       today: "",
       usuario: "",
       traerGrupos: "",
-      materias:'',
+      materias: "",
       clasesVirtualesCreadas: "",
       agenda: {
         idProfesor: "",
@@ -130,11 +152,13 @@ export default {
     this.listarClaseVirtual();
   },
   methods: {
-    filtrarMateria(idGrupo){
-      
+    moment: function (fecha) {
+      return moment(fecha).format("h:mm");
+    },
+    filtrarMateria(idGrupo) {
       for (var i = 0; i < this.traerGrupos.length; i++) {
-        if(this.traerGrupos[i].idGrupo == idGrupo){
-          this.materias= this.traerGrupos[i].materias
+        if (this.traerGrupos[i].idGrupo == idGrupo) {
+          this.materias = this.traerGrupos[i].materias;
         }
       }
     },
