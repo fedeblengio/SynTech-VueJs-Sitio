@@ -17,7 +17,7 @@
         <div class="styleTarea">
           <div class="select_tarea">
             <select
-              class="form-control"
+              
               v-model="tarea.materiaGrupo"
               required
               placeholder="Seleccione Grupo y Asignatura"
@@ -86,7 +86,7 @@
               />
             </div>
             <button class="boxText_btn_tarea" v-on:click="crearTarea()">
-              Publicar Tarea
+              Publicar
             </button>
           </div>
         </div>
@@ -97,7 +97,6 @@
           <label for="selectMateria">Filtrar por Grupo y Materia</label>
           <select
             v-on:change="cargarTareasCreadas()"
-            class="form-control"
             v-model="filtro.materiaGrupo"
             required
             placeholder="Seleccione Grupo y Asignatura"

@@ -9,7 +9,7 @@
     <div class="contenedor-sidebar">
       <div class="sidebarOption">
         <i class="fas fa-home"></i>
-        <router-link to="/home"  class="router-link">
+        <router-link to="/home"  class="router-link" >
           <h2>Inicio</h2>
         </router-link>
       </div>

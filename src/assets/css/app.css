@@ -94,6 +94,7 @@ body {
   background-color: white;
   margin-top: 30px;
   border-radius: 7px;
+ 
 }
 
 .sidebarOption {
@@ -109,7 +110,7 @@ body {
 .sidebarOption h2 {
   font-weight: 700;
   font-size: 20px;
-  margin-right: 20px;
+  margin-top: 7px;
   text-decoration: none;
   color: var(--colorLetra);
 }
@@ -120,15 +121,16 @@ details {
 }
 
 .router-link {
-  text-decoration: none;
+  text-decoration: none !important;
   color: var(--colorLetra);
+
 }
 
 .sidebarOption:hover {
   background-color: var(--background);
-  border-radius: 30px;
   color: var(--color);
   transition: color 100ms ease-out;
+ 
 }
 
 .sidebar {
@@ -165,10 +167,8 @@ details {
   font-size: 0.95rem;
   color: #4f5468;
 }
-
-.clases:hover {
+.sidebarElement:hover{
   background-color: var(--background);
-  border-radius: 30px;
   color: var(--color);
   transition: color 100ms ease-out;
   cursor: pointer;
@@ -612,7 +612,12 @@ textarea {
   width: 95%;
   margin: auto;
 }
-
+.contenedorPerfil h5{
+  font-size:20px;
+}
+.contenedorPerfil h4{
+  font-size:18px;
+}
 .tipoDeUser {
   display: flex;
   flex-direction: row;
@@ -630,6 +635,9 @@ textarea {
   margin-top: 5px;
   justify-content: space-between;
   border-radius: 7px;
+}
+.contenidoUser h4{
+font-size:16px;
 }
 
 .contenidoUser i {

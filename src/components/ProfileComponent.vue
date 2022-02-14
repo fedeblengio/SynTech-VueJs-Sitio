@@ -30,7 +30,7 @@
         </div>
 
         <div class="contenedorPerfil">
-          <h4>Tipo de Usuario:</h4>
+          <h5>Tipo de Usuario:</h5>
           <div class="tipoDeUser">
             <div class="contenidoUser" id="profesor">
               <h4>Profesor</h4>
