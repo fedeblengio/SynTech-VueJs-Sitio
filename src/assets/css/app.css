@@ -94,7 +94,6 @@ body {
   background-color: white;
   margin-top: 30px;
   border-radius: 7px;
- 
 }
 
 .sidebarOption {
@@ -123,14 +122,12 @@ details {
 .router-link {
   text-decoration: none !important;
   color: var(--colorLetra);
-
 }
 
 .sidebarOption:hover {
   background-color: var(--background);
   color: var(--color);
   transition: color 100ms ease-out;
- 
 }
 
 .sidebar {
@@ -167,7 +164,7 @@ details {
   font-size: 0.95rem;
   color: #4f5468;
 }
-.sidebarElement:hover{
+.sidebarElement:hover {
   background-color: var(--background);
   color: var(--color);
   transition: color 100ms ease-out;
@@ -612,11 +609,11 @@ textarea {
   width: 95%;
   margin: auto;
 }
-.contenedorPerfil h5{
-  font-size:20px;
+.contenedorPerfil h5 {
+  font-size: 20px;
 }
-.contenedorPerfil h4{
-  font-size:18px;
+.contenedorPerfil h4 {
+  font-size: 18px;
 }
 .tipoDeUser {
   display: flex;
@@ -636,8 +633,8 @@ textarea {
   justify-content: space-between;
   border-radius: 7px;
 }
-.contenidoUser h4{
-font-size:16px;
+.contenidoUser h4 {
+  font-size: 16px;
 }
 
 .contenidoUser i {
@@ -701,20 +698,44 @@ font-size:16px;
 }
 
 .btn_crearClase {
-    background-color: var(--color);
-    border: none;
-    color: white;
-    font-weight: 900;
-    border-radius: 7px;
-    width: 112px;
-    height: 35px;
-    cursor: pointer;
-    margin-bottom: 10px;
+  background-color: var(--color);
+  border: none;
+  color: white;
+  font-weight: 900;
+  border-radius: 7px;
+  width: 112px;
+  height: 35px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
-.movimientoBtnAgenda{
-    display: flex;
-    flex-direction: row-reverse;
-    margin-top: 20px;
-    margin-right:80px;
+.movimientoBtnAgenda {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 20px;
+  margin-right: 80px;
 }
+
+.cambioPwdContenedor {
+  width: 80%;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.imputsPwd input {
+  outline: none;
+  width: 95%;
+  height: 30px;
+  font-size: 15px;
+  margin: 10px auto;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid var(--background);
+}
+.cambioPwdBtn {
+  display: flex;
+  flex-direction: row-reverse;
+}
+

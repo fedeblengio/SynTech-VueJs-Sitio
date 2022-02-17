@@ -53,7 +53,8 @@
               <h4>TB1</h4>
             </div>
           </div>
-       
+        
+         <router-link to="/cambioPwd" >  cambiar pwd </router-link>
         </div>
       </div>
     </div>

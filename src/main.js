@@ -21,7 +21,7 @@ import CalificarAlumnoComponent from './components/CalificarAlumnoComponent.vue'
 import TareasEntregadasComponent from './components/TareasEntregadasComponent.vue';
 import AgendaVirtualComponent from './components/AgendaVirtualComponent.vue';
 import CalendarioComponent from './components/CalendarioComponent.vue';
-
+import CambiarContraComponent from './components/CambiarContraComponent.vue'
 
 
 Vue.config.productionTip = false
@@ -49,7 +49,7 @@ const routes = [
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },
     { path: '/calendario', name: 'calendario', component: CalendarioComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
-
+    { path: '/cambioPwd', name: 'cambiopwd', component: CambiarContraComponent },
 
 ];
 
