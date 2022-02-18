@@ -14,80 +14,126 @@
       >
 
       <div class="boxText" v-if="!alumno">
-        <div class="styleTarea">
-          <div class="select_tarea">
-            <select
-              
-              v-model="tarea.materiaGrupo"
-              required
-              placeholder="Seleccione Grupo y Asignatura"
-            >
-              <option
-                v-for="todo in traerGrupoMateria"
-                :key="todo.id"
-                v-bind:value="[todo.idGrupo, todo.idMateria, todo.Materia]"
-              >
-                {{ todo.idGrupo }} - {{ todo.Materia }}
-              </option>
-            </select>
-          </div>
-          <div>
-            <label for="titulo">Titulo : </label>
-            <input
-              type="text"
-              v-model="tarea.titulo"
-              placeholder="Escribe una Titulo"
-              required
-            />
-          </div>
+        <div class="moverBtnCrearTarea">
+          <button
+            type="button"
+            class="btn_crearClase"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >
+            Crear Tarea
+          </button>
+        </div>
 
-          <div>
-            <label for="descripcion">Descripcion : </label>
-            <textarea
-              id="textarea"
-              placeholder="Escribe una Descripcion"
-              required
-              v-model="tarea.descripcion"
-            ></textarea>
-          </div>
-          <div>
-            <label for="datePicker">Fecha de Vencimiento : </label>
-            <input type="date" v-model="tarea.fecha_vencimiento" required />
-          </div>
+        <div
+          class="modal fade"
+          id="exampleModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Crear Tarea</h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="styleTarea">
+                  <div class="select_tarea">
+                    <select
+                      v-model="tarea.materiaGrupo"
+                      required
+                      placeholder="Seleccione Grupo y Asignatura"
+                    >
+                      <option
+                        v-for="todo in traerGrupoMateria"
+                        :key="todo.id"
+                        v-bind:value="[
+                          todo.idGrupo,
+                          todo.idMateria,
+                          todo.Materia,
+                        ]"
+                      >
+                        {{ todo.idGrupo }} - {{ todo.Materia }}
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="titulo">Titulo : </label>
+                    <input
+                      type="text"
+                      v-model="tarea.titulo"
+                      placeholder="Escribe una Titulo"
+                      required
+                    />
+                  </div>
 
-          <div>
-            <div
-              class="preview_contenedor"
-              v-for="file in tarea.file"
-              :key="file.id"
-              :value="file.name"
-            >
-              <i class="fal fa-file-alt file"></i>
-              <h3 class="preview">
-                {{ file.name }}
-              </h3>
-              <i
-                class="fas fa-times equis"
-                v-on:click="delateFile(file.name)"
-              ></i>
+                  <div>
+                    <label for="descripcion">Descripcion : </label>
+                    <textarea
+                      id="textarea"
+                      placeholder="Escribe una Descripcion"
+                      required
+                      v-model="tarea.descripcion"
+                    ></textarea>
+                  </div>
+                  <div>
+                    <label for="datePicker">Fecha de Vencimiento : </label>
+                    <input
+                      type="date"
+                      v-model="tarea.fecha_vencimiento"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <div
+                      class="preview_contenedor"
+                      v-for="file in tarea.file"
+                      :key="file.id"
+                      :value="file.name"
+                    >
+                      <i class="fal fa-file-alt file"></i>
+                      <h3 class="preview">
+                        {{ file.name }}
+                      </h3>
+                      <i
+                        class="fas fa-times equis"
+                        v-on:click="delateFile(file.name)"
+                      ></i>
+                    </div>
+                  </div>
+                  <div class="footer_tarea">
+                    <div class="image-upload">
+                      <label for="file-input">
+                        <i class="fas fa-upload"></i>
+                      </label>
+                      <input
+                        @change="getFile"
+                        id="file-input"
+                        type="file"
+                        v-on:onchange="previewFile(this)"
+                        style="display: none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="boxText_btn_tarea" v-on:click="crearTarea()">
+                  Publicar
+                </button>
+              </div>
             </div>
-          </div>
-          <div class="footer_tarea">
-            <div class="image-upload">
-              <label for="file-input">
-                <i class="fas fa-upload"></i>
-              </label>
-              <input
-                @change="getFile"
-                id="file-input"
-                type="file"
-                v-on:onchange="previewFile(this)"
-                style="display: none"
-              />
-            </div>
-            <button class="boxText_btn_tarea" v-on:click="crearTarea()">
-              Publicar
-            </button>
           </div>
         </div>
       </div>
