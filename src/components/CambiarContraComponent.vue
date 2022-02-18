@@ -13,7 +13,7 @@
           Estas a punto de cambiar la contraseña de acceso, asegurate de
           recordarla
         </div>
-        <div class="imputsPwd">
+        <div class="inputsPwd">
           <span>Actual contraseña</span>
           <input type="password" id="password" required autocomplete="off"/>
           <i
@@ -22,12 +22,12 @@
             v-on:click="mostrarContasenia()"
           ></i>
         </div>
-         <div class="imputsPwd">
+         <div class="inputsPwd">
           <span>Nueva contraseña</span>
           <input type="password" id="password2" required minlength="8" maxlength="30" autocomplete="off"/>
         
         </div>
-        <div class="imputsPwd">
+        <div class="inputsPwd">
           <span>Confirmar contraseña</span>
           <input type="password" id="password1" required minlength="8" maxlength="30" autocomplete="off"/>
         </div>
