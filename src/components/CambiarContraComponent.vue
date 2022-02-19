@@ -15,24 +15,47 @@
         </div>
         <div class="inputsPwd">
           <span>Actual contraseña</span>
-          <input type="password" id="password" required autocomplete="off"/>
+          <input
+            type="password"
+            id="password"
+            required
+            autocomplete="off"
+            v-model="password.actual"
+          />
           <i
             class="fas fa-eye"
             id="iconPwd"
             v-on:click="mostrarContasenia()"
           ></i>
         </div>
-         <div class="inputsPwd">
+        <div class="inputsPwd">
           <span>Nueva contraseña</span>
-          <input type="password" id="password2" required minlength="8" maxlength="30" autocomplete="off"/>
-        
+          <input
+            type="password"
+            id="password2"
+            required
+            minlength="8"
+            maxlength="30"
+            autocomplete="off"
+            v-model="password.nueva"
+          />
         </div>
         <div class="inputsPwd">
           <span>Confirmar contraseña</span>
-          <input type="password" id="password1" required minlength="8" maxlength="30" autocomplete="off"/>
+          <input
+            type="password"
+            id="password1"
+            required
+            minlength="8"
+            maxlength="30"
+            autocomplete="off"
+            v-model="password.confirmacion"
+          />
         </div>
         <div class="cambioPwdBtn">
-          <button class="boxText_btn" v-on:click="procesar()">Enviar</button>
+          <button class="boxText_btn" v-on:click="verificarContraseniaActual()">
+            Enviar
+          </button>
         </div>
       </div>
     </div>
@@ -41,8 +64,8 @@
 </template>
 <script>
 import vueHeadful from "vue-headful";
-/* import { Global } from "../Global";
-import axios from "axios"; */
+import { Global } from "../Global";
+import axios from "axios";
 import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
@@ -59,10 +82,40 @@ export default {
       title: "Profile",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       aux: 0,
+      password: {
+        actual: "",
+        nueva: "",
+        confirmacion: "",
+      },
     };
   },
   mounted() {},
   methods: {
+    verificarContraseniaActual() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      let userActual = {
+        username: this.usuario.username,
+        password: this.password.actual,
+      };
+      axios
+        .post(Global.urlBackOffice + "login", userActual, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.procesar();
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.tituloSitio,
+            message: "Error, contraseña incorrecta",
+          });
+        });
+    },
     mostrarContasenia() {
       let input = document.getElementById("password1");
       let input1 = document.getElementById("password");
@@ -86,13 +139,44 @@ export default {
       }
     },
     procesar() {
-      let input = document.getElementById("password1");
-      let input1 = document.getElementById("password");
-      if (input.value == input1.value) {
-        alert("son iguales");
+      if (this.password.nueva === this.password.confirmacion) {
+        this.cambiarContrasenia();
       } else {
         alert("no son iguales");
       }
+    },
+    cambiarContrasenia() {
+      let parametros = {
+        username: this.usuario.username,
+        newPassword: this.password.nueva,
+      };
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .put(Global.urlSitio + "usuario", parametros, config)
+        .then((response) => {
+          if (response.status == 200) {
+            localStorage.clear();
+            this.$router.push("/login");
+            this.flashMessage.show({
+              status: "success",
+              title: Global.tituloSitio,
+              message: "Contraseña actualizada",
+            });
+            
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.tituloSitio,
+            message: "Error inesperado.",
+          });
+        });
     },
   },
 };
