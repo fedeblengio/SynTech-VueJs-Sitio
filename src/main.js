@@ -18,7 +18,7 @@ import TareasComponent from './components/TareasComponent.vue';
 import TareaSeleccionadaComponent from './components/TareaSeleccionadaComponent.vue';
 import ProfileComponent from './components/ProfileComponent.vue';
 import CalificarAlumnoComponent from './components/CalificarAlumnoComponent.vue';
-import TareasEntregadasComponent from './components/TareasEntregadasComponent.vue';
+import ListadoTareasComponent from './components/ListadoTareasComponent.vue';
 import AgendaVirtualComponent from './components/AgendaVirtualComponent.vue';
 import CalendarioComponent from './components/CalendarioComponent.vue';
 import CambiarContraComponent from './components/CambiarContraComponent.vue'
@@ -42,10 +42,11 @@ const routes = [
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/profile', name: 'profile', component: ProfileComponent },
     { path: '/tareas', name: 'tareas', component: TareasComponent },
+    { path: '/listado-tareas/:idGrupo/:materia', name: 'listado-tareas', component: ListadoTareasComponent },
     { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
     { path: '/entregas/:idGrupo/:idMateria/:idTarea/', name: 'entregas', component: EntregasComponent },
     { path: '/entregas/:idAlumnos/:idTareas', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
-    { path: '/entregas-realizadas', name: 'entregas-realizadas', component: TareasEntregadasComponent },
+
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },
     { path: '/calendario', name: 'calendario', component: CalendarioComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
