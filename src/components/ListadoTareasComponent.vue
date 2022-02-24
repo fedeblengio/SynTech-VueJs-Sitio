@@ -42,13 +42,13 @@
             <div class="modal-body">
               <div class="styleTarea">
                 <div class="text-right">
-                  <small class=""
+                  <small style="margin-right: 28px;font-size: 16px;"
                     >Publicar para : {{ routerValues.idGrupo }}
                     {{ routerValues.materia }}
                   </small>
                 </div>
                 <div>
-                  <label for="titulo">Titulo : </label>
+                  <label for="titulo" style="margin-left: 24px;">Titulo : </label>
                   <input
                     type="text"
                     v-model="tarea.titulo"
@@ -58,7 +58,7 @@
                 </div>
 
                 <div>
-                  <label for="descripcion">Descripcion : </label>
+                  <label for="descripcion" style="margin-left: 24px;">Descripcion : </label>
                   <textarea
                     id="textarea"
                     placeholder="Escribe una Descripcion"
@@ -67,7 +67,7 @@
                   ></textarea>
                 </div>
                 <div>
-                  <label for="datePicker">Fecha de Vencimiento : </label>
+                  <label for="datePicker" style="margin-left: 24px;">Fecha de Vencimiento : </label>
                   <input
                     type="date"
                     v-model="tarea.fecha_vencimiento"
