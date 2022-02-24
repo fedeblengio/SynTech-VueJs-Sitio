@@ -10,7 +10,7 @@ import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 import VuePictureSwipe from 'vue-picture-swipe';
 
 
-import EntregasComponent from './components/EntregasComponent';
+import ListadoTareasEntregadasComponent from './components/ListadoTareasEntregadasComponent.vue';
 import ErrorComponent from './components/ErrorComponent';
 import LoginComponent from './components/LoginComponent.vue';
 import HomeComponent from './components/HomeComponent.vue';
@@ -44,7 +44,7 @@ const routes = [
     { path: '/tareas', name: 'tareas', component: TareasComponent },
     { path: '/listado-tareas/:idGrupo/:materia', name: 'listado-tareas', component: ListadoTareasComponent },
     { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
-    { path: '/entregas/:idGrupo/:idMateria/:idTarea/', name: 'entregas', component: EntregasComponent },
+    { path: '/entregas/:idGrupo/:idMateria/:idTareas/', name: 'entregas', component: ListadoTareasEntregadasComponent },
     { path: '/entregas/:idAlumnos/:idTareas', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
 
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },

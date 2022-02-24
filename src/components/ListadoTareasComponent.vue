@@ -118,15 +118,23 @@
       </div>
       <!-- --- FIN MODAL --- -->
       <div class="list-group">
-        <a
-          href="#"
+        <router-link
+          :to="{
+            name: 'entregas',
+            params: {
+              idGrupo: tarea.idGrupo,
+              idMateria: tarea.idMateria,
+              idTareas: tarea.idTarea,
+            },
+          }"
           class="list-group-item list-group-item-action"
           aria-current="true"
           v-for="tarea in listadoTareas"
           :key="tarea.id"
         >
+      
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ tarea.titulo }}</h5>
+            <h5 class="mb-1">{{ tarea.titulo }} {{tarea.idTarea}}</h5>
             <small class="text-muted"
               >Vence: {{ tarea.fecha_vencimiento }}</small
             >
@@ -135,7 +143,7 @@
           <small class="text-muted">
             <b>Haga click para visualizar las entregas</b></small
           >
-        </a>
+        </router-link>
       </div>
     </div>
     <SectionRight></SectionRight>
