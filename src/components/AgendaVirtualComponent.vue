@@ -152,6 +152,16 @@ export default {
     this.listarClaseVirtual();
   },
   methods: {
+     entrarJitsi(clase) {
+      let url = "https://meet.jit.si/" + window.btoa(clase);
+      return window
+        .open(
+          url,
+          "_blank",
+          "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=800,height=500"
+        )
+        .focus();
+    },
     moment: function (fecha) {
       return moment(fecha).format("h:mm");
     },
