@@ -87,7 +87,7 @@
         <div class="post_body">
           <div class="post_title">
             <span> {{ post.data.titulo }} </span>
-            <p>{{ post.data.fecha }}</p>
+            <p>{{ moment(post.data.fecha) }}</p>
           </div>
           <div class="post_body_text">
             {{ post.data.mensaje }}
@@ -134,6 +134,8 @@ import axios from "axios";
 import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import moment from "moment";
+
 window.$ = JQuery;
 
 export default {
@@ -176,6 +178,9 @@ export default {
     };
   },
   methods: {
+    moment: function (fecha) {
+      return moment(fecha).format("DD/MM/YYYY h:mm a");
+    },
     verificarLogueo() {
       if (localStorage.getItem("auth_token")) {
         this.logged = true;
