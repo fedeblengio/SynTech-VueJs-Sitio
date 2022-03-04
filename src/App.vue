@@ -5,7 +5,7 @@
     <div class="ContenedorAppVue">
       <div v-if=logged>
         
-        <router-view> </router-view>
+        <router-view :key="$route.fullPath"> </router-view>
       </div>
        <div v-else>
         <DashboardComponent> </DashboardComponent>

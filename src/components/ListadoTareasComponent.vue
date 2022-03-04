@@ -42,13 +42,15 @@
             <div class="modal-body">
               <div class="styleTarea">
                 <div class="text-right">
-                  <small style="margin-right: 28px;font-size: 16px;"
+                  <small style="margin-right: 28px; font-size: 16px"
                     >Publicar para : {{ routerValues.idGrupo }}
                     {{ routerValues.materia }}
                   </small>
                 </div>
                 <div>
-                  <label for="titulo" style="margin-left: 24px;">Titulo : </label>
+                  <label for="titulo" style="margin-left: 24px"
+                    >Titulo :
+                  </label>
                   <input
                     type="text"
                     v-model="tarea.titulo"
@@ -58,7 +60,9 @@
                 </div>
 
                 <div>
-                  <label for="descripcion" style="margin-left: 24px;">Descripcion : </label>
+                  <label for="descripcion" style="margin-left: 24px"
+                    >Descripcion :
+                  </label>
                   <textarea
                     id="textarea"
                     placeholder="Escribe una Descripcion"
@@ -67,7 +71,9 @@
                   ></textarea>
                 </div>
                 <div>
-                  <label for="datePicker" style="margin-left: 24px;">Fecha de Vencimiento : </label>
+                  <label for="datePicker" style="margin-left: 24px"
+                    >Fecha de Vencimiento :
+                  </label>
                   <input
                     type="date"
                     v-model="tarea.fecha_vencimiento"
@@ -132,11 +138,10 @@
           v-for="tarea in listadoTareas"
           :key="tarea.id"
         >
-      
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ tarea.titulo }} {{tarea.idTarea}}</h5>
+            <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.idTarea }}</h5>
             <small class="text-muted"
-              >Vence: {{ tarea.fecha_vencimiento }}</small
+              >Vence: {{ moment(tarea.fecha_vencimiento) }}</small
             >
           </div>
           <p class="mb-1">{{ tarea.descripcion }}</p>
@@ -156,6 +161,7 @@ import axios from "axios";
 import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import moment from "moment";
 window.$ = JQuery;
 export default {
   name: "tareasEntregadas",
@@ -170,9 +176,9 @@ export default {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listadoTareas: "",
       routerValues: {
-        idGrupo: '',
-        idMateria: '',
-        materia: '',
+        idGrupo: "",
+        idMateria: "",
+        materia: "",
       },
       alumno: false,
       tarea: {
@@ -191,6 +197,9 @@ export default {
     this.cargarTareasCreadas();
   },
   methods: {
+    moment: function (fecha) {
+      return moment(fecha).format("DD/MM/YYYY h:mm a");
+    },
     verificarRol() {
       if (this.usuario.ou == "Profesor") {
         this.alumno = false;
@@ -325,7 +334,6 @@ export default {
           }
         });
     },
-
   },
 };
 </script>

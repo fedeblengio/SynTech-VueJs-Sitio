@@ -36,11 +36,10 @@
             >
               <router-link
                 :to="{
-                  name: 'listado-tareas',
+                  name: 'calificar-alumnos',
                   params: {
-                    materia: entregas.Materia,
-                    idGrupo: entregas.idGrupo,
-                    idMateria: entregas.idMateria,
+                    idAlumnos: entregas.idAlumnos,
+                    idTareas: entregas.idTarea,
                   },
                 }"
                 class="list-group-item list-group-item-action"

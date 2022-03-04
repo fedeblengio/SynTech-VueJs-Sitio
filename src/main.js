@@ -42,7 +42,7 @@ const routes = [
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/profile', name: 'profile', component: ProfileComponent },
     { path: '/tareas', name: 'tareas', component: TareasComponent },
-    { path: '/listado-tareas/:idGrupo/:materia', name: 'listado-tareas', component: ListadoTareasComponent },
+    { path: '/listado-tareas/:idGrupo/:materia/:idMateria', name: 'listado-tareas', component: ListadoTareasComponent },
     { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
     { path: '/entregas/:idGrupo/:idMateria/:idTareas/', name: 'entregas', component: ListadoTareasEntregadasComponent },
     { path: '/entregas/:idAlumnos/:idTareas', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
