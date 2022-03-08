@@ -25,13 +25,14 @@
           <div class="post_footer" v-for="img in tarea.imagenes" :key="img.id">
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
-                <h3 v-on:click="descargarPDF(img.archivo)">
+                <h3 v-on:click="descargarPDF(img)">
                   <i class="fal fa-file-alt file"></i>
-                  <span>{{ img.archivo }}</span>
+                  <span>{{ img }}</span>
                 </h3>
               </div>
             </div>
           </div>
+         
           <div
             class="post_footer"
             v-for="archivo in tarea.archivos"
@@ -39,9 +40,9 @@
           >
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
-                <h3 v-on:click="descargarPDF(archivo.archivo)">
+                <h3 v-on:click="descargarPDF(archivo)">
                   <i class="fal fa-file-alt file"></i>
-                  <span>{{ archivo.archivo }}</span>
+                  <span>{{ archivo }}</span>
                 </h3>
               </div>
             </div>

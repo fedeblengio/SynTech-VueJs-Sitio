@@ -25,7 +25,7 @@ export default {
   },
   data() {
     return {
-      title: "ERROR 404",
+      title: "Pagina no encontrada",
     };
   },
 };
