@@ -22,7 +22,7 @@ import ListadoTareasComponent from './components/ListadoTareasComponent.vue';
 import AgendaVirtualComponent from './components/AgendaVirtualComponent.vue';
 import CalendarioComponent from './components/CalendarioComponent.vue';
 import CambiarContraComponent from './components/CambiarContraComponent.vue'
-
+import MateriasComponent from './components/MateriasComponent.vue'
 
 Vue.config.productionTip = false
 
@@ -46,7 +46,7 @@ const routes = [
     { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
     { path: '/entregas/:idGrupo/:idMateria/:idTareas/', name: 'entregas', component: ListadoTareasEntregadasComponent },
     { path: '/entregas/:idAlumnos/:idTareas', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
-
+    { path: '/materias', name: 'materias-component', component: MateriasComponent },
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },
     { path: '/calendario', name: 'calendario', component: CalendarioComponent },
     { path: '*', name: 'error404', component: ErrorComponent },

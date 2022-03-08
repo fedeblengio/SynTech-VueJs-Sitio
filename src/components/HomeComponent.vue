@@ -306,14 +306,14 @@ export default {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
 
-      if (this.file.length <= 4) {
+      if (this.file.length <= 2) {
         if (res <= 50) {
           this.file.push(event.target.files[0]);
         } else {
           alert("El tamaño del archivo excede el límite máximo permitido");
         }
       } else {
-        alert("5 archivos por post");
+        alert("3 archivos por post");
       }
     },
     cargarFoto() {
