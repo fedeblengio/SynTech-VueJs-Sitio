@@ -70,7 +70,6 @@ export default {
       title: "Calendario",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listClasesVirtuales: "",
-      habilitado: false,
     };
   },
   mounted() {
@@ -86,18 +85,23 @@ export default {
     },
 
     entrarJitsi(clase) {
-      let fecha_inicio = moment(clase.fecha_inicio).format("YYYY-MM-DD HH:mm a");
-      /* let diff = moment().diff(clase.fecha_inicio, 'minutes') */
-      for (let i = 0; i < 5; i++) {
+      let fecha_inicio = moment(clase.fecha_inicio).format(
+        "YYYY-MM-DD HH:mm a"
+      );
+      let i = 0;
+      let habilitado = false;
+      while (i < 6) {
+        i++;
         let fecha_actual = moment().add(i, "m").format("YYYY-MM-DD HH:mm a");
-        if (fecha_actual == fecha_inicio) {
-          this.habilitado = true;
-        }else if (moment().isAfter(moment(clase.fecha_inicio))){
-           this.habilitado = true;
+        if (fecha_actual === fecha_inicio) {
+          habilitado = true;
+        } else if (moment().isAfter(moment(clase.fecha_inicio))) {
+          habilitado = true;
         }
-      } 
-      
-      if (this.habilitado) {
+      }
+
+
+      if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
         return window
           .open(
@@ -106,10 +110,9 @@ export default {
             "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=800,height=500"
           )
           .focus();
-      }else{
-        alert("TODAVIA ES MUY TEMPRANO PARA LA CLASE")
+      } else {
+        alert("TODAVIA ES MUY TEMPRANO PARA LA CLASE");
       }
-      
     },
     clasesVirtualesCreadas() {
       let config = {
