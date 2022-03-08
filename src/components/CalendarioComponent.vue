@@ -111,7 +111,7 @@ export default {
           )
           .focus();
       } else {
-        alert("TODAVIA ES MUY TEMPRANO PARA LA CLASE");
+        alert("Podras acceder a la clase 5 minutos antes de la hora especificada");
       }
     },
     clasesVirtualesCreadas() {
