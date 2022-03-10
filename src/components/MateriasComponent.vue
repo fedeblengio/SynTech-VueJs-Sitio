@@ -6,45 +6,34 @@
       <div class="feed_header">
         <h2>Mis Materias</h2>
       </div>
-      <div class="card">
-        <div class="card-header">TB1 - Matematica</div>
-        <div class="card-body">
-           <h6>Profesor/a: Rin Tohsaka</h6>
-          <p class="card-text">
-           Tecnicatura Nocturna
-          </p>
-          <a href="#" class="btn btn-primary">Material del curso</a>
+     
+        <div class="card" v-for="clase in traerMaterias" :key="clase.id">
+          <div class="card-header">
+            {{ clase.idGrupo }} - {{ clase.Materia }}
+          </div>
+          <div class="card-body">
+            <h6>
+              <em>Profesor/a: {{ clase.Profesor }}</em>
+            </h6>
+            <p class="card-text">{{ clase.nombreCompleto }}</p>
+            <a
+              href="#"
+              class="btn btn-primary float-right"
+              style="margin-top: -60px"
+              >Material del curso</a
+            >
+          </div>
         </div>
-      </div>
-         <div class="card">
-        <div class="card-header">TB1 - Matematica</div>
-        <div class="card-body">
-          <h6>Profesor/a: Rin Tohsaka</h6>
-          <p class="card-text">
-           Tecnicatura Nocturna
-          </p>
-          <a href="#" class="btn btn-primary">Material del curso</a>
-        </div>
-      </div>
-         <div class="card">
-        <div class="card-header">TB1 - Matematica</div>
-        <div class="card-body">
-          <h6>Profesor/a: Rin Tohsaka</h6>
-          <p class="card-text">
-           Tecnicatura Nocturna
-          </p>
-          <a href="#" class="btn btn-primary">Material del curso</a>
-        </div>
-      </div>
+      
     </div>
     <SectionRight></SectionRight>
   </div>
 </template>
 <script>
 import vueHeadful from "vue-headful";
-/* import { Global } from "../Global";
+import { Global } from "../Global";
 import axios from "axios";
-import JQuery from "jquery"; */
+/* import JQuery from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 export default {
@@ -57,7 +46,62 @@ export default {
   data() {
     return {
       title: "Mis Materias",
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      alumno: false,
+      traerMaterias: "",
     };
+  },
+  mounted() {
+    this.verificarRol();
+  },
+  methods: {
+    verificarRol() {
+      if (this.usuario.ou == "Profesor") {
+        this.alumno = false;
+        this.traerGrupoProfesor();
+      } else {
+        this.alumno = true;
+        this.traerMateriasUser();
+      }
+    },
+    traerGrupoProfesor() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "profesor-grupo?idProfesor=" +
+            this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
+          }
+        });
+    },
+    traerMateriasUser() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio + "listarMaterias?idUsuario=" + this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
+          }
+        });
+    },
   },
 };
 </script>

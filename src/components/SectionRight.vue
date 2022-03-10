@@ -55,6 +55,29 @@
             >
             </router-link>
           </div>
+              <div
+           v-on:click="refresh()"
+            class="pendientes sidebarElement "
+            v-for="tareas in cargarTareas.re_hacer"
+            :key="tareas.id"
+          >
+            <router-link
+               
+                :to="{
+                  name: 'tarea-seleccionada',
+                  params: {
+                    materia: tareas.Materia,
+                    idTarea: tareas.idTarea,
+                    re_hacer: true,
+                  },
+                }"
+                class="router-link"
+              >
+            <span class="pendientes_tarea">
+              {{ tareas.titulo }} - {{ tareas.Materia }}</span
+            >
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
