@@ -762,3 +762,52 @@ textarea {
     margin-right: 25px;
     margin-top: 10px;
 }
+
+.alumnoEntregaTarea_checkbox {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 25px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.alumnoEntregaTarea_checkbox label {
+    margin-top: 8px;
+    margin-right: 10px;
+}
+
+.alumnoEntregaTarea_puntaje {
+    display: flex;
+    justify-content: end;
+    margin-right: 25px;
+    margin-top: 10px;
+}
+
+.alumnoEntregaTarea_puntaje input {
+    width: 30px;
+    outline: none;
+}
+
+.alumnoEntregaTarea_puntaje label {
+    text-align: center;
+    margin: auto 10px;
+    height: 21px;
+}
+
+.alumnoEntregaTareaBtn {
+    width: 150px;
+    display: flex;
+    height: 30px !important;
+}
+
+.alumnoEntregaTareaBtn p {
+    margin: 4px auto;
+}
+
+.alumnoEntregaTareaContenedor textarea {
+    width: 100%;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

@@ -32,7 +32,7 @@
               </div>
             </div>
           </div>
-         
+
           <div
             class="post_footer"
             v-for="archivo in tarea.archivos"
@@ -47,34 +47,33 @@
               </div>
             </div>
           </div>
+
+          <div class="alumnoEntregaTarea_checkbox">
+            <input
+              type="checkbox"
+              id="re_hacer"
+              name="re_hacer"
+              v-model="calificar.re_hacer"
+            />
+            <label for="re_hacer"> Realizar nuevamente</label>
+          </div>
+          <div class="alumnoEntregaTarea_puntaje">
+            <input
+              type="number"
+              id="nota"
+              name="nota"
+              v-model="calificar.nota"
+              max="12"
+            />
+            <label for="nota"> / 12 </label>
+          </div>
         </div>
       </div>
-      <div class="boxText">
+
+      <div class="alumnoEntregaTareaContenedor">
         <div class="feed_header">
-          <h3>Calificar Alumno</h3>
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            id="re_hacer"
-            name="re_hacer"
-            v-model="calificar.re_hacer"
-          />
-          <label for="re_hacer"> Re hacer tarea ?</label>
-        </div>
-        <div>
-          <input
-            type="number"
-            id="nota"
-            name="nota"
-            v-model="calificar.nota"
-            max="10"
-          />
-          <label for="nota"> / 12 </label>
-        </div>
-        <div class="feed_header">
-          <div class="boxText_input">
-            Juicio :
+          <h2>Juicio :</h2>
+          <div class="">
             <textarea
               id="textarea"
               placeholder="Escribe algo!"
@@ -82,10 +81,13 @@
               v-model="calificar.mensaje"
             ></textarea>
           </div>
+          <button
+            class="boxText_btn alumnoEntregaTareaBtn"
+            v-on:click="calificarEntrega()"
+          >
+            <p>Calificar Entrega</p>
+          </button>
         </div>
-        <button class="boxText_btn" v-on:click="calificarEntrega()">
-          Calificar Entrega
-        </button>
       </div>
     </div>
     <SectionRight></SectionRight>
@@ -152,11 +154,11 @@ export default {
         re_hacer = 1;
       }
       let data = {
-        "idAlumnos": this.$route.params.idAlumnos,
-        "idTareas": this.$route.params.idTareas,
-        "calificacion": this.calificar.nota,
-        "mensaje": this.calificar.mensaje,
-        "re_hacer": re_hacer,
+        idAlumnos: this.$route.params.idAlumnos,
+        idTareas: this.$route.params.idTareas,
+        calificacion: this.calificar.nota,
+        mensaje: this.calificar.mensaje,
+        re_hacer: re_hacer,
       };
 
       axios
@@ -176,7 +178,7 @@ export default {
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
-    
+
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
 
