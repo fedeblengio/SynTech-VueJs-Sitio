@@ -163,7 +163,7 @@ export default {
         .focus();
     },
     moment: function (fecha) {
-      return moment(fecha).format("h:mm");
+      return moment(fecha).format("HH:mm");
     },
     filtrarMateria(idGrupo) {
       for (var i = 0; i < this.traerGrupos.length; i++) {

@@ -66,6 +66,8 @@ export default {
         locale: "es",
         timeZone: "GMT-3",
         events: [],
+        contentHeight:"auto",
+        handleWindowResize:true,
       },
       title: "Calendario",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
@@ -77,7 +79,7 @@ export default {
   },
   methods: {
     moment: function (fecha) {
-      return moment(fecha).format("h:mm");
+      return moment(fecha).format("HH:mm ");
     },
     addClass() {
       let json = { title: "examen", date: "2022-02-09" };

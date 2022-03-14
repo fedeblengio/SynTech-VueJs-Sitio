@@ -651,6 +651,17 @@ textarea {
     font-size: 16px;
 }
 
+.fc-toolbar-chunk {
+    display: none;
+}
+
+.fc-scroller {
+    overflow: hidden;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+}
+
 .contenidoUser i {
     font-size: 30px;
 }
@@ -660,6 +671,7 @@ textarea {
 }
 
 .infoUser h4 {
+    background-color: #cbd5e0;
     border: 1px solid var(--background);
     height: 40px;
     padding: 8px;
