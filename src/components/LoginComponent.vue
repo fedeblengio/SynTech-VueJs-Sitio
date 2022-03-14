@@ -1,50 +1,53 @@
 <template>
-  <div
-    class="contenedor_login"
-    style="
-      background-attachment: fixed;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-    "
-  >
-    <div class="login-container">
-      <div id="output"></div>
-      <div class="avatar"></div>
-      <div class="form-box">
-        <form form name="form" id="form" v-on:submit.prevent="procesar()" class="form">
-          <p class="letraslogin">
-            Documento:
-            <input
-              type="text"
-              name="username"
-              placeholder="Documento"
-              class="form-control"
-              v-model="contacto.username"
-            />
-          </p>
-
-          <p class="letraslogin">
-            Contraseña:
-
-            <input
-              type="password"
-              name="password"
-              placeholder="Contraseña"
-              class="form-control"
-              v-model="contacto.password"
-            />
-          </p>
-
-          <br />
-          <input
-            type="submit"
-            value="Iniciar Sesion"
-            title="Enviar"
-            class="session"
-          />
-        </form>
+  <div style="background-color:red;height:100%" >
+    <header style="z-index: ">
+      <div class="contenedor" >
+        <a href="#" style="text-decoration: none"
+          ><h1><i class="fas fa-books"></i> LMS</h1></a
+        >
+        <input type="checkbox" id="menu-barra" />
+        <label class="icon-menu" for="menu-barra"></label>
+        <nav class="menu">
+          <a href="/dashboard">
+            <i class="fa fa-home" aria-hidden="true"></i>
+          </a>
+          <a v-on:click="cambiarValorLocalStorage()" href="/login"> Entrar</a>
+        </nav>
       </div>
+    </header>
+    <div class="sidenav">
+      <div class="col-md-6 col-sm-12">
+        
+    
+        <div class="login-form">
+          <form>
+            <div class="form-group">
+              <label>Usuario</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ejemplo: 51818993"
+              />
+            </div>
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Contraseña"
+              />
+            </div>
+            <button type="submit" class="btn session">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <div class="login-main-text">
+            <h2>Application<br> Login Page</h2>
+            <p>Login or register from here to access.</p>
+         </div>
+       <img src="../assets/images/background_login.jpg" alt="">
     </div>
   </div>
 </template>
@@ -106,49 +109,81 @@ export default {
 </script>
 
 <style>
-.login-container {
-  position: relative;
-  width: 300px;
-  margin: 150px auto;
-  padding: 20px 40px 40px;
-  text-align: center;
-  background: #3a4f6b;
- 
-  border-radius: 10px;
-
-  -webkit-box-shadow: 10px 10px 22px 0px rgba(0, 0, 0, 0.55);
-  -moz-box-shadow: 10px 10px 22px 0px rgba(0, 0, 0, 0.55);
-  box-shadow: 10px 10px 22px 0px rgba(0, 0, 0, 0.55);
+.main-head {
+  height: 150px;
+  background: #fff;
 }
 
-.contenedor_login {
-  position: absolute;
-  width: 100%;
+.sidenav {
   height: 100%;
-  background:url(../assets/images/lines.jpg);
+  background-color: white;
+  overflow-x: hidden;
+  padding-top: 20px;
 }
-.avatar {
-  background: url(../assets/images/logoLogin.png);
-  width: 100px;
-  height: 100px;
-  margin: 10px auto 30px;
-  background-size: cover;
+
+.main {
+ 
+  padding: 0px 10px;
 }
-.letraslogin {
-  text-align: left;
-  margin-bottom: 25px;
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .login-form {
+    margin-top: 10%;
+  }
+
+  .register-form {
+    margin-top: 10%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    margin-left: 40%;
+  }
+
+  .sidenav {
+    width: 40%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+  }
+
+  .login-form {
+    margin-top: 80%;
+  }
+
+  .register-form {
+    margin-top: 20%;
+  }
+}
+
+.login-main-text {
+  margin-top: 20%;
+  padding: 60px;
+  color: #fff;
+}
+
+.login-main-text h2 {
+  font-weight: 300;
+}
+
+.btn-black {
+  background-color: #000 !important;
+  color: #fff;
+}
+.session {
+  height: 45px;
+  width: 60%;
+  background-color: #50b7f5;
   color: white;
-}
-.letraslogin input{
-  width:100%;
-  height:32px;
-}
-.session{
-  height:45px;
-  width:60%;
-  background-color: #0069D9;
-  color: white;
-  font-size:15px;
+  font-size: 15px;
   border-radius: 7px;
   border: none;
   cursor: pointer;
