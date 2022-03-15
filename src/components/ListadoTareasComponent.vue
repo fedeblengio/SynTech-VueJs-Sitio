@@ -11,7 +11,7 @@
           class="btn_crearClase"
           data-toggle="modal"
           data-target="#exampleModal"
-          style="margin-top: -35px;"
+    
         >
           Crear Tarea
         </button>

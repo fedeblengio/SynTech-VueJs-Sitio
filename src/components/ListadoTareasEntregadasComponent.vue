@@ -3,7 +3,7 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header tarea_cont">
+      <div class="feed_header">
         <h2>Tareas Entregadas</h2>
       </div>
 
