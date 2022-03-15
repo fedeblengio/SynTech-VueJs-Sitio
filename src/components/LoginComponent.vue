@@ -2,7 +2,7 @@
   <div style="">
     <div class="login_cont">
       <div class="sidenav">
-        <form>
+        <form form name="form" id="form" v-on:submit.prevent="procesar()">
           <img src="../assets/images/LogoFinal.png" alt="" />
           <h2>Inicio de sesión</h2>
           <div class="form-group">
@@ -11,6 +11,7 @@
               type="text"
               class="form-control"
               placeholder="Ejemplo: 51818993"
+              v-model="contacto.username"
             />
           </div>
           <div class="form-group">
@@ -19,6 +20,7 @@
               type="password"
               class="form-control"
               placeholder="Contraseña"
+              v-model="contacto.password"
             />
           </div>
           <button type="submit" class="btn session boxText_btn btn_login">
@@ -126,7 +128,7 @@ form img {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50px;
-  width: 150px;
+  width: 170px;
   height: 150px;
 }
 .form-group {
