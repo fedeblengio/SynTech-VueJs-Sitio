@@ -752,6 +752,16 @@ textarea {
     margin-right: auto;
 }
 
+.tarea_cont {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.tarea_cont h2 {
+    margin: auto;
+}
+
 .inputsPwd input {
     outline: none;
     width: 95%;
