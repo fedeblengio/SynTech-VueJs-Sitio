@@ -603,6 +603,7 @@ textarea {
     font-weight: 600;
     margin-left: 25px;
     text-decoration: none;
+    margin-top: 20px;
     color: var(--colorLetra);
 }
 
@@ -613,7 +614,7 @@ textarea {
 .textImg h4 {
     font-size: 13px;
     font-weight: 600;
-    margin-left: 20px;
+    margin-left: 25px;
     text-decoration: none;
     color: skyblue;
     text-align: center;
