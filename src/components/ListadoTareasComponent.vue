@@ -5,18 +5,20 @@
     <div class="feed">
       <div class="feed_header">
         <h2>{{ routerValues.idGrupo }} - {{ routerValues.materia }}</h2>
-      </div>
-
-      <div class="moverBtnCrearTarea" v-if="!alumno">
+          <div class="moverBtnCrearTarea" v-if="!alumno">
         <button
           type="button"
           class="btn_crearClase"
           data-toggle="modal"
           data-target="#exampleModal"
+          style="margin-top: -35px;"
         >
           Crear Tarea
         </button>
       </div>
+      </div>
+
+    
       <!-- --- INICIO MODAL --- -->
       <div
         class="modal fade"
