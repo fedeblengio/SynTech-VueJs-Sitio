@@ -6,25 +6,28 @@
       <div class="feed_header">
         <h2>Mis Materias</h2>
       </div>
-     
-        <div class="card" v-for="clase in traerMaterias" :key="clase.id">
-          <div class="card-header">
-            {{ clase.idGrupo }} - {{ clase.Materia }}
-          </div>
-          <div class="card-body">
-            <h6>
-              <em>Profesor/a: {{ clase.Profesor }}</em>
-            </h6>
-            <p class="card-text">{{ clase.nombreCompleto }}</p>
-            <a
-              href="#"
-              class="btn btn-primary float-right"
-              style="margin-top: -60px"
-              >Material del curso</a
-            >
-          </div>
+
+      <div class="card" v-for="clase in traerMaterias" :key="clase.id">
+        <div class="card-header">{{ clase.idGrupo }} - {{ clase.Materia }}</div>
+        <div class="card-body">
+          <h6>
+            <em>Profesor/a: {{ clase.Profesor }}</em>
+          </h6>
+          <p class="card-text">{{ clase.nombreCompleto }}</p>
+          <router-link
+            class="btn btn-primary float-right"
+            style="margin-top: -60px"
+            :to="{
+              name: 'materia-seleccionada',
+              params: {
+                idMateria: clase.idMateria,
+                nombreMateria: clase.Materia,
+              },
+            }"
+            >Material del curso</router-link
+          >
         </div>
-      
+      </div>
     </div>
     <SectionRight></SectionRight>
   </div>

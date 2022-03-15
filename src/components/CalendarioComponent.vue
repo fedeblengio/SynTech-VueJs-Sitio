@@ -7,6 +7,7 @@
         <h2>Calendario de Clases</h2>
       </div>
       <div>
+        <h5>{{ fechaActual() }}</h5>
         <FullCalendar :options="calendarOptions" />
       </div>
 
@@ -48,6 +49,7 @@ import moment from "moment";
 import "@fullcalendar/core/vdom"; // solves problem with Vite
 import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
+
 window.$ = JQuery;
 export default {
   name: "ProfileComponent",
@@ -64,20 +66,26 @@ export default {
         initialView: "dayGridMonth",
         weekends: false,
         locale: "es",
+        height: 650,
         timeZone: "GMT-3",
         events: [],
-        contentHeight:"auto",
-        handleWindowResize:true,
+        contentHeight: "auto",
+        handleWindowResize: true,
       },
       title: "Calendario",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listClasesVirtuales: "",
     };
   },
+
   mounted() {
     this.clasesVirtualesCreadas();
   },
+
   methods: {
+    fechaActual() {
+      return moment().locale("es").format("MMMM Do YYYY");
+    },
     moment: function (fecha) {
       return moment(fecha).format("HH:mm ");
     },
@@ -102,7 +110,6 @@ export default {
         }
       }
 
-
       if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
         return window
@@ -113,7 +120,9 @@ export default {
           )
           .focus();
       } else {
-        alert("Podras acceder a la clase 5 minutos antes de la hora especificada");
+        alert(
+          "Podras acceder a la clase 5 minutos antes de la hora especificada"
+        );
       }
     },
     clasesVirtualesCreadas() {
