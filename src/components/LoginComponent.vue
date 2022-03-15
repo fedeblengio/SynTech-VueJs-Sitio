@@ -113,7 +113,7 @@ export default {
 }
 
 .sidenav form {
-  margin: 30% auto;
+  margin: auto;
 }
 form h2 {
   display: flex;
