@@ -43,10 +43,21 @@
     <div class="sidebarClass">
       <h3>Mis Clases</h3>
       <div class="sidebarElement" v-for="todo in traerMaterias" :key="todo.id">
+        <router-link
+        :to="{
+          name: 'materia-seleccionada',
+          params: {
+            idMateria: todo.idMateria,
+            nombreMateria: todo.Materia,
+          },
+        }"
+        style="text-decoration:none"
+      >
         <span class="clases">
           <span class="sidebarDot"></span> {{ todo.idGrupo }} -
           {{ todo.Materia }}</span
-        >
+        ></router-link
+      >
       </div>
     </div>
   </div>
