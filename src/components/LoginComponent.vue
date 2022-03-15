@@ -1,53 +1,36 @@
 <template>
-  <div style="background-color:red;height:100%" >
-    <header style="z-index: ">
-      <div class="contenedor" >
-        <a href="#" style="text-decoration: none"
-          ><h1><i class="fas fa-books"></i> LMS</h1></a
-        >
-        <input type="checkbox" id="menu-barra" />
-        <label class="icon-menu" for="menu-barra"></label>
-        <nav class="menu">
-          <a href="/dashboard">
-            <i class="fa fa-home" aria-hidden="true"></i>
-          </a>
-          <a v-on:click="cambiarValorLocalStorage()" href="/login"> Entrar</a>
-        </nav>
+  <div style="">
+    <div class="login_cont">
+      <div class="sidenav">
+        <form>
+          <img src="../assets/images/LogoFinal.png" alt="" />
+          <h2>Inicio de sesión</h2>
+          <div class="form-group">
+            <label>Usuario</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Ejemplo: 51818993"
+            />
+          </div>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <input
+              type="password"
+              class="form-control"
+              placeholder="Contraseña"
+            />
+          </div>
+          <button type="submit" class="btn session boxText_btn btn_login">
+            Login
+          </button>
+        </form>
       </div>
-    </header>
-    <div class="sidenav">
-      <div class="col-md-6 col-sm-12">
-        
-    
-        <div class="login-form">
-          <form>
-            <div class="form-group">
-              <label>Usuario</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Ejemplo: 51818993"
-              />
-            </div>
-            <div class="form-group">
-              <label>Contraseña</label>
-              <input
-                type="password"
-                class="form-control"
-                placeholder="Contraseña"
-              />
-            </div>
-            <button type="submit" class="btn session">Login</button>
-          </form>
+      <div class="login_inputs">
+        <div class="login-img">
+          <img src="../assets/images/background_login.jpg" alt="" />
         </div>
       </div>
-    </div>
-    <div class="main">
-      <div class="login-main-text">
-            <h2>Application<br> Login Page</h2>
-            <p>Login or register from here to access.</p>
-         </div>
-       <img src="../assets/images/background_login.jpg" alt="">
     </div>
   </div>
 </template>
@@ -109,83 +92,57 @@ export default {
 </script>
 
 <style>
-.main-head {
-  height: 150px;
-  background: #fff;
+.login_cont {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
-
 .sidenav {
-  height: 100%;
   background-color: white;
-  overflow-x: hidden;
-  padding-top: 20px;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+}
+.login_inputs {
+  height: 100vh;
+}
+.login-img img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
 }
 
-.main {
- 
-  padding: 0px 10px;
+.sidenav form {
+  margin: 30% auto;
 }
-
-@media screen and (max-height: 450px) {
-  .sidenav {
-    padding-top: 15px;
+form h2 {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+form img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 50px;
+  width: 150px;
+  height: 150px;
+}
+.form-group {
+  width: 300px !important;
+}
+.btn_login {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+}
+@media screen and (max-width: 1000px) {
+  .login-img img {
+    display: none;
   }
-}
-
-@media screen and (max-width: 450px) {
-  .login-form {
-    margin-top: 10%;
+  .sidenav{
+    width: 100%;
   }
-
-  .register-form {
-    margin-top: 10%;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .main {
-    margin-left: 40%;
-  }
-
-  .sidenav {
-    width: 40%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-  }
-
-  .login-form {
-    margin-top: 80%;
-  }
-
-  .register-form {
-    margin-top: 20%;
-  }
-}
-
-.login-main-text {
-  margin-top: 20%;
-  padding: 60px;
-  color: #fff;
-}
-
-.login-main-text h2 {
-  font-weight: 300;
-}
-
-.btn-black {
-  background-color: #000 !important;
-  color: #fff;
-}
-.session {
-  height: 45px;
-  width: 60%;
-  background-color: #50b7f5;
-  color: white;
-  font-size: 15px;
-  border-radius: 7px;
-  border: none;
-  cursor: pointer;
 }
 </style>
