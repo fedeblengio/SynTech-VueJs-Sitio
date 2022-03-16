@@ -2,23 +2,44 @@
   <div class="events">
     <div class="events_header">
       <div class="events_icon" v-if="tareasPendientes">
-        <i id="notificacion" class="fal fa-bell" v-on:click="showNoti()">
+        <i
+          id="notificacion"
+          class="fal fa-bell"
+          @click="mostrarNoticacion('campana')"
+        >
           <span class="icon_noti" id="noti">
             <p>Tareas Pendientes</p>
           </span></i
         >
       </div>
-      <div class="events_icon" v-else @click="showNoti()">
+      <div class="events_icon" v-else @click="mostrarNoticacion('campana')">
         <i class="far fa-bell-slash noticont">
-          <span class="icon_noti" id="noti">
+          <span class="icon_noti" id="campana">
             <p>Sin notificaciones</p>
           </span>
         </i>
       </div>
-      <div class="events_icon">
-        <router-link to="/profile">
-          <i class="fal fa-cog" style="color: black"></i>
-        </router-link>
+      <div class="events_icon" @click="mostrarNoticacion('configuracion')">
+        <i class="fal fa-cog noticont" style="color: black">
+          <span class="icon_noti" id="configuracion">
+            <p>
+              <router-link
+                to="/profile"
+                style="text-decoration: none !important"
+              >
+                Mi Perfil</router-link
+              >
+            </p>
+            <p>
+              <router-link
+                to="/cambioPwd"
+                style="text-decoration: none !important"
+              >
+                Cambiar Contraseña
+              </router-link>
+            </p>
+          </span>
+        </i>
       </div>
       <div class="events_icon">
         <a href="" v-on:click="cerrarSesion()">
@@ -145,15 +166,26 @@ export default {
         this.cargarTareas.tareas.length + this.cargarTareas.re_hacer.length;
       alert("Tienes " + cantTareas + " pendientes");
     },
-    showNoti() {
-      let noti = document.getElementById("noti");
+    mostrarNoticacion(id) {
+      let noti = document.getElementById(id);
+      let campana = document.getElementById("campana");
+      let configuracion = document.getElementById("configuracion");
+
       if (this.aux == 0) {
         noti.style.display = "none";
         this.aux = 1;
       } else {
-        noti.style.display = "block";
+        if (noti.id == campana.id) {
+          campana.style.display = "block";
+          configuracion.style.display = "none";
+        } else {
+          configuracion.style.display = "block";
+          campana.style.display = "none";
+        }
         this.aux = 0;
       }
+
+     
     },
     cargarTareasCreadas() {
       let config = {

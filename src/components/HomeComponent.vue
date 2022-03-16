@@ -81,10 +81,13 @@
         :key="post.id"
         :id="post.id"
       >
+      
+      
         <div class="post_avatar">
           <img :src="returnImgProfile(post.data.profile_picture)" alt="" />
         </div>
         <div class="post_body">
+          <button type="button" class="boxText_btn" v-on:click='borrarPublicacion(post.data.id)'>Borrar</button>
           <div class="post_title">
             <span> {{ post.data.titulo }} </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -164,6 +167,8 @@ export default {
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
+     
+      
     } else {
       this.traerMateriasUser();
     }
@@ -176,6 +181,7 @@ export default {
       textarea.style.height = "";
       textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
     };
+   
   },
   methods: {
     moment: function (fecha) {
@@ -359,7 +365,7 @@ export default {
       return "data:image/png;base64," + img;
     },
 
-    enviarArchivos() {
+  enviarArchivos() {
       var hoy = new Date();
       var fecha =
         hoy.getDate() +
@@ -377,13 +383,15 @@ export default {
         },
       };
       let nombres = [];
+       setTimeout(() => {  
       for (let i = 0; i < this.file.length; i++) {
         nombres.push(fecha + this.file[i].name);
         let formData = new FormData();
-
+    
+       
         formData.append("archivo", this.file[i]);
         formData.append("nombre", fecha + this.file[i].name);
-
+        
         axios
           .post(Global.urlSitio + "FTP", formData, config)
           .then((response) => {
@@ -392,9 +400,12 @@ export default {
             }
           })
           .catch(() => {});
+          
       }
       this.enviarPost(nombres);
+       }, 2000);
     },
+
     enviarPost(nombres) {
       let config = {
         headers: {
@@ -436,6 +447,23 @@ export default {
             message: "Error al publicar el post",
           });
         });
+    },
+    borrarPublicacion(idPublicacion){
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+     
+        axios
+          .delete(Global.urlSitio + "foro?id="+idPublicacion, config)
+          .then((response) => {
+            if (response.status == 200) {
+              location.reload();
+            }
+          })
+          .catch(() => {});
     },
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;

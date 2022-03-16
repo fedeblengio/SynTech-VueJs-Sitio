@@ -222,8 +222,8 @@ details {
 }
 
 .boxText_input img {
-    height: 70px;
-    width: 70px;
+    height: 65px;
+    width: 65px;
     border-radius: 50%;
 }
 
@@ -349,8 +349,8 @@ details {
 }
 
 .post_avatar img {
-    height: 70px;
-    width: 70px;
+    height: 65px;
+    width: 65px;
     border-radius: 50%;
 }
 
@@ -514,6 +514,15 @@ details {
 
 .noticont {
     position: relative;
+}
+
+.noticont:hover {
+    cursor: pointer;
+}
+
+.noticont p:hover {
+    color: #50b7f5;
+    transition: all 0.2s ease-in-out;
 }
 
 .icon_noti p {
