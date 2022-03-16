@@ -2,14 +2,18 @@
   <div class="events">
     <div class="events_header">
       <div class="events_icon" v-if="tareasPendientes">
-        <i
-          id="notificacion"
-          class="fal fa-bell"
-          v-on:click="notificacion()"
-        ></i>
+        <i id="notificacion" class="fal fa-bell" v-on:click="showNoti()">
+          <span class="icon_noti" id="noti">
+            <p>Tareas Pendientes</p>
+          </span></i
+        >
       </div>
-      <div class="events_icon" v-else>
-        <i class="far fa-bell-slash"></i>
+      <div class="events_icon" v-else @click="showNoti()">
+        <i class="far fa-bell-slash noticont">
+          <span class="icon_noti" id="noti">
+            <p>Sin notificaciones</p>
+          </span>
+        </i>
       </div>
       <div class="events_icon">
         <router-link to="/profile">
@@ -23,59 +27,55 @@
       </div>
     </div>
 
-    
-  
-      <div class="calendarioElement" v-if='profesor'>
-        <Calendar></Calendar>
-      </div>
+    <div class="calendarioElement" v-if="profesor">
+      <Calendar></Calendar>
+    </div>
     <div class="currentEvent" v-else>
       <div class="currentEvent_contenedor">
         <h3 class="pendientes_titulo">Pendientes</h3>
         <div class="contenedor_scroll_pendientes">
           <div
-           v-on:click="refresh()"
-            class="pendientes sidebarElement "
+            v-on:click="refresh()"
+            class="pendientes sidebarElement"
             v-for="tareas in cargarTareas.tareas"
             :key="tareas.id"
           >
             <router-link
-               
-                :to="{
-                  name: 'tarea-seleccionada',
-                  params: {
-                    materia: tareas.Materia,
-                    idTarea: tareas.idTarea,
-                    re_hacer: false,
-                  },
-                }"
-                class="router-link"
-              >
-            <span class="pendientes_tarea">
-              {{ tareas.titulo }} - {{ tareas.Materia }}</span
+              :to="{
+                name: 'tarea-seleccionada',
+                params: {
+                  materia: tareas.Materia,
+                  idTarea: tareas.idTarea,
+                  re_hacer: false,
+                },
+              }"
+              class="router-link"
             >
+              <span class="pendientes_tarea">
+                {{ tareas.titulo }} - {{ tareas.Materia }}</span
+              >
             </router-link>
           </div>
-              <div
-           v-on:click="refresh()"
-            class="pendientes sidebarElement "
+          <div
+            v-on:click="refresh()"
+            class="pendientes sidebarElement"
             v-for="tareas in cargarTareas.re_hacer"
             :key="tareas.id"
           >
             <router-link
-               
-                :to="{
-                  name: 'tarea-seleccionada',
-                  params: {
-                    materia: tareas.Materia,
-                    idTarea: tareas.idTarea,
-                    re_hacer: true,
-                  },
-                }"
-                class="router-link"
-              >
-            <span class="pendientes_tarea">
-              {{ tareas.titulo }} - {{ tareas.Materia }}</span
+              :to="{
+                name: 'tarea-seleccionada',
+                params: {
+                  materia: tareas.Materia,
+                  idTarea: tareas.idTarea,
+                  re_hacer: true,
+                },
+              }"
+              class="router-link"
             >
+              <span class="pendientes_tarea">
+                {{ tareas.titulo }} - {{ tareas.Materia }}</span
+              >
             </router-link>
           </div>
         </div>
@@ -85,13 +85,10 @@
     <div class="currentEvent">
       <div class="currentEvent_contenedor">
         <h3>Mis Eventos</h3>
-        <div
-          class="sidebarElement"
-          v-for="todo in eventos"
-          :key="todo.id"
-        >
+        <div class="sidebarElement" v-for="todo in eventos" :key="todo.id">
           <span class="clases">
-            <span class="sidebarDot_event"></span> {{ evento(todo) }} </span>
+            <span class="sidebarDot_event"></span> {{ evento(todo) }}
+          </span>
         </div>
       </div>
     </div>
@@ -106,8 +103,7 @@ import moment from "moment";
 export default {
   name: "SectionRight",
   components: {
-   Calendar,
-  
+    Calendar,
   },
   data() {
     return {
@@ -115,11 +111,11 @@ export default {
       eventos: "",
       cargarTareas: "",
       tareasPendientes: false,
-      profesor: false,  
+      profesor: false,
+      aux: 1,
     };
   },
   mounted() {
-    
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
       this.profesor = true;
@@ -130,16 +126,34 @@ export default {
     }
   },
   methods: {
-    evento(event){
-     return event.idGrupo + " - " + event.materia.substr(0,3) +" | "+ moment(event.fecha_inicio).format("HH:mm") + " - " + moment(event.fecha_fin).format("HH:mm");
+    evento(event) {
+      return (
+        event.idGrupo +
+        " - " +
+        event.materia.substr(0, 3) +
+        " | " +
+        moment(event.fecha_inicio).format("HH:mm") +
+        " - " +
+        moment(event.fecha_fin).format("HH:mm")
+      );
     },
-    refresh(){
+    refresh() {
       location.reload();
     },
     notificacion() {
       let cantTareas =
         this.cargarTareas.tareas.length + this.cargarTareas.re_hacer.length;
       alert("Tienes " + cantTareas + " pendientes");
+    },
+    showNoti() {
+      let noti = document.getElementById("noti");
+      if (this.aux == 0) {
+        noti.style.display = "none";
+        this.aux = 1;
+      } else {
+        noti.style.display = "block";
+        this.aux = 0;
+      }
     },
     cargarTareasCreadas() {
       let config = {
@@ -200,7 +214,11 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio + "agenda-clase-eventos?idUsuario=" + this.usuario.username+"&ou=" + this.usuario.ou,
+          Global.urlSitio +
+            "agenda-clase-eventos?idUsuario=" +
+            this.usuario.username +
+            "&ou=" +
+            this.usuario.ou,
           config
         )
         .then((res) => {
@@ -209,7 +227,6 @@ export default {
           }
         });
     },
-   
   },
 };
 </script>
