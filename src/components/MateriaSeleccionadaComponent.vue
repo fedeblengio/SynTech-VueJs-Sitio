@@ -5,7 +5,7 @@
 
     <div class="feed">
       <div class="feed_header">
-        <h2>Foro {{this.$route.params.nombreMateria}}</h2>
+        <h2>{{this.$route.params.nombreMateria}}</h2>
       </div>
 
       <div class="boxText">
