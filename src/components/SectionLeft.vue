@@ -47,6 +47,7 @@
         :to="{
           name: 'materia-seleccionada',
           params: {
+            idGrupo:todo.idGrupo,
             idMateria: todo.idMateria,
             nombreMateria: todo.Materia,
           },

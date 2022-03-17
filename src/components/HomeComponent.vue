@@ -11,7 +11,7 @@
       <div class="boxText">
         <div class="form">
           <div class="boxText_input">
-            <img id="post_img" />
+            <img :src="returnImgB64()" />
             <textarea
               id="textarea"
               placeholder="Escribe algo!"
@@ -81,13 +81,17 @@
         :key="post.id"
         :id="post.id"
       >
-      
-      
         <div class="post_avatar">
           <img :src="returnImgProfile(post.data.profile_picture)" alt="" />
         </div>
         <div class="post_body">
-          <button type="button" class="boxText_btn" v-on:click='borrarPublicacion(post.data.id)'>Borrar</button>
+          <button
+            type="button"
+            class="boxText_btn"
+            v-on:click="borrarPublicacion(post.data.id)"
+          >
+            Borrar
+          </button>
           <div class="post_title">
             <span> {{ post.data.titulo }} </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -167,8 +171,6 @@ export default {
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
-     
-      
     } else {
       this.traerMateriasUser();
     }
@@ -181,9 +183,11 @@ export default {
       textarea.style.height = "";
       textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
     };
-   
   },
   methods: {
+    returnImgB64() {
+      return "data:image/png;base64," + localStorage.getItem("perfil_img");
+    },
     moment: function (fecha) {
       return moment(fecha).format("DD/MM/YYYY h:mm a");
     },
@@ -365,7 +369,7 @@ export default {
       return "data:image/png;base64," + img;
     },
 
-  enviarArchivos() {
+    enviarArchivos() {
       var hoy = new Date();
       var fecha =
         hoy.getDate() +
@@ -383,27 +387,25 @@ export default {
         },
       };
       let nombres = [];
-       setTimeout(() => {  
-      for (let i = 0; i < this.file.length; i++) {
-        nombres.push(fecha + this.file[i].name);
-        let formData = new FormData();
-    
-       
-        formData.append("archivo", this.file[i]);
-        formData.append("nombre", fecha + this.file[i].name);
-        
-        axios
-          .post(Global.urlSitio + "FTP", formData, config)
-          .then((response) => {
-            if (response.status == 200) {
-              location.reload();
-            }
-          })
-          .catch(() => {});
-          
-      }
-      this.enviarPost(nombres);
-       }, 2000);
+      setTimeout(() => {
+        for (let i = 0; i < this.file.length; i++) {
+          nombres.push(fecha + this.file[i].name);
+          let formData = new FormData();
+
+          formData.append("archivo", this.file[i]);
+          formData.append("nombre", fecha + this.file[i].name);
+
+          axios
+            .post(Global.urlSitio + "FTP", formData, config)
+            .then((response) => {
+              if (response.status == 200) {
+                location.reload();
+              }
+            })
+            .catch(() => {});
+        }
+        this.enviarPost(nombres);
+      }, 2000);
     },
 
     enviarPost(nombres) {
@@ -448,22 +450,22 @@ export default {
           });
         });
     },
-    borrarPublicacion(idPublicacion){
+    borrarPublicacion(idPublicacion) {
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-     
-        axios
-          .delete(Global.urlSitio + "foro?id="+idPublicacion, config)
-          .then((response) => {
-            if (response.status == 200) {
-              location.reload();
-            }
-          })
-          .catch(() => {});
+
+      axios
+        .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
+        .then((response) => {
+          if (response.status == 200) {
+            location.reload();
+          }
+        })
+        .catch(() => {});
     },
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;

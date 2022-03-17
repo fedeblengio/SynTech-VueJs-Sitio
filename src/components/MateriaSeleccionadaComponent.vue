@@ -5,37 +5,19 @@
 
     <div class="feed">
       <div class="feed_header">
-        <h2>{{this.$route.params.nombreMateria}}</h2>
+        <h2>{{ this.$route.params.nombreMateria }}</h2>
       </div>
 
       <div class="boxText">
         <div class="form">
           <div class="boxText_input">
-            <img id="post_img" />
+            <img :src='returnImgB64()' />
             <textarea
               id="textarea"
               placeholder="Escribe algo!"
               required
               v-model="mensaje"
             ></textarea>
-          </div>
-          <div class="addArchivos">
-            <div class="select_materia">
-              <select
-                v-on:change="traerIdForo()"
-                class="form-control"
-                v-model="selectedGroup"
-                required
-              >
-                <option
-                  v-for="todo in traerMaterias"
-                  :key="todo.id"
-                  v-bind:value="[todo.idGrupo, todo.idMateria, todo.Materia]"
-                >
-                  {{ todo.idGrupo }} - {{ todo.Materia }}
-                </option>
-              </select>
-            </div>
           </div>
           <div
             class="preview_contenedor"
@@ -85,6 +67,13 @@
           <img :src="returnImgProfile(post.data.profile_picture)" alt="" />
         </div>
         <div class="post_body">
+          <button
+            type="button"
+            class="boxText_btn"
+            v-on:click="borrarPublicacion(post.data.id)"
+          >
+            Borrar
+          </button>
           <div class="post_title">
             <span> {{ post.data.titulo }} </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -149,7 +138,7 @@ export default {
     return {
       usuario: "",
       profesor: false,
-      title: "Home",
+      title: "Materias",
       selectedGroup: "",
       file: [],
       traerArchivos: "",
@@ -293,9 +282,9 @@ export default {
         .get(
           Global.urlSitio +
             "foros?idMateria=" +
-            this.selectedGroup[1] +
+            this.$route.params.idMateria +
             "&idGrupo=" +
-            this.selectedGroup[0],
+            this.$route.params.idGrupo,
           config
         )
         .then((res) => {
@@ -347,6 +336,9 @@ export default {
           }
         });
     },
+    returnImgB64() {
+      return "data:image/png;base64," + localStorage.getItem("perfil_img");
+    },
     delateFile(nombre) {
       let i;
 
@@ -362,6 +354,7 @@ export default {
     },
 
     enviarArchivos() {
+      this.traerIdForo();
       var hoy = new Date();
       var fecha =
         hoy.getDate() +
@@ -379,24 +372,27 @@ export default {
         },
       };
       let nombres = [];
-      for (let i = 0; i < this.file.length; i++) {
-        nombres.push(fecha + this.file[i].name);
-        let formData = new FormData();
+      setTimeout(() => {
+        for (let i = 0; i < this.file.length; i++) {
+          nombres.push(fecha + this.file[i].name);
+          let formData = new FormData();
 
-        formData.append("archivo", this.file[i]);
-        formData.append("nombre", fecha + this.file[i].name);
+          formData.append("archivo", this.file[i]);
+          formData.append("nombre", fecha + this.file[i].name);
 
-        axios
-          .post(Global.urlSitio + "FTP", formData, config)
-          .then((response) => {
-            if (response.status == 200) {
-              location.reload();
-            }
-          })
-          .catch(() => {});
-      }
-      this.enviarPost(nombres);
+          axios
+            .post(Global.urlSitio + "FTP", formData, config)
+            .then((response) => {
+              if (response.status == 200) {
+                location.reload();
+              }
+            })
+            .catch(() => {});
+        }
+        this.enviarPost(nombres);
+      }, 2000);
     },
+
     enviarPost(nombres) {
       let config = {
         headers: {
@@ -409,9 +405,9 @@ export default {
       let tituloForo =
         this.usuario.nombre +
         " publico para " +
-        this.selectedGroup[0] +
+        this.$route.params.idGrupo +
         " - " +
-        this.selectedGroup[2];
+        this.$route.params.nombreMateria;
 
       formData.append("idForo", this.foro.idForo);
       formData.append("idUsuario", this.usuario.username);
@@ -438,6 +434,23 @@ export default {
             message: "Error al publicar el post",
           });
         });
+    },
+    borrarPublicacion(idPublicacion) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
+        .then((response) => {
+          if (response.status == 200) {
+            location.reload();
+          }
+        })
+        .catch(() => {});
     },
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
