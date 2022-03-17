@@ -75,6 +75,7 @@
           </div>
         </div>
       </div>
+     
       <div
         class="post"
         v-for="post in traerArchivos"
@@ -84,13 +85,13 @@
         <div class="post_avatar">
           <img :src="returnImgProfile(post.data.profile_picture)" alt="" />
         </div>
-      
+
         <div class="post_body">
           <button
             type="button"
             class="boxText_btn"
             v-on:click="borrarPublicacion(post.data.id)"
-            v-if='post.data.idUsuario===usuario.username'
+            v-if="post.data.idUsuario === usuario.username"
           >
             Borrar
           </button>
