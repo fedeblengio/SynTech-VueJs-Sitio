@@ -5,20 +5,18 @@
     <div class="feed">
       <div class="feed_header">
         <h2>{{ routerValues.idGrupo }} - {{ routerValues.materia }}</h2>
-          <div class="moverBtnCrearTarea" v-if="!alumno">
-        <button
-          type="button"
-          class="btn_crearClase"
-          data-toggle="modal"
-          data-target="#exampleModal"
-    
-        >
-          Crear Tarea
-        </button>
-      </div>
+        <div class="moverBtnCrearTarea" v-if="!alumno">
+          <button
+            type="button"
+            class="btn_crearClase"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >
+            Crear Tarea
+          </button>
+        </div>
       </div>
 
-    
       <!-- --- INICIO MODAL --- -->
       <div
         class="modal fade"
@@ -126,31 +124,41 @@
       </div>
       <!-- --- FIN MODAL --- -->
       <div class="list-group">
-        <router-link
-          :to="{
-            name: 'entregas',
-            params: {
-              idGrupo: tarea.idGrupo,
-              idMateria: tarea.idMateria,
-              idTareas: tarea.idTarea,
-            },
-          }"
+        <div
           class="list-group-item list-group-item-action"
           aria-current="true"
           v-for="tarea in listadoTareas"
           :key="tarea.id"
         >
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.idTarea }}</h5>
-            <small class="text-muted"
-              >Vence: {{ moment(tarea.fecha_vencimiento) }}</small
-            >
-          </div>
-          <p class="mb-1">{{ tarea.descripcion }}</p>
-          <small class="text-muted">
-            <b>Haga click para visualizar las entregas</b></small
+          <button
+            type="button"
+            class="boxText_btn"
+            v-on:click="borrarPublicacion(tarea.idTarea)"
           >
-        </router-link>
+            Borrar
+          </button>
+          <router-link
+            :to="{
+              name: 'entregas',
+              params: {
+                idGrupo: tarea.idGrupo,
+                idMateria: tarea.idMateria,
+                idTareas: tarea.idTarea,
+              },
+            }"
+          >
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.idTarea }}</h5>
+              <small class="text-muted"
+                >Vence: {{ moment(tarea.fecha_vencimiento) }}</small
+              >
+            </div>
+            <p class="mb-1">{{ tarea.descripcion }}</p>
+            <small class="text-muted">
+              <b>Haga click para visualizar las entregas</b></small
+            >
+          </router-link>
+        </div>
       </div>
     </div>
     <SectionRight></SectionRight>
@@ -199,6 +207,23 @@ export default {
     this.cargarTareasCreadas();
   },
   methods: {
+    borrarPublicacion(idTarea) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .delete(Global.urlSitio + "tarea?idTareas=" + idTarea, config)
+        .then((response) => {
+          if (response.status == 200) {
+            location.reload();
+          }
+        })
+        .catch(() => {});
+    },
     moment: function (fecha) {
       return moment(fecha).format("DD/MM/YYYY h:mm a");
     },
