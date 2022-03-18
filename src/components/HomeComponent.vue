@@ -75,8 +75,13 @@
           </div>
         </div>
       </div>
-     
+      <div class="div" v-if="loading">
+        <center>
+        <img  style='margin-top:20px' width="300px" height="200px" src="https://www.emape.gob.pe/assets/image/loading.gif" alt="">
+        </center>
+      </div>
       <div
+        v-else
         class="post"
         v-for="post in traerArchivos"
         :key="post.id"
@@ -168,9 +173,12 @@ export default {
       value: 1,
       traerMaterias: "",
       index: null,
+      loading: true,
     };
   },
   mounted() {
+    
+    this.loading = true;
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
@@ -290,6 +298,7 @@ export default {
           if (res.status == 200) {
             this.traerArchivos = res.data;
           }
+          this.loading = false;
         });
     },
 
