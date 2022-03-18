@@ -49,13 +49,18 @@
     </div>
 
     <div class="calendarioElement" v-if="profesor">
-      <Calendar></Calendar>
+     <v-date-picker mode="date" v-model="date"   :valid-hours="{ min: 4, max: 17 }" is24hr />
     </div>
     <div class="currentEvent" v-else>
       <div class="currentEvent_contenedor">
         <h3 class="pendientes_titulo">Pendientes</h3>
         <div class="contenedor_scroll_pendientes">
+          <div class="d-flex align-items-center" v-if=loading>
+  <strong>Loading...</strong>
+  <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+</div>
           <div
+          v-else
             v-on:click="refresh()"
             class="pendientes sidebarElement"
             v-for="tareas in cargarTareas.tareas"
@@ -105,8 +110,14 @@
 
     <div class="currentEvent">
       <div class="currentEvent_contenedor">
+     
         <h3>Mis Eventos</h3>
-        <div class="sidebarElement" v-for="todo in eventos" :key="todo.id">
+      <div class="sidebarElement" v-if=loading>
+          <span class="clases text-center">
+            <span class="sidebarDot_event"></span>  . . .
+          </span>
+        </div>
+        <div class="sidebarElement" v-for="todo in eventos" :key="todo.id" v-else>
           <span class="clases">
             <span class="sidebarDot_event"></span> {{ evento(todo) }}
           </span>
@@ -119,21 +130,22 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-import Calendar from "v-calendar/lib/components/calendar.umd";
 import moment from "moment";
 export default {
   name: "SectionRight",
   components: {
-    Calendar,
+
   },
   data() {
     return {
+      loading:true,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       eventos: "",
       cargarTareas: "",
       tareasPendientes: false,
       profesor: false,
       aux: 1,
+     date: new Date()
     };
   },
   mounted() {
@@ -142,8 +154,8 @@ export default {
       this.profesor = true;
       this.cargarEventos();
     } else {
-      this.cargarEventos();
       this.cargarTareasCreadas();
+      this.cargarEventos();
     }
   },
   methods: {
@@ -184,8 +196,6 @@ export default {
         }
         this.aux = 0;
       }
-
-     
     },
     cargarTareasCreadas() {
       let config = {
@@ -257,6 +267,7 @@ export default {
           if (res.status == 200) {
             this.eventos = res.data;
           }
+          this.loading = false;
         });
     },
   },

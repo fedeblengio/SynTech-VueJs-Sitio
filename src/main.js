@@ -33,7 +33,7 @@ Vue.use(Vuelidate);
 Vue.use(CKEditor);
 Vue.use(VFileInput);
 Vue.component('calendar', Calendar)
-Vue.component('date-picker', DatePicker)
+Vue.component('v-date-picker', DatePicker)
 Vue.component('vue-picture-swipe', VuePictureSwipe);
 
 //acá declaramos todas nuestras rutas de navegación

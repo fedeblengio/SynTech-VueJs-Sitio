@@ -164,6 +164,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       spinner: Global.spinnerUrl,
       usuario: "",
       profesor: false,
@@ -176,7 +177,7 @@ export default {
       value: 1,
       traerMaterias: "",
       index: null,
-      loading: true,
+      
     };
   },
   mounted() {

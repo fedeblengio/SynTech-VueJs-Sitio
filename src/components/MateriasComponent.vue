@@ -6,8 +6,18 @@
       <div class="feed_header">
         <h2>Mis Materias</h2>
       </div>
-
-      <div class="card" v-for="clase in traerMaterias" :key="clase.id">
+      <div class="div" v-if="loading">
+        <center>
+          <img
+            style="margin-top: 20px"
+            width="200px"
+            height="200px"
+            :src="spinner"
+            alt=""
+          />
+        </center>
+      </div>
+      <div class="card" v-for="clase in traerMaterias" :key="clase.id" v-else>
         <div class="card-header">{{ clase.idGrupo }} - {{ clase.Materia }}</div>
         <div class="card-body">
           <h6>
@@ -50,6 +60,8 @@ export default {
   data() {
     return {
       title: "Mis Materias",
+      loading: true,
+      spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       alumno: false,
       traerMaterias: "",
@@ -86,6 +98,7 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
+          this.loading= false;
         });
     },
     traerMateriasUser() {
@@ -104,6 +117,7 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
+           this.loading= false;
         });
     },
   },

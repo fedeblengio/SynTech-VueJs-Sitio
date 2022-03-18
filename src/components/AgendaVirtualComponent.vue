@@ -91,7 +91,18 @@
             <th scope="col">Link</th>
           </tr>
         </thead>
-        <tbody>
+        <div class="div" v-if="loading">
+          <center>
+            <img
+              style="margin-top: 20px"
+              width="200px"
+              height="200px"
+              :src="spinner"
+              alt=""
+            />
+          </center>
+        </div>
+        <tbody v-else>
           <tr v-for="clase in clasesVirtualesCreadas" :key="clase.id">
             <th scope="row">{{ clase.idGrupo }} - {{ clase.materia }}</th>
             <td>
@@ -128,6 +139,8 @@ export default {
   },
   data() {
     return {
+      loading: true,
+      spinner: Global.spinnerUrl,
       title: "agenda-clase",
       today: "",
       usuario: "",
@@ -152,7 +165,7 @@ export default {
     this.listarClaseVirtual();
   },
   methods: {
-     entrarJitsi(clase) {
+    entrarJitsi(clase) {
       let url = "https://meet.jit.si/" + window.btoa(clase);
       return window
         .open(
@@ -240,6 +253,7 @@ export default {
           if (res.status == 200) {
             this.clasesVirtualesCreadas = res.data;
           }
+          this.loading = false;
         });
     },
   },

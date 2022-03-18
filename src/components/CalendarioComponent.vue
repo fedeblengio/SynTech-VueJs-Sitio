@@ -19,7 +19,18 @@
             <th scope="col">Link</th>
           </tr>
         </thead>
-        <tbody>
+        <div class="div" v-if="loading">
+          <center>
+            <img
+              style="margin-top: 20px"
+              width="200px"
+              height="200px"
+              :src="spinner"
+              alt=""
+            />
+          </center>
+        </div>
+        <tbody v-else>
           <tr v-for="clase in listClasesVirtuales" :key="clase.id">
             <th scope="row">{{ clase.idGrupo }} - {{ clase.materia }}</th>
             <td>
@@ -61,6 +72,8 @@ export default {
   },
   data() {
     return {
+      loading: true,
+      spinner: Global.spinnerUrl,
       calendarOptions: {
         plugins: [dayGridPlugin],
         initialView: "dayGridMonth",
@@ -147,6 +160,7 @@ export default {
             this.listClasesVirtuales = res.data;
             this.cargarCalendario();
           }
+          this.loading = false;
         });
     },
     cargarCalendario() {

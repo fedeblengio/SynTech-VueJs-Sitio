@@ -6,8 +6,18 @@
       <div class="feed_header">
         <h2>Mis Cursos</h2>
       </div>
-
-      <div class="list-group">
+      <div class="div" v-if="loading">
+        <center>
+          <img
+            style="margin-top: 20px"
+            width="200px"
+            height="200px"
+            :src="spinner"
+            alt=""
+          />
+        </center>
+      </div>
+      <div class="list-group" v-else>
         <router-link
           :to="{
             name: 'listado-tareas',
@@ -53,6 +63,8 @@ export default {
   data() {
     return {
       title: "Tareas",
+      loading: true,
+      spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       alumno: true,
       traerGruposMateria: "",
@@ -88,6 +100,7 @@ export default {
           if (res.status == 200) {
             this.traerGruposMateria = res.data;
           }
+          this.loading=false;
         });
     },
   },
