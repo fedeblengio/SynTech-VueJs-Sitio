@@ -6,8 +6,12 @@
       <div class="feed_header">
         <h2>Tarea Entregada</h2>
       </div>
-
-      <div class="post">
+       <div class="div" v-if="loading">
+        <center>
+        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
+        </center>
+      </div>
+      <div class="post" v-else>
         <div class="post_avatar">
           <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
 
@@ -112,6 +116,8 @@ export default {
     return {
       title: "Corregir Alumno",
       usuario: "",
+      loading: true,
+      spinner: Global.spinnerUrl,
       tarea: {
         mensaje: "",
         calicacion: "",
@@ -231,6 +237,7 @@ export default {
             this.tarea.archivos = res.data[0].archivos;
             this.tarea.imagenes = res.data[0].imagenes;
           }
+          this.loading = false;
         });
     },
   },

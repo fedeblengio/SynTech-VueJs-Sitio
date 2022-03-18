@@ -87,6 +87,8 @@ export default {
     return {
       title: "Entrega",
       entregas: "",
+      loading: true,
+      spinner: Global.spinnerUrl,
     };
   },
   mounted() {

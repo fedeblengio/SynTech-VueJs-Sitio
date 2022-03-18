@@ -3,11 +3,16 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header">
-        <h2>{{ tarea.titulo }} | {{ tarea.materia }}</h2>
+       <div class="feed_header text-center" v-if="loading">Cargando.. </div>
+      <div class="feed_header" v-else>
+        <h2>{{ tarea.titulo  }}  {{ tarea.materia }}</h2>
       </div>
-
-      <div class="post">
+         <div class="div" v-if="loading">
+        <center>
+        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
+        </center>
+      </div>
+      <div class="post" v-else>
         <div class="post_avatar">
           <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
         </div>
@@ -121,6 +126,8 @@ export default {
     return {
       title: "Tarea",
       usuario: "",
+      loading: true,
+      spinner: Global.spinnerUrl,
       tarea: {
         idTarea: "",
         titulo: "",
@@ -193,6 +200,7 @@ export default {
             this.tarea.archivos = res.data.archivos;
             this.tarea.imagenes = res.data.imagenes;
           }
+          this.loading = false;
         });
     },
     returnIMGB64(img) {

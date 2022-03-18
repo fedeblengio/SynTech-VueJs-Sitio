@@ -57,7 +57,13 @@
           </div>
         </div>
       </div>
+       <div class="div" v-if="loading">
+        <center>
+        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
+        </center>
+      </div>
       <div
+        v-else
         class="post"
         v-for="post in traerArchivos"
         :key="post.id"
@@ -136,6 +142,8 @@ export default {
   },
   data() {
     return {
+       loading: true,
+      spinner: Global.spinnerUrl,
       usuario: "",
       profesor: false,
       title: "Materias",
@@ -268,6 +276,7 @@ export default {
           if (res.status == 200) {
             this.traerArchivos = res.data;
           }
+          this.loading = false;
         });
     },
 

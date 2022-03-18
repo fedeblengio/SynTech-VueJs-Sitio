@@ -123,7 +123,12 @@
         </div>
       </div>
       <!-- --- FIN MODAL --- -->
-      <div class="list-group">
+        <div class="div" v-if="loading">
+        <center>
+        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
+        </center>
+      </div>
+      <div class="list-group" v-else>
         <div
           class="list-group-item list-group-item-action"
           aria-current="true"
@@ -183,6 +188,8 @@ export default {
   data() {
     return {
       title: "Tareas",
+      loading: true,
+      spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listadoTareas: "",
       routerValues: {
@@ -359,6 +366,7 @@ export default {
           if (res.status == 200) {
             this.listadoTareas = res.data;
           }
+          this.loading= false;
         });
     },
   },
