@@ -75,11 +75,13 @@
           </div>
         </div>
       </div>
+    
       <div class="div" v-if="loading">
         <center>
-        <img  style='margin-top:20px' width="300px" height="200px" src="https://www.emape.gob.pe/assets/image/loading.gif" alt="">
+        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
         </center>
       </div>
+      
       <div
         v-else
         class="post"
@@ -162,6 +164,7 @@ export default {
   },
   data() {
     return {
+      spinner: Global.spinnerUrl,
       usuario: "",
       profesor: false,
       title: "Home",

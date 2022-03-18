@@ -3,4 +3,5 @@ export var Global = {
     urlSitio: 'http://190.64.41.140:8001/api/',
     token: localStorage.getItem("auth_token"),
     tituloSitio: 'LMS',
+    spinnerUrl: 'https://c.tenor.com/fM13vqwrq9YAAAAi/rikka-dance.gif',
 }
