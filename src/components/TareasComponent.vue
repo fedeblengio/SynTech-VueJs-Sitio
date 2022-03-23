@@ -1,6 +1,6 @@
 <template>
   <div class="contenedorDiv">
-    <vue-headful :title="title" />
+<!--     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
@@ -42,11 +42,11 @@
         </router-link>
       </div>
     </div>
-    <SectionRight></SectionRight>
+    <SectionRight></SectionRight> -->
   </div>
 </template>
 <script>
-import vueHeadful from "vue-headful";
+/* import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import JQuery from "jquery";
@@ -104,5 +104,5 @@ export default {
         });
     },
   },
-};
+}; */
 </script>

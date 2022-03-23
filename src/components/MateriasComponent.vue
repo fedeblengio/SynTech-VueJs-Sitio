@@ -6,6 +6,7 @@
       <div class="feed_header">
         <h2>Mis Materias</h2>
       </div>
+     
       <div class="div" v-if="loading">
         <center>
           <img
@@ -32,7 +33,7 @@
               params: {
                 idGrupo: clase.idGrupo,
                 idMateria: clase.idMateria,
-                nombreMateria: clase.Materia,
+                materia: clase.Materia,
               },
             }"
             >Material del curso</router-link
@@ -98,7 +99,7 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
-          this.loading= false;
+          this.loading = false;
         });
     },
     traerMateriasUser() {
@@ -117,7 +118,7 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
-           this.loading= false;
+          this.loading = false;
         });
     },
   },

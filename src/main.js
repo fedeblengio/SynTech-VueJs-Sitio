@@ -14,7 +14,7 @@ import ListadoTareasEntregadasComponent from './components/ListadoTareasEntregad
 import ErrorComponent from './components/ErrorComponent';
 import LoginComponent from './components/LoginComponent.vue';
 import HomeComponent from './components/HomeComponent.vue';
-import TareasComponent from './components/TareasComponent.vue';
+/* import TareasComponent from './components/TareasComponent.vue'; */
 import TareaSeleccionadaComponent from './components/TareaSeleccionadaComponent.vue';
 import ProfileComponent from './components/ProfileComponent.vue';
 import CalificarAlumnoComponent from './components/CalificarAlumnoComponent.vue';
@@ -24,7 +24,7 @@ import CalendarioComponent from './components/CalendarioComponent.vue';
 import CambiarContraComponent from './components/CambiarContraComponent.vue'
 import MateriasComponent from './components/MateriasComponent.vue'
 import MateriasSeleccionadaComponent from './components/MateriaSeleccionadaComponent.vue'
-
+import VisualizarTareaComponent from './components/VisualizarTareaComponent.vue'
 Vue.config.productionTip = false
 
 Vue.use(FlashMessage);
@@ -42,11 +42,12 @@ const routes = [
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/profile', name: 'profile', component: ProfileComponent },
-    { path: '/tareas', name: 'tareas', component: TareasComponent },
+    /* { path: '/tareas', name: 'tareas', component: TareasComponent }, */
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria', name: 'listado-tareas', component: ListadoTareasComponent },
-    { path: '/tarea/:materia/:idTarea/', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
+    { path: '/tarea/:materia/:idTarea/:re_hacer', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
     { path: '/entregas/:idGrupo/:idMateria/:idTareas/', name: 'entregas', component: ListadoTareasEntregadasComponent },
-    { path: '/entregas/:idAlumnos/:idTareas', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
+    { path: '/entregas/:idAlumnos/:idTareas/:re_hacer', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
+    { path: '/entregas/:idAlumnos/:idTareas/:calificacion/:re_hacer', name: 'visualizar-tareas', component: VisualizarTareaComponent },
     { path: '/materias', name: 'materias-component', component: MateriasComponent },
     { path: '/materia-seleccionada/:idGrupo-:idMateria/:nombreMateria', name: 'materia-seleccionada', component: MateriasSeleccionadaComponent },
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },

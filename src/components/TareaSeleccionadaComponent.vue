@@ -271,23 +271,26 @@ export default {
           token: Global.token,
         },
       };
-      alert(this.$route.params.re_hacer);
+      
       let formData = new FormData();
 
       formData.append("idTareas", this.tarea.idTarea);
       formData.append("idAlumnos", this.usuario.username);
       formData.append("mensaje", this.entregarTarea.mensaje);
       formData.append("nombre_archivos", nombres);
-      if (this.$route.params.re_hacer) {
-        formData.append("re_hacer", this.$route.params.re_hacer);
+         if(this.$route.params.re_hacer){
+          formData.append("re_hacer", 1);
+      }else{
+          formData.append("re_hacer", 0);
       }
+      
 
       axios
         .post(Global.urlSitio + "entregas-alumno", formData, config)
         .then((response) => {
           if (response.status == 200) {
             /* REDIRECCIONAR AL MENU DE TAREAS , SACARLO DE LA TAREA ACTUAL */
-            location.reload();
+           this.$router.back()
             this.flashMessage.show({
               status: "success",
               title: Global.tituloSitio,

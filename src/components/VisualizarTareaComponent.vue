@@ -4,7 +4,7 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>Tarea Entregada</h2>
+        <h2>Tarea Corregida</h2>
       </div>
        <div class="div" v-if="loading">
         <center>
@@ -52,46 +52,16 @@
             </div>
           </div>
 
-          <div class="alumnoEntregaTarea_checkbox" v-if=!re_entrega>
-            <input
-              type="checkbox"
-              id="re_hacer"
-              name="re_hacer"
-              v-model="calificar.re_hacer"
-            />
-            <label for="re_hacer"> Realizar nuevamente</label>
-          </div>
+       
           <div class="alumnoEntregaTarea_puntaje">
-            <input
-              type="number"
-              id="nota"
-              name="nota"
-              v-model="calificar.nota"
-              max="12"
-            />
-            <label for="nota"> / 12 </label>
+              Nota :
+            <label for="nota"> {{calificacion}} / 12 </label>
           </div>
         </div>
       </div>
 
-      <div class="alumnoEntregaTareaContenedor">
-        <div class="feed_header">
-          <h2>Juicio :</h2>
-          <div class="">
-            <textarea
-              id="textarea"
-              placeholder="Escribe algo!"
-              required
-              v-model="calificar.mensaje"
-            ></textarea>
-          </div>
-          <button
-            class="boxText_btn alumnoEntregaTareaBtn"
-            v-on:click="calificarEntrega()"
-          >
-            <p>Calificar Entrega</p>
-          </button>
-        </div>
+      <div class="alumnoEntregaTareaContenedor text-center">
+        <small class="text-muted ">Solo apta para visualizar</small>
       </div>
     </div>
     <SectionRight></SectionRight>
@@ -106,7 +76,7 @@ import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 window.$ = JQuery;
 export default {
-  name: "CalificarAlumnoComponent",
+  name: "VizualizarTareaComponent",
   components: {
     SectionLeft,
     SectionRight,
@@ -114,7 +84,7 @@ export default {
   },
   data() {
     return {
-      title: "Corregir Alumno",
+      title: "Vizualizar Tarea",
       usuario: "",
       loading: true,
       spinner: Global.spinnerUrl,
@@ -129,58 +99,15 @@ export default {
         idTareas: "",
         idAlumnos: "",
       },
-      calificar: {
-        nota: "",
-        mensaje: "",
-        re_hacer: "",
-      },
-      re_entrega:this.$route.params.re_entrega
+      calificacion: this.$route.params.calificacion
     };
   },
   mounted() {
     this.cargarTareaSeleccionada();
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
-    let textarea = document.getElementById("textarea");
-
-    textarea.oninput = function () {
-      textarea.style.height = "";
-      textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
-    };
   },
   methods: {
-    calificarEntrega() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
 
-      let re_hacer = 0;
-      if (this.calificar.re_hacer) {
-        re_hacer = 1;
-      }
-      let data = {
-        idAlumnos: this.$route.params.idAlumnos,
-        idTareas: this.$route.params.idTareas,
-        calificacion: this.calificar.nota,
-        mensaje: this.calificar.mensaje,
-        re_hacer: re_hacer,
-      };
-
-      axios
-        .put(Global.urlSitio + "entregas-correccion", data, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.tituloSitio,
-              message: "Tarea Calificada Correctamente",
-            });
-            this.$router.back();
-          }
-        });
-    },
 
     returnIMGB64(img) {
       return "data:image/png;base64," + img;

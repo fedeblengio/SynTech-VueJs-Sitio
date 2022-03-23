@@ -5,13 +5,45 @@
 
     <div class="feed">
       <div class="feed_header">
-        <h2>{{ this.$route.params.nombreMateria }}</h2>
+        <h2>{{ this.$route.params.materia }}</h2>
       </div>
-
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto navbar-materias">
+            <li class="nav-item active">
+              <a class="nav-link" href="#"
+                >Inicio <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <router-link
+                style="text-decoration:none"
+                :to="{
+                  name: 'listado-tareas',
+                  params: {
+                    materia: this.$route.params.materia,
+                    idGrupo: this.$route.params.idGrupo,
+                    idMateria: this.$route.params.idMateria,
+                  },
+                }"
+                class="nav-link"
+              >
+              Tareas
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Documentos</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
       <div class="boxText">
         <div class="form">
           <div class="boxText_input">
-            <img :src='returnImgB64()' />
+            <img :src="returnImgB64()" />
             <textarea
               id="textarea"
               placeholder="Escribe algo!"
@@ -57,9 +89,15 @@
           </div>
         </div>
       </div>
-       <div class="div" v-if="loading">
+      <div class="div" v-if="loading">
         <center>
-        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
+          <img
+            style="margin-top: 20px"
+            width="200px"
+            height="200px"
+            :src="spinner"
+            alt=""
+          />
         </center>
       </div>
       <div
@@ -142,7 +180,7 @@ export default {
   },
   data() {
     return {
-       loading: true,
+      loading: true,
       spinner: Global.spinnerUrl,
       usuario: "",
       profesor: false,
@@ -416,7 +454,7 @@ export default {
         " publico para " +
         this.$route.params.idGrupo +
         " - " +
-        this.$route.params.nombreMateria;
+        this.$route.params.materia;
 
       formData.append("idForo", this.foro.idForo);
       formData.append("idUsuario", this.usuario.username);

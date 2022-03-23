@@ -4,18 +4,63 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>{{ routerValues.idGrupo }} - {{ routerValues.materia }}</h2>
-        <div class="moverBtnCrearTarea" v-if="!alumno">
-          <button
-            type="button"
-            class="btn_crearClase"
-            data-toggle="modal"
-            data-target="#exampleModal"
-          >
-            Crear Tarea
-          </button>
-        </div>
+        <h2>{{ this.$route.params.materia }}</h2>
+        <!--  <div class="moverBtnCrearTarea" > -->
+        <button
+          v-if="!alumno"
+          type="button"
+          class="btn_crearClase"
+          data-toggle="modal"
+          data-target="#exampleModal"
+        >
+          Crear Tarea
+        </button>
+        <!--  </div> -->
       </div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto navbar-materias">
+            <li class="nav-item">
+              <router-link
+                style="text-decoration: none"
+                :to="{
+                  name: 'materia-seleccionada',
+                  params: {
+                    idGrupo: this.$route.params.idGrupo,
+                    idMateria: this.$route.params.idMateria,
+                    materia: this.$route.params.materia,
+                  },
+                }"
+                class="nav-link"
+                >Inicio <span class="sr-only">(current)</span></router-link
+              >
+            </li>
+            <li class="nav-item active">
+              <router-link
+                style="text-decoration: none"
+                :to="{
+                  name: 'listado-tareas',
+                  params: {
+                    materia: this.$route.params.materia,
+                    idGrupo: this.$route.params.idGrupo,
+                    idMateria: this.$route.params.idMateria,
+                  },
+                }"
+                class="nav-link"
+              >
+                <span class="sr-only">(current)</span>
+                Tareas
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Usuarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Documentos</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
       <!-- --- INICIO MODAL --- -->
       <div
@@ -123,9 +168,15 @@
         </div>
       </div>
       <!-- --- FIN MODAL --- -->
-        <div class="div" v-if="loading">
+      <div class="div" v-if="loading">
         <center>
-        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
+          <img
+            style="margin-top: 20px"
+            width="200px"
+            height="200px"
+            :src="spinner"
+            alt=""
+          />
         </center>
       </div>
       <div class="list-group" v-else>
@@ -366,7 +417,7 @@ export default {
           if (res.status == 200) {
             this.listadoTareas = res.data;
           }
-          this.loading= false;
+          this.loading = false;
         });
     },
   },
