@@ -808,6 +808,17 @@ textarea {
     margin-bottom: 10px;
 }
 
+.btn_crearTarea {
+    background-color: var(--color);
+    border: none;
+    color: white;
+    font-weight: 900;
+    border-radius: 7px;
+    width: 112px;
+    height: 35px;
+    cursor: pointer;
+}
+
 .movimientoBtnAgenda {
     display: flex;
     flex-direction: row-reverse;

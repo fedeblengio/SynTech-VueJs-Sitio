@@ -9,7 +9,7 @@
         <button
           v-if="!alumno"
           type="button"
-          class="btn_crearClase"
+          class="btn_crearTarea"
           data-toggle="modal"
           data-target="#exampleModal"
         >
