@@ -6,10 +6,9 @@
       <div class="feed_header">
         <h2>Calendario de Clases</h2>
       </div>
-      <div>
-        <h5>{{ fechaActual() }}</h5>
+     
         <FullCalendar :options="calendarOptions" />
-      </div>
+      
 
       <table class="table table-striped">
         <thead>
@@ -96,9 +95,7 @@ export default {
   },
 
   methods: {
-    fechaActual() {
-      return moment().locale("es").format("MMMM Do YYYY");
-    },
+  
     moment: function (fecha) {
       return moment(fecha).format("HH:mm ");
     },

@@ -49,7 +49,7 @@ const routes = [
     { path: '/entregas/:idAlumnos/:idTareas/:re_hacer', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
     { path: '/entregas/:idAlumnos/:idTareas/:calificacion/:re_hacer', name: 'visualizar-tareas', component: VisualizarTareaComponent },
     { path: '/materias', name: 'materias-component', component: MateriasComponent },
-    { path: '/materia-seleccionada/:idGrupo-:idMateria/:nombreMateria', name: 'materia-seleccionada', component: MateriasSeleccionadaComponent },
+    { path: '/materia-seleccionada/:idGrupo-:idMateria/:materia', name: 'materia-seleccionada', component: MateriasSeleccionadaComponent },
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },
     { path: '/calendario', name: 'calendario', component: CalendarioComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
