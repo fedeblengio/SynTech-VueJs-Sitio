@@ -89,14 +89,12 @@
           </div>
         </div>
       </div>
-      <div class="spinnerCSS" v-if="loading">
+      <div class="" v-if="loading">
         <center>
           <img
-            style="margin-top: 20px"
-            width="200px"
-            height="200px"
+          class="spinnerCSS"
             :src="spinner"
-            alt=""
+        
           />
         </center>
       </div>
