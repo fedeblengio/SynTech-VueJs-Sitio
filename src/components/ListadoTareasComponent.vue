@@ -170,13 +170,7 @@
       <!-- --- FIN MODAL --- -->
       <div class="div" v-if="loading">
         <center>
-          <img
-            style="margin-top: 20px"
-            width="200px"
-            height="200px"
-            :src="spinner"
-            alt=""
-          />
+          <img :src="spinner" class="spinnerCSS" />
         </center>
       </div>
       <div class="list-group" v-else>

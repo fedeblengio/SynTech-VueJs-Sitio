@@ -89,7 +89,7 @@
           </div>
         </div>
       </div>
-      <div class="div" v-if="loading">
+      <div class="spinnerCSS" v-if="loading">
         <center>
           <img
             style="margin-top: 20px"

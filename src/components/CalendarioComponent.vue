@@ -3,12 +3,11 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header">
+      <div class="feed_header" >
         <h2>Calendario de Clases</h2>
       </div>
-     
-        <FullCalendar :options="calendarOptions" />
-      
+
+      <FullCalendar :options="calendarOptions" style='margin-top: -25px !important'/>
 
       <table class="table table-striped">
         <thead>
@@ -20,13 +19,7 @@
         </thead>
         <div class="div" v-if="loading">
           <center>
-            <img
-              style="margin-top: 20px"
-              width="200px"
-              height="200px"
-              :src="spinner"
-              alt=""
-            />
+            <img class="spinnerCSS" :src="spinner" />
           </center>
         </div>
         <tbody v-else>
@@ -95,7 +88,6 @@ export default {
   },
 
   methods: {
-  
     moment: function (fecha) {
       return moment(fecha).format("HH:mm ");
     },

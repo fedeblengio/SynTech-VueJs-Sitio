@@ -6,7 +6,7 @@
       <div class="feed_header">
         <h2>Tarea Entregada</h2>
       </div>
-       <div class="div" v-if="loading">
+       <div class="spinnerCSS" v-if="loading">
         <center>
         <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
         </center>
