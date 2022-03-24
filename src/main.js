@@ -14,7 +14,6 @@ import ListadoTareasEntregadasComponent from './components/ListadoTareasEntregad
 import ErrorComponent from './components/ErrorComponent';
 import LoginComponent from './components/LoginComponent.vue';
 import HomeComponent from './components/HomeComponent.vue';
-/* import TareasComponent from './components/TareasComponent.vue'; */
 import TareaSeleccionadaComponent from './components/TareaSeleccionadaComponent.vue';
 import ProfileComponent from './components/ProfileComponent.vue';
 import CalificarAlumnoComponent from './components/CalificarAlumnoComponent.vue';
@@ -42,7 +41,6 @@ const routes = [
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/profile', name: 'profile', component: ProfileComponent },
-    /* { path: '/tareas', name: 'tareas', component: TareasComponent }, */
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria', name: 'listado-tareas', component: ListadoTareasComponent },
     { path: '/tarea/:materia/:idTarea/:re_hacer', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
     { path: '/entregas/:idGrupo/:idMateria/:idTareas/', name: 'entregas', component: ListadoTareasEntregadasComponent },
