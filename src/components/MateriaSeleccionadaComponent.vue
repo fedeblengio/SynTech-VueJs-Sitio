@@ -32,7 +32,20 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Usuarios</a>
+                   <router-link
+                style="text-decoration: none"
+                :to="{
+                  name: 'listado-usuarios',
+                  params: {
+                    materia: this.$route.params.materia,
+                    idGrupo: this.$route.params.idGrupo,
+                    idMateria: this.$route.params.idMateria,
+                  },
+                }"
+                class="nav-link"
+              >
+                Usuarios
+              </router-link>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Documentos</a>
@@ -90,13 +103,13 @@
         </div>
       </div>
       <div class="" v-if="loading">
-        <center>
+        
           <img
           class="spinnerCSS"
             :src="spinner"
         
           />
-        </center>
+       
       </div>
       <div
         v-else
