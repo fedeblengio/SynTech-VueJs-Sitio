@@ -120,13 +120,13 @@ export default {
     };
   },
   mounted() {
-    this.listadoUsuaios();
+    this.traerUsuarios();
   },
   methods: {
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
-    listadoUsuaios() {
+    traerUsuarios() {
       let config = {
         headers: {
           "Content-Type": "application/json",

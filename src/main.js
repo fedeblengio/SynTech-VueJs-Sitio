@@ -25,6 +25,8 @@ import MateriasComponent from './components/MateriasComponent.vue'
 import MateriasSeleccionadaComponent from './components/MateriaSeleccionadaComponent.vue'
 import VisualizarTareaComponent from './components/VisualizarTareaComponent.vue'
 import ListadoUsuariosComponent from './components/ListadoUsuariosComponent.vue'
+import PasajeDeListaComponent from './components/PasajeDeListaComponent.vue'
+
 Vue.config.productionTip = false
 
 Vue.use(FlashMessage);
@@ -52,9 +54,9 @@ const routes = [
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },
     { path: '/listado-usuarios/:idGrupo/:idMateria/:materia', name: 'listado-usuarios', component: ListadoUsuariosComponent },
     { path: '/calendario', name: 'calendario', component: CalendarioComponent },
-    { path: '*', name: 'error404', component: ErrorComponent },
+    { path: '/pasar-lista', name: 'pasaje-lista', component: PasajeDeListaComponent },
     { path: '/cambioPwd', name: 'cambiopwd', component: CambiarContraComponent },
-
+    { path: '*', name: 'error404', component: ErrorComponent },
 ];
 
 
