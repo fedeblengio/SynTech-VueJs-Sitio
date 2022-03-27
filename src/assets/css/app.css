@@ -18,6 +18,12 @@ body {
 
 /*CODIGO          INICIO              AuTi*/
 
+.imagen_pasar_lista {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
 .navbar-materias {
     justify-content: space-between;
 }

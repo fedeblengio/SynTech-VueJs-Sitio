@@ -4,20 +4,24 @@
 
     <vue-headful :title="title" />
     <div class="feed">
-      <table class="table table-striped">
+      <table class="table table-striped" @change="getList">
         <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nombre</th>
+          <tr class="text-center">
+            <th scope="col">&nbsp;</th>
             <th scope="col">Cedula</th>
+            <th scope="col">Nombre</th>
             <th scope="col">Asistencia</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="alumno in listadoUsuarios.Alumnos" :key="alumno.id">
+          <tr
+            v-for="alumno in listadoUsuarios.Alumnos"
+            :key="alumno.id"
+            class="text-center"
+          >
             <th scope="row">
               <img
-                style="width: 35px; height: 35px"
+                class="imagen_pasar_lista"
                 :src="returnImgProfile(alumno.imagen_perfil)"
                 alt=""
               />
@@ -37,6 +41,9 @@
           </tr>
         </tbody>
       </table>
+      <div>
+        <p>{{ getList() }}</p>
+      </div>
     </div>
     <SectionRight></SectionRight>
   </div>
@@ -66,12 +73,16 @@ export default {
         Profesor: "",
         Alumnos: "",
       },
+      table: "",
     };
   },
   mounted() {
     this.traerUsuarios();
   },
   methods: {
+    getList(event) {
+     return event;
+    },
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
