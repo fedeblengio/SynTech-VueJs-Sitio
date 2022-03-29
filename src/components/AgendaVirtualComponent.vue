@@ -214,7 +214,12 @@ export default {
 
       axios.post(Global.urlSitio + "agenda-clase", data, config).then((res) => {
         if (res.status == 200) {
-          alert("todo Funco");
+            location.reload();
+            this.flashMessage.show({
+              status: "success",
+              title: Global.tituloSitio,
+              message: "Clase creada correctamente",
+            });
         }
       });
     },
