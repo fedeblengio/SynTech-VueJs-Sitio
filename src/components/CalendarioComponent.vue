@@ -9,14 +9,15 @@
 
       <FullCalendar
         :options="calendarOptions"
-        style=" margin-top: -25px !important"
+        style="margin-top: -25px !important"
       />
       <div class="sub_header">
         <h3>Mis Clases</h3>
       </div>
       <table class="table table-striped">
         <thead>
-          <tr>
+          <tr class='text-center'>
+            <th scope="col">Grupo</th>
             <th scope="col">Materia</th>
             <th scope="col">Hora</th>
             <th scope="col">Link</th>
@@ -27,15 +28,20 @@
             <img class="spinnerCSS" :src="spinner" />
           </center>
         </div>
-        <tbody v-else>
-          <tr v-for="clase in listClasesVirtuales" :key="clase.id">
-            <th scope="row">{{ clase.idGrupo }} - {{ clase.materia }}</th>
+        <tbody v-else >
+          <tr class='text-center' v-for="clase in listClasesVirtuales" :key="clase.id" >
+            <td>{{ clase.idGrupo }}</td>
+            <th scope="row">{{ clase.materia }}</th>
+        
             <td>
               {{ moment(clase.fecha_inicio) }} - {{ moment(clase.fecha_fin) }}
             </td>
             <td>
-              <button class="btn_jitsi" v-on:click="entrarJitsi(clase)">
-                Entrar
+              <button class="btn_jitsi" v-on:click="entrarJitsi(clase)" v-if=profesor>
+                Iniciar 
+              </button>
+               <button class="btn_jitsi" v-on:click="entrarJitsi(clase)" v-else>
+                Iniciar 
               </button>
             </td>
           </tr>
@@ -79,17 +85,18 @@ export default {
         height: 450,
         timeZone: "GMT-3",
         events: [],
-      
         handleWindowResize: true,
       },
       title: "Calendario",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listClasesVirtuales: "",
+      profesor: false,
     };
   },
 
   mounted() {
     this.clasesVirtualesCreadas();
+    this.verificarRol()
   },
 
   methods: {
@@ -100,9 +107,13 @@ export default {
       let json = { title: "examen", date: "2022-02-09" };
       this.calendarOptions.events.push(json);
     },
-
-    entrarJitsi(clase) {
-      let fecha_inicio = moment(clase.fecha_inicio).format(
+    verificarRol() {
+      if(this.usuario.ou == "Profesor"){
+        this.profesor = true;
+      }
+    },
+    verificarHabilitacionEntrar(clase){
+       let fecha_inicio = moment(clase.fecha_inicio).format(
         "YYYY-MM-DD HH:mm a"
       );
       let i = 0;
@@ -116,7 +127,11 @@ export default {
           habilitado = true;
         }
       }
-
+      return habilitado;
+    },
+    entrarJitsi(clase) {
+     
+      let habilitado = this.verificarHabilitacionEntrar(clase);
       if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
         return window
@@ -126,6 +141,7 @@ export default {
             "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=800,height=500"
           )
           .focus();
+         
       } else {
         alert(
           "Podras acceder a la clase 5 minutos antes de la hora especificada"
