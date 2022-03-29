@@ -34,7 +34,7 @@
                   class="form-check-input"
                   type="checkbox"
                   role="switch"
-                  id="flexSwitchCheckDefault"
+                  :id="alumno.idAlumnos"
                 />
               </div>
             </td>
@@ -42,7 +42,12 @@
         </tbody>
       </table>
       <div>
-        <p>{{ getList() }}</p>
+        <input
+          class="boxText_btn"
+          type="submit"
+          v-on:click="verificarAsistencia()"
+          value="Pasar Lista"
+        />
       </div>
     </div>
     <SectionRight></SectionRight>
@@ -53,7 +58,7 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-/* import JQuery from "jquery"; */
+import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 export default {
@@ -74,14 +79,31 @@ export default {
         Alumnos: "",
       },
       table: "",
+      presentes: "",
+      ausentes: "",
     };
   },
   mounted() {
     this.traerUsuarios();
   },
   methods: {
+    verificarAsistencia() {
+      let presentes = [];
+      let ausentes = [];
+      this.listadoUsuarios.Alumnos.forEach(function (valor) {
+        if ($("#" + valor.idAlumnos).is(":checked")) {
+          let a = valor.idAlumnos;
+          presentes.push(a);
+        } else {
+          let a = valor.idAlumnos;
+          ausentes.push(a);
+        }
+      });
+      this.presentes = presentes;
+      this.ausentes = ausentes;
+    },
     getList(event) {
-     return event;
+      return event;
     },
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
@@ -101,6 +123,41 @@ export default {
           this.loading = false;
         });
     },
+    /*       enviarData() {
+      let config = {
+        headers: {
+          "Content-Type": "form-data",
+          token: Global.token,
+        },
+      };
+
+
+
+      let formdata = new FormData();
+      formdata.append("idClase", 2);
+      formdata.append("presentes", [51717993,51717993,51717993]);
+      formdata.append("ausentes", [51717993,51717993,51717993]);
+      axios
+        .post(Global.urlSitio + "lista-clase", formdata, config)
+        .then((response) => {
+          if (response.status == 200) {
+            console.log(response.data)
+            alert(response.data)
+            this.flashMessage.show({
+              status: "success",
+              title: Global.tituloSitio,
+              message: "Post publicado correctamente",
+            });
+          }
+        })
+        .catch(() => {
+          this.flashMessage.show({
+            status: "error",
+            title: Global.tituloSitio,
+            message: "Error al publicar el post",
+          });
+        });
+    }, */
   },
 };
 </script>

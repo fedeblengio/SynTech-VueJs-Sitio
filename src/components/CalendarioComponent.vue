@@ -3,12 +3,17 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header" >
+      <div class="feed_header">
         <h2>Calendario de Clases</h2>
       </div>
 
-      <FullCalendar :options="calendarOptions" style='margin-top: -25px !important'/>
-
+      <FullCalendar
+        :options="calendarOptions"
+        style=" margin-top: -25px !important"
+      />
+      <div class="sub_header">
+        <h3>Mis Clases</h3>
+      </div>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -71,10 +76,10 @@ export default {
         initialView: "dayGridMonth",
         weekends: false,
         locale: "es",
-        height: 650,
+        height: 450,
         timeZone: "GMT-3",
         events: [],
-        contentHeight: "auto",
+      
         handleWindowResize: true,
       },
       title: "Calendario",

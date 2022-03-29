@@ -65,12 +65,6 @@
             <option value="5">5 hrs.</option>
           </select>
 
-          <!--   <select name="meeting-min" v-model="agenda.duracionMin" required>
-            <option value="1">0</option>
-            <option value="2">15</option>
-            <option value="3">30</option>
-            <option value="4">45</option>
-          </select> -->
         </div>
       </div>
 
@@ -82,13 +76,17 @@
           class="btn_crearClase"
         />
       </div>
-
+       <div class="sub_header">
+        <h3>Clases Programadas</h3>
+      </div>
       <table class="table table-striped">
         <thead>
-          <tr>
+          <tr class='text-center'>
+            <th scope="col">Grupo</th>
             <th scope="col">Materia</th>
+             <th scope="col">Dia</th>
             <th scope="col">Hora</th>
-            <th scope="col">Link</th>
+            
           </tr>
         </thead>
         <div class="div" v-if="loading">
@@ -97,16 +95,16 @@
           </center>
         </div>
         <tbody v-else>
-          <tr v-for="clase in clasesVirtualesCreadas" :key="clase.id">
-            <th scope="row">{{ clase.idGrupo }} - {{ clase.materia }}</th>
+          <tr class='text-center'  v-for="clase in clasesVirtualesCreadas" :key="clase.id">
+            <td>{{ clase.idGrupo }}</td>
+            <th scope="row"> {{ clase.materia }}</th>
             <td>
-              {{ moment(clase.fecha_inicio) }} - {{ moment(clase.fecha_fin) }}
+               {{ fecha(clase.fecha_inicio) }}  
             </td>
-            <td>
-              <button class="btn_jitsi" v-on:click="entrarJitsi(clase)">
-                Entrar
-              </button>
-            </td>
+            <th>
+                 {{ hora(clase.fecha_inicio) }} - {{hora(clase.fecha_fin) }}  
+            </th>
+            
           </tr>
         </tbody>
       </table>
@@ -159,17 +157,11 @@ export default {
     this.listarClaseVirtual();
   },
   methods: {
-    entrarJitsi(clase) {
-      let url = "https://meet.jit.si/" + window.btoa(clase);
-      return window
-        .open(
-          url,
-          "_blank",
-          "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=800,height=500"
-        )
-        .focus();
+  
+    fecha: function (fecha) {
+      return moment(fecha).format("DD/MM");
     },
-    moment: function (fecha) {
+     hora: function (fecha) {
       return moment(fecha).format("HH:mm");
     },
     filtrarMateria(idGrupo) {
@@ -251,5 +243,6 @@ export default {
         });
     },
   },
+
 };
 </script>
