@@ -8,7 +8,8 @@ import VFileInput from 'v-file-input';
 import Calendar from 'v-calendar/lib/components/calendar.umd'
 import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 import VuePictureSwipe from 'vue-picture-swipe';
-
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 import ListadoTareasEntregadasComponent from './components/ListadoTareasEntregadasComponent.vue';
 import ErrorComponent from './components/ErrorComponent';
@@ -28,7 +29,7 @@ import ListadoUsuariosComponent from './components/ListadoUsuariosComponent.vue'
 import PasajeDeListaComponent from './components/PasajeDeListaComponent.vue'
 
 Vue.config.productionTip = false
-
+Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
 Vue.use(VueRouter);
 Vue.use(Vuelidate);

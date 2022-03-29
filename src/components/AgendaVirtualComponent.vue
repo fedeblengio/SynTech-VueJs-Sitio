@@ -64,7 +64,6 @@
             <option value="4">4 hrs.</option>
             <option value="5">5 hrs.</option>
           </select>
-
         </div>
       </div>
 
@@ -76,17 +75,17 @@
           class="btn_crearClase"
         />
       </div>
-       <div class="sub_header">
+      <div class="sub_header">
         <h3>Clases Programadas</h3>
       </div>
       <table class="table table-striped">
         <thead>
-          <tr class='text-center'>
+          <tr class="text-center">
             <th scope="col">Grupo</th>
             <th scope="col">Materia</th>
-             <th scope="col">Dia</th>
+            <th scope="col">Dia</th>
             <th scope="col">Hora</th>
-            
+            <th scope="col">&nbsp;</th>
           </tr>
         </thead>
         <div class="div" v-if="loading">
@@ -95,16 +94,22 @@
           </center>
         </div>
         <tbody v-else>
-          <tr class='text-center'  v-for="clase in clasesVirtualesCreadas" :key="clase.id">
+          <tr
+            class="text-center"
+            v-for="clase in clasesVirtualesCreadas"
+            :key="clase.id"
+          >
             <td>{{ clase.idGrupo }}</td>
-            <th scope="row"> {{ clase.materia }}</th>
+            <th scope="row">{{ clase.materia }}</th>
             <td>
-               {{ fecha(clase.fecha_inicio) }}  
+              {{ fecha(clase.fecha_inicio) }}
             </td>
             <th>
-                 {{ hora(clase.fecha_inicio) }} - {{hora(clase.fecha_fin) }}  
+              {{ hora(clase.fecha_inicio) }} - {{ hora(clase.fecha_fin) }}
             </th>
-            
+            <td >
+              <button type="submit" style="" v-on:click="comprobarOpcionEliminar(clase.id)" class="btn-close btn-close" aria-label="Close"> </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -117,6 +122,7 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
+
 /* import $ from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
@@ -155,14 +161,33 @@ export default {
     this.traerGrupoProfesor(this.usuario.username);
     this.agenda.idProfesor = this.usuario.username;
     this.listarClaseVirtual();
+    
   },
   methods: {
-  
+    comprobarOpcionEliminar(idClase) {
+       this.$swal.fire({
+        title: "¿ Estas seguro que quieres eliminar ?",
+        showDenyButton: true,
+        confirmButtonText: "Eliminar",
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.borrarClase(idClase)
+           this.$swal.fire("Eliminada", "", "success");
+        } 
+      });
+    },
     fecha: function (fecha) {
       return moment(fecha).format("DD/MM");
     },
-     hora: function (fecha) {
+    hora: function (fecha) {
       return moment(fecha).format("HH:mm");
+    },
+    borrarClase(idClase) {
+    
+        alert("Borro")
+      alert(idClase);
     },
     filtrarMateria(idGrupo) {
       for (var i = 0; i < this.traerGrupos.length; i++) {
@@ -214,12 +239,12 @@ export default {
 
       axios.post(Global.urlSitio + "agenda-clase", data, config).then((res) => {
         if (res.status == 200) {
-            location.reload();
-            this.flashMessage.show({
-              status: "success",
-              title: Global.tituloSitio,
-              message: "Clase creada correctamente",
-            });
+          location.reload();
+          this.flashMessage.show({
+            status: "success",
+            title: Global.tituloSitio,
+            message: "Clase creada correctamente",
+          });
         }
       });
     },
@@ -248,6 +273,5 @@ export default {
         });
     },
   },
-
 };
 </script>

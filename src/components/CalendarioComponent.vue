@@ -158,8 +158,8 @@ export default {
       }
     },
     entrarJitsi(clase) {
-      let habilitado = this.verificarHabilitacionEntrar(clase);
-    
+     /*  let habilitado = this.verificarHabilitacionEntrar(clase); */
+      let habilitado = true;
       if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
         this.redirectPasarLista(clase);

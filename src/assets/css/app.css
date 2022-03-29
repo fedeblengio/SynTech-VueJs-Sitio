@@ -277,6 +277,10 @@ details {
     border-bottom: 1px solid var(--background);
 }
 
+.btn-close {
+    background-image: url('../images/cruz_roja2.png');
+}
+
 .form {
     display: flex;
     flex-direction: column;

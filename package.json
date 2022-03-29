@@ -25,6 +25,7 @@
         "vue-headful": "^2.1.0",
         "vue-picture-swipe": "^2.1.0",
         "vue-router": "^3.3.4",
+        "vue-sweetalert2": "^5.0.2",
         "vuelidate": "^0.7.5"
     },
     "devDependencies": {

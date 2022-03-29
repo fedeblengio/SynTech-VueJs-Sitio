@@ -45,7 +45,7 @@
         <input
           class="boxText_btn"
           type="submit"
-          v-on:click="verificarAsistencia()"
+          v-on:click="pasarLista()"
           value="Pasar Lista"
         />
       </div>
@@ -116,37 +116,45 @@ export default {
         },
       };
       axios
-        .get(Global.urlSitio + "listar-alumnos?idGrupo="+ this.$route.params.idGrupo+"&idMateria="+ this.$route.params.idMateria, config)
+        .get(
+          Global.urlSitio +
+            "listar-alumnos?idGrupo=" +
+            this.$route.params.idGrupo +
+            "&idMateria=" +
+            this.$route.params.idMateria,
+          config
+        )
         .then((res) => {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;
         });
     },
-    /*       enviarData() {
+    pasarLista() {
+      this.verificarAsistencia();
       let config = {
         headers: {
           "Content-Type": "form-data",
           token: Global.token,
         },
       };
-
-
-
+      console.log(this.ausentes +'-'+ this.presentes +'='+ this.$route.params.idClase)
+      alert('data')
       let formdata = new FormData();
-      formdata.append("idClase", 2);
-      formdata.append("presentes", [51717993,51717993,51717993]);
-      formdata.append("ausentes", [51717993,51717993,51717993]);
+      formdata.append("idClase", this.$route.params.idClase);
+      formdata.append("presentes", this.presentes);
+      formdata.append("ausentes", this.ausentes);
+    
       axios
         .post(Global.urlSitio + "lista-clase", formdata, config)
         .then((response) => {
           if (response.status == 200) {
-            console.log(response.data)
+            console.log(response.data);
             alert(response.data)
             this.flashMessage.show({
               status: "success",
               title: Global.tituloSitio,
-              message: "Post publicado correctamente",
+              message: "Lista Publicada",
             });
           }
         })
@@ -154,10 +162,10 @@ export default {
           this.flashMessage.show({
             status: "error",
             title: Global.tituloSitio,
-            message: "Error al publicar el post",
+            message: "Error al pasar lista",
           });
         });
-    }, */
+    },
   },
 };
 </script>
