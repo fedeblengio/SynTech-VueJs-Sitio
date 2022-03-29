@@ -116,7 +116,7 @@ export default {
         },
       };
       axios
-        .get(Global.urlSitio + "listar-alumnos?idGrupo=TB1&idMateria=2", config)
+        .get(Global.urlSitio + "listar-alumnos?idGrupo="+ this.$route.params.idGrupo+"&idMateria="+ this.$route.params.idMateria, config)
         .then((res) => {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;

@@ -16,7 +16,7 @@
       </div>
       <table class="table table-striped">
         <thead>
-          <tr class='text-center'>
+          <tr class="text-center">
             <th scope="col">Grupo</th>
             <th scope="col">Materia</th>
             <th scope="col">Hora</th>
@@ -28,20 +28,29 @@
             <img class="spinnerCSS" :src="spinner" />
           </center>
         </div>
-        <tbody v-else >
-          <tr class='text-center' v-for="clase in listClasesVirtuales" :key="clase.id" >
+
+        <tbody v-else>
+          <tr
+            class="text-center"
+            v-for="clase in listClasesVirtuales"
+            :key="clase.id"
+          >
             <td>{{ clase.idGrupo }}</td>
             <th scope="row">{{ clase.materia }}</th>
-        
+
             <td>
               {{ moment(clase.fecha_inicio) }} - {{ moment(clase.fecha_fin) }}
             </td>
             <td>
-              <button class="btn_jitsi" v-on:click="entrarJitsi(clase)" v-if=profesor>
-                Iniciar 
+              <button
+                class="btn_jitsi"
+                v-on:click="entrarJitsi(clase)"
+                v-if="profesor"
+              >
+                Iniciar
               </button>
-               <button class="btn_jitsi" v-on:click="entrarJitsi(clase)" v-else>
-                Iniciar 
+              <button class="btn_jitsi" v-on:click="entrarJitsi(clase)" v-else>
+                Iniciar
               </button>
             </td>
           </tr>
@@ -96,7 +105,7 @@ export default {
 
   mounted() {
     this.clasesVirtualesCreadas();
-    this.verificarRol()
+    this.verificarRol();
   },
 
   methods: {
@@ -108,12 +117,12 @@ export default {
       this.calendarOptions.events.push(json);
     },
     verificarRol() {
-      if(this.usuario.ou == "Profesor"){
+      if (this.usuario.ou == "Profesor") {
         this.profesor = true;
       }
     },
-    verificarHabilitacionEntrar(clase){
-       let fecha_inicio = moment(clase.fecha_inicio).format(
+    verificarHabilitacionEntrar(clase) {
+      let fecha_inicio = moment(clase.fecha_inicio).format(
         "YYYY-MM-DD HH:mm a"
       );
       let i = 0;
@@ -129,11 +138,24 @@ export default {
       }
       return habilitado;
     },
+    redirectPasarLista(clase) {
+      if (this.profesor) {
+        this.$router.push({
+          name: "pasaje-lista",
+          params: {
+            idGrupo: clase.idGrupo,
+            idMateria: clase.idMateria,
+            idClase: clase.id,
+          },
+        });
+      }
+    },
     entrarJitsi(clase) {
-     
       let habilitado = this.verificarHabilitacionEntrar(clase);
+    
       if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
+        this.redirectPasarLista(clase);
         return window
           .open(
             url,
@@ -141,7 +163,6 @@ export default {
             "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=800,height=500"
           )
           .focus();
-         
       } else {
         alert(
           "Podras acceder a la clase 5 minutos antes de la hora especificada"

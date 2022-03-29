@@ -54,7 +54,7 @@ const routes = [
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },
     { path: '/listado-usuarios/:idGrupo/:idMateria/:materia', name: 'listado-usuarios', component: ListadoUsuariosComponent },
     { path: '/calendario', name: 'calendario', component: CalendarioComponent },
-    { path: '/pasar-lista', name: 'pasaje-lista', component: PasajeDeListaComponent },
+    { path: '/pasar-lista/:idGrupo/:idMateria/:idClase', name: 'pasaje-lista', component: PasajeDeListaComponent },
     { path: '/cambioPwd', name: 'cambiopwd', component: CambiarContraComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
 ];
