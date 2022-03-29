@@ -19,6 +19,7 @@
           <tr class="text-center">
             <th scope="col">Grupo</th>
             <th scope="col">Materia</th>
+            <th scope="col">Dia</th>
             <th scope="col">Hora</th>
             <th scope="col">Link</th>
           </tr>
@@ -38,9 +39,12 @@
             <td>{{ clase.idGrupo }}</td>
             <th scope="row">{{ clase.materia }}</th>
 
-            <td>
-              {{ moment(clase.fecha_inicio) }} - {{ moment(clase.fecha_fin) }}
+              <td>
+               {{ fecha(clase.fecha_inicio) }}  
             </td>
+            <th>
+                 {{ hora(clase.fecha_inicio) }} - {{hora(clase.fecha_fin) }}  
+            </th>
             <td>
               <button
                 class="btn_jitsi"
@@ -94,7 +98,7 @@ export default {
         height: 450,
         timeZone: "GMT-3",
         events: [],
-        handleWindowResize: true,
+     
       },
       title: "Calendario",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
@@ -109,8 +113,11 @@ export default {
   },
 
   methods: {
-    moment: function (fecha) {
+    hora: function (fecha) {
       return moment(fecha).format("HH:mm ");
+    },
+     fecha: function (fecha) {
+      return moment(fecha).format("DD/MM");
     },
     addClass() {
       let json = { title: "examen", date: "2022-02-09" };
