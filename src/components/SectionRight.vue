@@ -111,7 +111,7 @@
     <div class="currentEvent">
       <div class="currentEvent_contenedor">
      
-        <h3>Mis Eventos</h3>
+        <h3>Mis Eventos (Hoy)</h3>
       <div class="sidebarElement" v-if=loading>
           <span class="clases text-center">
             <span class="sidebarDot_event"></span>  . . .
