@@ -183,8 +183,8 @@ export default {
         });
     },
     entrarJitsi(clase) {
-    /*   let habilitado = this.verificarHabilitacionEntrar(clase); */
-      let habilitado = true;
+      let habilitado = this.verificarHabilitacionEntrar(clase);
+      /* let habilitado = true; */
    
       if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
@@ -198,9 +198,7 @@ export default {
           )
           .focus();
       } else {
-        alert(
-          "Podras acceder a la clase 5 minutos antes de la hora especificada"
-        );
+          this.$swal.fire("Solo puedes acceder a la clase 5 min. antes de la misma", "", "info");
       }
     },
     clasesVirtualesCreadas() {
