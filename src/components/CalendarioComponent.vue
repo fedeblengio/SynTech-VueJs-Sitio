@@ -69,7 +69,7 @@ import vueHeadful from "vue-headful";
 
 import { Global } from "../Global";
 import axios from "axios";
-import JQuery from "jquery";
+/* import $ from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
@@ -77,7 +77,6 @@ import "@fullcalendar/core/vdom"; // solves problem with Vite
 import FullCalendar from "@fullcalendar/vue";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
-window.$ = JQuery;
 export default {
   name: "ProfileComponent",
   components: {
@@ -157,12 +156,40 @@ export default {
         });
       }
     },
+    verificarExistenciaDeLista(clase){
+         let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .get(
+          Global.urlSitio +
+            "registro-clase?idClase=" +
+            clase.id ,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            if(res.data.length == 0) {
+               this.redirectPasarLista(clase);
+            }else{
+              alert("EN AL GRANJA HABIA UN POLLITO")
+            }
+          }
+        
+        });
+    },
     entrarJitsi(clase) {
-     /*  let habilitado = this.verificarHabilitacionEntrar(clase); */
+    /*   let habilitado = this.verificarHabilitacionEntrar(clase); */
       let habilitado = true;
+   
       if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
-        this.redirectPasarLista(clase);
+           this.verificarExistenciaDeLista(clase);
+        
         return window
           .open(
             url,
