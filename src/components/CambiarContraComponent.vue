@@ -109,11 +109,11 @@ export default {
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.tituloSitio,
-            message: "Error, contraseña incorrecta",
-          });
+          this.$swal.fire(
+            "ERROR : La constraseña actual es incorrecta",
+            "",
+            "error"
+          );
         });
     },
     mostrarContasenia() {
@@ -142,7 +142,11 @@ export default {
       if (this.password.nueva === this.password.confirmacion) {
         this.cambiarContrasenia();
       } else {
-        alert("no son iguales");
+        this.$swal.fire(
+          "ERROR : Las contraseñas ingresadas no coinciden",
+          "",
+          "error"
+        );
       }
     },
     cambiarContrasenia() {
@@ -162,20 +166,36 @@ export default {
           if (response.status == 200) {
             localStorage.clear();
             this.$router.push("/login");
-            this.flashMessage.show({
-              status: "success",
-              title: Global.tituloSitio,
-              message: "Contraseña actualizada",
-            });
-            
+            this.$swal.fire(
+              "Contraseña actualizada correctamente",
+              "",
+              "success"
+            );
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.tituloSitio,
-            message: "Error inesperado.",
-          });
+          this.$swal.fire(
+            "",
+            "",
+            "error"
+          );
+          let timerInterval;
+           this.$swal.fire({
+            title: "Oops !",
+            html: "Error Inesperado al intentar cambiar la contraseña",
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: () => {
+               this.$swal.showLoading();
+              const b =  this.$swal.getHtmlContainer().querySelector("b");
+              timerInterval = setInterval(() => {
+                b.textContent =  this.$swal.getTimerLeft();
+              }, 100);
+            },
+            willClose: () => {
+              clearInterval(timerInterval);
+            },
+          })
         });
     },
   },

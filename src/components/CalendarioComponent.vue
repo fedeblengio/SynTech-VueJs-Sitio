@@ -54,7 +54,7 @@
                 Iniciar
               </button>
               <button class="btn_jitsi" v-on:click="entrarJitsi(clase)" v-else>
-                Iniciar
+                Entrar
               </button>
             </td>
           </tr>
@@ -198,7 +198,7 @@ export default {
           )
           .focus();
       } else {
-          this.$swal.fire("Solo puedes acceder a la clase 5 min. antes de la misma", "", "info");
+          this.$swal.fire("Solo puedes acceder a la clase 5 min. antes de la hora esp.", "", "info");
       }
     },
     clasesVirtualesCreadas() {

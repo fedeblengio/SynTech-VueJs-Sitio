@@ -49,18 +49,26 @@
     </div>
 
     <div class="calendarioElement" v-if="profesor">
-     <v-date-picker mode="date" v-model="date"   :valid-hours="{ min: 4, max: 17 }" is24hr />
+      <v-date-picker
+        mode="date"
+        v-model="date"
+        :valid-hours="{ min: 4, max: 17 }"
+        is24hr
+      />
     </div>
     <div class="currentEvent" v-else>
       <div class="currentEvent_contenedor">
         <h3 class="pendientes_titulo">Pendientes</h3>
         <div class="contenedor_scroll_pendientes">
-          <div class="d-flex align-items-center" v-if=loading>
-  <strong>Loading...</strong>
-  <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-</div>
+         
+          <div class="d-flex align-items-center text-center ml-auto mr-auto" v-if="loading">
+           
+              <div class='pendientes sidebarElement' style="width:100%"> <strong>Cargando ...</strong></div>
+           
+          </div>
+        
           <div
-          v-else
+            v-else
             v-on:click="refresh()"
             class="pendientes sidebarElement"
             v-for="tareas in cargarTareas.tareas"
@@ -110,17 +118,24 @@
 
     <div class="currentEvent">
       <div class="currentEvent_contenedor">
-     
         <h3>Mis Eventos (Hoy)</h3>
-      <div class="sidebarElement" v-if=loading>
+        <div class="sidebarElement" v-if="loading">
           <span class="clases text-center">
-            <span class="sidebarDot_event"></span>  . . .
+            <span class="sidebarDot_event"></span> . . .
           </span>
         </div>
-        <div class="sidebarElement" v-for="todo in eventos" :key="todo.id" v-else>
+        <div
+          class="sidebarElement"
+          v-for="todo in eventos"
+          :key="todo.id"
+          v-else
+        >
+        <router-link to="/calendario" class="router-link">
           <span class="clases">
             <span class="sidebarDot_event"></span> {{ evento(todo) }}
+          
           </span>
+          </router-link>
         </div>
       </div>
     </div>
@@ -133,19 +148,17 @@ import axios from "axios";
 import moment from "moment";
 export default {
   name: "SectionRight",
-  components: {
-
-  },
+  components: {},
   data() {
     return {
-      loading:true,
+      loading: true,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       eventos: "",
       cargarTareas: "",
       tareasPendientes: false,
       profesor: false,
       aux: 1,
-     date: new Date()
+      date: new Date(),
     };
   },
   mounted() {
@@ -217,6 +230,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.cargarTareas = res.data;
+            this.loading = false;
             if (this.cargarTareas) {
               this.tareasPendientes = true;
             }

@@ -103,13 +103,13 @@
         </div>
       </div>
       <div class="" v-if="loading">
-        
+          <center>
           <img
           class="spinnerCSS"
             :src="spinner"
         
           />
-       
+       </center>
       </div>
       <div
         v-else

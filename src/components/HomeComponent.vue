@@ -336,10 +336,10 @@ export default {
         if (res <= 50) {
           this.file.push(event.target.files[0]);
         } else {
-          alert("El tamaño del archivo excede el límite máximo permitido");
+          this.$swal.fire("El tamamaño del archivo es mayor a 50 mb", "", "info");
         }
       } else {
-        alert("3 archivos por post");
+      this.$swal.fire("Solo se permite 3 archivos por publicacion", "", "info");
       }
     },
     cargarFoto() {
