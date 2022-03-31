@@ -26,13 +26,12 @@
           <h2>Agenda Virtual</h2>
         </router-link>
       </div>
-  <!--     <div class="sidebarOption">
+      <div class="sidebarOption" v-else>
         <i class="fas fa-pen"></i>
-
-        <router-link to="/tareas" class="router-link">
-          <h2>Tareas</h2>
+        <router-link to="#" class="router-link">
+          <h2>Calificaciones</h2>
         </router-link>
-      </div> -->
+      </div>
       <div class="sidebarOption">
         <i class="fas fa-calendar"></i>
         <router-link to="/calendario" class="router-link">
