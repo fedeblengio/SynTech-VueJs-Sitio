@@ -107,8 +107,14 @@
             <th>
               {{ hora(clase.fecha_inicio) }} - {{ hora(clase.fecha_fin) }}
             </th>
-            <td >
-              <button type="submit" style="" v-on:click="comprobarOpcionEliminar(clase.id)" class="btn-close btn-close" aria-label="Close"> </button>
+            <td>
+              <button
+                type="submit"
+                style=""
+                v-on:click="comprobarOpcionEliminar(clase.id)"
+                class="btn-close btn-close"
+                aria-label="Close"
+              ></button>
             </td>
           </tr>
         </tbody>
@@ -161,22 +167,22 @@ export default {
     this.traerGrupoProfesor(this.usuario.username);
     this.agenda.idProfesor = this.usuario.username;
     this.listarClaseVirtual();
-    
   },
   methods: {
     comprobarOpcionEliminar(idClase) {
-       this.$swal.fire({
-        title: "¿ Estas seguro que quieres eliminar ?",
-        showDenyButton: true,
-        confirmButtonText: "Eliminar",
-        denyButtonText: `Cancelar`,
-      }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-          this.borrarClase(idClase)
-           this.$swal.fire("Eliminada", "", "success");
-        } 
-      });
+      this.$swal
+        .fire({
+          title: "¿ Estas seguro que quieres eliminar ?",
+          showDenyButton: true,
+          confirmButtonText: "Eliminar",
+          denyButtonText: `Cancelar`,
+        })
+        .then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.borrarClase(idClase);
+          }
+        });
     },
     fecha: function (fecha) {
       return moment(fecha).format("DD/MM");
@@ -185,9 +191,22 @@ export default {
       return moment(fecha).format("HH:mm");
     },
     borrarClase(idClase) {
-    
-        alert("Borro")
-      alert(idClase);
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .delete(Global.urlSitio + "agenda-clase?idClase=" + idClase, config)
+        .then((response) => {
+          if (response.status == 200) {
+            location.reload();
+            this.$swal.fire("Eliminada", "", "success");
+          }
+        })
+        .catch(() => {});
     },
     filtrarMateria(idGrupo) {
       for (var i = 0; i < this.traerGrupos.length; i++) {
