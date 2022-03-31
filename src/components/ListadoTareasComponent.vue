@@ -190,7 +190,7 @@
         <div
           class="list-group-item list-group-item-action"
           aria-current="true"
-          v-for="tarea in listadoTareas"
+          v-for="tarea in listadoTareas.noVencidas"
           :key="tarea.id"
         >
           <button
