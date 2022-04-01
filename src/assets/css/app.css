@@ -18,6 +18,22 @@ body {
 
 /*CODIGO          INICIO              AuTi*/
 
+.second_feed {
+    flex: 0.5;
+    border-right: 1px solid var(--background);
+    border-left: 1px solid var(--background);
+    min-width: 530px;
+    overflow-y: scroll;
+    margin-top: 20px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    background-color: white;
+}
+
+.second_feed::-webkit-scrollbar {
+    display: none;
+}
+
 .imagen_pasar_lista {
     width: 35px;
     height: 35px;

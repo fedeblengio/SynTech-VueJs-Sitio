@@ -111,8 +111,17 @@
           </router-link>
         </li>
       </ul>
-        <div class="sub_header">
-        <h3>Miembros del Grupo</h3>
+      <div class="second_feed">
+        <div class="ml-auto d-inline-flex p-2">
+        <h3 class="blockquote flex-wrap">Miembros del Grupo</h3>
+        <div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="Buscar Usuario" aria-label="Buscar Usuario" @change='filtrarNombre()' v-model=nombreFiltro aria-describedby="basic-addon2">
+  <div class="input-group-append">
+  <span class="input-group-text border-0" id="search-addon">
+    <i class="fas fa-search"></i>
+  </span>
+  </div>
+</div>
       </div>
       <div class="" v-if="loading">
         <center>
@@ -143,6 +152,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
     <SectionRight></SectionRight>
   </div>
@@ -175,12 +185,16 @@ export default {
         Profesor: "",
         Alumnos: "",
       },
+      nombreFiltro:"",
     };
   },
   mounted() {
     this.traerUsuarios();
   },
   methods: {
+    filtrarNombre(){
+      
+    },
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
