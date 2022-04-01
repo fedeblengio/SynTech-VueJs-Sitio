@@ -7,7 +7,7 @@
         <h2>{{ this.$route.params.materia }}</h2>
         <!--  <div class="moverBtnCrearTarea" > -->
         <button
-          v-if="!alumno"
+          v-if="!alumno && !this.$route.params.tareas_vencidas"
           type="button"
           class="btn_crearTarea"
           data-toggle="modal"
@@ -35,7 +35,25 @@
                 >Inicio <span class="sr-only">(current)</span></router-link
               >
             </li>
-            <li class="nav-item active">
+              <li class="nav-item active" v-if=!this.$route.params.tareas_vencidas>
+                  <router-link
+                style="text-decoration: none"
+                :to="{
+                  name: 'listado-tareas',
+                  params: {
+                    materia: this.$route.params.materia,
+                    idGrupo: this.$route.params.idGrupo,
+                    idMateria: this.$route.params.idMateria,
+                    tareas_vencidas: false,
+                  },
+                }"
+                class="nav-link"
+              >
+                <span class="sr-only">(current)</span>
+                Tareas
+              </router-link>
+            </li>
+            <li class="nav-item" v-else>
               <router-link
                 style="text-decoration: none"
                 :to="{
@@ -44,6 +62,7 @@
                     materia: this.$route.params.materia,
                     idGrupo: this.$route.params.idGrupo,
                     idMateria: this.$route.params.idMateria,
+                    tareas_vencidas: false,
                   },
                 }"
                 class="nav-link"
@@ -53,7 +72,7 @@
               </router-link>
             </li>
             <li class="nav-item">
-                    <router-link
+              <router-link
                 style="text-decoration: none"
                 :to="{
                   name: 'listado-usuarios',
@@ -68,8 +87,40 @@
                 Usuarios
               </router-link>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Documentos</a>
+             
+           <li class="nav-item active" v-if=this.$route.params.tareas_vencidas>
+              <router-link
+                style="text-decoration: none"
+                :to="{
+                  name: 'listado-tareas-vencidas',
+                  params: {
+                    materia: this.$route.params.materia,
+                    idGrupo: this.$route.params.idGrupo,
+                    idMateria: this.$route.params.idMateria,
+                    tareas_vencidas: true,
+                  },
+                }"
+                class="nav-link"
+              >
+                Registro
+              </router-link>
+            </li>
+               <li class="nav-item " v-else>
+              <router-link
+                style="text-decoration: none"
+                :to="{
+                  name: 'listado-tareas-vencidas',
+                  params: {
+                    materia: this.$route.params.materia,
+                    idGrupo: this.$route.params.idGrupo,
+                    idMateria: this.$route.params.idMateria,
+                    tareas_vencidas: true,
+                  },
+                }"
+                class="nav-link"
+              >
+                Registro
+              </router-link>
             </li>
           </ul>
         </div>
@@ -181,6 +232,9 @@
         </div>
       </div>
       <!-- --- FIN MODAL --- -->
+      <div class="sub_header" v-if=this.$route.params.tareas_vencidas>
+        <h3>Tareas Caducadas</h3>
+      </div>
       <div class="div" v-if="loading">
         <center>
           <img :src="spinner" class="spinnerCSS" />
@@ -190,7 +244,7 @@
         <div
           class="list-group-item list-group-item-action"
           aria-current="true"
-          v-for="tarea in listadoTareas.noVencidas"
+          v-for="tarea in listadoTareas"
           :key="tarea.id"
         >
           <button
@@ -422,7 +476,11 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.listadoTareas = res.data;
+            if(this.$route.params.tareas_vencidas){
+               this.listadoTareas = res.data.vencidas;
+            }else{
+                this.listadoTareas = res.data.noVencidas;
+            }
           }
           this.loading = false;
         });

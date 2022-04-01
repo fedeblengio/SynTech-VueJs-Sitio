@@ -46,6 +46,7 @@ const routes = [
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/profile', name: 'profile', component: ProfileComponent },
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria', name: 'listado-tareas', component: ListadoTareasComponent },
+    { path: '/listado-tareas/:idGrupo/:materia/:idMateria/:tareas_vencidas', name: 'listado-tareas-vencidas', component: ListadoTareasComponent },
     { path: '/tarea/:materia/:idTarea/:re_hacer', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
     { path: '/entregas/:idGrupo/:idMateria/:idTareas/', name: 'entregas', component: ListadoTareasEntregadasComponent },
     { path: '/entregas/:idAlumnos/:idTareas/:re_hacer', name: 'calificar-alumnos', component: CalificarAlumnoComponent },

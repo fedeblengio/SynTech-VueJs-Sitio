@@ -24,6 +24,7 @@
                     materia: this.$route.params.materia,
                     idGrupo: this.$route.params.idGrupo,
                     idMateria: this.$route.params.idMateria,
+                    tareas_vencidas: false,
                   },
                 }"
                 class="nav-link"
@@ -48,7 +49,21 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Documentos</a>
+              <router-link
+                style="text-decoration: none"
+                :to="{
+                  name: 'listado-tareas-vencidas',
+                  params: {
+                    materia: this.$route.params.materia,
+                    idGrupo: this.$route.params.idGrupo,
+                    idMateria: this.$route.params.idMateria,
+                    tareas_vencidas: true,
+                  },
+                }"
+                class="nav-link"
+              >
+                Registro
+              </router-link>
             </li>
           </ul>
         </div>
@@ -68,20 +83,17 @@
             alt=""
           />
         </div>
-         <div
+        <div
           class=""
           aria-current="true"
           v-for="alumno in listadoUsuarios.Alumnos"
           :key="alumno.id"
         >
-           {{ alumno.nombre }}
-        {{ alumno.idGrupo }}
-        {{ alumno.idAlumnos }}
-        <div class="post_avatar">
-          <img
-            :src="returnImgProfile(alumno.imagen_perfil)"
-            alt=""
-          />
+          {{ alumno.nombre }}
+          {{ alumno.idGrupo }}
+          {{ alumno.idAlumnos }}
+          <div class="post_avatar">
+            <img :src="returnImgProfile(alumno.imagen_perfil)" alt="" />
           </div>
         </div>
       </div>
@@ -145,7 +157,7 @@ export default {
         .then((res) => {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
-          this.loading= false;
+          this.loading = false;
         });
     },
   },

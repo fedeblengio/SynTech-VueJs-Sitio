@@ -17,22 +17,23 @@
             </li>
             <li class="nav-item">
               <router-link
-                style="text-decoration:none"
+                style="text-decoration: none"
                 :to="{
                   name: 'listado-tareas',
                   params: {
                     materia: this.$route.params.materia,
                     idGrupo: this.$route.params.idGrupo,
                     idMateria: this.$route.params.idMateria,
+                    tareas_vencidas: false,
                   },
                 }"
                 class="nav-link"
               >
-              Tareas
+                Tareas
               </router-link>
             </li>
             <li class="nav-item">
-                   <router-link
+              <router-link
                 style="text-decoration: none"
                 :to="{
                   name: 'listado-usuarios',
@@ -48,7 +49,21 @@
               </router-link>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Documentos</a>
+              <router-link
+                style="text-decoration: none"
+                :to="{
+                  name: 'listado-tareas-vencidas',
+                  params: {
+                    materia: this.$route.params.materia,
+                    idGrupo: this.$route.params.idGrupo,
+                    idMateria: this.$route.params.idMateria,
+                    tareas_vencidas: true,
+                  },
+                }"
+                class="nav-link"
+              >
+                Registro
+              </router-link>
             </li>
           </ul>
         </div>
@@ -103,13 +118,9 @@
         </div>
       </div>
       <div class="" v-if="loading">
-          <center>
-          <img
-          class="spinnerCSS"
-            :src="spinner"
-        
-          />
-       </center>
+        <center>
+          <img class="spinnerCSS" :src="spinner" />
+        </center>
       </div>
       <div
         v-else
