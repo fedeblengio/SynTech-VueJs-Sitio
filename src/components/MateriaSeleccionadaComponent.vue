@@ -7,67 +7,109 @@
       <div class="feed_header">
         <h2>{{ this.$route.params.materia }}</h2>
       </div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav mr-auto navbar-materias">
-            <li class="nav-item active">
-              <a class="nav-link" href="#"
-                >Inicio <span class="sr-only">(current)</span></a
-              >
-            </li>
-            <li class="nav-item">
-              <router-link
-                style="text-decoration: none"
-                :to="{
-                  name: 'listado-tareas',
-                  params: {
-                    materia: this.$route.params.materia,
-                    idGrupo: this.$route.params.idGrupo,
-                    idMateria: this.$route.params.idMateria,
-                    tareas_vencidas: false,
-                  },
-                }"
-                class="nav-link"
-              >
-                Tareas
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link
-                style="text-decoration: none"
-                :to="{
-                  name: 'listado-usuarios',
-                  params: {
-                    materia: this.$route.params.materia,
-                    idGrupo: this.$route.params.idGrupo,
-                    idMateria: this.$route.params.idMateria,
-                  },
-                }"
-                class="nav-link"
-              >
-                Usuarios
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link
-                style="text-decoration: none"
-                :to="{
-                  name: 'listado-tareas-vencidas',
-                  params: {
-                    materia: this.$route.params.materia,
-                    idGrupo: this.$route.params.idGrupo,
-                    idMateria: this.$route.params.idMateria,
-                    tareas_vencidas: true,
-                  },
-                }"
-                class="nav-link"
-              >
-                Registro
-              </router-link>
-            </li>
-          </ul>
-        </div>
-      </nav>
+       <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+          <router-link
+            style="text-decoration: none"
+            :to="{
+              name: 'materia-seleccionada',
+              params: {
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                materia: this.$route.params.materia,
+              },
+            }"
+            class="nav-link active"
+            >Inicio </router-link
+          >
+        </li>
+
+        <li class="nav-item">
+          <router-link
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-usuarios',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+              },
+            }"
+            class="nav-link"
+          >
+            Miembros
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+             v-if="!this.$route.params.tareas_vencidas"
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-tareas',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                tareas_vencidas: false,
+              },
+            }"
+            class="nav-link"
+          >
+            Tareas
+          </router-link>
+          <router-link
+          v-else
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-tareas',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                tareas_vencidas: false,
+              },
+            }"
+            class="nav-link"
+          >
+            Tareas
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+          v-if="this.$route.params.tareas_vencidas"
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-tareas-vencidas',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                tareas_vencidas: true,
+              },
+            }"
+            class="nav-link"
+          >
+            Registro
+          </router-link>
+
+           <router-link
+            v-else
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-tareas-vencidas',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                tareas_vencidas: true,
+              },
+            }"
+            class="nav-link"
+          >
+            Registro
+          </router-link>
+        </li>
+      </ul>
       <div class="boxText">
         <div class="form">
           <div class="boxText_input">

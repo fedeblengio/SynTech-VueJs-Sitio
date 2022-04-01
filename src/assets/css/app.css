@@ -24,23 +24,6 @@ body {
     border-radius: 50%;
 }
 
-.navbar-materias {
-    justify-content: space-between;
-}
-
-.navbar {
-    border-bottom: 1px solid var(--background) !important;
-    padding: 0.25rem 1rem !important;
-}
-
-.navbar-materias li {
-    margin-left: 20px;
-    margin-right: 20px;
-    color: var(--colorLetra);
-    font-weight: 600;
-    font-size: 0.95rem;
-}
-
 #notificacion {
     color: #ff6262;
 }
