@@ -6,7 +6,27 @@
       <div class="feed_header">
         <h2>Agendar Clase Virtual</h2>
       </div>
+      <ul class="nav nav-tabs justify-content-center text-decoration-none">
+        <li class="nav-item">
+          <router-link
+            to="/agenda-virtual"
+            class="nav-link active"
+            style="text-decoration: none"
+          >
+            Agendar Clase</router-link
+          >
+        </li>
 
+        <li class="nav-item">
+           <router-link
+            to="/registro-clases"
+            class="nav-link"
+            style="text-decoration: none"
+          >
+            Registro de Clases
+          </router-link>
+        </li>
+      </ul>
       <div class="agendaContenedor">
         <label>Grupo</label>
         <select
