@@ -3,7 +3,7 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header">
+      <div class="feed_header linea_border_bottom">
         <h2>Mis Materias</h2>
       </div>
 

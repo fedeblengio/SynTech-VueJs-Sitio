@@ -3,7 +3,7 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header">
+      <div class="feed_header linea_border_bottom">
         <h2>Informacion Personal</h2>
       </div>
       <div class="boxText" style="border-bottom: none">
@@ -86,30 +86,6 @@ export default {
     this.tipoDeUser();
   },
   methods: {
-     /*    cargarFoto() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-
-      let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
-      axios
-        .get(
-          Global.urlSitio +
-            "imagen-perfil?imagen_perfil=" +
-            usuario.imagen_perfil,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            let url_imagen = res.data;
-            localStorage.removeItem("perfil_img");
-            localStorage.setItem("perfil_img", url_imagen);
-          }
-        });
-    }, */
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;

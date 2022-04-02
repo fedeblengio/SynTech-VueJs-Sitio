@@ -3,7 +3,7 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header">
+      <div class="feed_header linea_border_bottom">
         <h2>Calendario de Clases</h2>
       </div>
 
@@ -198,7 +198,7 @@ export default {
           )
           .focus();
       } else {
-          this.$swal.fire("Solo puedes acceder a la clase 5 min. antes de la hora esp.", "", "info");
+          this.$swal.fire("Solo puedes acceder a la clase 5 min. antes de la hora especificada", "", "info");
       }
     },
     clasesVirtualesCreadas() {
@@ -224,6 +224,10 @@ export default {
             this.cargarCalendario();
           }
           this.loading = false;
+        })
+        .catch(() => {
+          this.$swal("Error del servidor");
+           this.$router.push("/login");
         });
     },
     cargarCalendario() {

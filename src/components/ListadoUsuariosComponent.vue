@@ -7,9 +7,9 @@
       <div class="feed_header">
         <h2>{{ this.$route.params.materia }}</h2>
       </div>
-      
+
       <ul class="nav nav-tabs justify-content-center text-decoration-none">
-        <li class="nav-item ">
+        <li class="nav-item">
           <router-link
             style="text-decoration: none"
             :to="{
@@ -43,7 +43,7 @@
         </li>
         <li class="nav-item">
           <router-link
-             v-if="!this.$route.params.tareas_vencidas"
+            v-if="!this.$route.params.tareas_vencidas"
             style="text-decoration: none"
             :to="{
               name: 'listado-tareas',
@@ -77,7 +77,7 @@
         </li>
         <li class="nav-item">
           <router-link
-          v-if="this.$route.params.tareas_vencidas"
+            v-if="this.$route.params.tareas_vencidas"
             style="text-decoration: none"
             :to="{
               name: 'listado-tareas-vencidas',
@@ -93,7 +93,7 @@
             Registro
           </router-link>
 
-           <router-link
+          <router-link
             v-else
             style="text-decoration: none"
             :to="{
@@ -113,46 +113,59 @@
       </ul>
       <div class="second_feed">
         <div class="ml-auto d-inline-flex p-2">
-        <h3 class="blockquote flex-wrap">Miembros del Grupo</h3>
-        <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Buscar Usuario" aria-label="Buscar Usuario" @change='filtrarNombre()' v-model=nombreFiltro aria-describedby="basic-addon2">
-  <div class="input-group-append">
-  <span class="input-group-text border-0" id="search-addon">
-    <i class="fas fa-search"></i>
-  </span>
-  </div>
-</div>
-      </div>
-      <div class="" v-if="loading">
-        <center>
-          <img class="spinnerCSS" :src="spinner" />
-        </center>
-      </div>
-      <div class="boxText" v-else>
-        {{ listadoUsuarios.Profesor.nombre }}
-        {{ listadoUsuarios.Profesor.idGrupo }}
-        {{ listadoUsuarios.Profesor.idProfesor }}
-        <div class="post_avatar">
-          <img
-            :src="returnImgProfile(listadoUsuarios.Profesor.imagen_perfil)"
-            alt=""
-          />
+          <h3 class="blockquote flex-wrap">Miembros</h3>
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar Usuario"
+              aria-label="Buscar Usuario"
+              id="filtro"
+              aria-describedby="basic-addon2"
+              v-on:keyup="filtrarNombre"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text border-0" id="search-addon">
+                <i class="fas fa-search"></i>
+              </span>
+            </div>
+          </div>
         </div>
-        <div
-          class=""
-          aria-current="true"
-          v-for="alumno in listadoUsuarios.Alumnos"
-          :key="alumno.id"
-        >
-          {{ alumno.nombre }}
-          {{ alumno.idGrupo }}
-          {{ alumno.idAlumnos }}
-          <div class="post_avatar">
-            <img :src="returnImgProfile(alumno.imagen_perfil)" alt="" />
+        <div class="" v-if="loading">
+          <center>
+            <img class="spinnerCSS" :src="spinner" />
+          </center>
+        </div>
+
+        <div class="boxText" v-else>
+          <details>
+            <summary>Profesor</summary>
+            {{ listadoUsuarios.Profesor.nombre }}
+            {{ listadoUsuarios.Profesor.idGrupo }}
+            {{ listadoUsuarios.Profesor.idProfesor }}
+            <div class="post_avatar">
+              <img
+                :src="returnImgProfile(listadoUsuarios.Profesor.imagen_perfil)"
+                alt=""
+              />
+            </div>
+          </details>
+        
+          <div
+            class=""
+            aria-current="true"
+            v-for="alumno in listadoUsuarios.Alumnos"
+            :key="alumno.id"
+          >
+            {{ alumno.nombre }}
+            {{ alumno.idGrupo }}
+            {{ alumno.idAlumnos }}
+            <div class="post_avatar">
+              <img :src="returnImgProfile(alumno.imagen_perfil)" alt="" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
     <SectionRight></SectionRight>
   </div>
@@ -163,11 +176,9 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-import JQuery from "jquery";
+/* import $ from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
-
-window.$ = JQuery;
 
 export default {
   name: "App",
@@ -185,15 +196,27 @@ export default {
         Profesor: "",
         Alumnos: "",
       },
-      nombreFiltro:"",
     };
   },
   mounted() {
     this.traerUsuarios();
   },
   methods: {
-    filtrarNombre(){
-      
+    filtrarNombre() {
+      var input = document.getElementById("filtro").value.toLowerCase();
+      var listaUsuario = [];
+
+      if (input == "") {
+        this.loading = true;
+        this.traerUsuarios();
+      }
+
+      this.listadoUsuarios.Alumnos.forEach(function (usuario) {
+        if (usuario.nombre.toLowerCase().indexOf(input) !== -1)
+          listaUsuario.push(usuario);
+      });
+
+      this.listadoUsuarios.Alumnos = listaUsuario;
     },
     returnImgProfile(img) {
       return "data:image/png;base64," + img;

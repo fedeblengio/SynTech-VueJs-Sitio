@@ -4,7 +4,7 @@
     <SectionLeft></SectionLeft>
 
     <div class="feed">
-      <div class="feed_header">
+      <div class="feed_header linea_border_bottom">
         <h2>Home</h2>
       </div>
 
@@ -75,13 +75,13 @@
           </div>
         </div>
       </div>
-    
+
       <div class="div" v-if="loading">
         <center>
-        <img   :src="spinner" class="spinnerCSS">
+          <img :src="spinner" class="spinnerCSS" />
         </center>
       </div>
-      
+
       <div
         v-else
         class="post"
@@ -177,11 +177,9 @@ export default {
       value: 1,
       traerMaterias: "",
       index: null,
-      
     };
   },
   mounted() {
-    
     this.loading = true;
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
@@ -254,6 +252,11 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
+        })
+        .catch(() => {
+          this.$swal("Error del servidor");
+          localStorage.clear();
+          this.$router.push("/login");
         });
     },
     traerMateriasUser() {
@@ -336,10 +339,18 @@ export default {
         if (res <= 50) {
           this.file.push(event.target.files[0]);
         } else {
-          this.$swal.fire("El tamamaño del archivo es mayor a 50 mb", "", "info");
+          this.$swal.fire(
+            "El tamamaño del archivo es mayor a 50 mb",
+            "",
+            "info"
+          );
         }
       } else {
-      this.$swal.fire("Solo se permite 3 archivos por publicacion", "", "info");
+        this.$swal.fire(
+          "Solo se permite 3 archivos por publicacion",
+          "",
+          "info"
+        );
       }
     },
     cargarFoto() {

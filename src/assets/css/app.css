@@ -18,6 +18,10 @@ body {
 
 /*CODIGO          INICIO              AuTi*/
 
+.linea_border_bottom {
+    border-bottom: 1px solid var(--background);
+}
+
 .second_feed {
     flex: 0.5;
     border-right: 1px solid var(--background);
@@ -233,7 +237,7 @@ details {
     position: sticky;
     top: 0;
     background-color: white;
-    border-bottom: 1px solid var(--background);
+    /*  border-bottom: 1px solid var(--background); */
     padding: 15px 20px;
 }
 
