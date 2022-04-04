@@ -7,7 +7,7 @@
       <div class="feed_header">
         <h2>{{ this.$route.params.materia }}</h2>
       </div>
-       <ul class="nav nav-tabs justify-content-center">
+      <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
           <router-link
             style="text-decoration: none"
@@ -20,8 +20,8 @@
               },
             }"
             class="nav-link active"
-            >Inicio </router-link
-          >
+            >Inicio
+          </router-link>
         </li>
 
         <li class="nav-item">
@@ -42,7 +42,7 @@
         </li>
         <li class="nav-item">
           <router-link
-             v-if="!this.$route.params.tareas_vencidas"
+            v-if="!this.$route.params.tareas_vencidas"
             style="text-decoration: none"
             :to="{
               name: 'listado-tareas',
@@ -58,7 +58,7 @@
             Tareas
           </router-link>
           <router-link
-          v-else
+            v-else
             style="text-decoration: none"
             :to="{
               name: 'listado-tareas',
@@ -76,7 +76,7 @@
         </li>
         <li class="nav-item">
           <router-link
-          v-if="this.$route.params.tareas_vencidas"
+            v-if="this.$route.params.tareas_vencidas"
             style="text-decoration: none"
             :to="{
               name: 'listado-tareas-vencidas',
@@ -92,7 +92,7 @@
             Registro
           </router-link>
 
-           <router-link
+          <router-link
             v-else
             style="text-decoration: none"
             :to="{
@@ -179,6 +179,7 @@
             type="button"
             class="boxText_btn"
             v-on:click="borrarPublicacion(post.data.id)"
+            v-if="post.data.idUsuario === usuario.username"
           >
             Borrar
           </button>
