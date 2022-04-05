@@ -76,10 +76,8 @@
         </div>
       </div>
 
-      <div class="div" v-if="loading">
-        <center>
-          <img :src="spinner" class="spinnerCSS" />
-        </center>
+      <div class="spinerCont" v-if="loading">
+        <img :src="spinner" class="spinnerCSS" />
       </div>
 
       <div

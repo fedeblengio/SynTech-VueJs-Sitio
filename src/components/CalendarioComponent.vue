@@ -24,10 +24,8 @@
             <th scope="col">Link</th>
           </tr>
         </thead>
-        <div class="div" v-if="loading">
-          <center>
-            <img class="spinnerCSS" :src="spinner" />
-          </center>
+        <div class="spinerCont" v-if="loading">
+          <img class="spinnerCSS" :src="spinner" />
         </div>
 
         <tbody v-else>
@@ -221,8 +219,7 @@ export default {
             this.cargarCalendario();
           }
           this.loading = false;
-        })
-       
+        });
     },
     cargarCalendario() {
       let arr = []; //    { title: "event 1", date: "2022-02-01" },

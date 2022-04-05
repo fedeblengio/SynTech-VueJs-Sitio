@@ -28,10 +28,8 @@
           </router-link>
         </li>
       </ul>
-      <div class="div" v-if="loading">
-        <center>
-          <img class="spinnerCSS" :src="spinner" />
-        </center>
+      <div class="spinerCont" v-if="loading">
+        <img class="spinnerCSS" :src="spinner" />
       </div>
       <div class="select" v-else>
         <label>Filtrar por grupo :</label>

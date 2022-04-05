@@ -7,10 +7,8 @@
         <h2>Mis Materias</h2>
       </div>
 
-      <div class="div" v-if="loading">
-        <center>
-          <img :src="spinner" class="spinnerCSS" />
-        </center>
+      <div class="spinerCont" v-if="loading">
+        <img :src="spinner" class="spinnerCSS" />
       </div>
       <div class="card" v-for="clase in traerMaterias" :key="clase.id" v-else>
         <div class="card-header">{{ clase.idGrupo }} - {{ clase.Materia }}</div>

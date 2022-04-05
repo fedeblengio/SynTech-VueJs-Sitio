@@ -18,7 +18,7 @@
         </li>
 
         <li class="nav-item">
-           <router-link
+          <router-link
             to="/registro-clases"
             class="nav-link"
             style="text-decoration: none"
@@ -108,10 +108,8 @@
             <th scope="col">&nbsp;</th>
           </tr>
         </thead>
-        <div class="div" v-if="loading">
-          <center>
-            <img class="spinnerCSS" :src="spinner" />
-          </center>
+        <div class="spinerCont" v-if="loading">
+          <img class="spinnerCSS" :src="spinner" />
         </div>
         <tbody v-else>
           <tr

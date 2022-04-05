@@ -6,10 +6,14 @@
       <div class="feed_header">
         <h2>Tarea Corregida</h2>
       </div>
-       <div class="div" v-if="loading">
-        <center>
-        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
-        </center>
+      <div class="spinerCont" v-if="loading">
+        <img
+          style="margin-top: 20px"
+          width="200px"
+          height="200px"
+          :src="spinner"
+          alt=""
+        />
       </div>
       <div class="post" v-else>
         <div class="post_avatar">
@@ -52,16 +56,15 @@
             </div>
           </div>
 
-       
           <div class="alumnoEntregaTarea_puntaje">
-              Nota :
-            <label for="nota"> {{calificacion}} / 12 </label>
+            Nota :
+            <label for="nota"> {{ calificacion }} / 12 </label>
           </div>
         </div>
       </div>
 
       <div class="alumnoEntregaTareaContenedor text-center">
-        <small class="text-muted ">Solo apta para visualizar</small>
+        <small class="text-muted">Solo apta para visualizar</small>
       </div>
     </div>
     <SectionRight></SectionRight>
@@ -99,7 +102,7 @@ export default {
         idTareas: "",
         idAlumnos: "",
       },
-      calificacion: this.$route.params.calificacion
+      calificacion: this.$route.params.calificacion,
     };
   },
   mounted() {
@@ -107,8 +110,6 @@ export default {
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
   },
   methods: {
-
-
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },

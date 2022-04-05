@@ -74,7 +74,7 @@
             Tareas
           </router-link>
         </li>
-        <li class="nav-item" v-if='usuario.ou == "Profesor"'>
+        <li class="nav-item" v-if="usuario.ou == 'Profesor'">
           <router-link
             v-if="this.$route.params.tareas_vencidas"
             style="text-decoration: none"
@@ -159,10 +159,8 @@
           </div>
         </div>
       </div>
-      <div class="" v-if="loading">
-        <center>
-          <img class="spinnerCSS" :src="spinner" />
-        </center>
+      <div class="spinerCont" v-if="loading">
+        <img class="spinnerCSS" :src="spinner" />
       </div>
       <div
         v-else

@@ -3,14 +3,18 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-       <div class="feed_header text-center" v-if="loading">Cargando.. </div>
+      <div class="feed_header text-center" v-if="loading">Cargando..</div>
       <div class="feed_header" v-else>
-        <h2>{{ tarea.titulo  }}  {{ tarea.materia }}</h2>
+        <h2>{{ tarea.titulo }} {{ tarea.materia }}</h2>
       </div>
-         <div class="div" v-if="loading">
-        <center>
-        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
-        </center>
+      <div class="spinerCont" v-if="loading">
+        <img
+          style="margin-top: 20px"
+          width="200px"
+          height="200px"
+          :src="spinner"
+          alt=""
+        />
       </div>
       <div class="post" v-else>
         <div class="post_avatar">
@@ -206,7 +210,7 @@ export default {
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
-     descargarPDF(label) {
+    descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
 
       axios
@@ -271,26 +275,25 @@ export default {
           token: Global.token,
         },
       };
-      
+
       let formData = new FormData();
 
       formData.append("idTareas", this.tarea.idTarea);
       formData.append("idAlumnos", this.usuario.username);
       formData.append("mensaje", this.entregarTarea.mensaje);
       formData.append("nombre_archivos", nombres);
-         if(this.$route.params.re_hacer){
-          formData.append("re_hacer", 1);
-      }else{
-          formData.append("re_hacer", 0);
+      if (this.$route.params.re_hacer) {
+        formData.append("re_hacer", 1);
+      } else {
+        formData.append("re_hacer", 0);
       }
-      
 
       axios
         .post(Global.urlSitio + "entregas-alumno", formData, config)
         .then((response) => {
           if (response.status == 200) {
             /* REDIRECCIONAR AL MENU DE TAREAS , SACARLO DE LA TAREA ACTUAL */
-           this.$router.back()
+            this.$router.back();
             this.flashMessage.show({
               status: "success",
               title: Global.tituloSitio,

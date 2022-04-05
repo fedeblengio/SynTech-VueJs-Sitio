@@ -281,7 +281,7 @@ details {
 }
 
 .btn-close {
-    background-image: url('../images/cruz_roja2.png');
+    background-image: url("../images/cruz_roja2.png");
 }
 
 .form {
@@ -944,4 +944,9 @@ input[type="number"]::-webkit-inner-spin-button {
     width: 50px;
     height: 50px;
     margin-top: 20px;
+}
+
+.spinerCont {
+    display: flex;
+    justify-content: center;
 }
