@@ -75,7 +75,7 @@
             Tareas
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if='usuario.ou == "Profesor"'>
           <router-link
             v-if="this.$route.params.tareas_vencidas"
             style="text-decoration: none"
@@ -192,6 +192,7 @@ export default {
       title: "Usuarios",
       loading: true,
       spinner: Global.spinnerUrl,
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listadoUsuarios: {
         Profesor: "",
         Alumnos: "",

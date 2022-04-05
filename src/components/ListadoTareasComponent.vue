@@ -7,7 +7,7 @@
         <h2>{{ this.$route.params.materia }}</h2>
         <!--  <div class="moverBtnCrearTarea" > -->
         <button
-          v-if="!alumno && !this.$route.params.tareas_vencidas"
+          v-if="usuario.ou == 'Profesor' && !this.$route.params.tareas_vencidas"
           type="button"
           class="btn_crearTarea"
           data-toggle="modal"
@@ -17,7 +17,7 @@
         </button>
         <!--  </div> -->
       </div>
-           <ul class="nav nav-tabs justify-content-center">
+      <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
           <router-link
             style="text-decoration: none"
@@ -52,7 +52,7 @@
         </li>
         <li class="nav-item">
           <router-link
-             v-if="!this.$route.params.tareas_vencidas"
+            v-if="!this.$route.params.tareas_vencidas"
             style="text-decoration: none"
             :to="{
               name: 'listado-tareas',
@@ -68,7 +68,7 @@
             Tareas
           </router-link>
           <router-link
-          v-else
+            v-else
             style="text-decoration: none"
             :to="{
               name: 'listado-tareas',
@@ -84,9 +84,9 @@
             Tareas
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if='usuario.ou == "Profesor"'>
           <router-link
-          v-if="this.$route.params.tareas_vencidas"
+            v-if="this.$route.params.tareas_vencidas"
             style="text-decoration: none"
             :to="{
               name: 'listado-tareas-vencidas',
@@ -102,7 +102,7 @@
             Registro
           </router-link>
 
-           <router-link
+          <router-link
             v-else
             style="text-decoration: none"
             :to="{
@@ -227,7 +227,7 @@
         </div>
       </div>
       <!-- --- FIN MODAL --- -->
-      <div class="sub_header" v-if=this.$route.params.tareas_vencidas>
+      <div class="sub_header" v-if="this.$route.params.tareas_vencidas">
         <h3>Tareas Caducadas</h3>
       </div>
       <div class="div" v-if="loading">
@@ -235,14 +235,19 @@
           <img :src="spinner" class="spinnerCSS" />
         </center>
       </div>
-      <div class="list-group" v-else>
+<!-- 
+      PROFESOR -->
+      <div class="list-group" v-else-if='usuario.ou=="Profesor"'>
+        
         <div
           class="list-group-item list-group-item-action"
           aria-current="true"
           v-for="tarea in listadoTareas"
           :key="tarea.id"
         >
+       
           <button
+            v-if="usuario.ou == 'Profesor'"
             type="button"
             class="boxText_btn"
             v-on:click="borrarPublicacion(tarea.idTarea)"
@@ -257,11 +262,19 @@
                 idMateria: tarea.idMateria,
                 idTareas: tarea.idTarea,
               },
+              
             }"
+            class="router-link"
           >
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.idTarea }}</h5>
               <small class="text-muted"
+              v-if='tareas_vencidas'
+                >Vencio: {{ moment(tarea.fecha_vencimiento) }}
+                </small
+              >
+               <small class="text-muted" 
+                v-else
                 >Vence: {{ moment(tarea.fecha_vencimiento) }}</small
               >
             </div>
@@ -271,6 +284,67 @@
             >
           </router-link>
         </div>
+      </div>
+
+     <!--  ALUMNO -->
+      <div class="list-group" v-else>
+           <div
+            class="list-group-item list-group-item-action"
+            v-for="tareas in listadoTareas.tareas"
+            :key="tareas.id"
+          >
+        
+            <router-link
+              :to="{
+                name: 'tarea-seleccionada',
+                params: {
+                  materia: tareas.Materia,
+                  idTarea: tareas.idTarea,
+                  re_hacer: false,
+                },
+              }"
+              class="router-link"
+            >
+              <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
+              <small class="text-muted"
+                >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
+              >
+            </div>
+            <p class="mb-1">{{ tareas.descripcion }}</p>
+            <small class="text-muted">
+              <b>Haga click para visualizar las entregas</b></small
+            >
+            </router-link>
+          </div>
+          <div
+            class="list-group-item list-group-item-action"
+            v-for="tareas in listadoTareas.re_hacer"
+            :key="tareas.id"
+          >
+            <router-link
+              :to="{
+                name: 'tarea-seleccionada',
+                params: {
+                  materia: tareas.Materia,
+                  idTarea: tareas.idTarea,
+                  re_hacer: true,
+                },
+              }"
+              class="router-link"
+            >
+              <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
+              <small class="text-muted"
+                >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
+              >
+            </div>
+            <p class="mb-1">{{ tareas.descripcion }}</p>
+            <small class="text-muted">
+              <b>Haga click para visualizar las entregas</b></small
+            >
+            </router-link>
+          </div>
       </div>
     </div>
     <SectionRight></SectionRight>
@@ -299,6 +373,7 @@ export default {
       spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listadoTareas: "",
+      tareas_vencidas : this.$route.params.tareas_vencidas,
       routerValues: {
         idGrupo: "",
         idMateria: "",
@@ -318,7 +393,12 @@ export default {
     this.routerValues.idGrupo = this.$route.params.idGrupo;
     this.routerValues.idMateria = this.$route.params.idMateria;
     this.routerValues.materia = this.$route.params.materia;
-    this.cargarTareasCreadas();
+  
+    if (this.usuario.ou == "Profesor") {
+       this.cargarTareasCreadasProfesor();
+    } else {
+     this.cargarTareasCreadasAlumnos();
+    }
   },
   methods: {
     borrarPublicacion(idTarea) {
@@ -447,8 +527,31 @@ export default {
         alert("5 archivos por post");
       }
     },
+    cargarTareasCreadasAlumnos() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
 
-    cargarTareasCreadas() {
+      axios
+        .get(
+          Global.urlSitio +
+            "tareas?idUsuario=" +
+            this.usuario.username +
+            "&ou=" +
+            this.usuario.ou,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.listadoTareas = res.data;
+            this.loading = false;
+          }
+        });
+    },
+    cargarTareasCreadasProfesor() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -471,10 +574,10 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            if(this.$route.params.tareas_vencidas){
-               this.listadoTareas = res.data.vencidas;
-            }else{
-                this.listadoTareas = res.data.noVencidas;
+            if (this.$route.params.tareas_vencidas) {
+              this.listadoTareas = res.data.vencidas;
+            } else {
+              this.listadoTareas = res.data.noVencidas;
             }
           }
           this.loading = false;

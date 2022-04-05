@@ -40,6 +40,7 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
+import moment from "moment";
 export default {
   name: "LoginComponent",
   data() {
@@ -76,6 +77,7 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             localStorage.setItem("auth_token", response.data.datos);
+            localStorage.setItem("fecha_token",moment().add(90, 'minutes').format('DD/MM/YYYY h:mm a'));
             this.$router.push("/home");
             location.reload();
           }

@@ -72,9 +72,19 @@
             >
           </div>
           <p>
+                <router-link
+              :to="{
+                name: 'PDF',
+                params: {
+                  idClase: lista.idClase,
+                },
+              }"
+              class="router-link"
+            >
             <i class="fas fa-eye" v-on:click="descargarLista(lista.idClase)">
             </i>
             Descargar
+                </router-link>
           </p>
           <p>
             <i class="fas fa-pencil" v-on:click="modificarLista(lista.IdClase)">

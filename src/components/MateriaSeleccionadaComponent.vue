@@ -74,7 +74,7 @@
             Tareas
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" v-if='usuario.ou == "Profesor"'>
           <router-link
             v-if="this.$route.params.tareas_vencidas"
             style="text-decoration: none"

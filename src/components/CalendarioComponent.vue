@@ -39,11 +39,11 @@
             <td>{{ clase.idGrupo }}</td>
             <th scope="row">{{ clase.materia }}</th>
 
-              <td>
-               {{ fecha(clase.fecha_inicio) }}  
+            <td>
+              {{ fecha(clase.fecha_inicio) }}
             </td>
             <th>
-                 {{ hora(clase.fecha_inicio) }} - {{hora(clase.fecha_fin) }}  
+              {{ hora(clase.fecha_inicio) }} - {{ hora(clase.fecha_fin) }}
             </th>
             <td>
               <button
@@ -97,7 +97,6 @@ export default {
         height: 450,
         timeZone: "GMT-3",
         events: [],
-     
       },
       title: "Calendario",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
@@ -115,7 +114,7 @@ export default {
     hora: function (fecha) {
       return moment(fecha).format("HH:mm ");
     },
-     fecha: function (fecha) {
+    fecha: function (fecha) {
       return moment(fecha).format("DD/MM");
     },
     addClass() {
@@ -156,8 +155,8 @@ export default {
         });
       }
     },
-    verificarExistenciaDeLista(clase){
-         let config = {
+    verificarExistenciaDeLista(clase) {
+      let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
@@ -165,31 +164,25 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "registro-clase?idClase=" +
-            clase.id ,
-          config
-        )
+        .get(Global.urlSitio + "registro-clase?idClase=" + clase.id, config)
         .then((res) => {
           if (res.status == 200) {
-            if(res.data.length == 0) {
-               this.redirectPasarLista(clase);
-            }else{
-              alert("EN AL GRANJA HABIA UN POLLITO")
+            if (res.data.length == 0) {
+              this.redirectPasarLista(clase);
+            } else {
+              alert("EN AL GRANJA HABIA UN POLLITO");
             }
           }
-        
         });
     },
     entrarJitsi(clase) {
       let habilitado = this.verificarHabilitacionEntrar(clase);
       /* let habilitado = true; */
-   
+
       if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
-           this.verificarExistenciaDeLista(clase);
-        
+        this.verificarExistenciaDeLista(clase);
+
         return window
           .open(
             url,
@@ -198,7 +191,11 @@ export default {
           )
           .focus();
       } else {
-          this.$swal.fire("Solo puedes acceder a la clase 5 min. antes de la hora especificada", "", "info");
+        this.$swal.fire(
+          "Solo puedes acceder a la clase 5 min. antes de la hora especificada",
+          "",
+          "info"
+        );
       }
     },
     clasesVirtualesCreadas() {
@@ -227,7 +224,9 @@ export default {
         })
         .catch(() => {
           this.$swal("Error del servidor");
-           this.$router.push("/login");
+          localStorage.clear();
+          this.$router.push("/login");
+          location.reload();
         });
     },
     cargarCalendario() {
