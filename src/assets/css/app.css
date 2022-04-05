@@ -407,7 +407,7 @@ details {
 }
 
 .post_body {
-    max-width: 500px;
+    min-width: 430px;
     padding: 10px;
 }
 
@@ -949,4 +949,30 @@ input[type="number"]::-webkit-inner-spin-button {
 .spinerCont {
     display: flex;
     justify-content: center;
+}
+
+.menu-card-home {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.menu-card-home:hover {
+    cursor: pointer;
+}
+
+.notiPostBody {
+    display: none;
+    top: 15px;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0px 0 3px #000000;
+    padding: 3px 10px;
+}
+
+.notiPostBody p {
+    display: flex;
+    color: black;
+    margin: 5px 0px;
+    font-size: 14px;
 }

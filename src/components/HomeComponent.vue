@@ -92,14 +92,21 @@
         </div>
 
         <div class="post_body">
-          <button
-            type="button"
-            class="boxText_btn"
-            v-on:click="borrarPublicacion(post.data.id)"
-            v-if="post.data.idUsuario === usuario.username"
+          <i
+            class="far fa-ellipsis-h menu-card-home"
+            v-on:click="showOptionBody(post.data.id)"
           >
-            Borrar
-          </button>
+            <div class="notiPostBody">
+              <p
+                class="btn_postBody"
+                v-on:click="borrarPublicacion(post.data.id)"
+                v-if="post.data.idUsuario === usuario.username"
+              >
+                Eliminar
+              </p>
+            </div>
+          </i>
+
           <div class="post_title">
             <span> {{ post.data.titulo }} </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -512,6 +519,9 @@ export default {
           URL.revokeObjectURL(link.href);
         })
         .catch(console.error);
+    },
+    showOptionBody(id) {
+      console.log(id);
     },
   },
 };
