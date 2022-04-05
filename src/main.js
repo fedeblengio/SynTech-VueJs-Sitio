@@ -51,7 +51,7 @@ const routes = [
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria/:tareas_vencidas', name: 'listado-tareas-vencidas', component: ListadoTareasComponent },
     { path: '/tarea/:materia/:idTarea/:re_hacer', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
     { path: '/entregas/:idGrupo/:idMateria/:idTareas/', name: 'entregas', component: ListadoTareasEntregadasComponent },
-    { path: '/entregas/:idAlumnos/:idTareas/:re_hacer', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
+    { path: '/entregas/:idAlumnos/:idTareas/:re_entrega', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
     { path: '/entregas/:idAlumnos/:idTareas/:calificacion/:re_hacer', name: 'visualizar-tareas', component: VisualizarTareaComponent },
     { path: '/materias', name: 'materias-component', component: MateriasComponent },
     { path: '/materia-seleccionada/:idGrupo-:idMateria/:materia', name: 'materia-seleccionada', component: MateriasSeleccionadaComponent },
