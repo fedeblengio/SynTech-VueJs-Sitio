@@ -173,6 +173,8 @@ export default {
           if (response.status == 200) {
             
             this.$swal.fire("Lista Actualizada", "", "success");
+            this.cargarLista();
+            this.modificar =false;
           }
         })
         .catch(() => {
