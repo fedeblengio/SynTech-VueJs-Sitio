@@ -51,7 +51,7 @@
               <td>{{ alumno.nombre }}</td>
 
               <td>
-                <div class="form-check form-switch">
+                <div class="form-check form-switch mr-4">
                   <input
                     v-if="modificar"
                     class="form-check-input"
@@ -60,7 +60,11 @@
                     :id="alumno.idAlumno"
                     :checked="cargarAsistencia(alumno)"
                   />
-                  <p v-else>{{ alumno.asistencia }}</p>
+                  <p v-else>
+                    <i :class="tickOrCross(alumno)"></i>
+                  </p>
+                
+                
                 </div>
               </td>
             </tr>
@@ -128,6 +132,9 @@ export default {
     },
     cargarAsistencia(alumno) {
       return alumno.asistencia == "Presente" ? true : false;
+    },   
+    tickOrCross(alumno){
+      return alumno.asistencia == "Presente" ? "fas fa-check green" : "fas fa-times red";
     },
     verificarAsistencia() {
       let presentes = [];
@@ -178,3 +185,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.red{
+  color: red;
+}
+.green{
+  color: green;
+}
+</style>
