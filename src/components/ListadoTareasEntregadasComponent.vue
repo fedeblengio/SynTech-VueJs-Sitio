@@ -36,6 +36,7 @@
                   params: {
                     idAlumnos: entregas.idAlumnos,
                     idTareas: entregas.idTarea,
+                    re_entrega: false,
                   },
                 }"
                 class="list-group-item list-group-item-action"
