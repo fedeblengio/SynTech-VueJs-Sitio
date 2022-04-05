@@ -28,6 +28,8 @@ import VisualizarTareaComponent from './components/VisualizarTareaComponent.vue'
 import ListadoUsuariosComponent from './components/ListadoUsuariosComponent.vue'
 import PasajeDeListaComponent from './components/PasajeDeListaComponent.vue'
 import RegistroClasesComponent from './components/RegistroClasesComponent.vue'
+import PDFComponent from './components/PDFComponent.vue'
+
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
@@ -58,6 +60,7 @@ const routes = [
     { path: '/calendario', name: 'calendario', component: CalendarioComponent },
     { path: '/registro-clases', name: 'registro-clases', component: RegistroClasesComponent },
     { path: '/pasar-lista/:idGrupo/:idMateria/:idClase', name: 'pasaje-lista', component: PasajeDeListaComponent },
+    { path: '/PDF/:idClase', name: 'PDF', component: PDFComponent },
     { path: '/cambioPwd', name: 'cambiopwd', component: CambiarContraComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
 ];
