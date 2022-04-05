@@ -222,12 +222,7 @@ export default {
           }
           this.loading = false;
         })
-        .catch(() => {
-          this.$swal("Error del servidor");
-          localStorage.clear();
-          this.$router.push("/login");
-          location.reload();
-        });
+       
     },
     cargarCalendario() {
       let arr = []; //    { title: "event 1", date: "2022-02-01" },

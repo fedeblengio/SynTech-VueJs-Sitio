@@ -43,10 +43,7 @@
           placeholder="Seleccione Grupo y Asignatura"
           v-on:change="traerListas()"
         >
-        <option
-         v-bind:value=emptyValue>
-            -- TODOS --
-          </option>
+          <option v-bind:value="emptyValue">-- TODOS --</option>
           <option
             v-for="todo in traerMaterias"
             :key="todo.id"
@@ -72,7 +69,7 @@
             >
           </div>
           <p>
-                <router-link
+            <router-link
               :to="{
                 name: 'PDF',
                 params: {
@@ -81,15 +78,10 @@
               }"
               class="router-link"
             >
-            <i class="fas fa-eye" v-on:click="descargarLista(lista.idClase)">
-            </i>
-            Descargar
-                </router-link>
-          </p>
-          <p>
-            <i class="fas fa-pencil" v-on:click="modificarLista(lista.IdClase)">
-            </i>
-            Modificar
+              <i class="fas fa-eye" v-on:click="descargarLista(lista.idClase)">
+              </i>
+              Visualizar
+            </router-link>
           </p>
         </div>
       </div>
