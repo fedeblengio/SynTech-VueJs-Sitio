@@ -14,12 +14,23 @@
         </center>
       </div>
       <div class="feed" v-else>
-        <p @click='modificar=true'>Modificar <i class="fas fa-pencil"></i></p> 
-        <p @click='modificar=false'>Cancelar <b class='fas' color="red">X</b> </p> 
-        <p class="float-right" @click='dowloadPDF()'>Descargar <i class="fas fa-download">  </i></p> 
-        <input type="submit" class="btn btn-primary  float-right" v-on:click='guardarLista()' value="Actualizar lista" v-if=modificar>
+        <p @click="modificar = true">Modificar <i class="fas fa-pencil"></i></p>
+        <p @click="modificar = false">
+          Cancelar <b class="fas" color="red">X</b>
+        </p>
+        <p class="float-right" @click="downloadPDF()">
+          Descargar <i class="fas fa-download"> </i>
+        </p>
+        <input
+          type="submit"
+          class="btn btn-primary float-right"
+          v-on:click="actualizarLista()"
+          value="Actualizar lista"
+          v-if="modificar"
+        />
+
         <table class="table table-striped">
-          <thead><!-- ../../assets/images/cruz_roja2.png -->
+          <thead>
             <tr class="text-center">
               <th scope="col">&nbsp;</th>
               <th scope="col">Cedula</th>
@@ -42,14 +53,14 @@
               <td>
                 <div class="form-check form-switch">
                   <input
-                    v-if=modificar
+                    v-if="modificar"
                     class="form-check-input"
                     type="checkbox"
                     role="switch"
                     :id="alumno.idAlumno"
                     :checked="cargarAsistencia(alumno)"
                   />
-                  <p v-else>{{alumno.asistencia}}</p>
+                  <p v-else>{{ alumno.asistencia }}</p>
                 </div>
               </td>
             </tr>
@@ -80,12 +91,13 @@ export default {
       title: "Registro Listas",
       loading: true,
       spinner: Global.spinnerUrl,
-      modificar:false,
+      modificar: false,
+      presentes: "",
+      ausentes: "",
     };
   },
   mounted() {
     this.cargarLista();
-    $("#51717993").attr("checked", "checked");
   },
   methods: {
     returnImgProfile(img) {
@@ -115,8 +127,54 @@ export default {
         });
     },
     cargarAsistencia(alumno) {
-     return alumno.asistencia=="Presente"?  true : false
+      return alumno.asistencia == "Presente" ? true : false;
     },
+    verificarAsistencia() {
+      let presentes = [];
+      let ausentes = [];
+      this.listado.forEach(function (valor) {
+        if ($("#" + valor.idAlumno).is(":checked")) {
+          let a = valor.idAlumno;
+          presentes.push(a);
+        } else {
+          let a = valor.idAlumno;
+          ausentes.push(a);
+        }
+      });
+      this.presentes = presentes;
+      this.ausentes = ausentes;
+    },
+    actualizarLista() {
+      this.verificarAsistencia();
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      let data = {
+        "idClase": this.$route.params.idClase,
+        "presentes": this.presentes,
+        "ausentes": this.ausentes,
+      };
+ 
+      axios
+        .put(Global.urlSitio + "lista-clase", data, config)
+        .then((response) => {
+    
+          if (response.status == 200) {
+            
+            this.$swal.fire("Lista Actualizada", "", "success");
+          }
+        })
+        .catch(() => {
+        
+          this.$swal.fire("Error al actualizar", "", "error");
+        });
+    },
+
+    downloadPDF() {},
   },
 };
 </script>

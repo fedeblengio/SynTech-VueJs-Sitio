@@ -138,8 +138,7 @@ export default {
           token: Global.token,
         },
       };
-      console.log(this.ausentes +'-'+ this.presentes +'='+ this.$route.params.idClase)
-      alert('data')
+  
       let formdata = new FormData();
       formdata.append("idClase", this.$route.params.idClase);
       formdata.append("presentes", this.presentes);

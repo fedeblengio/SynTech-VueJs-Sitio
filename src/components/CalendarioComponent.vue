@@ -168,7 +168,12 @@ export default {
             if (res.data.length == 0) {
               this.redirectPasarLista(clase);
             } else {
-              alert("EN AL GRANJA HABIA UN POLLITO");
+              this.$router.push({
+                name: "PDF",
+                params: {
+                  idClase: clase.id,
+                },
+              });
             }
           }
         });
