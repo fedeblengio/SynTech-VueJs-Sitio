@@ -138,6 +138,16 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
+        })  .catch(() => {
+         this.$swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Parece que tu clave  ah expirado...",
+            footer: '<a href="">Para continuar deberas volver a iniciar sesion</a>',
+          });
+          localStorage.clear();
+          this.$router.push("/login");
+          location.reload();
         });
     },
     traerMateriasUser() {
@@ -157,6 +167,16 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
+        })  .catch(() => {
+         this.$swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Parece que tu clave  ah expirado...",
+            footer: '<a href="">Para continuar deberas volver a iniciar sesion</a>',
+          });
+          localStorage.clear();
+          this.$router.push("/login");
+          location.reload();
         });
     },
     returnImgProfile() {

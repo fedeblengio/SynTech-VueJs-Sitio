@@ -60,13 +60,15 @@
       <div class="currentEvent_contenedor">
         <h3 class="pendientes_titulo">Pendientes</h3>
         <div class="contenedor_scroll_pendientes">
-         
-          <div class="d-flex align-items-center text-center ml-auto mr-auto" v-if="loading">
-           
-              <div class='pendientes sidebarElement' style="width:100%"> <strong>Cargando ...</strong></div>
-           
+          <div
+            class="d-flex align-items-center text-center ml-auto mr-auto"
+            v-if="loading"
+          >
+            <div class="pendientes sidebarElement" style="width: 100%">
+              <strong>Cargando ...</strong>
+            </div>
           </div>
-        
+
           <div
             v-else
             v-on:click="refresh()"
@@ -130,11 +132,10 @@
           :key="todo.id"
           v-else
         >
-        <router-link to="/calendario" class="router-link">
-          <span class="clases">
-            <span class="sidebarDot_event"></span> {{ evento(todo) }}
-          
-          </span>
+          <router-link to="/calendario" class="router-link">
+            <span class="clases">
+              <span class="sidebarDot_event"></span> {{ evento(todo) }}
+            </span>
           </router-link>
         </div>
       </div>
@@ -170,6 +171,7 @@ export default {
       this.cargarTareasCreadas();
       this.cargarEventos();
     }
+      
   },
   methods: {
     evento(event) {
@@ -282,6 +284,17 @@ export default {
             this.eventos = res.data;
           }
           this.loading = false;
+        })
+        .catch(() => {
+         this.$swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Parece que tu clave  ah expirado...",
+            footer: '<a href="">Para continuar deberas volver a iniciar sesion</a>',
+          });
+          localStorage.clear();
+          this.$router.push("/login");
+          location.reload();
         });
     },
   },
