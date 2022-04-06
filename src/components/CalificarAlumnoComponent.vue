@@ -234,6 +234,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
+           
             this.prueba = res.data[0].data.mensaje;
             this.tarea.mensaje = res.data[0].data.mensaje;
             this.tarea.calicacion = res.data[0].data.calicacion;
