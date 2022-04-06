@@ -3,23 +3,32 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header">
+      <div class="feed_header linea_border_bottom">
         <h2>Tarea Entregada</h2>
       </div>
-       <div class="spinnerCSS" v-if="loading">
+
+      <div class="spinnerCSS" v-if="loading">
         <center>
-        <img  style='margin-top:20px' width="200px" height="200px" :src="spinner" alt="">
+          <img
+            style="margin-top: 20px"
+            width="200px"
+            height="200px"
+            :src="spinner"
+            alt=""
+          />
         </center>
       </div>
-      <div class="post" v-else>
+      <div class="post contPostAlu" v-else style="border-bottom: 0px">
+        <div class="postAlumcont">
+          {{ tarea.mensaje }}
+        </div>
+
         <div class="post_avatar">
           <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
-
-          <p>{{ tarea.nombreUsuario }}</p>
         </div>
         <div class="post_body">
           <div class="post_title">
-            <span> {{ tarea.mensaje }} </span>
+            <span>{{ tarea.nombreUsuario }}</span>
             <p>{{ tarea.fecha }}</p>
           </div>
           <div class="post_body_text">
@@ -37,22 +46,7 @@
             </div>
           </div>
 
-          <div
-            class="post_footer"
-            v-for="archivo in tarea.archivos"
-            :key="archivo.id"
-          >
-            <div class="contenedor_pdf">
-              <div class="previw_archivosPost">
-                <h3 v-on:click="descargarPDF(archivo)">
-                  <i class="fal fa-file-alt file"></i>
-                  <span>{{ archivo }}</span>
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          <div class="alumnoEntregaTarea_checkbox" v-if=!re_entrega>
+          <div class="alumnoEntregaTarea_checkbox" v-if="!re_entrega">
             <input
               type="checkbox"
               id="re_hacer"
@@ -73,7 +67,20 @@
           </div>
         </div>
       </div>
-
+      <div
+        class="clificarTareaCss"
+        v-for="archivo in tarea.archivos"
+        :key="archivo.id"
+      >
+        <div class="contenedor_pdf">
+          <div class="previw_archivosPost">
+            <h3 v-on:click="descargarPDF(archivo)">
+              <i class="fal fa-file-alt file"></i>
+              <span>{{ archivo }}</span>
+            </h3>
+          </div>
+        </div>
+      </div>
       <div class="alumnoEntregaTareaContenedor">
         <div class="feed_header">
           <h2>Juicio :</h2>
@@ -134,7 +141,7 @@ export default {
         mensaje: "",
         re_hacer: "",
       },
-      re_entrega:this.$route.params.re_entrega
+      re_entrega: this.$route.params.re_entrega,
     };
   },
   mounted() {
