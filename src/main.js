@@ -60,7 +60,7 @@ const routes = [
     { path: '/calendario', name: 'calendario', component: CalendarioComponent },
     { path: '/registro-clases', name: 'registro-clases', component: RegistroClasesComponent },
     { path: '/pasar-lista/:idGrupo/:idMateria/:idClase', name: 'pasaje-lista', component: PasajeDeListaComponent },
-    { path: '/PDF/:idClase', name: 'PDF', component: PDFComponent },
+    { path: '/PDF/:idClase/:materia/:fecha', name: 'PDF', component: PDFComponent },
     { path: '/cambioPwd', name: 'cambiopwd', component: CambiarContraComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
 ];

@@ -72,6 +72,8 @@
                 name: 'PDF',
                 params: {
                   idClase: lista.idClase,
+                  materia: lista.materia,
+                  fecha: lista.created_at
                 },
               }"
               class="router-link"

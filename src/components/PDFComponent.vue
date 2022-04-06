@@ -4,7 +4,7 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
 
-    <div class="feed">
+    <div id="feed" class="feed">
       <div class="feed_header">
         <h2>Lista</h2>
       </div>
@@ -29,7 +29,7 @@
           v-if="modificar"
         />
 
-        <table class="table table-striped">
+        <table class="table table-striped" id="my-table">
           <thead>
             <tr class="text-center">
               <th scope="col">&nbsp;</th>
@@ -63,13 +63,13 @@
                   <p v-else>
                     <i :class="tickOrCross(alumno)"></i>
                   </p>
-                
-                
                 </div>
               </td>
             </tr>
           </tbody>
         </table>
+
+
       </div>
     </div>
     <SectionRight></SectionRight>
@@ -83,6 +83,10 @@ import axios from "axios";
 import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import jsPDF from "jspdf";
+import moment from "moment";
+/* import html2canvas from "html2canvas"; */
+import "jspdf-autotable";
 export default {
   components: {
     SectionLeft,
@@ -132,9 +136,11 @@ export default {
     },
     cargarAsistencia(alumno) {
       return alumno.asistencia == "Presente" ? true : false;
-    },   
-    tickOrCross(alumno){
-      return alumno.asistencia == "Presente" ? "fas fa-check green" : "fas fa-times red";
+    },
+    tickOrCross(alumno) {
+      return alumno.asistencia == "Presente"
+        ? "fas fa-check green"
+        : "fas fa-times red";
     },
     verificarAsistencia() {
       let presentes = [];
@@ -161,39 +167,63 @@ export default {
       };
 
       let data = {
-        "idClase": this.$route.params.idClase,
-        "presentes": this.presentes,
-        "ausentes": this.ausentes,
+        idClase: this.$route.params.idClase,
+        presentes: this.presentes,
+        ausentes: this.ausentes,
       };
- 
+
       axios
         .put(Global.urlSitio + "lista-clase", data, config)
         .then((response) => {
-    
           if (response.status == 200) {
-            
             this.$swal.fire("Lista Actualizada", "", "success");
             this.cargarLista();
-            this.modificar =false;
+            this.modificar = false;
           }
         })
         .catch(() => {
-        
           this.$swal.fire("Error al actualizar", "", "error");
         });
     },
 
-    downloadPDF() {},
+    downloadPDF() {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter",
+      });
+      let materia_fecha = this.$route.params.materia+" "+moment(this.$route.params.fecha).format("DD/MM/YYYY h:mm a");
+
+      let bodyAlumnos = [];
+
+      for (let i = 0; i < this.listado.length; i++) {
+        let array = [
+          this.listado[i].idAlumno,
+          this.listado[i].nombre,
+          this.listado[i].asistencia,
+        ];
+        bodyAlumnos.push(array);
+      }
+      doc.setFontSize(16).text( materia_fecha, 0.5, 1.0);
+      doc.setLineWidth(0.01).line(0.5, 1.1, 8.0, 1.1);
+
+      doc.autoTable({
+        head: [["Cedula", "Nombre", "Asistencia"]],
+        body: bodyAlumnos,
+        margin: { left: 0.5, top: 1.25 }
+      });
+      /*   doc.text('Fecha : '+fecha, 20, 20); */
+      doc.save(materia_fecha+".pdf");
+    },
   },
 };
 </script>
 
 <style scoped>
-
-.red{
+.red {
   color: red;
 }
-.green{
+.green {
   color: green;
 }
 </style>
