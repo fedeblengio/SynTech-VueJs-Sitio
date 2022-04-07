@@ -41,12 +41,13 @@ Vue.component('calendar', Calendar)
 Vue.component('v-date-picker', DatePicker)
 Vue.component('vue-picture-swipe', VuePictureSwipe);
 
-//acá declaramos todas nuestras rutas de navegación
+//acá declaramos todas nuestras rutas de navegación   <router-link
+
 const routes = [
     { path: '/', redirect: '/home' },
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/home', name: 'home', component: HomeComponent },
-    { path: '/profile', name: 'profile', component: ProfileComponent },
+    { path: '/profile/:idUsuario', name: 'profile', component: ProfileComponent },
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria', name: 'listado-tareas', component: ListadoTareasComponent },
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria/:tareas_vencidas', name: 'listado-tareas-vencidas', component: ListadoTareasComponent },
     { path: '/tarea/:materia/:idTarea/:re_hacer', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },

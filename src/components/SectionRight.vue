@@ -24,8 +24,14 @@
           <span class="icon_noti" id="configuracion">
             <p>
               <router-link
-                to="/profile"
-                style="text-decoration: none !important"
+                :to="{
+                  name: 'profile',
+                  params: {
+                    idUsuario: usuario.username,
+                  },
+                }"
+                style="text-decoration: none"
+                class="router-link"
               >
                 Mi Perfil</router-link
               >
@@ -171,7 +177,6 @@ export default {
       this.cargarTareasCreadas();
       this.cargarEventos();
     }
-      
   },
   methods: {
     evento(event) {
@@ -286,11 +291,12 @@ export default {
           this.loading = false;
         })
         .catch(() => {
-         this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Parece que tu clave  ah expirado...",
-            footer: '<a href="">Para continuar deberas volver a iniciar sesion</a>',
+            footer:
+              '<a href="">Para continuar deberas volver a iniciar sesion</a>',
           });
           localStorage.clear();
           this.$router.push("/login");

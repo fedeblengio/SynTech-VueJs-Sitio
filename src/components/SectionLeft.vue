@@ -1,6 +1,15 @@
 <template>
   <div class="sidebar">
-    <router-link to="/profile" class="router-link">
+    <router-link
+      :to="{
+        name: 'profile',
+        params: {
+          idUsuario: usuario.username,
+        },
+      }"
+      style="text-decoration: none"
+      class="router-link"
+    >
       <div class="sidebarUser">
         <img id="profile_img" :src="returnImgProfile()" />
         <p>{{ usuario.nombre }}</p>
@@ -39,12 +48,17 @@
         </router-link>
       </div>
     </div>
-    <div class="sidebarClass" >
+    <div class="sidebarClass">
       <h3>Mis Clases</h3>
-      <div class="sidebarElement" v-if=loading>
+      <div class="sidebarElement" v-if="loading">
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
-      <div class="sidebarElement" v-for="todo in traerMaterias" :key="todo.id" v-else>
+      <div
+        class="sidebarElement"
+        v-for="todo in traerMaterias"
+        :key="todo.id"
+        v-else
+      >
         <router-link
           :to="{
             name: 'materia-seleccionada',
@@ -138,12 +152,14 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
-        })  .catch(() => {
-         this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Parece que tu clave  ah expirado...",
-            footer: '<a href="">Para continuar deberas volver a iniciar sesion</a>',
+            footer:
+              '<a href="">Para continuar deberas volver a iniciar sesion</a>',
           });
           localStorage.clear();
           this.$router.push("/login");
@@ -167,12 +183,14 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
-        })  .catch(() => {
-         this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "Oops...",
             text: "Parece que tu clave  ah expirado...",
-            footer: '<a href="">Para continuar deberas volver a iniciar sesion</a>',
+            footer:
+              '<a href="">Para continuar deberas volver a iniciar sesion</a>',
           });
           localStorage.clear();
           this.$router.push("/login");

@@ -2,11 +2,21 @@
   <div class="contenedorDiv">
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
-    <div class="feed">
+
+    <div class="feed" v-if="loading">
       <div class="feed_header linea_border_bottom">
         <h2>Informacion Personal</h2>
       </div>
-      <div class="boxText" style="border-bottom: none">
+      <div class="spinerCont" >
+        <img :src="spinner" class="spinnerCSS" />
+      </div>
+    </div>
+    <div class="feed" v-else>
+      <div class="feed_header linea_border_bottom">
+        <h2>Informacion Personal</h2>
+      </div>
+    
+      <div class="boxText" style="border-bottom: none" >
         <div class="imgProfile">
           <div class="imgContenedorProfile">
             <img :src="returnImgProfile()" />
@@ -45,16 +55,50 @@
           <div class="infoUserContenedor">
             <div class="infoUser">
               <span>CI:</span>
-              <h4>{{ usuario.username }}</h4>
+               <input type="text" class="form-control" :value=usuario.username disabled>
+            
             </div>
-
             <div class="infoUser">
               <span>Grupo:</span>
-              <h4>TB1</h4>
+              <input type="text" class="form-control" :value=nombreGrupo disabled>
+            </div>
+            <div class="infoUser">
+              <span>Email:</span>
+                  <div class="input-group mb-3" v-if='!modficarE'>
+                 <input type="text" class="form-control"  v-if='usuario.email==null' :value=defaultEmail disabled>
+                 <input type="text" class="form-control" v-else :value=usuario.email disabled>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" @click='modficarE=true'><i class="fas fa-pencil"></i></button>
+                  </div>
+              </div>   
+                <div class="input-group mb-3" v-else>
+              <input type="text" class="form-control"  placeholder="Ejemplo: micorreo@gmail.com" v-model="newEmail">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button pr-3" @click='modificarE(usuario)'><i class="fas fa-check "></i> </button>
+                    <button class="btn btn-outline-secondary" type="button" @click='modficarE=false'><i class="fas fa-times"></i></button>
+                  </div>
+              </div> 
+            </div>
+            <div class="infoUser">
+              <span>Genero:</span>
+              <div class="input-group mb-3" v-if='!modficarG'>
+              <input type="text" class="form-control" v-if='usuario.genero==null' :value=defaultGenero disabled>
+               <input type="text" class="form-control" v-else :value=usuario.genero disabled>
+                  <div class="input-group-append">
+                   <button class="btn btn-outline-secondary" type="button" @click='modficarG=true'><i class="fas fa-pencil"></i></button>
+                  </div>
+              </div>     
+              <div class="input-group mb-3" v-else>
+                  <input type="text" class="form-control"  placeholder="Ejemplo: Helicoptero Apache H-21" v-model="newGenero">
+                  <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button pr-3" @click='modificarG(usuario)'><i class="fas fa-check "></i> </button>
+                    <button class="btn btn-outline-secondary" type="button" @click='modficarG=false'><i class="fas fa-times"></i></button>
+                  </div>
+              </div>           
             </div>
           </div>
-        
-         <router-link to="/cambioPwd" >  cambiar pwd </router-link>
+
+          <router-link to="/cambioPwd"> cambiar contraseña </router-link>
         </div>
       </div>
     </div>
@@ -80,10 +124,29 @@ export default {
     return {
       title: "Profile",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      traerMaterias: "",
+      nombreGrupo: "",
+      loading: true,
+      spinner: Global.spinnerUrl,
+      modficarE:false,
+      modficarG:false,
+      newEmail: "",
+      newGenero: "",
+      defaultGenero: "Ingresar Genero",
+      defaultEmail: "Ingresar Email",
+      
     };
   },
   mounted() {
-    this.tipoDeUser();
+   
+    if (this.usuario.ou == "Profesor") {
+      this.profesor = true;
+      this.traerGrupoProfesor();
+    } else {
+      this.traerMateriasUser();
+    }
+      
+    
   },
   methods: {
     getFile(event) {
@@ -95,7 +158,12 @@ export default {
         alert("El tamaño del archivo excede el límite máximo permitido");
       }
     },
-
+    modificarE(usuario){
+        alert(usuario.nombre)
+    },
+    modificarG(usuario){
+   alert(usuario.nombre)
+    },
     cambiarFoto(foto) {
       let config = {
         headers: {
@@ -137,13 +205,61 @@ export default {
         profesor.classList.add("background-profile-disable");
       }
     },
+
+    traerGrupoProfesor() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "profesor-grupo?idProfesor=" +
+            this.$route.params.idUsuario,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
+            this.nombreGrupo = res.data[0].nombreCompleto;
+            this.loading = false;
+          }
+          
+          setTimeout(() => { this.tipoDeUser(); }, 100);
+        });
+    },
+    traerMateriasUser() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "listarMaterias?idUsuario=" +
+            this.$route.params.idUsuario,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
+            this.nombreGrupo = res.data[0].nombreCompleto;
+            this.loading = false;
+          }
+           setTimeout(() => { this.tipoDeUser(); }, 100);
+        });
+    },
   },
 };
 </script>
 
 <style scoped>
 .background-profile-active {
-  background: #50b6f521;
+  background: #E9ECEF;
 }
 .background-profile-disable {
   opacity: 0.9;
