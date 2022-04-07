@@ -7,7 +7,7 @@
       <div class="feed_header linea_border_bottom">
         <h2>Informacion Personal</h2>
       </div>
-      <div class="spinerCont" >
+      <div class="spinerCont">
         <img :src="spinner" class="spinnerCSS" />
       </div>
     </div>
@@ -15,8 +15,8 @@
       <div class="feed_header linea_border_bottom">
         <h2>Informacion Personal</h2>
       </div>
-    
-      <div class="boxText" style="border-bottom: none" >
+
+      <div class="boxText" style="border-bottom: none">
         <div class="imgProfile">
           <div class="imgContenedorProfile">
             <img :src="returnImgProfile()" />
@@ -55,46 +55,125 @@
           <div class="infoUserContenedor">
             <div class="infoUser">
               <span>CI:</span>
-               <input type="text" class="form-control" :value=usuario.username disabled>
-            
+              <input
+                type="text"
+                class="form-control"
+                :value="usuario.username"
+                disabled
+              />
             </div>
             <div class="infoUser">
               <span>Grupo:</span>
-              <input type="text" class="form-control" :value=nombreGrupo disabled>
+              <input
+                type="text"
+                class="form-control"
+                :value="nombreGrupo"
+                disabled
+              />
             </div>
             <div class="infoUser">
               <span>Email:</span>
-                  <div class="input-group mb-3" v-if='!modficarE'>
-                 <input type="text" class="form-control"  v-if='usuario.email==null' :value=defaultEmail disabled>
-                 <input type="text" class="form-control" v-else :value=usuario.email disabled>
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" @click='modficarE=true'><i class="fas fa-pencil"></i></button>
-                  </div>
-              </div>   
-                <div class="input-group mb-3" v-else>
-              <input type="text" class="form-control"  placeholder="Ejemplo: micorreo@gmail.com" v-model="newEmail">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button pr-3" @click='modificarE(usuario)'><i class="fas fa-check "></i> </button>
-                    <button class="btn btn-outline-secondary" type="button" @click='modficarE=false'><i class="fas fa-times"></i></button>
-                  </div>
-              </div> 
+              <div class="input-group mb-3" v-if="!modficarE">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-if="usuario.email == null"
+                  :value="defaultEmail"
+                  disabled
+                />
+                <input
+                  type="text"
+                  class="form-control"
+                  v-else
+                  :value="usuario.email"
+                  disabled
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="modficarE = true"
+                  >
+                    <i class="fas fa-pencil"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="input-group mb-3" v-else>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Ejemplo: micorreo@gmail.com"
+                  v-model="newEmail"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button pr-3"
+                    @click="modificarE(usuario)"
+                  >
+                    <i class="fas fa-check"></i>
+                  </button>
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="modficarE = false"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
             </div>
             <div class="infoUser">
               <span>Genero:</span>
-              <div class="input-group mb-3" v-if='!modficarG'>
-              <input type="text" class="form-control" v-if='usuario.genero==null' :value=defaultGenero disabled>
-               <input type="text" class="form-control" v-else :value=usuario.genero disabled>
-                  <div class="input-group-append">
-                   <button class="btn btn-outline-secondary" type="button" @click='modficarG=true'><i class="fas fa-pencil"></i></button>
-                  </div>
-              </div>     
+              <div class="input-group mb-3" v-if="!modficarG">
+                <input
+                  type="text"
+                  class="form-control"
+                  v-if="usuario.genero == null"
+                  :value="defaultGenero"
+                  disabled
+                />
+                <input
+                  type="text"
+                  class="form-control"
+                  v-else
+                  :value="usuario.genero"
+                  disabled
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="modficarG = true"
+                  >
+                    <i class="fas fa-pencil"></i>
+                  </button>
+                </div>
+              </div>
               <div class="input-group mb-3" v-else>
-                  <input type="text" class="form-control"  placeholder="Ejemplo: Helicoptero Apache H-21" v-model="newGenero">
-                  <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button pr-3" @click='modificarG(usuario)'><i class="fas fa-check "></i> </button>
-                    <button class="btn btn-outline-secondary" type="button" @click='modficarG=false'><i class="fas fa-times"></i></button>
-                  </div>
-              </div>           
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Ejemplo: Helicoptero Apache H-21"
+                  v-model="newGenero"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button pr-3"
+                    @click="modificarG(usuario)"
+                  >
+                    <i class="fas fa-check"></i>
+                  </button>
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="modficarG = false"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -128,25 +207,21 @@ export default {
       nombreGrupo: "",
       loading: true,
       spinner: Global.spinnerUrl,
-      modficarE:false,
-      modficarG:false,
+      modficarE: false,
+      modficarG: false,
       newEmail: "",
       newGenero: "",
       defaultGenero: "Ingresar Genero",
       defaultEmail: "Ingresar Email",
-      
     };
   },
   mounted() {
-   
     if (this.usuario.ou == "Profesor") {
       this.profesor = true;
       this.traerGrupoProfesor();
     } else {
       this.traerMateriasUser();
     }
-      
-    
   },
   methods: {
     getFile(event) {
@@ -158,11 +233,65 @@ export default {
         alert("El tamaño del archivo excede el límite máximo permitido");
       }
     },
-    modificarE(usuario){
-        alert(usuario.nombre)
+    modificarE(usuario) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      let data = {
+        username: usuario.username,
+        genero: "",
+        nuevoEmail: this.newEmail,
+      };
+
+      axios
+        .put(Global.urlSitio + "usuario-db", data, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.$swal.fire("Perfil Actualizado", "", "success");
+            this.modficarE = false;
+          }
+        })
+        .catch(() => {
+          this.$swal.fire("Error al actualizar", "", "error");
+        });
     },
-    modificarG(usuario){
-   alert(usuario.nombre)
+
+    modificarG(usuario) {
+          let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      let data = {
+        username: usuario.username,
+        genero: this.newGenero,
+        nuevoEmail: "",
+      };
+
+      axios
+        .put(Global.urlSitio + "usuario-db", data, config)
+        .then((response) => {
+          if (response.status == 200) {
+           this.$swal.fire({
+            icon: "success",
+            title: "Perfil Actualizado",
+            footer:
+              '<a href="">Tus cambios se veran afectuados en tu proximo logueo</a>',
+          });
+           
+            this.modficarG = false;
+          }
+        })
+        .catch((response) => {
+          console.log(response)
+          this.$swal.fire("Error al actualizar", "", "error");
+        });
     },
     cambiarFoto(foto) {
       let config = {
@@ -226,8 +355,10 @@ export default {
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
           }
-          
-          setTimeout(() => { this.tipoDeUser(); }, 100);
+
+          setTimeout(() => {
+            this.tipoDeUser();
+          }, 100);
         });
     },
     traerMateriasUser() {
@@ -250,7 +381,9 @@ export default {
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
           }
-           setTimeout(() => { this.tipoDeUser(); }, 100);
+          setTimeout(() => {
+            this.tipoDeUser();
+          }, 100);
         });
     },
   },
@@ -259,7 +392,7 @@ export default {
 
 <style scoped>
 .background-profile-active {
-  background: #E9ECEF;
+  background: #e9ecef;
 }
 .background-profile-disable {
   opacity: 0.9;
