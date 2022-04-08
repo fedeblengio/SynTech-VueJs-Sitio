@@ -155,12 +155,23 @@
             v-for="alumno in listadoUsuarios.Alumnos"
             :key="alumno.id"
           >
-            {{ alumno.nombre }}
-            {{ alumno.idGrupo }}
-            {{ alumno.idAlumnos }}
-            <div class="post_avatar">
-              <img :src="returnImgProfile(alumno.imagen_perfil)" alt="" />
-            </div>
+            <router-link
+              :to="{
+                name: 'visitar-perfil',
+                params: {
+                  idUsuario: alumno.idAlumnos,
+                },
+              }"
+              style="text-decoration: none"
+              class="router-link"
+            >
+              {{ alumno.nombre }}
+              {{ alumno.idGrupo }}
+              {{ alumno.idAlumnos }}
+              <div class="post_avatar">
+                <img :src="returnImgProfile(alumno.imagen_perfil)" alt="" />
+              </div>
+            </router-link>
           </div>
         </div>
       </div>

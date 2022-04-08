@@ -201,7 +201,7 @@ export default {
   },
   data() {
     return {
-      title: "Profile",
+      title: "Perfil",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       traerMaterias: "",
       nombreGrupo: "",
@@ -261,7 +261,7 @@ export default {
     },
 
     modificarG(usuario) {
-          let config = {
+      let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
@@ -278,18 +278,18 @@ export default {
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
           if (response.status == 200) {
-           this.$swal.fire({
-            icon: "success",
-            title: "Perfil Actualizado",
-            footer:
-              '<a href="">Tus cambios se veran afectuados en tu proximo logueo</a>',
-          });
-           
+            this.$swal.fire({
+              icon: "success",
+              title: "Perfil Actualizado",
+              footer:
+                '<a href="">Tus cambios se veran afectuados en tu proximo logueo</a>',
+            });
+
             this.modficarG = false;
           }
         })
         .catch((response) => {
-          console.log(response)
+          console.log(response);
           this.$swal.fire("Error al actualizar", "", "error");
         });
     },
@@ -311,10 +311,11 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             /* this.cargarFoto() */
-            this.flashMessage.show({
-              status: "success",
-              title: Global.tituloSitio,
-              message: "Foto cambiada correctamente",
+            this.$swal.fire({
+              icon: "success",
+              title: "Perfil Actualizado",
+              footer:
+                '<a href="">Tus cambios se veran afectuados en tu proximo logueo</a>',
             });
           }
         });

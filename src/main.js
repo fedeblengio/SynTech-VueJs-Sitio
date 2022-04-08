@@ -28,6 +28,7 @@ import VisualizarTareaComponent from './components/VisualizarTareaComponent.vue'
 import ListadoUsuariosComponent from './components/ListadoUsuariosComponent.vue'
 import PasajeDeListaComponent from './components/PasajeDeListaComponent.vue'
 import RegistroClasesComponent from './components/RegistroClasesComponent.vue'
+import VisitarPerfilComponent from './components/VisitarPerfilComponent.vue'
 import PDFComponent from './components/PDFComponent.vue'
 
 Vue.config.productionTip = false
@@ -48,6 +49,7 @@ const routes = [
     { path: '/login', name: 'login', component: LoginComponent },
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/profile/:idUsuario', name: 'profile', component: ProfileComponent },
+    { path: '/visitar-perfil/:idUsuario', name: 'visitar-perfil', component: VisitarPerfilComponent },
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria', name: 'listado-tareas', component: ListadoTareasComponent },
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria/:tareas_vencidas', name: 'listado-tareas-vencidas', component: ListadoTareasComponent },
     { path: '/tarea/:materia/:idTarea/:re_hacer', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },

@@ -1,0 +1,220 @@
+<template>
+  <div class="contenedorDiv">
+    <vue-headful :title="title" />
+    <SectionLeft></SectionLeft>
+
+    <div class="feed" v-if="loading">
+      <div class="feed_header linea_border_bottom">
+        <h2>Informacion Personal</h2>
+      </div>
+      <div class="spinerCont">
+        <img :src="spinner" class="spinnerCSS" />
+      </div>
+    </div>
+    <div class="feed" v-else>
+      <div class="feed_header linea_border_bottom">
+        <h2>Informacion Personal</h2>
+      </div>
+
+      <div class="boxText" style="border-bottom: none">
+        <div class="imgProfile">
+          <div class="imgContenedorProfile">
+            <img :src="returnImgProfile(usuarioPerfil.imagen_perfil)" />
+            <div class="textImg">
+              <h3>{{ usuarioPerfil.nombre }}</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="contenedorPerfil">
+          <h5>Tipo de Usuario:</h5>
+          <div class="tipoDeUser">
+            <div :class='usuarioProfesor(usuarioPerfil.ou)' id="profesor">
+              <h4>Profesor</h4>
+              <i class="fal fa-chalkboard-teacher"></i>
+            </div>
+            <div :class='usuarioAlumno(usuarioPerfil.ou)' id="alumno">
+              <h4>Alumno</h4>
+              <i class="fal fa-users-class"></i>
+            </div>
+          </div>
+
+          <div class="infoUserContenedor">
+            <div class="infoUser">
+              <span>CI:</span>
+              <input
+                type="text"
+                class="form-control"
+                :value="usuarioPerfil.username"
+                disabled
+              />
+            </div>
+            <div class="infoUser">
+              <span>Grupo:</span>
+              <input
+                type="text"
+                class="form-control"
+                :value="nombreGrupo"
+                disabled
+              />
+            </div>
+            <div class="infoUser">
+              <span>Email:</span>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  :value="usuarioPerfil.email"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="infoUser">
+              <span>Genero:</span>
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  :value="usuarioPerfil.genero"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <SectionRight></SectionRight>
+  </div>
+</template>
+<script>
+import vueHeadful from "vue-headful";
+import { Global } from "../Global";
+import axios from "axios";
+import JQuery from "jquery";
+import SectionLeft from "./SectionLeft.vue";
+import SectionRight from "./SectionRight.vue";
+window.$ = JQuery;
+export default {
+  name: "ProfileComponent",
+  components: {
+    SectionLeft,
+    SectionRight,
+    vueHeadful,
+  },
+  data() {
+    return {
+      title: "Perfil",
+      usuarioPerfil: "",
+      nombreGrupo: "",
+      loading: true,
+      spinner: Global.spinnerUrl,
+      profesor:false,
+    };
+  },
+  mounted() {
+    this.cargarInfoUser();
+  },
+  methods: {
+    comprobarUsuario() {
+      if (this.usuarioPerfil.ou == "Profesor") {
+        this.profesor = true;
+        this.traerGrupoProfesor();
+      } else {
+        this.traerMateriasUser();
+      }
+    },
+    returnImgProfile(img) {
+      return "data:image/png;base64," + img;
+    },
+ 
+    usuarioProfesor(ou){
+         if (ou == "Profesor") {
+          return "contenidoUser background-profile-active"
+      } else {
+          return "contenidoUser "
+      }
+    },
+    usuarioAlumno(ou){
+          if (ou == "Profesor") {
+           return "contenidoUser"
+      } else {
+           return "contenidoUser background-profile-active"
+      }
+      
+    },
+    traerGrupoProfesor() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "profesor-grupo?idProfesor=" +
+            this.$route.params.idUsuario,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
+            this.nombreGrupo = res.data[0].nombreCompleto;
+            this.loading = false;
+          }
+        });
+    },
+    traerMateriasUser() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "listarMaterias?idUsuario=" +
+            this.$route.params.idUsuario,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
+            this.nombreGrupo = res.data[0].nombreCompleto;
+            this.loading = false;
+          }
+        });
+    },
+    cargarInfoUser() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio + "usuario?idUsuario=" + this.$route.params.idUsuario,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.usuarioPerfil = res.data;
+          }
+          this.comprobarUsuario();
+        });
+    },
+  },
+};
+</script>
+
+<style scoped>
+.background-profile-active {
+  background: #e9ecef;
+}
+.background-profile-disable {
+  opacity: 0.9;
+}
+</style>
