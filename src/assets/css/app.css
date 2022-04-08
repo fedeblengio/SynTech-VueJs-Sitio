@@ -79,7 +79,7 @@ body {
     color: var(--colorLetra);
 }
 
-.pendientes_tarea:hover {
+.events_icon:hover {
     color: var(--color);
 }
 

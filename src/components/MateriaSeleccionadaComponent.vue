@@ -173,14 +173,20 @@
           <img :src="returnImgProfile(post.data.profile_picture)" alt="" />
         </div>
         <div class="post_body">
-          <button
-            type="button"
-            class="boxText_btn"
-            v-on:click="borrarPublicacion(post.data.id)"
+             <i
             v-if="post.data.idUsuario === usuario.username"
+            class="far fa-ellipsis-h menu-card-home btn"
+            v-on:click="showOptionBody(post.data.id)"
           >
-            Borrar
-          </button>
+            <div class="notiPostBody" :id="post.data.id">
+              <p
+                class="btn_postBody"
+                v-on:click="comprobarOpcionEliminar(post.data.id)"
+              >
+                Eliminar
+              </p>
+            </div>
+          </i>
           <div class="post_title">
             <span> {{ post.data.titulo }} </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -545,6 +551,20 @@ export default {
           });
         });
     },
+       comprobarOpcionEliminar(idPublicacion) {
+      this.$swal
+        .fire({
+          title: "¿ Estas seguro que quieres eliminar ?",
+          showDenyButton: true,
+          confirmButtonText: "Eliminar",
+          denyButtonText: `Cancelar`,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.borrarPublicacion(idPublicacion);
+          }
+        });
+    },
     borrarPublicacion(idPublicacion) {
       let config = {
         headers: {
@@ -582,6 +602,16 @@ export default {
           URL.revokeObjectURL(link.href);
         })
         .catch(console.error);
+    },
+      showOptionBody(id) {
+      let elipsis = document.getElementById(id);
+      if (this.aux == 0) {
+        elipsis.style.display = "none";
+        this.aux = 1;
+      } else {
+        elipsis.style.display = "block";
+        this.aux = 0;
+      }
     },
   },
 };

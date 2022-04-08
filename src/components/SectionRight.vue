@@ -20,7 +20,7 @@
         </i>
       </div>
       <div class="events_icon" @click="mostrarNoticacion('configuracion')">
-        <i class="fal fa-cog noticont" style="color: black">
+        <i class="fal fa-cog noticont">
           <span class="icon_noti" id="configuracion">
             <p>
               <router-link
@@ -49,7 +49,7 @@
       </div>
       <div class="events_icon">
         <a href="" v-on:click="cerrarSesion()">
-          <i class="fal fa-door-open" style="color: black"></i>
+          <i class="fal fa-door-open" ></i>
         </a>
       </div>
     </div>
