@@ -157,7 +157,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Parece que tu clave  ah expirado...",
+            text: "Parece que tu clave  ha expirado...",
             footer:
               '<a href="">Para continuar deberas volver a iniciar sesion</a>',
           });
@@ -188,7 +188,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "Oops...",
-            text: "Parece que tu clave  ah expirado...",
+            text: "Parece que tu clave  ha expirado...",
             footer:
               '<a href="">Para continuar deberas volver a iniciar sesion</a>',
           });
