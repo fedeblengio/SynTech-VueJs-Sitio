@@ -242,14 +242,20 @@
           v-for="tarea in listadoTareas"
           :key="tarea.id"
         >
-          <button
-            v-if="usuario.ou == 'Profesor'"
-            type="button"
-            class="boxText_btn"
-            v-on:click="borrarPublicacion(tarea.idTarea)"
+             <i
+          
+            class="far fa-ellipsis-h menu-card-home btn"
+            v-on:click="showOptionBody(tarea.idTarea)"
           >
-            Borrar
-          </button>
+            <div class="notiPostBody" :id="tarea.idTarea">
+              <p
+                class="btn_postBody"
+                v-on:click="comprobarOpcionEliminar(tarea.idTarea)"
+              >
+                Eliminar
+              </p>
+            </div>
+          </i>
           <router-link
             :to="{
               name: 'entregas',
@@ -378,6 +384,7 @@ export default {
         materiaGrupo: [],
         file: [],
       },
+      aux:1,
     };
   },
   mounted() {
@@ -392,7 +399,32 @@ export default {
     }
   },
   methods: {
-    borrarPublicacion(idTarea) {
+       showOptionBody(id) {
+      let elipsis = document.getElementById(id);
+      if (this.aux == 0) {
+        elipsis.style.display = "none";
+        this.aux = 1;
+      } else {
+        elipsis.style.display = "block";
+        this.aux = 0;
+      }
+    },
+          comprobarOpcionEliminar(idTarea) {
+      this.$swal
+        .fire({
+          title: "¿ Estas seguro que quieres eliminar ?",
+          showDenyButton: true,
+          confirmButtonText: "Eliminar",
+          denyButtonText: `Cancelar`,
+        })
+        .then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.borrarTarea(idTarea);
+          }
+        });
+    },
+    borrarTarea(idTarea) {
       let config = {
         headers: {
           "Content-Type": "application/json",
