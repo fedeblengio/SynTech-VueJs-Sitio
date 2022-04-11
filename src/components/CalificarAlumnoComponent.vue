@@ -19,21 +19,30 @@
         </center>
       </div>
       <div class="post contPostAlu" v-else style="border-bottom: 0px">
-        <div class="postAlumcont">
-          {{ tarea.mensaje }}
-        </div>
-
+        <div class="postAlumcont"></div>
         <div class="post_avatar">
           <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
         </div>
         <div class="post_body">
           <div class="post_title">
-            <span>{{ tarea.nombreUsuario }}</span>
-            <p>{{ tarea.fecha }}</p>
+            <div>
+              <span>{{ tarea.nombreUsuario }}</span>
+              <p>{{ tarea.fecha }}</p>
+            </div>
+            <div>
+              <div class="alumnoEntregaTarea_puntaje">
+                <input
+                  type="number"
+                  id="nota"
+                  name="nota"
+                  v-model="calificar.nota"
+                  max="12"
+                />
+                <label for="nota"> / 12 </label>
+              </div>
+            </div>
           </div>
-          <div class="post_body_text">
-            {{ tarea.descripcion }}
-          </div>
+          <div class="post_body_text">{{ tarea.mensaje }}</div>
 
           <div class="post_footer" v-for="img in tarea.imagenes" :key="img.id">
             <div class="contenedor_pdf">
@@ -45,26 +54,6 @@
               </div>
             </div>
           </div>
-
-          <div class="alumnoEntregaTarea_checkbox" v-if="!re_entrega">
-            <input
-              type="checkbox"
-              id="re_hacer"
-              name="re_hacer"
-              v-model="calificar.re_hacer"
-            />
-            <label for="re_hacer"> Realizar nuevamente</label>
-          </div>
-          <div class="alumnoEntregaTarea_puntaje">
-            <input
-              type="number"
-              id="nota"
-              name="nota"
-              v-model="calificar.nota"
-              max="12"
-            />
-            <label for="nota"> / 12 </label>
-          </div>
         </div>
       </div>
       <div
@@ -73,16 +62,25 @@
         :key="archivo.id"
       >
         <div class="contenedor_pdf">
-          <div class="previw_archivosPost">
+          <div class="previw_archivosPost archivoTarea">
             <h3 v-on:click="descargarPDF(archivo)">
               <i class="fal fa-file-alt file"></i>
-              <span>{{ archivo }}</span>
+              <span>{{ archivo }} </span>
             </h3>
           </div>
         </div>
       </div>
       <div class="alumnoEntregaTareaContenedor">
-        <div class="feed_header">
+        <div class="alumnoEntregaTarea_checkbox" v-if="!re_entrega">
+          <input
+            type="checkbox"
+            id="re_hacer"
+            name="re_hacer"
+            v-model="calificar.re_hacer"
+          />
+          <label for="re_hacer"> Realizar nuevamente</label>
+        </div>
+        <div class="entregaTareaCont">
           <h2>Juicio :</h2>
           <div class="">
             <textarea
@@ -234,7 +232,6 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-           
             this.prueba = res.data[0].data.mensaje;
             this.tarea.mensaje = res.data[0].data.mensaje;
             this.tarea.calicacion = res.data[0].data.calicacion;
