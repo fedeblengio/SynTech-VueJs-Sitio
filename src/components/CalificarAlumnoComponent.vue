@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="alumnoEntregaTareaContenedor">
-        <div class="alumnoEntregaTarea_checkbox" v-if="!re_entrega">
+        <div class="alumnoEntregaTarea_checkbox" v-if="!this.$route.params.re_entrega">
           <input
             type="checkbox"
             id="re_hacer"
