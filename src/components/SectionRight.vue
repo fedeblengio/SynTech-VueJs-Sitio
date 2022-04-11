@@ -1,16 +1,33 @@
 <template>
   <div class="events">
     <div class="events_header">
-      <div class="events_icon" v-if="tareasPendientes">
-        <i
-          id="notificacion"
-          class="fal fa-bell"
-          @click="mostrarNoticacion('campana')"
-        >
-          <span class="icon_noti" id="noti">
-            <p>Tareas Pendientes</p>
-          </span></i
-        >
+      <div
+        class="events_icon"
+        v-if="tareasPendientes"
+        @click="mostrarNoticacion('campana')"
+      >
+        <i class="far fa-bell noticont" style="color: red">
+          <span class="icon_noti" id="campana">
+            <router-link
+             
+              style="text-decoration: none;"
+              :to="{
+                name: 'listado-tareas',
+                params: {
+                  materia: tarea.Materia,
+                  idGrupo: tarea.idGrupo,
+                  idMateria: tarea.idMateria,
+                  tareas_vencidas: false,
+                },
+              }"
+              class="nav-link strippedRow"
+              v-for="tarea in tareaMateriasArray()"
+              :key="tarea.id"
+            >
+              <p>{{ tarea.Materia }}</p>
+            </router-link>
+          </span>
+        </i>
       </div>
       <div class="events_icon" v-else @click="mostrarNoticacion('campana')">
         <i class="far fa-bell-slash noticont">
@@ -49,79 +66,18 @@
       </div>
       <div class="events_icon">
         <a href="" v-on:click="cerrarSesion()">
-          <i class="fal fa-door-open" ></i>
+          <i class="fal fa-door-open"></i>
         </a>
       </div>
     </div>
 
-    <div class="calendarioElement" v-if="profesor">
+    <div class="calendarioElement">
       <v-date-picker
         mode="date"
         v-model="date"
         :valid-hours="{ min: 4, max: 17 }"
         is24hr
       />
-    </div>
-    <div class="currentEvent" v-else>
-      <div class="currentEvent_contenedor">
-        <h3 class="pendientes_titulo">Pendientes</h3>
-        <div class="contenedor_scroll_pendientes">
-          <div
-            class="d-flex align-items-center text-center ml-auto mr-auto"
-            v-if="loading"
-          >
-            <div class="pendientes sidebarElement" style="width: 100%">
-              <strong>Cargando ...</strong>
-            </div>
-          </div>
-
-          <div
-            v-else
-            v-on:click="refresh()"
-            class="pendientes sidebarElement"
-            v-for="tareas in cargarTareas.tareas"
-            :key="tareas.id"
-          >
-            <router-link
-              :to="{
-                name: 'tarea-seleccionada',
-                params: {
-                  materia: tareas.Materia,
-                  idTarea: tareas.idTarea,
-                  re_hacer: false,
-                },
-              }"
-              class="router-link"
-            >
-              <span class="pendientes_tarea">
-                {{ tareas.titulo }} - {{ tareas.Materia }}</span
-              >
-            </router-link>
-          </div>
-          <div
-            v-on:click="refresh()"
-            class="pendientes sidebarElement"
-            v-for="tareas in cargarTareas.re_hacer"
-            :key="tareas.id"
-          >
-            <router-link
-              :to="{
-                name: 'tarea-seleccionada',
-                params: {
-                  materia: tareas.Materia,
-                  idTarea: tareas.idTarea,
-                  re_hacer: true,
-                },
-              }"
-              class="router-link"
-            >
-              <span class="pendientes_tarea">
-                {{ tareas.titulo }} - {{ tareas.Materia }}</span
-              >
-            </router-link>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="currentEvent">
@@ -172,13 +128,29 @@ export default {
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
       this.profesor = true;
-      this.cargarEventos();
     } else {
       this.cargarTareasCreadas();
-      this.cargarEventos();
     }
+    this.cargarEventos();
   },
   methods: {
+    tareaMateriasArray() {
+      let array = [];
+      const map = new Map();
+      this.cargarTareas.tareas.forEach(function (tarea) {
+        if (!map.has(tarea.Materia)) {
+          map.set(tarea.Materia, "tarea");
+          array.push(tarea);
+        }
+      });
+      this.cargarTareas.re_hacer.forEach(function (tarea) {
+        if (!map.has(tarea.Materia)) {
+          map.set(tarea.Materia, "tarea");
+          array.push(tarea);
+        }
+      });
+      return array;
+    },
     evento(event) {
       return (
         event.idGrupo +
@@ -193,11 +165,7 @@ export default {
     refresh() {
       location.reload();
     },
-    notificacion() {
-      let cantTareas =
-        this.cargarTareas.tareas.length + this.cargarTareas.re_hacer.length;
-      alert("Tienes " + cantTareas + " pendientes");
-    },
+
     mostrarNoticacion(id) {
       let noti = document.getElementById(id);
       let campana = document.getElementById("campana");
