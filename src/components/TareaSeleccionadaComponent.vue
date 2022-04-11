@@ -60,7 +60,7 @@
 
         <div class="form">
           <div class="boxText_input">
-            <img id="post_img" />
+            <img :src='returnImgLocalStorage()' />
             <textarea
               id="textarea"
               placeholder="Escribe algo!"
@@ -206,6 +206,9 @@ export default {
           }
           this.loading = false;
         });
+    },
+     returnImgLocalStorage() {
+      return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
