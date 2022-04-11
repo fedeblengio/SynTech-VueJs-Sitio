@@ -282,7 +282,7 @@ export default {
               icon: "success",
               title: "Perfil Actualizado",
               footer:
-                '<a href="">Tus cambios se veran afectuados en tu proximo logueo</a>',
+                '<a href="">Tus cambios se veran efectuados en tu proximo logueo</a>',
             });
 
             this.modficarG = false;
@@ -315,7 +315,7 @@ export default {
               icon: "success",
               title: "Perfil Actualizado",
               footer:
-                '<a href="">Tus cambios se veran afectuados en tu proximo logueo</a>',
+                '<a href="">Tus cambios se veran efectuados en tu proximo logueo</a>',
             });
           }
         });
