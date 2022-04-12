@@ -488,6 +488,23 @@ export default {
         },
       };
       let nombres = [];
+          let timerInterval;
+           this.$swal.fire({
+            title: "Enviando...",
+            html: "Estamos publicando tus archivos !",
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: () => {
+               this.$swal.showLoading();
+              const b =  this.$swal.getHtmlContainer().querySelector("b");
+              timerInterval = setInterval(() => {
+                b.textContent =  this.$swal.getTimerLeft();
+              }, 100);
+            },
+            willClose: () => {
+              clearInterval(timerInterval);
+            },
+          })
       setTimeout(() => {
         for (let i = 0; i < this.file.length; i++) {
           nombres.push(fecha + this.file[i].name);
@@ -500,12 +517,12 @@ export default {
             .post(Global.urlSitio + "FTP", formData, config)
             .then((response) => {
               if (response.status == 200) {
-                location.reload();
+               this.enviarPost(nombres);
               }
             })
             .catch(() => {});
         }
-        this.enviarPost(nombres);
+      
       }, 2000);
     },
 

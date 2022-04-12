@@ -98,6 +98,7 @@
             class="far fa-ellipsis-h menu-card-home btn"
             v-on:click="showOptionBody(post.data.id)"
           >
+           
             <div class="notiPostBody" :id="post.data.id">
               <p
                 class="btn_postBody"
@@ -107,7 +108,12 @@
               </p>
             </div>
           </i>
-
+          <i
+          v-else
+          class="far menu-card-home btn"           
+          >
+         &nbsp;
+           </i>
           <div class="post_title">
             <span> {{ post.data.titulo }} </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -424,6 +430,23 @@ export default {
         },
       };
       let nombres = [];
+         let timerInterval;
+           this.$swal.fire({
+            title: "Enviando...",
+            html: "Estamos publicando tus archivos !",
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: () => {
+               this.$swal.showLoading();
+              const b =  this.$swal.getHtmlContainer().querySelector("b");
+              timerInterval = setInterval(() => {
+                b.textContent =  this.$swal.getTimerLeft();
+              }, 100);
+            },
+            willClose: () => {
+              clearInterval(timerInterval);
+            },
+          })
       setTimeout(() => {
         for (let i = 0; i < this.file.length; i++) {
           nombres.push(fecha + this.file[i].name);
