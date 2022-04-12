@@ -27,7 +27,9 @@
                 v-model="selectedGroup"
                 required
               >
-              <option value="" disabled selected hidden>Seleccione un grupo</option>
+                <option value="" disabled selected hidden>
+                  Seleccione un grupo
+                </option>
                 <option
                   v-for="todo in traerMaterias"
                   :key="todo.id"
@@ -89,16 +91,18 @@
         :id="post.id"
       >
         <div class="post_avatar">
-          <img :src="returnImgProfile(post.data.profile_picture)" alt="" />
+          <img
+            :src="returnImgProfile(post.data.profile_picture)"
+            style="margin-top: 32px"
+          />
         </div>
 
         <div class="post_body">
           <i
             v-if="post.data.idUsuario === usuario.username"
-            class="far fa-ellipsis-h menu-card-home btn"
+            class="far fa-ellipsis-h menu-card-home"
             v-on:click="showOptionBody(post.data.id)"
           >
-           
             <div class="notiPostBody" :id="post.data.id">
               <p
                 class="btn_postBody"
@@ -108,12 +112,7 @@
               </p>
             </div>
           </i>
-          <i
-          v-else
-          class="far menu-card-home btn"           
-          >
-         &nbsp;
-           </i>
+          <i v-else class="far menu-card-home btn"> &nbsp; </i>
           <div class="post_title">
             <span> {{ post.data.titulo }} </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -430,23 +429,23 @@ export default {
         },
       };
       let nombres = [];
-         let timerInterval;
-           this.$swal.fire({
-            title: "Enviando...",
-            html: "Estamos publicando tus archivos !",
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: () => {
-               this.$swal.showLoading();
-              const b =  this.$swal.getHtmlContainer().querySelector("b");
-              timerInterval = setInterval(() => {
-                b.textContent =  this.$swal.getTimerLeft();
-              }, 100);
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            },
-          })
+      let timerInterval;
+      this.$swal.fire({
+        title: "Enviando...",
+        html: "Estamos publicando tus archivos !",
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          this.$swal.showLoading();
+          const b = this.$swal.getHtmlContainer().querySelector("b");
+          timerInterval = setInterval(() => {
+            b.textContent = this.$swal.getTimerLeft();
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      });
       setTimeout(() => {
         for (let i = 0; i < this.file.length; i++) {
           nombres.push(fecha + this.file[i].name);
@@ -464,7 +463,6 @@ export default {
             })
             .catch(() => {});
         }
-        
       }, 2000);
     },
 
