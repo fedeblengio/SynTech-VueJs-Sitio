@@ -91,10 +91,7 @@
         :id="post.id"
       >
         <div class="post_avatar">
-          <img
-            :src="returnImgProfile(post.data.profile_picture)"
-            style="margin-top: 32px"
-          />
+          <img :src="returnImgProfile(post.data.profile_picture)" />
         </div>
 
         <div class="post_body">
