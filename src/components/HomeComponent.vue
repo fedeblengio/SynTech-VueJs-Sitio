@@ -436,12 +436,12 @@ export default {
             .post(Global.urlSitio + "FTP", formData, config)
             .then((response) => {
               if (response.status == 200) {
-                location.reload();
+                this.enviarPost(nombres);
               }
             })
             .catch(() => {});
         }
-        this.enviarPost(nombres);
+        
       }, 2000);
     },
 
