@@ -205,10 +205,7 @@ export default {
   },
   methods: {
     simplificarNombre(nombreArchivo) {
-      let arr = nombreArchivo.split("_");
-      arr.shift();
-      let str = arr.join("_");
-      return str;
+      return nombreArchivo.replace(/^([\d_^)]+)/,"");
     },
     returnImgB64() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
