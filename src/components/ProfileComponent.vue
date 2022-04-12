@@ -21,7 +21,7 @@
           <div class="imgContenedorProfile">
             <img :src="returnImgProfile()" />
             <div class="textImg">
-              <h3>{{ usuario.nombre }}</h3>
+              <h3>{{ usuarioPerfil.nombre }}</h3>
 
               <div class="image-upload">
                 <label for="file-input">
@@ -58,7 +58,7 @@
               <input
                 type="text"
                 class="form-control"
-                :value="usuario.username"
+                :value="usuarioPerfil.username"
                 disabled
               />
             </div>
@@ -77,7 +77,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-if="usuario.email == null"
+                  v-if="usuarioPerfil.email == null"
                   :value="defaultEmail"
                   disabled
                 />
@@ -85,7 +85,7 @@
                   type="text"
                   class="form-control"
                   v-else
-                  :value="usuario.email"
+                  :value="usuarioPerfil.email"
                   disabled
                 />
                 <div class="input-group-append">
@@ -129,7 +129,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-if="usuario.genero == null"
+                  v-if="usuarioPerfil.genero == null"
                   :value="defaultGenero"
                   disabled
                 />
@@ -137,7 +137,7 @@
                   type="text"
                   class="form-control"
                   v-else
-                  :value="usuario.genero"
+                  :value="usuarioPerfil.genero"
                   disabled
                 />
                 <div class="input-group-append">
@@ -213,6 +213,7 @@ export default {
       newGenero: "",
       defaultGenero: "Ingresar Genero",
       defaultEmail: "Ingresar Email",
+      usuarioPerfil: "",
     };
   },
   mounted() {
@@ -250,10 +251,11 @@ export default {
       axios
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
-          if (response.status == 200) {
-            this.$swal.fire("Perfil Actualizado", "", "success");
-            this.modficarE = false;
-          }
+            if (response.status == 200) {
+          this.$swal.fire("Email actualizado", "", "success");
+          this.cargarInfoUser();
+             this.modficarE = false;
+            }
         })
         .catch(() => {
           this.$swal.fire("Error al actualizar", "", "error");
@@ -278,12 +280,8 @@ export default {
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire({
-              icon: "success",
-              title: "Perfil Actualizado",
-              footer:
-                '<a href="">Tus cambios se veran efectuados en tu proximo logueo</a>',
-            });
+            this.$swal.fire("Genero actualizado", "", "success");
+            this.cargarInfoUser();
 
             this.modficarG = false;
           }
@@ -336,6 +334,24 @@ export default {
       }
     },
 
+    cargarInfoUser() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio + "usuario?idUsuario=" + this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.usuarioPerfil = res.data;
+          }
+        });
+    },
     traerGrupoProfesor() {
       let config = {
         headers: {
@@ -355,6 +371,7 @@ export default {
             this.traerMaterias = res.data;
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
+            this.cargarInfoUser();
           }
 
           setTimeout(() => {
@@ -382,6 +399,7 @@ export default {
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
           }
+          this.cargarInfoUser();
           setTimeout(() => {
             this.tipoDeUser();
           }, 100);
@@ -393,9 +411,11 @@ export default {
 
 <style scoped>
 .background-profile-active {
-  background: #e9ecef;
+
+  background: #d7e3ef;
 }
 .background-profile-disable {
-  opacity: 0.9;
+
+ 
 }
 </style>>

@@ -159,9 +159,11 @@
           </div>
         </div>
       </div>
+  
       <div class="spinerCont" v-if="loading">
-        <img class="spinnerCSS" :src="spinner" />
+        <img :src="spinner" class="spinnerCSS" />
       </div>
+
       <div
         v-else
         class="post"
@@ -170,12 +172,13 @@
         :id="post.id"
       >
         <div class="post_avatar">
-          <img :src="returnImgProfile(post.data.profile_picture)" alt="" />
+          <img :src="returnImgProfile(post.data.profile_picture)" />
         </div>
+
         <div class="post_body">
-             <i
+          <i
             v-if="post.data.idUsuario === usuario.username"
-            class="far fa-ellipsis-h menu-card-home btn"
+            class="far fa-ellipsis-h menu-card-home"
             v-on:click="showOptionBody(post.data.id)"
           >
             <div class="notiPostBody" :id="post.data.id">
@@ -187,6 +190,7 @@
               </p>
             </div>
           </i>
+          <i v-else class="far menu-card-home btn"> &nbsp; </i>
           <div class="post_title">
             <span> {{ post.data.titulo }} </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -198,10 +202,10 @@
             <div class="contenedorImg">
               <div
                 class="imgPost"
-                v-for="img in cargarImg(post.imagenes)"
+                v-for="img in post.imagenes"
                 :key="img.id"
               >
-                <img :src="img" alt="" />
+              <img :src="returnImgProfile(img)" alt="" />
               </div>
             </div>
           </div>
@@ -215,7 +219,7 @@
               <div class="previw_archivosPost">
                 <h3 v-on:click="descargarPDF(archivo)">
                   <i class="fal fa-file-alt file"></i>
-                  <span>{{ archivo }}</span>
+                  <span>{{ simplificarNombre(archivo) }}</span>
                 </h3>
               </div>
             </div>
@@ -282,6 +286,9 @@ export default {
     };
   },
   methods: {
+     simplificarNombre(nombreArchivo) {
+      return nombreArchivo.replace(/^([\d_^)]+)/, "");
+    },
     moment: function (fecha) {
       return moment(fecha).format("DD/MM/YYYY h:mm a");
     },
@@ -353,9 +360,8 @@ export default {
           }
         });
     },
-    cargarImg(imagen) {
+   cargarImg(imagen) {
       let arrayImg = [];
-
       for (let i = 0; i < imagen.length; i++) {
         arrayImg.push("data:image/png;base64," + imagen[i]);
       }
@@ -614,7 +620,7 @@ export default {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
-          link.download = label;
+          link.download = this.simplificarNombre(label);
           link.click();
           URL.revokeObjectURL(link.href);
         })

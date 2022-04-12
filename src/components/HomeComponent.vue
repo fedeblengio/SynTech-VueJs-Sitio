@@ -121,10 +121,10 @@
             <div class="contenedorImg">
               <div
                 class="imgPost"
-                v-for="img in cargarImg(post.imagenes)"
+                v-for="img in post.imagenes"
                 :key="img.id"
               >
-                <img :src="img" alt="" />
+                <img :src="returnImgProfile(img)" alt="" />
               </div>
             </div>
           </div>
@@ -291,7 +291,6 @@ export default {
     },
     cargarImg(imagen) {
       let arrayImg = [];
-
       for (let i = 0; i < imagen.length; i++) {
         arrayImg.push("data:image/png;base64," + imagen[i]);
       }
