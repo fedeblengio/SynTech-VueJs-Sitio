@@ -9,8 +9,7 @@
         <i class="far fa-bell noticont" style="color: red">
           <span class="icon_noti" id="campana">
             <router-link
-             
-              style="text-decoration: none;"
+              style="text-decoration: none"
               :to="{
                 name: 'listado-tareas',
                 params: {
@@ -65,9 +64,9 @@
         </i>
       </div>
       <div class="events_icon">
-        <a href="" v-on:click="cerrarSesion()">
-          <i class="fal fa-door-open"></i>
-        </a>
+   
+          <i class="fal fa-door-open" v-on:click="cerrarSesion()"></i>
+      
       </div>
     </div>
 
