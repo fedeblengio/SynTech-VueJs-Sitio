@@ -27,6 +27,7 @@
                 v-model="selectedGroup"
                 required
               >
+              <option value="" disabled selected hidden>Seleccione un grupo</option>
                 <option
                   v-for="todo in traerMaterias"
                   :key="todo.id"
@@ -135,7 +136,7 @@
               <div class="previw_archivosPost">
                 <h3 v-on:click="descargarPDF(archivo)">
                   <i class="fal fa-file-alt file"></i>
-                  <span>{{ archivo }}</span>
+                  <span>{{ simplificarNombre(archivo) }}</span>
                 </h3>
               </div>
             </div>
@@ -204,6 +205,9 @@ export default {
     };
   },
   methods: {
+    simplificarNombre(nombreArchivo) {
+      return nombreArchivo.replace(/^([\d_^)]+)/, "");
+    },
     returnImgB64() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },
@@ -484,7 +488,7 @@ export default {
         });
     },
 
-      comprobarOpcionEliminar(idPublicacion) {
+    comprobarOpcionEliminar(idPublicacion) {
       this.$swal
         .fire({
           title: "¿ Estas seguro que quieres eliminar ?",
@@ -499,7 +503,6 @@ export default {
           }
         });
     },
-
 
     borrarPublicacion(idPublicacion) {
       let config = {
@@ -533,7 +536,7 @@ export default {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
-          link.download = label;
+          link.download = this.simplificarNombre(label);
           link.click();
           URL.revokeObjectURL(link.href);
         })

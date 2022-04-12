@@ -18,6 +18,10 @@ body {
 
 /*CODIGO          INICIO              AuTi*/
 
+.strippedRow:hover {
+    background-color: #cbd5e0;
+}
+
 .linea_border_bottom {
     border-bottom: 1px solid var(--background);
 }
@@ -578,6 +582,7 @@ details {
 }
 
 .icon_noti p {
+    color: #50b7f5;
     border-bottom: 1px solid var(--colorLetra);
     font-size: 15px;
     text-align: center;
@@ -600,13 +605,15 @@ details {
     color: rgb(0, 0, 0);
     width: 180px;
     z-index: 100;
-    background-color: var(--background);
+    background-color: white;
+    box-shadow: 0px 0 3px #000000;
     text-decoration: none;
     outline: none;
     border-radius: 7px;
     position: absolute;
     margin-top: 19px;
     transform: translateX(-50%);
+    border-radius: 5px 0px 5px 5px / 5px 10px 5px 5px;
 }
 
 .coloricono {
