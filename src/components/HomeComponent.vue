@@ -27,6 +27,7 @@
                 v-model="selectedGroup"
                 required
               >
+              <option value="" disabled selected hidden>Seleccione un grupo</option>
                 <option
                   v-for="todo in traerMaterias"
                   :key="todo.id"
@@ -205,7 +206,7 @@ export default {
   },
   methods: {
     simplificarNombre(nombreArchivo) {
-      return nombreArchivo.replace(/^([\d_^)]+)/,"");
+      return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
     returnImgB64() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
