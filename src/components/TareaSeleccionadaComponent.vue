@@ -55,12 +55,11 @@
           </div>
         </div>
       </div>
-      <div class="feed_header">
-        <h2>Entregar Tarea</h2>
-
+      <div class="tareaSeleccionadaCont">
+        <h3>Entregar Tarea</h3>
         <div class="form">
           <div class="boxText_input">
-            <img :src='returnImgLocalStorage()' />
+            <img :src="returnImgLocalStorage()" />
             <textarea
               id="textarea"
               placeholder="Escribe algo!"
@@ -207,7 +206,7 @@ export default {
           this.loading = false;
         });
     },
-     returnImgLocalStorage() {
+    returnImgLocalStorage() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },
     returnIMGB64(img) {
@@ -264,12 +263,11 @@ export default {
           .post(Global.urlSitio + "FTP", formData, config)
           .then((response) => {
             if (response.status == 200) {
-            this.enviarPost(nombres);
+              this.enviarPost(nombres);
             }
           })
           .catch(() => {});
       }
-      
     },
     enviarPost(nombres) {
       let config = {
