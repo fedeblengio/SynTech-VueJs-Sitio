@@ -111,9 +111,9 @@
           </router-link>
         </li>
       </ul>
-      <div class="second_feed">
-        <div class="ml-auto d-inline-flex p-2">
-          <h3 class="blockquote flex-wrap">Miembros</h3>
+      <div class="second_feed" style="border: none">
+        <div class="listadousuarioComponentBuscador">
+          <h3 class="">Miembros</h3>
           <div class="input-group mb-3">
             <input
               type="text"
@@ -135,22 +135,23 @@
           <img class="spinnerCSS" :src="spinner" />
         </div>
 
-        <div class="boxText" v-else>
-          <details>
-            <summary>Profesor</summary>
-            {{ listadoUsuarios.Profesor.nombre }}
-            {{ listadoUsuarios.Profesor.idGrupo }}
-            {{ listadoUsuarios.Profesor.idProfesor }}
+        <div v-else>
+          <div class="usuariosComponentlistado usuarioComponentProfesor">
             <div class="post_avatar">
               <img
                 :src="returnImgProfile(listadoUsuarios.Profesor.imagen_perfil)"
                 alt=""
               />
             </div>
-          </details>
-
+            <div class="textUser">
+              Profesor/a - {{ listadoUsuarios.Profesor.nombre }}
+            </div>
+          </div>
+          <div class="usuariosComponentSeparacion">
+            <p>Alumnos</p>
+          </div>
           <div
-            class=""
+            class="usuariosComponentContedor"
             aria-current="true"
             v-for="alumno in listadoUsuarios.Alumnos"
             :key="alumno.id"
@@ -163,13 +164,13 @@
                 },
               }"
               style="text-decoration: none"
-              class="router-link"
+              class="router-link usuariosComponentlistado"
             >
-              {{ alumno.nombre }}
-              {{ alumno.idGrupo }}
-              {{ alumno.idAlumnos }}
               <div class="post_avatar">
                 <img :src="returnImgProfile(alumno.imagen_perfil)" alt="" />
+              </div>
+              <div class="textUser">
+                {{ alumno.nombre }}
               </div>
             </router-link>
           </div>

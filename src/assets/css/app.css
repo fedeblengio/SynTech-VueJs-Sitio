@@ -1044,3 +1044,42 @@ input[type="number"]::-webkit-inner-spin-button {
     text-align: center;
     text-decoration: underline;
 }
+
+.usuariosComponentlistado {
+    display: flex;
+    border-bottom: 1px solid var(--background);
+}
+
+.textUser {
+    margin-top: 6%;
+}
+
+.usuarioComponentProfesor {
+    background-color: lightgray;
+    font-weight: 600;
+}
+
+.usuariosComponentContedor:hover {
+    background-color: var(--background);
+    color: black;
+}
+
+.usuariosComponentSeparacion {
+    border: none;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 600;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--background);
+}
+
+.listadousuarioComponentBuscador {
+    width: 80%;
+    margin: 10px auto;
+}
+
+.listadousuarioComponentBuscador h3 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
