@@ -123,7 +123,7 @@
                   params: {
                     idAlumnos: corregidas.idAlumnos,
                     idTareas: corregidas.idTarea,
-                    calificacion:corregidas.calificacion
+                
                   },
                 }"
                 class="list-group-item list-group-item-action"
@@ -151,7 +151,6 @@
                   params: {
                     idAlumnos: re_corregidas.idAlumnos,
                     idTareas: re_corregidas.idTarea,
-                    calificacion:re_corregidas.calificacion
                   },
                 }"
                 class="list-group-item list-group-item-action"

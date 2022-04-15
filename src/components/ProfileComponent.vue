@@ -414,8 +414,4 @@ export default {
 
   background: #d7e3ef;
 }
-.background-profile-disable {
-
- 
-}
-</style>>
+</style>
