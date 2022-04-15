@@ -132,7 +132,7 @@ export default {
          if (ou == "Profesor") {
           return "contenidoUser background-profile-active"
       } else {
-          return "contenidoUser "
+          return "contenidoUser"
       }
     },
     usuarioAlumno(ou){
@@ -212,9 +212,7 @@ export default {
 
 <style scoped>
 .background-profile-active {
-  background: #e9ecef;
+ background: #d7e3ef;
 }
-.background-profile-disable {
-  opacity: 0.9;
-}
+
 </style>
