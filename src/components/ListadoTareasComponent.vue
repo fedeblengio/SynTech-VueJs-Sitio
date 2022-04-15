@@ -242,12 +242,11 @@
           v-for="tarea in listadoTareas"
           :key="tarea.id"
         >
-             <i
-          
+          <i
             class="far fa-ellipsis-h menu-card-home btn"
             v-on:click="showOptionBody(tarea.idTarea)"
           >
-            <div class="notiPostBody" :id="tarea.idTarea">
+            <div class="notiPostBody" :id="tarea.idTarea" style="top: 15px">
               <p
                 class="btn_postBody"
                 v-on:click="comprobarOpcionEliminar(tarea.idTarea)"
@@ -268,7 +267,7 @@
             class="router-link"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.idTarea }}</h5>
+              <h5 class="mb-1">{{ tarea.titulo }}</h5>
               <small class="text-muted" v-if="tareas_vencidas"
                 >Vencio: {{ moment(tarea.fecha_vencimiento) }}
               </small>
@@ -303,7 +302,7 @@
             class="router-link"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
+              <h5 class="mb-1">{{ tareas.titulo }}</h5>
               <small class="text-muted"
                 >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
               >
@@ -384,7 +383,7 @@ export default {
         materiaGrupo: [],
         file: [],
       },
-      aux:1,
+      aux: 1,
     };
   },
   mounted() {
@@ -399,7 +398,7 @@ export default {
     }
   },
   methods: {
-       showOptionBody(id) {
+    showOptionBody(id) {
       let elipsis = document.getElementById(id);
       if (this.aux == 0) {
         elipsis.style.display = "none";
@@ -409,7 +408,7 @@ export default {
         this.aux = 0;
       }
     },
-          comprobarOpcionEliminar(idTarea) {
+    comprobarOpcionEliminar(idTarea) {
       this.$swal
         .fire({
           title: "¿ Estas seguro que quieres eliminar ?",

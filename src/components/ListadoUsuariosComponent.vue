@@ -137,15 +137,28 @@
 
         <div v-else>
           <div class="usuariosComponentlistado usuarioComponentProfesor">
-            <div class="post_avatar">
-              <img
-                :src="returnImgProfile(listadoUsuarios.Profesor.imagen_perfil)"
-                alt=""
-              />
-            </div>
-            <div class="textUser">
-              Profesor/a - {{ listadoUsuarios.Profesor.nombre }}
-            </div>
+            <router-link
+              :to="{
+                name: 'visitar-perfil',
+                params: {
+                  idUsuario: listadoUsuarios.Profesor.idProfesor,
+                },
+              }"
+              style="text-decoration: none"
+              class="router-link usuariosComponentlistado"
+            >
+              <div class="post_avatar">
+                <img
+                  :src="
+                    returnImgProfile(listadoUsuarios.Profesor.imagen_perfil)
+                  "
+                  alt=""
+                />
+              </div>
+              <div class="textUser">
+                Profesor/a - {{ listadoUsuarios.Profesor.nombre }}
+              </div>
+            </router-link>
           </div>
           <div class="usuariosComponentSeparacion">
             <p>Alumnos</p>
