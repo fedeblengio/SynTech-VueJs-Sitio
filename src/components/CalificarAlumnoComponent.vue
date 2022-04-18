@@ -71,7 +71,10 @@
         </div>
       </div>
       <div class="alumnoEntregaTareaContenedor">
-        <div class="alumnoEntregaTarea_checkbox" v-if="!this.$route.params.re_entrega">
+        <div
+          class="alumnoEntregaTarea_checkbox"
+          v-if="!re_entrega"
+        >
           <input
             type="checkbox"
             id="re_hacer"
@@ -177,13 +180,16 @@ export default {
         .put(Global.urlSitio + "entregas-correccion", data, config)
         .then((res) => {
           if (res.status == 200) {
-            this.flashMessage.show({
-              status: "success",
-              title: Global.tituloSitio,
-              message: "Tarea Calificada Correctamente",
-            });
+            this.$swal.fire(
+              "Tarea calificada correctamente.",
+              "",
+              "success"
+            );
             this.$router.back();
           }
+        })
+        .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
 
@@ -210,7 +216,9 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-        .catch(console.error);
+       .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        });
     },
 
     cargarTareaSeleccionada() {
@@ -244,6 +252,8 @@ export default {
             this.tarea.imagenes = res.data[0].imagenes;
           }
           this.loading = false;
+        }).catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
   },

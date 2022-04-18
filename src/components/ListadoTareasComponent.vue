@@ -435,10 +435,13 @@ export default {
         .delete(Global.urlSitio + "tarea?idTareas=" + idTarea, config)
         .then((response) => {
           if (response.status == 200) {
+              this.$swal.fire("Tarea eliminada correctamente", "", "success");
             location.reload();
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        });
     },
     moment: function (fecha) {
       return moment(fecha).format("DD/MM/YYYY h:mm a");
@@ -476,24 +479,49 @@ export default {
           token: Global.token,
         },
       };
-      let nombres = [];
-      for (let i = 0; i < this.tarea.file.length; i++) {
-        nombres.push(fecha + this.tarea.file[i].name);
-        let formData = new FormData();
+       let nombres = [];
+      let timerInterval;
+      this.$swal.fire({
+        title: "Cargando...",
+        html: "Estamos creando tu tarea !",
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          this.$swal.showLoading();
+          const b = this.$swal.getHtmlContainer().querySelector("b");
+          timerInterval = setInterval(() => {
+            b.textContent = this.$swal.getTimerLeft();
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      });
+      if (this.tarea.file.length > 0) {
+        setTimeout(() => {
+          for (let i = 0; i < this.tarea.file.length; i++) {
+            nombres.push(fecha + this.tarea.file[i].name);
+            let formData = new FormData();
 
-        formData.append("archivo", this.tarea.file[i]);
-        formData.append("nombre", fecha + this.tarea.file[i].name);
+            formData.append("archivo", this.tarea.file[i]);
+            formData.append("nombre", fecha + this.tarea.file[i].name);
 
-        axios
-          .post(Global.urlSitio + "FTP", formData, config)
-          .then((response) => {
-            if (response.status == 200) {
-              location.reload();
-            }
-          })
-          .catch(() => {});
+            axios
+              .post(Global.urlSitio + "FTP", formData, config)
+              .then((response) => {
+                if (response.status == 200) {
+                this.enviarCuerpoTarea(nombres);
+                }
+              })
+              
+          }
+        }, 2000);
+      }else {
+         setTimeout(() => {
+          this.enviarCuerpoTarea(nombres);
+           }, 2000);
       }
-      this.enviarCuerpoTarea(nombres);
+     
     },
     enviarCuerpoTarea(nombres) {
       let config = {
@@ -518,20 +546,13 @@ export default {
         .post(Global.urlSitio + "tarea", formData, config)
         .then((response) => {
           if (response.status == 200) {
-            location.reload();
-            this.flashMessage.show({
-              status: "success",
-              title: Global.tituloSitio,
-              message: "Tarea publicado correctamente",
-            });
+           
+          this.$swal.fire("Tarea creada", "", "success");
+           location.reload();
           }
         })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.tituloSitio,
-            message: "Error al publicar la tarea",
-          });
+         .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal al publicar ...", "", "error");
         });
     },
 

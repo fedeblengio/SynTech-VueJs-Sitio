@@ -133,14 +133,12 @@
                 class="btn-close btn-close"
                 aria-label="Close"
               ></button>
-           
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-   <tokenExpired v-if='token'></tokenExpired>
-       
+
     <SectionRight></SectionRight>
   </div>
 </template>
@@ -148,8 +146,7 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
- import tokenExpired from './TokenExpiradoComponent.vue'
-        
+
 /* import $ from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
@@ -161,7 +158,6 @@ export default {
     SectionLeft,
     SectionRight,
     vueHeadful,
-    tokenExpired
   },
   data() {
     return {
@@ -181,8 +177,6 @@ export default {
         duracionHrs: "",
         duracionMin: "",
       },
-       token:false
-        
     };
   },
   mounted() {
@@ -231,7 +225,11 @@ export default {
           }
         })
         .catch(() => {
-          this.token=true;
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
     filtrarMateria(idGrupo) {
@@ -257,8 +255,13 @@ export default {
           if (res.status == 200) {
             this.traerGrupos = res.data;
           }
-        }).catch(() => {
-          this.token=true;
+        })
+        .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
     crearClaseVirtual() {
@@ -284,18 +287,21 @@ export default {
         ).format("YYYY-MM-DDTHH:mm"),
       };
 
-      axios.post(Global.urlSitio + "agenda-clase", data, config).then((res) => {
-        if (res.status == 200) {
-          location.reload();
-         this.$swal.fire("Clase creada", "", "success");
-        }
-      }).catch(() => {
-          this.token=true;
+      axios
+        .post(Global.urlSitio + "agenda-clase", data, config)
+        .then((res) => {
+          if (res.status == 200) {
+            location.reload();
+            this.$swal.fire("Clase creada", "", "success");
+          }
+        })
+        .catch(() => {
+         this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
-
-
-
-
     },
     listarClaseVirtual() {
       let config = {
@@ -319,8 +325,13 @@ export default {
             this.clasesVirtualesCreadas = res.data;
           }
           this.loading = false;
-        }).catch(() => {
-          this.token=true;
+        })
+         .catch(() => {
+         this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
   },

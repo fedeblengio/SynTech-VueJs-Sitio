@@ -454,7 +454,7 @@ export default {
                   this.enviarPost(nombres);
                 }
               })
-              .catch(() => {});
+              
           }
         }, 2000);
       }else {
@@ -495,11 +495,7 @@ export default {
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.tituloSitio,
-            message: "Error al publicar el post",
-          });
+          this.$swal.fire("ERROR : Parece que algo salio mal al publicar ...", "", "error");
         });
     },
 
@@ -531,10 +527,13 @@ export default {
         .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
         .then((response) => {
           if (response.status == 200) {
+            this.$swal.fire("Publicacion eliminada", "", "success");
             location.reload();
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal al publicar ...", "", "error");
+        });
     },
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;

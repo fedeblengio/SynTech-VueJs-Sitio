@@ -98,14 +98,6 @@ export default {
   mounted() {
 
 
-    /* if (localStorage.getItem("auth_token")) {
-      this.$router.push("/home");
-      this.flashMessage.show({
-        status: "success",
-        title: "Sitio",
-        message: "Ya has iniciado sesión",
-      });
-    } */
   },
    methods: {
      cambiarValorLocalStorage(){
