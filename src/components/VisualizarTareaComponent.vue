@@ -108,10 +108,14 @@
             <div class="post_title">
               <div class="profeCalificacion">
                 <span>Correccion Tarea</span>
-                <span
-                  >Nota [{{ primera_entrega.entrega[0].calificacion }} /
-                  12]</span
+                <input
+                type="text"
+                disabled
+                :value="devolverNota(primera_entrega.entrega[0].calificacion)"
                 >
+                  
+               
+                
               </div>
             </div>
             <div class="post_body_text">
@@ -167,10 +171,13 @@
             <div class="post_title">
               <div class="profeCalificacion">
                 <span>Correccion Tarea</span>
-                <span
-                  >Nota [{{ segunda_entrega.entrega[0].calificacion }} /
-                  12]</span
+                    <input
+                type="text"
+                disabled
+                class="nota"
+                :value="devolverNota(segunda_entrega.entrega[0].calificacion)"
                 >
+               
               </div>
             </div>
             <div class="post_body_text">
@@ -239,6 +246,9 @@ export default {
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
   },
   methods: {
+    devolverNota(nota){
+      return "Nota : "+nota+" / 12"
+    },
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
@@ -262,7 +272,9 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-        .catch(console.error);
+       .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        });
     },
     cargarTareaSeleccionada() {
       let config = {
@@ -293,6 +305,8 @@ export default {
             this.cargarHisorialDeEntregas();
           }
           this.loading = false;
+        }).catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     cargarHisorialDeEntregas() {
@@ -324,6 +338,8 @@ export default {
             this.imagen_alumno = res.data.imagen_perfil_alumno;
           }
           this.loading = false;
+        }).catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
   },

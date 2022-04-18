@@ -1091,6 +1091,13 @@ input[type="number"]::-webkit-inner-spin-button {
     justify-content: space-between;
 }
 
+.profeCalificacion input {
+    border-radius: 5px;
+    text-align: center;
+    width: 25%;
+    font-weight: 400;
+}
+
 .visualizarTareacomponentCorrecionProfe p {
     font-size: 15px;
     font-weight: 500;
