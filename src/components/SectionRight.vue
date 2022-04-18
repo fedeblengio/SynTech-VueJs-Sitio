@@ -17,7 +17,7 @@
                   idGrupo: tarea.idGrupo,
                   idMateria: tarea.idMateria,
                   tareas_vencidas: false,
-                },
+                }, 
               }"
               class="nav-link strippedRow"
               v-for="tarea in tareaMateriasArray()"
@@ -107,6 +107,7 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
+import $ from "jquery"; 
 import moment from "moment";
 import tokenExpired from './TokenExpiradoComponent.vue'
 export default {
@@ -209,7 +210,7 @@ export default {
           if (res.status == 200) {
             this.cargarTareas = res.data;
             this.loading = false;
-            if (this.cargarTareas) {
+            if ($.isEmptyObject(res.data)) {
               this.tareasPendientes = true;
             }
           }
@@ -264,7 +265,6 @@ export default {
         .catch(() => {
           this.token=true;
         });
-       
 
     },
   },
