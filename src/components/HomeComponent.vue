@@ -119,11 +119,7 @@
           </div>
           <div :id="post.data.id" class="cont">
             <div class="contenedorImg">
-              <div
-                class="imgPost"
-                v-for="img in post.imagenes"
-                :key="img.id"
-              >
+              <div class="imgPost" v-for="img in post.imagenes" :key="img.id">
                 <img :src="returnImgProfile(img)" alt="" />
               </div>
             </div>
@@ -442,24 +438,30 @@ export default {
           clearInterval(timerInterval);
         },
       });
-      setTimeout(() => {
-        for (let i = 0; i < this.file.length; i++) {
-          nombres.push(fecha + this.file[i].name);
-          let formData = new FormData();
+      if (this.file.length > 0) {
+        setTimeout(() => {
+          for (let i = 0; i < this.file.length; i++) {
+            nombres.push(fecha + this.file[i].name);
+            let formData = new FormData();
 
-          formData.append("archivo", this.file[i]);
-          formData.append("nombre", fecha + this.file[i].name);
+            formData.append("archivo", this.file[i]);
+            formData.append("nombre", fecha + this.file[i].name);
 
-          axios
-            .post(Global.urlSitio + "FTP", formData, config)
-            .then((response) => {
-              if (response.status == 200) {
-                this.enviarPost(nombres);
-              }
-            })
-            .catch(() => {});
-        }
-      }, 2000);
+            axios
+              .post(Global.urlSitio + "FTP", formData, config)
+              .then((response) => {
+                if (response.status == 200) {
+                  this.enviarPost(nombres);
+                }
+              })
+              .catch(() => {});
+          }
+        }, 2000);
+      }else {
+         setTimeout(() => {
+          this.enviarPost(nombres);
+           }, 2000);
+      }
     },
 
     enviarPost(nombres) {

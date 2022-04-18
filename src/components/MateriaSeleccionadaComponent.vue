@@ -159,7 +159,7 @@
           </div>
         </div>
       </div>
-  
+
       <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
       </div>
@@ -200,12 +200,8 @@
           </div>
           <div :id="post.data.id" class="cont">
             <div class="contenedorImg">
-              <div
-                class="imgPost"
-                v-for="img in post.imagenes"
-                :key="img.id"
-              >
-              <img :src="returnImgProfile(img)" alt="" />
+              <div class="imgPost" v-for="img in post.imagenes" :key="img.id">
+                <img :src="returnImgProfile(img)" alt="" />
               </div>
             </div>
           </div>
@@ -286,7 +282,7 @@ export default {
     };
   },
   methods: {
-     simplificarNombre(nombreArchivo) {
+    simplificarNombre(nombreArchivo) {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
     moment: function (fecha) {
@@ -360,7 +356,7 @@ export default {
           }
         });
     },
-   cargarImg(imagen) {
+    cargarImg(imagen) {
       let arrayImg = [];
       for (let i = 0; i < imagen.length; i++) {
         arrayImg.push("data:image/png;base64," + imagen[i]);
@@ -494,42 +490,47 @@ export default {
         },
       };
       let nombres = [];
-          let timerInterval;
-           this.$swal.fire({
-            title: "Enviando...",
-            html: "Estamos publicando tus archivos !",
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: () => {
-               this.$swal.showLoading();
-              const b =  this.$swal.getHtmlContainer().querySelector("b");
-              timerInterval = setInterval(() => {
-                b.textContent =  this.$swal.getTimerLeft();
-              }, 100);
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            },
-          })
-      setTimeout(() => {
-        for (let i = 0; i < this.file.length; i++) {
-          nombres.push(fecha + this.file[i].name);
-          let formData = new FormData();
+      let timerInterval;
+      this.$swal.fire({
+        title: "Enviando...",
+        html: "Estamos publicando tus archivos !",
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          this.$swal.showLoading();
+          const b = this.$swal.getHtmlContainer().querySelector("b");
+          timerInterval = setInterval(() => {
+            b.textContent = this.$swal.getTimerLeft();
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      });
+      if (this.file.length > 0) {
+        setTimeout(() => {
+          for (let i = 0; i < this.file.length; i++) {
+            nombres.push(fecha + this.file[i].name);
+            let formData = new FormData();
 
-          formData.append("archivo", this.file[i]);
-          formData.append("nombre", fecha + this.file[i].name);
+            formData.append("archivo", this.file[i]);
+            formData.append("nombre", fecha + this.file[i].name);
 
-          axios
-            .post(Global.urlSitio + "FTP", formData, config)
-            .then((response) => {
-              if (response.status == 200) {
-               this.enviarPost(nombres);
-              }
-            })
-            .catch(() => {});
-        }
-      
-      }, 2000);
+            axios
+              .post(Global.urlSitio + "FTP", formData, config)
+              .then((response) => {
+                if (response.status == 200) {
+                  this.enviarPost(nombres);
+                }
+              })
+              .catch(() => {});
+          }
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          this.enviarPost(nombres);
+        }, 2000);
+      }
     },
 
     enviarPost(nombres) {
@@ -574,7 +575,7 @@ export default {
           });
         });
     },
-       comprobarOpcionEliminar(idPublicacion) {
+    comprobarOpcionEliminar(idPublicacion) {
       this.$swal
         .fire({
           title: "¿ Estas seguro que quieres eliminar ?",
@@ -626,7 +627,7 @@ export default {
         })
         .catch(console.error);
     },
-      showOptionBody(id) {
+    showOptionBody(id) {
       let elipsis = document.getElementById(id);
       if (this.aux == 0) {
         elipsis.style.display = "none";
