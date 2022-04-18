@@ -64,9 +64,7 @@
         </i>
       </div>
       <div class="events_icon">
-   
-          <i class="fal fa-door-open" v-on:click="cerrarSesion()"></i>
-      
+        <i class="fal fa-door-open" v-on:click="cerrarSesion()"></i>
       </div>
     </div>
 
@@ -99,6 +97,8 @@
             </span>
           </router-link>
         </div>
+      
+        <tokenExpired v-if='token'></tokenExpired>
       </div>
     </div>
   </div>
@@ -108,9 +108,12 @@
 import { Global } from "../Global";
 import axios from "axios";
 import moment from "moment";
+import tokenExpired from './TokenExpiradoComponent.vue'
 export default {
   name: "SectionRight",
-  components: {},
+  components: {
+    tokenExpired
+  },
   data() {
     return {
       loading: true,
@@ -121,6 +124,7 @@ export default {
       profesor: false,
       aux: 1,
       date: new Date(),
+      token:false
     };
   },
   mounted() {
@@ -258,17 +262,10 @@ export default {
           this.loading = false;
         })
         .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Parece que tu clave  ah expirado...",
-            footer:
-              '<a href="">Para continuar deberas volver a iniciar sesion</a>',
-          });
-          localStorage.clear();
-          this.$router.push("/login");
-          location.reload();
+          this.token=true;
         });
+       
+
     },
   },
 };

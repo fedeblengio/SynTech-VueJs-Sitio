@@ -76,16 +76,19 @@
           ></router-link
         >
       </div>
+       <tokenExpired v-if='token'></tokenExpired>
     </div>
   </div>
 </template>
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-
+import tokenExpired from './TokenExpiradoComponent.vue'
 export default {
   name: "SectionLeft",
-  components: {},
+  components: {
+    tokenExpired
+  },
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
@@ -93,6 +96,7 @@ export default {
       profesor: false,
       loading: true,
       spinner: Global.spinnerUrl,
+      token:false,
     };
   },
   mounted() {
@@ -154,16 +158,26 @@ export default {
           this.loading = false;
         })
         .catch(() => {
+          let timerInterval;
           this.$swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Parece que tu clave  ha expirado...",
-            footer:
-              '<a href="">Para continuar deberas volver a iniciar sesion</a>',
+            title: "Saliendo ...",
+            html: "Parece que tu sesion ha finalizado !",
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: () => {
+              this.$swal.showLoading();
+              const b = this.$swal.getHtmlContainer().querySelector("b");
+              timerInterval = setInterval(() => {
+                b.textContent = this.$swal.getTimerLeft();
+              }, 100);
+            },
+            willClose: () => {
+              clearInterval(timerInterval);
+            },
           });
           localStorage.clear();
           this.$router.push("/login");
-          location.reload();
+       
         });
     },
     traerMateriasUser() {
@@ -185,16 +199,7 @@ export default {
           this.loading = false;
         })
         .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Parece que tu clave  ha expirado...",
-            footer:
-              '<a href="">Para continuar deberas volver a iniciar sesion</a>',
-          });
-          localStorage.clear();
-          this.$router.push("/login");
-          location.reload();
+          this.token=true;
         });
     },
     returnImgProfile() {

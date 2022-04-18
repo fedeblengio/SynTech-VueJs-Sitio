@@ -139,7 +139,8 @@
         </tbody>
       </table>
     </div>
-
+   <tokenExpired v-if='token'></tokenExpired>
+       
     <SectionRight></SectionRight>
   </div>
 </template>
@@ -147,7 +148,8 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-
+ import tokenExpired from './TokenExpiradoComponent.vue'
+        
 /* import $ from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
@@ -159,6 +161,7 @@ export default {
     SectionLeft,
     SectionRight,
     vueHeadful,
+    tokenExpired
   },
   data() {
     return {
@@ -178,6 +181,8 @@ export default {
         duracionHrs: "",
         duracionMin: "",
       },
+       token:false
+        
     };
   },
   mounted() {
@@ -225,7 +230,9 @@ export default {
             this.$swal.fire("Eliminada", "", "success");
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          this.token=true;
+        });
     },
     filtrarMateria(idGrupo) {
       for (var i = 0; i < this.traerGrupos.length; i++) {
@@ -250,6 +257,8 @@ export default {
           if (res.status == 200) {
             this.traerGrupos = res.data;
           }
+        }).catch(() => {
+          this.token=true;
         });
     },
     crearClaseVirtual() {
@@ -278,13 +287,15 @@ export default {
       axios.post(Global.urlSitio + "agenda-clase", data, config).then((res) => {
         if (res.status == 200) {
           location.reload();
-          this.flashMessage.show({
-            status: "success",
-            title: Global.tituloSitio,
-            message: "Clase creada correctamente",
-          });
+         this.$swal.fire("Clase creada", "", "success");
         }
-      });
+      }).catch(() => {
+          this.token=true;
+        });
+
+
+
+
     },
     listarClaseVirtual() {
       let config = {
@@ -308,6 +319,8 @@ export default {
             this.clasesVirtualesCreadas = res.data;
           }
           this.loading = false;
+        }).catch(() => {
+          this.token=true;
         });
     },
   },
