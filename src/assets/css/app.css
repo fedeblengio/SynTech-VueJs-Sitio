@@ -1084,3 +1084,15 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 18px;
     font-weight: 600;
 }
+
+.profeCalificacion {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.visualizarTareacomponentCorrecionProfe p {
+    font-size: 15px;
+    font-weight: 500;
+    color: black;
+}

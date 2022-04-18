@@ -3,8 +3,17 @@
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header">
+      <div
+        class="feed_header"
+        style="border-bottom: 1px solid var(--background)"
+      >
         <h2>Tarea Corregida</h2>
+      </div>
+
+      <div class="alumnoEntregaTareaContenedor text-center">
+        <small class="text-muted"
+          >Solo apta para visualizar <i class="fas fa-eye"></i
+        ></small>
       </div>
       <div class="spinerCont" v-if="loading">
         <img
@@ -12,114 +21,167 @@
           width="200px"
           height="200px"
           :src="spinner"
-          alt=""
+          class="spinnerCSS"
         />
       </div>
+      <div v-else>
+        <div class="post">
+          <div class="post_avatar">
+            <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
+          </div>
+          <div class="post_body">
+            <div class="post_title">
+              <span> {{ tarea.titulo }} </span>
+              <p>{{ tarea.fechaVencimiento }}</p>
+            </div>
+            <div class="post_body_text">
+              {{ tarea.descripcion }}
+            </div>
 
-      <div class="post" v-else>
-        <div class="post_avatar">
-          <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
+            <div
+              class="post_footer"
+              v-for="img in tarea.imagenes"
+              :key="img.id"
+            >
+              <div class="contenedor_pdf">
+                <div class="previw_archivosPost">
+                  <h3 v-on:click="descargarPDF(img.archivo)">
+                    <i class="fal fa-file-alt file"></i>
+                    <span>{{ img.archivo }}</span>
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <div
+              class="post_footer"
+              v-for="archivo in tarea.archivos"
+              :key="archivo.id"
+            >
+              <div class="contenedor_pdf">
+                <div class="previw_archivosPost">
+                  <h3 v-on:click="descargarPDF(archivo.archivo)">
+                    <i class="fal fa-file-alt file"></i>
+                    <span>{{ archivo.archivo }}</span>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="post_body">
-          <div class="post_title">
-            <span> {{ tarea.titulo }} </span>
-            <p>{{ tarea.fechaVencimiento }}</p>
-          </div>
-          <div class="post_body_text">
-            {{ tarea.descripcion }}
-          </div>
 
-          <div class="post_footer" v-for="img in tarea.imagenes" :key="img.id">
-            <div class="contenedor_pdf">
-              <div class="previw_archivosPost">
-                <h3 v-on:click="descargarPDF(img.archivo)">
-                  <i class="fal fa-file-alt file"></i>
-                  <span>{{ img.archivo }}</span>
-                </h3>
-              </div>
-            </div>
-          </div>
-          <div
-            class="post_footer"
-            v-for="archivo in tarea.archivos"
-            :key="archivo.id"
-          >
-            <div class="contenedor_pdf">
-              <div class="previw_archivosPost">
-                <h3 v-on:click="descargarPDF(archivo.archivo)">
-                  <i class="fal fa-file-alt file"></i>
-                  <span>{{ archivo.archivo }}</span>
-                </h3>
-              </div>
-            </div>
-          </div>
-          <h1>ADSAD</h1>
+        <!-- 22222222 -->
+        <div class="post">
           <div class="post_avatar">
             <img :src="returnIMGB64(imagen_alumno)" alt="" />
           </div>
-          <!-- ALUMNO ENTREGA 1er -->
-          <div class="entregaAlumno">
-            idTarea
-            {{ primera_entrega.entrega[0].idTareas }}
-            idAlumno
-            {{ primera_entrega.entrega[0].idAlumnos }}
-            nombreAlumno
-            {{ primera_entrega.entrega[0].nombreAlumno }}
-              mensaje Alumno
-            {{ primera_entrega.entrega[0].mensajeAlumno }}
-            fecha de entrega
-            {{ primera_entrega.entrega[0].fecha }}
-    
-          </div>
-         
-          <div class="archivos_primer_entrega">
-            <p v-for="archivo in primera_entrega.archivosAlumno" :key="archivo.id">{{archivo}}</p>
-          </div>
- -----------------
-             <div class="profesorCorrec">
-                  calificacion
-            {{ primera_entrega.entrega[0].calificacion }}
-         
-          
-              mensaje Profesor
-            {{ primera_entrega.entrega[0].mensajeProfesor }}
-          </div>
-           -----------------
-              <!-- ALUMNO ENTREGA 2da -->
-          <div class="entregaAlumno">
-            idTarea
-            {{ segunda_entrega.entrega[0].idTareas }}
-            idAlumno
-            {{ segunda_entrega.entrega[0].idAlumnos }}
-            nombreAlumno
-            {{ segunda_entrega.entrega[0].nombreAlumno }}
-               mensaje Alumno
-              {{ segunda_entrega.entrega[0].mensajeAlumno }}
-            fecha de entrega
-             {{ segunda_entrega.entrega[0].fecha }}
-          </div>
-           <div class="archivos_primer_entrega">
-            <p v-for="archivo in segunda_entrega.archivosAlumno" :key="archivo.id">{{archivo}}</p>
-          </div>
-           -----------------
-          <div class="profesorCorrec">
-             calificacion
-            {{ segunda_entrega.entrega[0].calificacion }}
-         
-          
-            mensaje Profesor
-            {{ segunda_entrega.entrega[0].mensajeProfesor }}
-          </div>
-            -----------------
-           
-         
-        </div>
-      </div>
+          <div class="post_body">
+            <div class="post_title">
+              <span> {{ primera_entrega.entrega[0].nombreAlumno }} </span>
+              <p>{{ primera_entrega.entrega[0].fecha }}</p>
+            </div>
+            <div class="post_body_text">
+              {{ primera_entrega.entrega[0].mensajeAlumno }}
+            </div>
 
-      <div class="alumnoEntregaTareaContenedor text-center">
-        <small class="text-muted"
-          >Solo apta para visualizar <i class="fas fa-eye"></i
-        ></small>
+            <div
+              class="post_footer"
+              v-for="archivo in primera_entrega.archivosAlumno"
+              :key="archivo.id"
+            >
+              <div class="contenedor_pdf">
+                <div class="previw_archivosPost">
+                  <h3 v-on:click="descargarPDF(img.archivo)">
+                    <i class="fal fa-file-alt file"></i>
+                    <span> {{ archivo }}</span>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--   profesor nota primera tarea -->
+        <div class="post">
+          <div class="post_avatar">
+            <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
+          </div>
+          <div class="post_body">
+            <div class="post_title">
+              <div class="profeCalificacion">
+                <span>Correccion Tarea</span>
+                <span
+                  >Nota [{{ primera_entrega.entrega[0].calificacion }} /
+                  12]</span
+                >
+              </div>
+            </div>
+            <div class="post_body_text">
+              <div class="visualizarTareacomponentCorrecionProfe">
+                <span>Juicio:</span>
+
+                <p>{{ primera_entrega.entrega[0].mensajeProfesor }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="feed_header"
+          style="border-bottom: 1px solid var(--background)"
+        >
+          <h2>Segundo intento</h2>
+        </div>
+        <!--     segundo intento alumno -->
+        <div class="post">
+          <div class="post_avatar">
+            <img :src="returnIMGB64(imagen_alumno)" alt="" />
+          </div>
+          <div class="post_body">
+            <div class="post_title">
+              <span> {{ segunda_entrega.entrega[0].nombreAlumno }} </span>
+              <p>{{ segunda_entrega.entrega[0].fecha }}</p>
+            </div>
+            <div class="post_body_text">
+              {{ segunda_entrega.entrega[0].mensajeAlumno }}
+            </div>
+
+            <div
+              class="post_footer"
+              v-for="archivo in segunda_entrega.archivosAlumno"
+              :key="archivo.id"
+            >
+              <div class="contenedor_pdf">
+                <div class="previw_archivosPost">
+                  <h3 v-on:click="descargarPDF(img.archivo)">
+                    <i class="fal fa-file-alt file"></i>
+                    <span> {{ archivo }}</span>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="post">
+          <div class="post_avatar">
+            <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
+          </div>
+          <div class="post_body">
+            <div class="post_title">
+              <div class="profeCalificacion">
+                <span>Correccion Tarea</span>
+                <span
+                  >Nota [{{ segunda_entrega.entrega[0].calificacion }} /
+                  12]</span
+                >
+              </div>
+            </div>
+            <div class="post_body_text">
+              <div class="visualizarTareacomponentCorrecionProfe">
+                <span>Juicio:</span>
+
+                <p>{{ segunda_entrega.entrega[0].mensajeProfesor }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <SectionRight></SectionRight>
