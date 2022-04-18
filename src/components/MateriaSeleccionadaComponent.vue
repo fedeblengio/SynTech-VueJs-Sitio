@@ -560,19 +560,11 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             location.reload();
-            this.flashMessage.show({
-              status: "success",
-              title: Global.tituloSitio,
-              message: "Post publicado correctamente",
-            });
+         
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.tituloSitio,
-            message: "Error al publicar el post",
-          });
+         
         });
     },
     comprobarOpcionEliminar(idPublicacion) {
