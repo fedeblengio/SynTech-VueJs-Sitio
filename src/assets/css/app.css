@@ -589,23 +589,24 @@ details {
     border-bottom: none;
 }
 
-.fa-bell-slash:hover {
-    border-radius: 50%;
-    color: var(--color);
-}
-
 .icon_noti {
     display: none;
     color: rgb(0, 0, 0);
     width: 180px;
     z-index: 100;
-    background-color: var(--background);
+    background-color: white;
+    box-shadow: 0px 0 3px #000000;
     text-decoration: none;
     outline: none;
-    border-radius: 7px;
     position: absolute;
     margin-top: 19px;
     transform: translateX(-50%);
+    border-radius: 3px;
+}
+
+.fa-bell-slash:hover {
+    border-radius: 50%;
+    color: var(--color);
 }
 
 .coloricono {
