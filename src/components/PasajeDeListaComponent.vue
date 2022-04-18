@@ -128,6 +128,12 @@ export default {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;
+        })  .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
     pasarLista() {
@@ -148,21 +154,19 @@ export default {
         .post(Global.urlSitio + "lista-clase", formdata, config)
         .then((response) => {
           if (response.status == 200) {
-            console.log(response.data);
-            alert(response.data)
-            this.flashMessage.show({
-              status: "success",
-              title: Global.tituloSitio,
-              message: "Lista Publicada",
-            });
+           this.$swal.fire(
+            "Lista publicada",
+            "",
+            "success"
+          );
           }
         })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.tituloSitio,
-            message: "Error al pasar lista",
-          });
+         .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
   },

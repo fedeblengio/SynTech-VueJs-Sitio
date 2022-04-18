@@ -251,11 +251,11 @@ export default {
       axios
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
-            if (response.status == 200) {
-          this.$swal.fire("Email actualizado", "", "success");
-          this.cargarInfoUser();
-             this.modficarE = false;
-            }
+          if (response.status == 200) {
+            this.$swal.fire("Email actualizado", "", "success");
+            this.cargarInfoUser();
+            this.modficarE = false;
+          }
         })
         .catch(() => {
           this.$swal.fire("Error al actualizar", "", "error");
@@ -308,14 +308,17 @@ export default {
         .post(Global.urlSitio + "imagen-perfil", formData, config)
         .then((res) => {
           if (res.status == 200) {
-            /* this.cargarFoto() */
+          
             this.$swal.fire({
               icon: "success",
               title: "Perfil Actualizado",
               footer:
-                '<a href="">Tus cambios se veran efectuados en tu proximo logueo</a>',
+                '<a href="">Tu foto se actualizara en tu proxima sesión</a>',
             });
           }
+        })
+        .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     returnImgProfile() {
@@ -350,6 +353,8 @@ export default {
           if (res.status == 200) {
             this.usuarioPerfil = res.data;
           }
+        })  .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     traerGrupoProfesor() {
@@ -377,6 +382,8 @@ export default {
           setTimeout(() => {
             this.tipoDeUser();
           }, 100);
+        })  .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     traerMateriasUser() {
@@ -403,6 +410,8 @@ export default {
           setTimeout(() => {
             this.tipoDeUser();
           }, 100);
+        })  .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
   },
@@ -411,7 +420,6 @@ export default {
 
 <style scoped>
 .background-profile-active {
-
   background: #d7e3ef;
 }
 </style>

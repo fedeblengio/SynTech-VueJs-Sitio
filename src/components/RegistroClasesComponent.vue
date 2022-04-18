@@ -73,7 +73,7 @@
                 params: {
                   idClase: lista.idClase,
                   materia: lista.materia,
-                  fecha: lista.created_at
+                  fecha: lista.created_at,
                 },
               }"
               class="router-link"
@@ -146,6 +146,9 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
+        })
+        .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     traerListas() {
@@ -169,6 +172,9 @@ export default {
           this.registroListas = res.data;
 
           this.loading = false;
+        })
+        .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
   },

@@ -132,6 +132,12 @@ export default {
           }
 
           this.loading = false;
+        })   .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
     cargarAsistencia(alumno) {

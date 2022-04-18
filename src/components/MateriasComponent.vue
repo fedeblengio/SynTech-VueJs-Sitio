@@ -92,6 +92,12 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
+        })   .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal al publicar ...",
+            "",
+            "error"
+          );
         });
     },
     traerMateriasUser() {
@@ -111,6 +117,12 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
+        }).catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
   },

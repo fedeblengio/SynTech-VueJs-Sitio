@@ -204,6 +204,8 @@ export default {
             this.tarea.imagenes = res.data.imagenes;
           }
           this.loading = false;
+        })  .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     returnImgLocalStorage() {
@@ -231,7 +233,9 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-        .catch(console.error);
+          .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        });
     },
 
     enviarArchivos() {
@@ -252,6 +256,25 @@ export default {
         },
       };
       let nombres = [];
+       let timerInterval;
+      this.$swal.fire({
+        title: "Cargando...",
+        html: "Estamos creando tu tarea !",
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: () => {
+          this.$swal.showLoading();
+          const b = this.$swal.getHtmlContainer().querySelector("b");
+          timerInterval = setInterval(() => {
+            b.textContent = this.$swal.getTimerLeft();
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        },
+      });
+      if (this.entregarTarea.file.length > 0) {
+        setTimeout(() => {
       for (let i = 0; i < this.entregarTarea.file.length; i++) {
         nombres.push(fecha + this.entregarTarea.file[i].name);
         let formData = new FormData();
@@ -268,6 +291,12 @@ export default {
           })
           .catch(() => {});
       }
+         }, 2000);
+      }else {
+         setTimeout(() => {
+             this.enviarPost(nombres);
+           }, 2000);
+      } 
     },
     enviarPost(nombres) {
       let config = {
@@ -295,19 +324,12 @@ export default {
           if (response.status == 200) {
             /* REDIRECCIONAR AL MENU DE TAREAS , SACARLO DE LA TAREA ACTUAL */
             this.$router.back();
-            this.flashMessage.show({
-              status: "success",
-              title: Global.tituloSitio,
-              message: "Post publicado correctamente",
-            });
+             this.$swal.fire("Tarea entregada", "", "success");
           }
         })
-        .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.tituloSitio,
-            message: "Error al publicar el post",
-          });
+       .catch(() => {
+           
+          this.$swal.fire("ERROR : Parece que algo salio mal al publicar ...", "", "error");
         });
     },
   },

@@ -163,6 +163,8 @@ export default {
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
           }
+        }).catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     traerMateriasUser() {
@@ -185,6 +187,8 @@ export default {
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
           }
+        }).catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     cargarInfoUser() {
@@ -204,6 +208,8 @@ export default {
             this.usuarioPerfil = res.data;
           }
           this.comprobarUsuario();
+        }).catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
   },

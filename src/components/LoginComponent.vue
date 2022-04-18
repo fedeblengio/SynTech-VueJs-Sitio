@@ -54,11 +54,7 @@ export default {
   mounted() {
     if (localStorage.getItem("auth_token")) {
       this.$router.push("/home");
-      this.flashMessage.show({
-        status: "success",
-        title: Global.tituloSitio,
-        message: "Ya has iniciado sesión",
-      });
+      this.$swal.fire("Ya tienes una sesion iniciada", "", "success");
     } else {
       localStorage.clear();
     }
@@ -77,17 +73,16 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             localStorage.setItem("auth_token", response.data.datos);
-            localStorage.setItem("fecha_token",moment().add(90, 'minutes').format('DD/MM/YYYY h:mm a'));
+            localStorage.setItem(
+              "fecha_token",
+              moment().add(90, "minutes").format("DD/MM/YYYY h:mm a")
+            );
             this.$router.push("/home");
             location.reload();
           }
         })
         .catch(() => {
-          this.flashMessage.show({
-            status: "error",
-            title: Global.tituloSitio,
-            message: "Error, credenciales invalidas",
-          });
+          this.$swal.fire("ERROR : Credenciales invalidas", "", "error");
           document.form.reset();
         });
     },
@@ -145,7 +140,7 @@ form img {
   .login-img img {
     display: none;
   }
-  .sidenav{
+  .sidenav {
     width: 100%;
   }
 }

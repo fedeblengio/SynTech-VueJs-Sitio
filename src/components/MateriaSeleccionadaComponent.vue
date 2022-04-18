@@ -316,6 +316,12 @@ export default {
           if (res.status == 200) {
             this.grupoProfesor = res.data;
           }
+        })   .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal al publicar ...",
+            "",
+            "error"
+          );
         });
     },
     traerGrupoProfesor() {
@@ -336,6 +342,12 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
+        })   .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
     traerMateriasUser() {
@@ -354,6 +366,12 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
+        }).catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
     cargarImg(imagen) {
@@ -386,6 +404,12 @@ export default {
             this.traerArchivos = res.data;
           }
           this.loading = false;
+        }).catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
 
@@ -409,6 +433,12 @@ export default {
           if (res.status == 200) {
             this.foro = res.data;
           }
+        }).catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
     getFile(event) {
@@ -452,6 +482,12 @@ export default {
             document.getElementById("post_img").src =
               "data:image/png;base64," + localStorage.getItem("perfil_img");
           }
+        }).catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
         });
     },
     returnImgB64() {
@@ -559,12 +595,21 @@ export default {
         .post(Global.urlSitio + "foro", formData, config)
         .then((response) => {
           if (response.status == 200) {
+            this.$swal.fire(
+            "Publicado correctamente",
+            "",
+            "success"
+          );
             location.reload();
          
           }
         })
         .catch(() => {
-         
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal al publicar ...",
+            "",
+            "error"
+          );
         });
     },
     comprobarOpcionEliminar(idPublicacion) {
@@ -593,10 +638,21 @@ export default {
         .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
         .then((response) => {
           if (response.status == 200) {
+            this.$swal.fire(
+            "Publicacion borrada correctamente",
+            "",
+            "success"
+          );
             location.reload();
           }
         })
-        .catch(() => {});
+         .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
+        });
     },
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
@@ -617,7 +673,13 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-        .catch(console.error);
+          .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal ...",
+            "",
+            "error"
+          );
+        });
     },
     showOptionBody(id) {
       let elipsis = document.getElementById(id);

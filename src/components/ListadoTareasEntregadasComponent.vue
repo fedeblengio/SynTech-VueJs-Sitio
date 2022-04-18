@@ -29,7 +29,12 @@
             aria-labelledby="headingOne"
             data-parent="#accordionExample"
           >
-            <div class="list-group"   v-if="hayEntregas(listadoEntregasGrupo.entregas_totalesNoCorregidas)">
+            <div
+              class="list-group"
+              v-if="
+                hayEntregas(listadoEntregasGrupo.entregas_totalesNoCorregidas)
+              "
+            >
               <router-link
                 :to="{
                   name: 'calificar-alumnos',
@@ -88,8 +93,10 @@
               </router-link>
             </div>
             <div class="list-group" v-else>
-              <p class="list-group-item list-group-item-action"> No hay tareas entregadas.</p>
-             </div>
+              <p class="list-group-item list-group-item-action">
+                No hay tareas entregadas.
+              </p>
+            </div>
           </div>
         </div>
         <div class="card">
@@ -115,15 +122,16 @@
           >
             <div
               class="list-group"
-              v-if="hayCorregidas(listadoEntregasGrupo.entregas_totalesCorregidas)"
+              v-if="
+                hayCorregidas(listadoEntregasGrupo.entregas_totalesCorregidas)
+              "
             >
-               <router-link
+              <router-link
                 :to="{
                   name: 'visualizar-tareas',
                   params: {
                     idAlumnos: corregidas.idAlumnos,
                     idTareas: corregidas.idTarea,
-                
                   },
                 }"
                 class="list-group-item list-group-item-action"
@@ -145,7 +153,7 @@
                   {{ corregidas.idGrupo }} - {{ corregidas.usuario }}
                 </p>
               </router-link>
-                  <router-link
+              <router-link
                 :to="{
                   name: 'visualizar-tareas',
                   params: {
@@ -176,8 +184,10 @@
               </router-link>
             </div>
             <div class="list-group" v-else>
-              <p class="list-group-item list-group-item-action">No hay tareas corregidas.</p>
-              </div>
+              <p class="list-group-item list-group-item-action">
+                No hay tareas corregidas.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -230,18 +240,24 @@ export default {
   },
   methods: {
     hayEntregas(entregas) {
-        if(entregas.entregas_tareas_no_corregidas.length > 0 || entregas.re_hacer_no_corregidas.length >0  ){
-           return true;
-        }else{
-          return false;
-        }
+      if (
+        entregas.entregas_tareas_no_corregidas.length > 0 ||
+        entregas.re_hacer_no_corregidas.length > 0
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     },
-      hayCorregidas(corregidas) {
-        if(corregidas.entregas_tareas_corregidas.length > 0 || corregidas.re_hacer_corregidas.length >0  ){
-           return true;
-        }else{
-          return false;
-        }
+    hayCorregidas(corregidas) {
+      if (
+        corregidas.entregas_tareas_corregidas.length > 0 ||
+        corregidas.re_hacer_corregidas.length > 0
+      ) {
+        return true;
+      } else {
+        return false;
+      }
     },
     calificacion(nota) {
       if (nota != undefined) {
@@ -288,6 +304,13 @@ export default {
             this.listadoEntregasGrupo.entregas_totalesCorregidas.re_hacer_corregidas =
               res.data.entregas_totalesCorregidas.re_hacer_corregidas;
           }
+        })
+        .catch(() => {
+          this.$swal.fire(
+            "ERROR : Parece que algo salio mal al publicar ...",
+            "",
+            "error"
+          );
         });
     },
   },
