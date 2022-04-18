@@ -176,6 +176,9 @@ export default {
               });
             }
           }
+        })
+        .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     entrarJitsi(clase) {
@@ -224,6 +227,9 @@ export default {
             this.cargarCalendario();
           }
           this.loading = false;
+        })
+        .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     cargarCalendario() {
