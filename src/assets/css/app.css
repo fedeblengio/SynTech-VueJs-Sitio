@@ -975,12 +975,15 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .notiPostBody p {
     display: flex;
-    color: red;
     margin: 5px 0px;
     font-size: 14px;
 }
 
-.notiPostBody:hover {
+.red {
+    color: red;
+}
+
+.btn_postBody:hover {
     background-color: lightgray;
 }
 

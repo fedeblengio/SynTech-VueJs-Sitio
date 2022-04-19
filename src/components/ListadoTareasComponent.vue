@@ -11,7 +11,7 @@
           type="button"
           class="btn_crearTarea"
           data-toggle="modal"
-          data-target="#exampleModal"
+          data-target="#modalTarea"
         >
           Crear Tarea
         </button>
@@ -124,7 +124,7 @@
       <!-- --- INICIO MODAL --- -->
       <div
         class="modal fade"
-        id="exampleModal"
+        id="modalTarea"
         tabindex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
@@ -227,6 +227,80 @@
         </div>
       </div>
       <!-- --- FIN MODAL --- -->
+
+      <!-- MODAL VER TAREA -->
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tarea Publicada</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+              <div class="spinerCont" v-if="cargandoFoto">
+              <img :src="spinner" class="spinnerCSS" />
+            </div>
+            <div class="post" v-else>
+              <div class="post_avatar">
+                <img
+                  :src="returnIMGB64(tareaSeleccionada.profile_picture)"
+                  alt=""
+                />
+              </div>
+              <div class="post_body">
+                <div class="post_title">
+                  <span> {{ tareaSeleccionada.titulo }} </span>
+                  <p>{{ tareaSeleccionada.fechaVencimiento }}</p>
+                </div>
+                <div class="post_body_text">
+                  {{ tareaSeleccionada.descripcion }}
+                </div>
+
+                <div
+                  class="post_footer"
+                  v-for="img in tareaSeleccionada.imagenes"
+                  :key="img.id"
+                >
+                  <div class="contenedor_pdf">
+                    <div class="previw_archivosPost">
+                      <h3 v-on:click="descargarPDF(img.archivo)">
+                        <i class="fal fa-file-alt file"></i>
+                        <span>{{ img.archivo }}</span>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="post_footer"
+                  v-for="archivo in tareaSeleccionada.archivos"
+                  :key="archivo.id"
+                >
+                  <div class="contenedor_pdf">
+                    <div class="previw_archivosPost">
+                      <h3 v-on:click="descargarPDF(archivo.archivo)">
+                        <i class="fal fa-file-alt file"></i>
+                        <span>{{ archivo.archivo }}</span>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                
+            </div>
+      </div>
+   
+    </div>
+  </div>
+</div>
+
+
+
+
+      <!--FIN  MODAL VER TAREA -->
+
       <div class="sub_header" v-if="this.$route.params.tareas_vencidas">
         <h3>Tareas Caducadas</h3>
       </div>
@@ -249,6 +323,14 @@
             <div class="notiPostBody" :id="tarea.idTarea" style="top: 15px">
               <p
                 class="btn_postBody"
+                v-on:click="cargarTareaSeleccionada(tarea.idTarea)"
+                data-toggle="modal"
+                data-target="#exampleModal"
+              >
+                Ver
+              </p>
+              <p
+                class="btn_postBody red"
                 v-on:click="comprobarOpcionEliminar(tarea.idTarea)"
               >
                 Eliminar
@@ -375,6 +457,7 @@ export default {
         idMateria: "",
         materia: "",
       },
+      cargandoFoto:true,
       alumno: false,
       tarea: {
         titulo: "",
@@ -382,6 +465,19 @@ export default {
         fecha_vencimiento: "",
         materiaGrupo: [],
         file: [],
+      },
+      tareaSeleccionada: {
+        idTarea: "",
+        titulo: "",
+        idProfesor: "",
+        profile_picture: "",
+        nombreProfesor: "",
+        idMateria: "",
+        materia: "",
+        descripcion: "",
+        fechaVencimiento: "",
+        archivos: "",
+        imagenes: "",
       },
       aux: 1,
     };
@@ -398,6 +494,76 @@ export default {
     }
   },
   methods: {
+    cargarTareaSeleccionada(idTarea) {
+      this.cargandoFoto=true;
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .get(Global.urlSitio + "tarea?idTarea=" + idTarea, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.tareaSeleccionada.idTarea = res.data.datos.idTarea;
+            this.tareaSeleccionada.titulo = res.data.datos.titulo;
+            this.tareaSeleccionada.idProfesor = res.data.datos.idProfesor;
+            this.tareaSeleccionada.profile_picture =
+              res.data.datos.profile_picture;
+            this.tareaSeleccionada.nombreProfesor =
+              res.data.datos.nombreProfesor;
+            this.tareaSeleccionada.idMateria = res.data.datos.idMateria;
+            this.tareaSeleccionada.materia = this.$route.params.materia;
+            this.tareaSeleccionada.descripcion = res.data.datos.descripcion;
+            this.tareaSeleccionada.fechaVencimiento =
+              res.data.datos.fechaVencimiento;
+            this.tareaSeleccionada.archivos = res.data.archivos;
+            this.tareaSeleccionada.imagenes = res.data.imagenes;
+          }
+           this.cargandoFoto=false;
+
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
+        });
+    },
+    returnIMGB64(img) {
+ 
+      return "data:image/png;base64," + img;
+    },
+    descargarPDF(label) {
+      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+
+      axios
+        .get(url, {
+          responseType: "blob",
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token: Global.token,
+          },
+        })
+        .then((response) => {
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = label;
+          link.click();
+          URL.revokeObjectURL(link.href);
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
+        });
+    },
     showOptionBody(id) {
       let elipsis = document.getElementById(id);
       if (this.aux == 0) {
@@ -435,7 +601,7 @@ export default {
         .delete(Global.urlSitio + "tarea?idTareas=" + idTarea, config)
         .then((response) => {
           if (response.status == 200) {
-              this.$swal.fire("Tarea eliminada correctamente", "", "success");
+            this.$swal.fire("Tarea eliminada correctamente", "", "success");
             location.reload();
           }
         })
@@ -479,7 +645,7 @@ export default {
           token: Global.token,
         },
       };
-       let nombres = [];
+      let nombres = [];
       let timerInterval;
       this.$swal.fire({
         title: "Cargando...",
@@ -510,18 +676,16 @@ export default {
               .post(Global.urlSitio + "FTP", formData, config)
               .then((response) => {
                 if (response.status == 200) {
-                this.enviarCuerpoTarea(nombres);
+                  this.enviarCuerpoTarea(nombres);
                 }
-              })
-              
+              });
           }
         }, 2000);
-      }else {
-         setTimeout(() => {
+      } else {
+        setTimeout(() => {
           this.enviarCuerpoTarea(nombres);
-           }, 2000);
+        }, 2000);
       }
-     
     },
     enviarCuerpoTarea(nombres) {
       let config = {
@@ -546,13 +710,12 @@ export default {
         .post(Global.urlSitio + "tarea", formData, config)
         .then((response) => {
           if (response.status == 200) {
-           
-          this.$swal.fire("Tarea creada", "", "success");
-           location.reload();
+            this.$swal.fire("Tarea creada", "", "success");
+            location.reload();
           }
         })
         .catch(() => {
-              this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Parece que algo salio mal ...",
@@ -628,8 +791,9 @@ export default {
             }
           }
           this.loading = false;
-        }) .catch(() => {
-              this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Parece que algo salio mal ...",
