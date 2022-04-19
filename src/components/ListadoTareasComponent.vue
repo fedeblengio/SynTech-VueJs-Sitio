@@ -230,74 +230,83 @@
 
       <!-- MODAL VER TAREA -->
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tarea Publicada</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Tarea Publicada
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
               <div class="spinerCont" v-if="cargandoFoto">
-              <img :src="spinner" class="spinnerCSS" />
-            </div>
-            <div class="post" v-else>
-              <div class="post_avatar">
-                <img
-                  :src="returnIMGB64(tareaSeleccionada.profile_picture)"
-                  alt=""
-                />
+                <img :src="spinner" class="spinnerCSS" />
               </div>
-              <div class="post_body">
-                <div class="post_title">
-                  <span> {{ tareaSeleccionada.titulo }} </span>
-                  <p>{{ tareaSeleccionada.fechaVencimiento }}</p>
+              <div class="post" v-else>
+                <div class="post_avatar">
+                  <img
+                    :src="returnIMGB64(tareaSeleccionada.profile_picture)"
+                    alt=""
+                  />
                 </div>
-                <div class="post_body_text">
-                  {{ tareaSeleccionada.descripcion }}
-                </div>
+                <div class="post_body" style="width: 375px !important">
+                  <div class="post_title">
+                    <span> {{ tareaSeleccionada.titulo }} </span>
+                    <p>{{ tareaSeleccionada.fechaVencimiento }}</p>
+                  </div>
+                  <div class="post_body_text">
+                    {{ tareaSeleccionada.descripcion }}
+                  </div>
 
-                <div
-                  class="post_footer"
-                  v-for="img in tareaSeleccionada.imagenes"
-                  :key="img.id"
-                >
-                  <div class="contenedor_pdf">
-                    <div class="previw_archivosPost">
-                      <h3 v-on:click="descargarPDF(img.archivo)">
-                        <i class="fal fa-file-alt file"></i>
-                        <span>{{ img.archivo }}</span>
-                      </h3>
+                  <div
+                    class="post_footer"
+                    v-for="img in tareaSeleccionada.imagenes"
+                    :key="img.id"
+                  >
+                    <div class="contenedor_pdf">
+                      <div class="previw_archivosPost">
+                        <h3 v-on:click="descargarPDF(img.archivo)">
+                          <i class="fal fa-file-alt file"></i>
+                          <span>{{ img.archivo }}</span>
+                        </h3>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div
-                  class="post_footer"
-                  v-for="archivo in tareaSeleccionada.archivos"
-                  :key="archivo.id"
-                >
-                  <div class="contenedor_pdf">
-                    <div class="previw_archivosPost">
-                      <h3 v-on:click="descargarPDF(archivo.archivo)">
-                        <i class="fal fa-file-alt file"></i>
-                        <span>{{ archivo.archivo }}</span>
-                      </h3>
+                  <div
+                    class="post_footer"
+                    v-for="archivo in tareaSeleccionada.archivos"
+                    :key="archivo.id"
+                  >
+                    <div class="contenedor_pdf">
+                      <div class="previw_archivosPost">
+                        <h3 v-on:click="descargarPDF(archivo.archivo)">
+                          <i class="fal fa-file-alt file"></i>
+                          <span>{{ archivo.archivo }}</span>
+                        </h3>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-                
             </div>
+          </div>
+        </div>
       </div>
-   
-    </div>
-  </div>
-</div>
-
-
-
 
       <!--FIN  MODAL VER TAREA -->
 
@@ -457,7 +466,7 @@ export default {
         idMateria: "",
         materia: "",
       },
-      cargandoFoto:true,
+      cargandoFoto: true,
       alumno: false,
       tarea: {
         titulo: "",
@@ -495,7 +504,7 @@ export default {
   },
   methods: {
     cargarTareaSeleccionada(idTarea) {
-      this.cargandoFoto=true;
+      this.cargandoFoto = true;
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -522,8 +531,7 @@ export default {
             this.tareaSeleccionada.archivos = res.data.archivos;
             this.tareaSeleccionada.imagenes = res.data.imagenes;
           }
-           this.cargandoFoto=false;
-
+          this.cargandoFoto = false;
         })
         .catch(() => {
           this.$swal.fire({
@@ -534,7 +542,6 @@ export default {
         });
     },
     returnIMGB64(img) {
- 
       return "data:image/png;base64," + img;
     },
     descargarPDF(label) {
