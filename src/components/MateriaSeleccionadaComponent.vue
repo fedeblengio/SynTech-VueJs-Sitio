@@ -317,11 +317,11 @@ export default {
             this.grupoProfesor = res.data;
           }
         })   .catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal al publicar ...",
-            "",
-            "error"
-          );
+             this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Error inesperado ...",
+          });
         });
     },
     traerGrupoProfesor() {
@@ -343,11 +343,11 @@ export default {
             this.traerMaterias = res.data;
           }
         })   .catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal ...",
-            "",
-            "error"
-          );
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Error inesperado ...",
+          });
         });
     },
     traerMateriasUser() {
@@ -367,11 +367,11 @@ export default {
             this.traerMaterias = res.data;
           }
         }).catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal ...",
-            "",
-            "error"
-          );
+            this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Error inesperado ...",
+          });
         });
     },
     cargarImg(imagen) {
@@ -405,11 +405,11 @@ export default {
           }
           this.loading = false;
         }).catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal ...",
-            "",
-            "error"
-          );
+             this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Error inesperado ...",
+          });
         });
     },
 
@@ -434,11 +434,11 @@ export default {
             this.foro = res.data;
           }
         }).catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal ...",
-            "",
-            "error"
-          );
+            this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Error inesperado ...",
+          });
         });
     },
     getFile(event) {
@@ -449,10 +449,18 @@ export default {
         if (res <= 50) {
           this.file.push(event.target.files[0]);
         } else {
-          alert("El tamaño del archivo excede el límite máximo permitido");
+          this.$swal.fire(
+            "El tamamaño del archivo es mayor a 50 mb",
+            "",
+            "info"
+          );
         }
       } else {
-        alert("3 archivos por post");
+        this.$swal.fire(
+          "Solo se permite 3 archivos por publicacion",
+          "",
+          "info"
+        );
       }
     },
     cargarFoto() {
@@ -482,13 +490,7 @@ export default {
             document.getElementById("post_img").src =
               "data:image/png;base64," + localStorage.getItem("perfil_img");
           }
-        }).catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal ...",
-            "",
-            "error"
-          );
-        });
+        })
     },
     returnImgB64() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
@@ -605,11 +607,11 @@ export default {
           }
         })
         .catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal al publicar ...",
-            "",
-            "error"
-          );
+            this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Error inesperado ...",
+          });
         });
     },
     comprobarOpcionEliminar(idPublicacion) {
@@ -647,11 +649,11 @@ export default {
           }
         })
          .catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal ...",
-            "",
-            "error"
-          );
+               this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Error inesperado ...",
+          });
         });
     },
     descargarPDF(label) {
@@ -677,7 +679,7 @@ export default {
               this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Credenciales Invalidas ...",
+            text: "Error inesperado ...",
           });
         });
     },
