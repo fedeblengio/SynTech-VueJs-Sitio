@@ -15,27 +15,27 @@
       </div>
       <div class="feed" v-else>
         <div class="contPdf">
-          <div class="btnpdf" style="cursor:pointer">
+          <div class="btnpdf" style="cursor:pointer" v-if="!modificar">
             <p @click="modificar = true">
               Modificar <i class="fas fa-pencil"></i>
             </p>
           </div>
 
           <div v-if="modificar">
-            <i
-              class="fal fa-check btnpdf btncheck"
+            <p
+              class="fal  btnpdf btncheck"
               type="submit"
               v-on:click="actualizarLista()"
               style="background: green"
-            ></i>
+            >Actualizar</p>
           </div>
 
-          <div class="btnpdf btncheck" style="background: red" v-if="modificar">
+          <div class=" fal btnpdf btncheck" style="background: red" v-if="modificar">
             <p @click="modificar = false">
-              <b class="fas" color="red">X</b>
+             Cancelar
             </p>
           </div>
-          <div>
+          <div  v-if="!modificar">
             <p
               class="btnpdf float-right"
               @click="downloadPDF()"
