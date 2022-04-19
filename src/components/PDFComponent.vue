@@ -20,27 +20,31 @@
               Modificar <i class="fas fa-pencil"></i>
             </p>
           </div>
-          <div class="btnpdf" style="background: red">
+
+          <div v-if="modificar">
+            <i
+              class="fal fa-check btnpdf btncheck"
+              type="submit"
+              v-on:click="actualizarLista()"
+              style="background: green"
+            ></i>
+          </div>
+
+          <div class="btnpdf btncheck" style="background: red">
             <p @click="modificar = false">
-              Cancelar <b class="fas" color="red">X</b>
+              <b class="fas" color="red">X</b>
+            </p>
+          </div>
+          <div>
+            <p
+              class="btnpdf float-right"
+              @click="downloadPDF()"
+              style="width: 115px"
+            >
+              Descargar <i class="fas fa-download"> </i>
             </p>
           </div>
         </div>
-
-        <p
-          class="float-right btnpdf btnpdfdow"
-          @click="downloadPDF()"
-          style="background: green"
-        >
-          Descargar <i class="fas fa-download"> </i>
-        </p>
-        <input
-          type="submit"
-          class="btnpdf f btnpdfdow"
-          v-on:click="actualizarLista()"
-          value="Actualizar lista"
-          v-if="modificar"
-        />
 
         <table class="table table-striped" id="my-table">
           <thead>

@@ -13,10 +13,10 @@
           width="200px"
           height="200px"
           :src="spinner"
-          alt=""
+          class="spinnerCSS"
         />
       </div>
-      <div class="post" v-else>
+      <div class="post" v-else style="border-top: 1px solid var(--background)">
         <div class="post_avatar">
           <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
         </div>
@@ -55,7 +55,10 @@
           </div>
         </div>
       </div>
-      <div class="tareaSeleccionadaCont">
+      <div
+        class="tareaSeleccionadaCont"
+        style="border-bottom: 1px solid var(--background)"
+      >
         <h3>Entregar Tarea</h3>
         <div class="form">
           <div class="boxText_input">
@@ -165,9 +168,9 @@ export default {
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
- if (this.entregarTarea.file.length <= 4) {
+      if (this.entregarTarea.file.length <= 4) {
         if (res <= 50) {
-           this.entregarTarea.file.push(event.target.files[0]);
+          this.entregarTarea.file.push(event.target.files[0]);
         } else {
           this.$swal.fire(
             "El tamamaño del archivo es mayor a 50 mb",
@@ -182,8 +185,6 @@ export default {
           "info"
         );
       }
-
-
     },
     cargarTareaSeleccionada() {
       let config = {
@@ -213,11 +214,12 @@ export default {
             this.tarea.imagenes = res.data.imagenes;
           }
           this.loading = false;
-        })       .catch(() => {
-              this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-              text: "Parece que algo salio mal ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },
@@ -246,11 +248,11 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-              .catch(() => {
-              this.$swal.fire({
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-              text: "Parece que algo salio mal ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },
@@ -273,7 +275,7 @@ export default {
         },
       };
       let nombres = [];
-       let timerInterval;
+      let timerInterval;
       this.$swal.fire({
         title: "Cargando...",
         html: "Estamos creando tu tarea !",
@@ -292,28 +294,28 @@ export default {
       });
       if (this.entregarTarea.file.length > 0) {
         setTimeout(() => {
-      for (let i = 0; i < this.entregarTarea.file.length; i++) {
-        nombres.push(fecha + this.entregarTarea.file[i].name);
-        let formData = new FormData();
+          for (let i = 0; i < this.entregarTarea.file.length; i++) {
+            nombres.push(fecha + this.entregarTarea.file[i].name);
+            let formData = new FormData();
 
-        formData.append("archivo", this.entregarTarea.file[i]);
-        formData.append("nombre", fecha + this.entregarTarea.file[i].name);
+            formData.append("archivo", this.entregarTarea.file[i]);
+            formData.append("nombre", fecha + this.entregarTarea.file[i].name);
 
-        axios
-          .post(Global.urlSitio + "FTP", formData, config)
-          .then((response) => {
-            if (response.status == 200) {
-              this.enviarPost(nombres);
-            }
-          })
-          .catch(() => {});
+            axios
+              .post(Global.urlSitio + "FTP", formData, config)
+              .then((response) => {
+                if (response.status == 200) {
+                  this.enviarPost(nombres);
+                }
+              })
+              .catch(() => {});
+          }
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          this.enviarPost(nombres);
+        }, 2000);
       }
-         }, 2000);
-      }else {
-         setTimeout(() => {
-             this.enviarPost(nombres);
-           }, 2000);
-      } 
     },
     enviarPost(nombres) {
       let config = {
@@ -341,14 +343,14 @@ export default {
           if (response.status == 200) {
             /* REDIRECCIONAR AL MENU DE TAREAS , SACARLO DE LA TAREA ACTUAL */
             this.$router.back();
-             this.$swal.fire("Tarea entregada", "", "success");
+            this.$swal.fire("Tarea entregada", "", "success");
           }
         })
-            .catch(() => {
-              this.$swal.fire({
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-              text: "Parece que algo salio mal ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },

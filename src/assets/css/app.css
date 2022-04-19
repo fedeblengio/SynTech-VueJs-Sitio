@@ -1125,8 +1125,7 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 15px 10px;
 }
 
-.btnpdfdow {
-    width: 123px;
-    margin-top: 0px;
-    background-color: var(--puntoMisClases);
+.btncheck {
+    width: 30px;
+    line-height: 1.7;
 }
