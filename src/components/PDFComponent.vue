@@ -14,16 +14,29 @@
         </center>
       </div>
       <div class="feed" v-else>
-        <p @click="modificar = true">Modificar <i class="fas fa-pencil"></i></p>
-        <p @click="modificar = false">
-          Cancelar <b class="fas" color="red">X</b>
-        </p>
-        <p class="float-right" @click="downloadPDF()">
+        <div class="contPdf">
+          <div class="btnpdf">
+            <p @click="modificar = true">
+              Modificar <i class="fas fa-pencil"></i>
+            </p>
+          </div>
+          <div class="btnpdf" style="background: red">
+            <p @click="modificar = false">
+              Cancelar <b class="fas" color="red">X</b>
+            </p>
+          </div>
+        </div>
+
+        <p
+          class="float-right btnpdf btnpdfdow"
+          @click="downloadPDF()"
+          style="background: green"
+        >
           Descargar <i class="fas fa-download"> </i>
         </p>
         <input
           type="submit"
-          class="btn btn-primary float-right"
+          class="btnpdf f btnpdfdow"
           v-on:click="actualizarLista()"
           value="Actualizar lista"
           v-if="modificar"
@@ -68,8 +81,6 @@
             </tr>
           </tbody>
         </table>
-
-
       </div>
     </div>
     <SectionRight></SectionRight>
@@ -132,12 +143,9 @@ export default {
           }
 
           this.loading = false;
-        })   .catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal ...",
-            "",
-            "error"
-          );
+        })
+        .catch(() => {
+          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
         });
     },
     cargarAsistencia(alumno) {
@@ -198,7 +206,10 @@ export default {
         unit: "in",
         format: "letter",
       });
-      let materia_fecha = this.$route.params.materia+" "+moment(this.$route.params.fecha).format("DD/MM/YYYY h:mm a");
+      let materia_fecha =
+        this.$route.params.materia +
+        " " +
+        moment(this.$route.params.fecha).format("DD/MM/YYYY h:mm a");
 
       let bodyAlumnos = [];
 
@@ -210,16 +221,16 @@ export default {
         ];
         bodyAlumnos.push(array);
       }
-      doc.setFontSize(16).text( materia_fecha, 0.5, 1.0);
+      doc.setFontSize(16).text(materia_fecha, 0.5, 1.0);
       doc.setLineWidth(0.01).line(0.5, 1.1, 8.0, 1.1);
 
       doc.autoTable({
         head: [["Cedula", "Nombre", "Asistencia"]],
         body: bodyAlumnos,
-        margin: { left: 0.5, top: 1.25 }
+        margin: { left: 0.5, top: 1.25 },
       });
       /*   doc.text('Fecha : '+fecha, 20, 20); */
-      doc.save(materia_fecha+".pdf");
+      doc.save(materia_fecha + ".pdf");
     },
   },
 };

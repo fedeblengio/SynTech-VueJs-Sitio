@@ -1106,3 +1106,27 @@ input[type="number"]::-webkit-inner-spin-button {
     font-weight: 500;
     color: black;
 }
+
+.contPdf {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.btnpdf {
+    background-color: var(--color);
+    border: none;
+    color: white;
+    font-weight: 900;
+    border-radius: 7px;
+    width: 100px;
+    height: 28px;
+    text-align: center;
+    margin: 15px 10px;
+}
+
+.btnpdfdow {
+    width: 123px;
+    margin-top: 0px;
+    background-color: var(--puntoMisClases);
+}
