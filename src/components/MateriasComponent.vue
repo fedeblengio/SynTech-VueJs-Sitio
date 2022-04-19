@@ -117,12 +117,12 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
-        }).catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal ...",
-            "",
-            "error"
-          );
+        })     .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Credenciales Invalidas ...",
+          });
         });
     },
   },

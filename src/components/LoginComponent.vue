@@ -82,8 +82,11 @@ export default {
           }
         })
         .catch(() => {
-          this.$swal.fire("ERROR : Credenciales invalidas", "", "error");
-          document.form.reset();
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Credenciales Invalidas ...",
+          });
         });
     },
   },

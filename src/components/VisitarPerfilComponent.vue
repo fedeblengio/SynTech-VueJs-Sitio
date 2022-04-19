@@ -29,11 +29,11 @@
         <div class="contenedorPerfil">
           <h5>Tipo de Usuario:</h5>
           <div class="tipoDeUser">
-            <div :class='usuarioProfesor(usuarioPerfil.ou)' id="profesor">
+            <div :class="usuarioProfesor(usuarioPerfil.ou)" id="profesor">
               <h4>Profesor</h4>
               <i class="fal fa-chalkboard-teacher"></i>
             </div>
-            <div :class='usuarioAlumno(usuarioPerfil.ou)' id="alumno">
+            <div :class="usuarioAlumno(usuarioPerfil.ou)" id="alumno">
               <h4>Alumno</h4>
               <i class="fal fa-users-class"></i>
             </div>
@@ -109,7 +109,7 @@ export default {
       nombreGrupo: "",
       loading: true,
       spinner: Global.spinnerUrl,
-      profesor:false,
+      profesor: false,
     };
   },
   mounted() {
@@ -127,21 +127,20 @@ export default {
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
- 
-    usuarioProfesor(ou){
-         if (ou == "Profesor") {
-          return "contenidoUser background-profile-active"
+
+    usuarioProfesor(ou) {
+      if (ou == "Profesor") {
+        return "contenidoUser background-profile-active";
       } else {
-          return "contenidoUser"
+        return "contenidoUser";
       }
     },
-    usuarioAlumno(ou){
-          if (ou == "Profesor") {
-           return "contenidoUser"
+    usuarioAlumno(ou) {
+      if (ou == "Profesor") {
+        return "contenidoUser";
       } else {
-           return "contenidoUser background-profile-active"
+        return "contenidoUser background-profile-active";
       }
-      
     },
     traerGrupoProfesor() {
       let config = {
@@ -163,8 +162,13 @@ export default {
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
           }
-        }).catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
     traerMateriasUser() {
@@ -187,8 +191,13 @@ export default {
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
           }
-        }).catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
     cargarInfoUser() {
@@ -208,8 +217,13 @@ export default {
             this.usuarioPerfil = res.data;
           }
           this.comprobarUsuario();
-        }).catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
   },
@@ -218,7 +232,6 @@ export default {
 
 <style scoped>
 .background-profile-active {
- background: #d7e3ef;
+  background: #d7e3ef;
 }
-
 </style>

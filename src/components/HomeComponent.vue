@@ -453,14 +453,13 @@ export default {
                 if (response.status == 200) {
                   this.enviarPost(nombres);
                 }
-              })
-              
+              });
           }
         }, 2000);
-      }else {
-         setTimeout(() => {
+      } else {
+        setTimeout(() => {
           this.enviarPost(nombres);
-           }, 2000);
+        }, 2000);
       }
     },
 
@@ -491,11 +490,14 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             location.reload();
-          
           }
         })
         .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal al publicar ...", "", "error");
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
 
@@ -532,7 +534,11 @@ export default {
           }
         })
         .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal al publicar ...", "", "error");
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
     descargarPDF(label) {

@@ -147,8 +147,12 @@ export default {
           }
           this.loading = false;
         })
-        .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+      .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+              text: "Parece que algo salio mal ...",
+          });
         });
     },
     traerListas() {
@@ -173,8 +177,12 @@ export default {
 
           this.loading = false;
         })
-        .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+         .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+              text: "Parece que algo salio mal ...",
+          });
         });
     },
   },

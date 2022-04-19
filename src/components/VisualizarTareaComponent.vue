@@ -109,13 +109,10 @@
               <div class="profeCalificacion">
                 <span>Correccion Tarea</span>
                 <input
-                type="text"
-                disabled
-                :value="devolverNota(primera_entrega.entrega[0].calificacion)"
-                >
-                  
-               
-                
+                  type="text"
+                  disabled
+                  :value="devolverNota(primera_entrega.entrega[0].calificacion)"
+                />
               </div>
             </div>
             <div class="post_body_text">
@@ -171,13 +168,12 @@
             <div class="post_title">
               <div class="profeCalificacion">
                 <span>Correccion Tarea</span>
-                    <input
-                type="text"
-                disabled
-                class="nota"
-                :value="devolverNota(segunda_entrega.entrega[0].calificacion)"
-                >
-               
+                <input
+                  type="text"
+                  disabled
+                  class="nota"
+                  :value="devolverNota(segunda_entrega.entrega[0].calificacion)"
+                />
               </div>
             </div>
             <div class="post_body_text">
@@ -246,8 +242,8 @@ export default {
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
   },
   methods: {
-    devolverNota(nota){
-      return "Nota : "+nota+" / 12"
+    devolverNota(nota) {
+      return "Nota : " + nota + " / 12";
     },
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
@@ -272,8 +268,12 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-       .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+           .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+              text: "Parece que algo salio mal ...",
+          });
         });
     },
     cargarTareaSeleccionada() {
@@ -305,8 +305,13 @@ export default {
             this.cargarHisorialDeEntregas();
           }
           this.loading = false;
-        }).catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
     cargarHisorialDeEntregas() {
@@ -338,8 +343,13 @@ export default {
             this.imagen_alumno = res.data.imagen_perfil_alumno;
           }
           this.loading = false;
-        }).catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
   },

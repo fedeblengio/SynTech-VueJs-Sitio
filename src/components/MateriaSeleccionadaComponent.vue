@@ -673,12 +673,12 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-          .catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal ...",
-            "",
-            "error"
-          );
+              .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Credenciales Invalidas ...",
+          });
         });
     },
     showOptionBody(id) {

@@ -306,11 +306,11 @@ export default {
           }
         })
         .catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal al publicar ...",
-            "",
-            "error"
-          );
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
   },

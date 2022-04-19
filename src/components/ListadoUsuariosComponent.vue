@@ -265,12 +265,12 @@ export default {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;
-        })   .catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal al publicar ...",
-            "",
-            "error"
-          );
+        })    .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
   },

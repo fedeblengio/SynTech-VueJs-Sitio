@@ -165,16 +165,25 @@ export default {
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
-
-      if (this.entregarTarea.file.length <= 4) {
+ if (this.entregarTarea.file.length <= 4) {
         if (res <= 50) {
-          this.entregarTarea.file.push(event.target.files[0]);
+           this.entregarTarea.file.push(event.target.files[0]);
         } else {
-          alert("El tamaño del archivo excede el límite máximo permitido");
+          this.$swal.fire(
+            "El tamamaño del archivo es mayor a 50 mb",
+            "",
+            "info"
+          );
         }
       } else {
-        alert("5 archivos por post");
+        this.$swal.fire(
+          "Solo se permite 5 archivos por publicacion",
+          "",
+          "info"
+        );
       }
+
+
     },
     cargarTareaSeleccionada() {
       let config = {
@@ -204,8 +213,12 @@ export default {
             this.tarea.imagenes = res.data.imagenes;
           }
           this.loading = false;
-        })  .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        })       .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+              text: "Parece que algo salio mal ...",
+          });
         });
     },
     returnImgLocalStorage() {
@@ -233,8 +246,12 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-          .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+              .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+              text: "Parece que algo salio mal ...",
+          });
         });
     },
 
@@ -327,9 +344,12 @@ export default {
              this.$swal.fire("Tarea entregada", "", "success");
           }
         })
-       .catch(() => {
-           
-          this.$swal.fire("ERROR : Parece que algo salio mal al publicar ...", "", "error");
+            .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+              text: "Parece que algo salio mal ...",
+          });
         });
     },
   },

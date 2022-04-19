@@ -353,8 +353,12 @@ export default {
           if (res.status == 200) {
             this.usuarioPerfil = res.data;
           }
-        })  .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        })   .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+              text: "Parece que algo salio mal ...",
+          });
         });
     },
     traerGrupoProfesor() {
@@ -383,7 +387,11 @@ export default {
             this.tipoDeUser();
           }, 100);
         })  .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+              text: "Parece que algo salio mal ...",
+          });
         });
     },
     traerMateriasUser() {
@@ -411,7 +419,11 @@ export default {
             this.tipoDeUser();
           }, 100);
         })  .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+              text: "Parece que algo salio mal ...",
+          });
         });
     },
   },

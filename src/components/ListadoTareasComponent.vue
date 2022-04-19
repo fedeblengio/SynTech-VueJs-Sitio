@@ -551,8 +551,12 @@ export default {
            location.reload();
           }
         })
-         .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal al publicar ...", "", "error");
+        .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
 
@@ -624,6 +628,12 @@ export default {
             }
           }
           this.loading = false;
+        }) .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
   },

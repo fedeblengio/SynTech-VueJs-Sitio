@@ -188,8 +188,12 @@ export default {
             this.$router.back();
           }
         })
-        .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+       .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
 
@@ -216,8 +220,12 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-       .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
 
@@ -252,8 +260,12 @@ export default {
             this.tarea.imagenes = res.data[0].imagenes;
           }
           this.loading = false;
-        }).catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+        }) .catch(() => {
+              this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
   },
