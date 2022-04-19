@@ -32,16 +32,16 @@
         <img class="spinnerCSS" :src="spinner" />
       </div>
       <div class="select" v-else>
-        <label>Filtrar por grupo :</label>
+        <label>Filtrar :</label>
+
         <select
           class="form-control"
-          v-model="materiaFiltro"
+          v-model="idMateria"
           name="grupos"
           required
           placeholder="Seleccione Grupo y Asignatura"
-          v-on:change="traerListas()"
         >
-          <option v-bind:value="emptyValue">-- TODOS --</option>
+          <option value="" disabled selected hidden>Seleccione un grupo</option>
           <option
             v-for="todo in traerMaterias"
             :key="todo.id"
@@ -51,6 +51,38 @@
             {{ todo.Materia }}
           </option>
         </select>
+
+        <label for="Dia">Dia</label>
+        <input
+          type="text"
+          class="form-control"
+          id="Dia"
+          placeholder="28 /"
+          v-model="dia"
+        />
+        <label for="mes">Mes</label>
+        <input
+          type="text"
+          class="form-control"
+          id="mes"
+          placeholder="01 /"
+          v-model="mes"
+        />
+        <label for="anio">Año</label>
+        <input
+          type="text"
+          class="form-control"
+          id="anio"
+          placeholder="2002"
+          v-model="anio"
+        />
+
+        <input
+          type="button"
+          class="boxText_btn"
+          value="Filtrar"
+          v-on:click="filtrar()"
+        />
       </div>
 
       <div class="list-group">
@@ -115,8 +147,10 @@ export default {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       registroListas: "",
       traerMaterias: "",
-      materiaFiltro: "",
-      emptyValue: "",
+      idMateria: "",
+      dia: "",
+      mes: "",
+      anio: "",
     };
   },
   mounted() {
@@ -126,6 +160,60 @@ export default {
   methods: {
     moment: function (fecha) {
       return moment(fecha).format("DD/MM/YYYY h:mm a");
+    },
+    /*     filtrarPorMaterias(idMateria) {
+      let arrayRegistroMaterias = [];
+      this.traerListas();
+
+      this.registroListas.forEach(function (registro) {
+        if (registro.idMateria === idMateria) {
+          arrayRegistroMaterias.push(registro);
+        }
+      });
+
+      this.registroListas = arrayRegistroMaterias;
+    }, */
+
+    filtrar() {
+      let arrayRegistroMaterias = [];
+      let idMateria = this.idMateria;
+      let dia = this.dia;
+      let mes = this.mes;
+      let anio = this.anio;
+      console.log(this.momentAnio(this.registroListas[0].created_at));
+
+      this.registroListas.forEach(function (registro) {
+        if (registro.idMateria === idMateria) {
+          arrayRegistroMaterias.push(registro);
+        }
+      });
+      arrayRegistroMaterias.forEach(function (registro) {
+        if (this.momentDia(registro.created_at) === dia) {
+          arrayRegistroMaterias.push(registro);
+        }
+      });
+      arrayRegistroMaterias.forEach(function (registro) {
+        if (this.momentMes(registro.created_at) === mes) {
+          arrayRegistroMaterias.push(registro);
+        }
+      });
+      arrayRegistroMaterias.forEach(function (registro) {
+        if (this.momentAnio(registro.created_at) === anio) {
+          arrayRegistroMaterias.push(registro);
+        }
+      });
+
+      this.registroListas = arrayRegistroMaterias;
+    },
+
+    momentDia(fecha) {
+      return moment(fecha).format("DD");
+    },
+    momentMes(fecha) {
+      return moment(fecha).format("MM");
+    },
+    momentAnio(fecha) {
+      return moment(fecha).format("YYYY");
     },
     traerGrupoProfesor() {
       let config = {
@@ -147,11 +235,11 @@ export default {
           }
           this.loading = false;
         })
-      .catch(() => {
-              this.$swal.fire({
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-              text: "Parece que algo salio mal ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },
@@ -167,9 +255,7 @@ export default {
         .get(
           Global.urlSitio +
             "registro-listas?idProfesor=" +
-            this.usuario.username +
-            "&idMateria=" +
-            this.materiaFiltro,
+            this.usuario.username,
           config
         )
         .then((res) => {
@@ -177,11 +263,11 @@ export default {
 
           this.loading = false;
         })
-         .catch(() => {
-              this.$swal.fire({
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-              text: "Parece que algo salio mal ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },

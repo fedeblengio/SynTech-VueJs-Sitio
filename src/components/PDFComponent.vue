@@ -15,7 +15,7 @@
       </div>
       <div class="feed" v-else>
         <div class="contPdf">
-          <div class="btnpdf">
+          <div class="btnpdf" style="cursor:pointer">
             <p @click="modificar = true">
               Modificar <i class="fas fa-pencil"></i>
             </p>
@@ -30,7 +30,7 @@
             ></i>
           </div>
 
-          <div class="btnpdf btncheck" style="background: red">
+          <div class="btnpdf btncheck" style="background: red" v-if="modificar">
             <p @click="modificar = false">
               <b class="fas" color="red">X</b>
             </p>
@@ -39,7 +39,7 @@
             <p
               class="btnpdf float-right"
               @click="downloadPDF()"
-              style="width: 115px"
+              style="width: 115px; cursor:pointer"
             >
               Descargar <i class="fas fa-download"> </i>
             </p>
