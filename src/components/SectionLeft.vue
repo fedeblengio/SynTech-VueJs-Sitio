@@ -37,7 +37,7 @@
       </div>
       <div class="sidebarOption" v-else>
         <i class="fas fa-pen"></i>
-        <router-link to="#" class="router-link">
+        <router-link to="/calificaciones" class="router-link">
           <h2>Calificaciones</h2>
         </router-link>
       </div>
@@ -120,8 +120,8 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "imagen-perfil?imagen_perfil=" +
-            usuario.imagen_perfil,
+            "imagen-perfil?username=" +
+            usuario.username,
           config
         )
         .then((res) => {
