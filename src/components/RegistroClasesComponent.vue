@@ -55,7 +55,7 @@
           placeholder="04"
           v-model="dia"
         />
-        /
+
         <input
           type="text"
           class="form-control inpuntRegistro"
@@ -63,7 +63,7 @@
           placeholder="08"
           v-model="mes"
         />
-        /
+
         <input
           type="text"
           class="form-control inpuntRegistro"
