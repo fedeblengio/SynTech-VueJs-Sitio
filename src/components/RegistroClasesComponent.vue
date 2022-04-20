@@ -55,7 +55,7 @@
           placeholder="04"
           v-model="dia"
         />
- /
+        /
         <input
           type="text"
           class="form-control inpuntRegistro"
@@ -63,7 +63,7 @@
           placeholder="08"
           v-model="mes"
         />
-          /
+        /
         <input
           type="text"
           class="form-control inpuntRegistro"
@@ -98,12 +98,7 @@
       </div>
       <div v-else>
         <div
-<<<<<<< HEAD
           class="list-group-item-action item-registro"
-=======
-        
-          class="list-group-item list-group-item-action"
->>>>>>> c20ca8a0e848e678812216fcc811a1c0d811d24c
           aria-current="true"
           v-for="lista in registroListas"
           :key="lista.id"
