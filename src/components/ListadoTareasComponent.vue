@@ -264,7 +264,7 @@
                     alt=""
                   />
                 </div>
-                <div class="post_body" style="width: 375px !important">
+                <div class="contTareaSele" style="width: 375px !important">
                   <div class="post_title">
                     <span> {{ tareaSeleccionada.titulo }} </span>
                     <p>{{ tareaSeleccionada.fechaVencimiento }}</p>
@@ -612,7 +612,7 @@ export default {
             location.reload();
           }
         })
-         .catch(() => {
+        .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
