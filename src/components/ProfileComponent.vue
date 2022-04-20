@@ -231,7 +231,12 @@ export default {
       if (res <= 50) {
         this.cambiarFoto(event.target.files[0]);
       } else {
-        alert("El tamaño del archivo excede el límite máximo permitido");
+         this.$swal.fire(
+            "El tamaño del archivo excede el límite máximo permitido (50 MB)",
+            "",
+            "info"
+          );
+       
       }
     },
     modificarE(usuario) {
@@ -258,7 +263,11 @@ export default {
           }
         })
         .catch(() => {
-          this.$swal.fire("Error al actualizar", "", "error");
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
 
@@ -286,9 +295,12 @@ export default {
             this.modficarG = false;
           }
         })
-        .catch((response) => {
-          console.log(response);
-          this.$swal.fire("Error al actualizar", "", "error");
+         .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
     cambiarFoto(foto) {
@@ -317,8 +329,12 @@ export default {
             });
           }
         })
-        .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+          .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
     returnImgProfile() {

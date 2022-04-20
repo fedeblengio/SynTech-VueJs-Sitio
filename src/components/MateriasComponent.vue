@@ -92,12 +92,12 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
-        })   .catch(() => {
-          this.$swal.fire(
-            "ERROR : Parece que algo salio mal al publicar ...",
-            "",
-            "error"
-          );
+        })     .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
     traerMateriasUser() {
@@ -117,11 +117,11 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
-        })     .catch(() => {
-              this.$swal.fire({
+        })      .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Credenciales Invalidas ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },

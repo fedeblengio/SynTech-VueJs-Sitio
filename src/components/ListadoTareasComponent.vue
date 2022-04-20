@@ -612,8 +612,12 @@ export default {
             location.reload();
           }
         })
-        .catch(() => {
-          this.$swal.fire("ERROR : Parece que algo salio mal ...", "", "error");
+         .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
     moment: function (fecha) {
@@ -734,14 +738,22 @@ export default {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
 
-      if (this.tarea.file.length <= 4) {
+      if (this.tarea.length <= 2) {
         if (res <= 50) {
-          this.tarea.file.push(event.target.files[0]);
+          this.tarea.push(event.target.files[0]);
         } else {
-          alert("El tamaño del archivo excede el límite máximo permitido");
+          this.$swal.fire(
+            "El tamamaño del archivo es mayor a 50 mb",
+            "",
+            "info"
+          );
         }
       } else {
-        alert("5 archivos por post");
+        this.$swal.fire(
+          "Solo se permite 3 archivos por publicacion",
+          "",
+          "info"
+        );
       }
     },
     cargarTareasCreadasAlumnos() {
