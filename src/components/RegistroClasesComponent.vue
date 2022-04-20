@@ -29,17 +29,15 @@
         </li>
       </ul>
 
-      <div class="select">
-        <label>Filtrar :</label>
-
+      <div class="registroContFiltro">
         <select
-          class="form-control"
+          class="form-control inputFiltrogrande"
           v-model="idMateria"
           name="grupos"
           required
           placeholder="Seleccione Grupo y Asignatura"
         >
-          <option value="" disabled selected hidden>Seleccione un grupo</option>
+          <option value="" disabled selected hidden>Seleccione grupo</option>
           <option
             v-for="todo in traerMaterias"
             :key="todo.id"
@@ -50,51 +48,55 @@
           </option>
         </select>
 
-        <label for="Dia">Dia</label>
         <input
           type="text"
-          class="form-control"
+          class="form-control inpuntRegistro"
           id="Dia"
-          placeholder="28 /"
+          placeholder="Dia"
           v-model="dia"
-        />
-        <label for="mes">Mes</label>
-        <input
-          type="text"
-          class="form-control"
-          id="mes"
-          placeholder="01 /"
-          v-model="mes"
-        />
-        <label for="anio">Año</label>
-        <input
-          type="text"
-          class="form-control"
-          id="anio"
-          placeholder="2002"
-          v-model="anio"
         />
 
         <input
-          type="button"
-          class="boxText_btn"
-          value="Filtrar"
-          v-on:click="filtrar()"
+          type="text"
+          class="form-control inpuntRegistro"
+          id="mes"
+          placeholder="Mes"
+          v-model="mes"
         />
+
         <input
-          type="button"
-          class="ml-2 boxText_btn"
-          value="Limpiar"
-          v-on:click="limpiarFiltro()"
+          type="text"
+          class="form-control inpuntRegistro"
+          id="anio"
+          placeholder="Año"
+          v-model="anio"
         />
+        <div>
+          <i
+            class="fas fa-search btn-lupa-registro"
+            type="button"
+            value="Filtrar"
+            v-on:click="filtrar()"
+          ></i>
+        </div>
+        <div>
+          <i
+            class="fas fa-trash-undo btn-lupa-registro"
+            style="background-color: red"
+            v-on:click="limpiarFiltro()"
+          ></i>
+        </div>
       </div>
-      <div class="list-group" v-if="loading">
+      <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
       </div>
-      <div class="list-group" v-else-if="comprobarArrayVacio(registroListas)">
+      <div
+        class="noResultadoRegistroComp"
+        v-else-if="comprobarArrayVacio(registroListas)"
+      >
         <p>No se ha encontrado ninguna lista segun los datos ingresados.</p>
       </div>
-      <div class="list-group" v-else>
+      <div class="" v-else>
         <div
           class="list-group-item list-group-item-action"
           aria-current="true"
@@ -103,26 +105,27 @@
         >
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ lista.idGrupo }} {{ lista.materia }}</h5>
-            <small class="text-muted"
-              >Fecha: {{ moment(lista.created_at) }}</small
-            >
+            <small class="text-muted ojoRegistro">
+              <router-link
+                :to="{
+                  name: 'PDF',
+                  params: {
+                    idClase: lista.idClase,
+                    materia: lista.materia,
+                    fecha: lista.created_at,
+                  },
+                }"
+                class="router-link"
+                >Ver<i
+                  class="fas fa-eye"
+                  v-on:click="descargarLista(lista.idClase)"
+                >
+                </i>
+              </router-link>
+            </small>
           </div>
-          <p>
-            <router-link
-              :to="{
-                name: 'PDF',
-                params: {
-                  idClase: lista.idClase,
-                  materia: lista.materia,
-                  fecha: lista.created_at,
-                },
-              }"
-              class="router-link"
-            >
-              <i class="fas fa-eye" v-on:click="descargarLista(lista.idClase)">
-              </i>
-              Visualizar
-            </router-link>
+          <p class="fechaRegistroComponent">
+            Fecha: {{ moment(lista.created_at) }}
           </p>
         </div>
       </div>
