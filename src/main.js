@@ -30,6 +30,7 @@ import PasajeDeListaComponent from './components/PasajeDeListaComponent.vue'
 import RegistroClasesComponent from './components/RegistroClasesComponent.vue'
 import VisitarPerfilComponent from './components/VisitarPerfilComponent.vue'
 import PDFComponent from './components/PDFComponent.vue'
+import ListadoCalificacionesComponent from './components/ListadoCalificacionesComponent.vue'
 
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
@@ -63,6 +64,7 @@ const routes = [
     { path: '/calendario', name: 'calendario', component: CalendarioComponent },
     { path: '/registro-clases', name: 'registro-clases', component: RegistroClasesComponent },
     { path: '/pasar-lista/:idGrupo/:idMateria/:idClase', name: 'pasaje-lista', component: PasajeDeListaComponent },
+    { path: '/calificaciones', name: 'calificaciones-alumno', component: ListadoCalificacionesComponent },
     { path: '/PDF/:idClase/:materia/:fecha', name: 'PDF', component: PDFComponent },
     { path: '/cambioPwd', name: 'cambiopwd', component: CambiarContraComponent },
     { path: '*', name: 'error404', component: ErrorComponent },

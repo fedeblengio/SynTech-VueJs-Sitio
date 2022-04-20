@@ -325,7 +325,7 @@ export default {
               icon: "success",
               title: "Perfil Actualizado",
               footer:
-                '<a href="">Tu foto se actualizara en tu proxima sesión</a>',
+                '<a href="">Tu foto se actualizara en los proximos minutos</a>',
             });
           }
         })

@@ -183,8 +183,9 @@
           >
             <div class="notiPostBody" :id="post.data.id">
               <p
-                class="btn_postBody"
+                class="btn_postBody red"
                 v-on:click="comprobarOpcionEliminar(post.data.id)"
+                 style="color:red;"
               >
                 Eliminar
               </p>
@@ -475,8 +476,8 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "imagen-perfil?imagen_perfil=" +
-            usuario.imagen_perfil,
+            "imagen-perfil?username=" +
+            usuario.username,
           config
         )
         .then((res) => {
@@ -484,11 +485,6 @@ export default {
             let url_imagen = res.data;
             localStorage.setItem("perfil_img", url_imagen);
 
-            document.getElementById("profile_img").src =
-              "data:image/png;base64," + localStorage.getItem("perfil_img");
-
-            document.getElementById("post_img").src =
-              "data:image/png;base64," + localStorage.getItem("perfil_img");
           }
         })
     },
