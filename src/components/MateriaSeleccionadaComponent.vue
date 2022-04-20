@@ -485,11 +485,6 @@ export default {
             let url_imagen = res.data;
             localStorage.setItem("perfil_img", url_imagen);
 
-            document.getElementById("profile_img").src =
-              "data:image/png;base64," + localStorage.getItem("perfil_img");
-
-            document.getElementById("post_img").src =
-              "data:image/png;base64," + localStorage.getItem("perfil_img");
           }
         })
     },
