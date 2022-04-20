@@ -172,18 +172,6 @@ export default {
     moment: function (fecha) {
       return moment(fecha).format("DD/MM/YYYY h:mm a");
     },
-    /*     filtrarPorMaterias(idMateria) {
-      let arrayRegistroMaterias = [];
-      this.traerListas();
-
-      this.registroListas.forEach(function (registro) {
-        if (registro.idMateria === idMateria) {
-          arrayRegistroMaterias.push(registro);
-        }
-      });
-
-      this.registroListas = arrayRegistroMaterias;
-    }, */
 
     filtrar() {
       this.loading = true;
