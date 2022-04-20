@@ -52,23 +52,23 @@
           type="text"
           class="form-control inpuntRegistro"
           id="Dia"
-          placeholder="Dia"
+          placeholder="04"
           v-model="dia"
         />
-
+ /
         <input
           type="text"
           class="form-control inpuntRegistro"
           id="mes"
-          placeholder="Mes"
+          placeholder="08"
           v-model="mes"
         />
-
+          /
         <input
           type="text"
           class="form-control inpuntRegistro"
           id="anio"
-          placeholder="Año"
+          placeholder="2022"
           v-model="anio"
         />
         <div>
@@ -98,7 +98,12 @@
       </div>
       <div v-else>
         <div
+<<<<<<< HEAD
           class="list-group-item-action item-registro"
+=======
+        
+          class="list-group-item list-group-item-action"
+>>>>>>> c20ca8a0e848e678812216fcc811a1c0d811d24c
           aria-current="true"
           v-for="lista in registroListas"
           :key="lista.id"
