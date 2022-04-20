@@ -1110,7 +1110,12 @@ input[type="number"]::-webkit-inner-spin-button {
 .contPdf {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+}
+
+.pdfContSegundo {
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 .btnpdf {
@@ -1126,8 +1131,10 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .btncheck {
-    width: 30px;
+    width: 90px;
     line-height: 1.7;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .contTareaSele span {

@@ -15,33 +15,34 @@
       </div>
       <div class="feed" v-else>
         <div class="contPdf">
-          <div class="btnpdf" style="cursor:pointer" v-if="!modificar">
+          <div class="btnpdf" style="cursor: pointer" v-if="!modificar">
             <p @click="modificar = true">
               Modificar <i class="fas fa-pencil"></i>
             </p>
           </div>
 
-          <div v-if="modificar">
-            <p
-              class="fal  btnpdf btncheck"
-              type="submit"
-              v-on:click="actualizarLista()"
-              style="background: green"
-            >Actualizar</p>
-          </div>
-
-          <div class=" fal btnpdf btncheck" style="background: red" v-if="modificar">
-            <p @click="modificar = false">
-             Cancelar
-            </p>
-          </div>
-          <div  v-if="!modificar">
+          <div v-if="!modificar">
             <p
               class="btnpdf float-right"
               @click="downloadPDF()"
-              style="width: 115px; cursor:pointer"
+              style="width: 115px; cursor: pointer; background-color: green"
             >
               Descargar <i class="fas fa-download"> </i>
+            </p>
+          </div>
+        </div>
+        <div class="pdfContSegundo">
+          <div class="btnpdf btncheck" style="background: red" v-if="modificar">
+            <p @click="modificar = false">Cancelar</p>
+          </div>
+          <div v-if="modificar">
+            <p
+              class="btnpdf btncheck"
+              type="submit"
+              v-on:click="actualizarLista()"
+              style="background: green"
+            >
+              Actualizar
             </p>
           </div>
         </div>
@@ -203,7 +204,7 @@ export default {
             this.modificar = false;
           }
         })
-         .catch(() => {
+        .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
