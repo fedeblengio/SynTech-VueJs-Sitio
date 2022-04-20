@@ -28,10 +28,8 @@
           </router-link>
         </li>
       </ul>
-      <div class="spinerCont" v-if="loading">
-        <img class="spinnerCSS" :src="spinner" />
-      </div>
-      <div class="select" v-else>
+
+      <div class="select">
         <label>Filtrar :</label>
 
         <select
@@ -83,9 +81,20 @@
           value="Filtrar"
           v-on:click="filtrar()"
         />
+        <input
+          type="button"
+          class="ml-2 boxText_btn"
+          value="Limpiar"
+          v-on:click="limpiarFiltro()"
+        />
       </div>
-
-      <div class="list-group">
+      <div class="list-group" v-if="loading">
+        <img :src="spinner" class="spinnerCSS" />
+      </div>
+      <div class="list-group" v-else-if="comprobarArrayVacio(registroListas)">
+        <p>No se ha encontrado ninguna lista segun los datos ingresados.</p>
+      </div>
+      <div class="list-group" v-else>
         <div
           class="list-group-item list-group-item-action"
           aria-current="true"
@@ -128,7 +137,7 @@ import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import moment from "moment";
-/* import $ from "jquery"; */
+import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 
@@ -151,6 +160,8 @@ export default {
       dia: "",
       mes: "",
       anio: "",
+      opt: false,
+      resultadoVacio: false,
     };
   },
   mounted() {
@@ -175,46 +186,88 @@ export default {
     }, */
 
     filtrar() {
-      let arrayRegistroMaterias = [];
-      let idMateria = this.idMateria;
-      let dia = this.dia;
-      let mes = this.mes;
-      let anio = this.anio;
-      console.log(this.momentAnio(this.registroListas[0].created_at));
+      this.loading = true;
+      if (this.idMateria > 0) {
+        this.filtarPorMateria(this.registroListas, this.idMateria);
+        this.opt = true;
+      }
+      if (this.dia.length !== 0) {
+        this.filtrarPorDia(this.registroListas, this.dia);
+        this.opt = true;
+      }
+      if (this.mes.length !== 0) {
+        this.filtrarPorMes(this.registroListas, this.mes);
+        this.opt = true;
+      }
+      if (this.anio.length !== 0) {
+        this.filtrarPorAnio(this.registroListas, this.anio);
+        this.opt = true;
+      }
+      if (!this.opt) {
+        this.$swal.fire(
+          "Debes ingresar algun dato antes de filtrar",
+          "",
+          "info"
+        );
+        this.loading = false;
+      }
+    },
 
-      this.registroListas.forEach(function (registro) {
+    limpiarFiltro() {
+      this.traerListas();
+      this.idMateria = "";
+      this.dia = "";
+      this.mes = "";
+      this.anio = "";
+    },
+
+    comprobarArrayVacio(array) {
+      return $.isEmptyObject(array);
+    },
+    filtarPorMateria(array, idMateria) {
+      let arrayRegistroMaterias = [];
+      array.forEach(function (registro) {
         if (registro.idMateria === idMateria) {
           arrayRegistroMaterias.push(registro);
         }
       });
-      arrayRegistroMaterias.forEach(function (registro) {
-        if (this.momentDia(registro.created_at) === dia) {
-          arrayRegistroMaterias.push(registro);
-        }
-      });
-      arrayRegistroMaterias.forEach(function (registro) {
-        if (this.momentMes(registro.created_at) === mes) {
-          arrayRegistroMaterias.push(registro);
-        }
-      });
-      arrayRegistroMaterias.forEach(function (registro) {
-        if (this.momentAnio(registro.created_at) === anio) {
-          arrayRegistroMaterias.push(registro);
-        }
-      });
-
       this.registroListas = arrayRegistroMaterias;
+      this.loading = false;
     },
 
-    momentDia(fecha) {
-      return moment(fecha).format("DD");
+    filtrarPorDia(array, dia) {
+      let arrayRegistroMaterias = [];
+      array.forEach(function (registro) {
+        if (moment(registro.created_at).format("DD") === dia) {
+          arrayRegistroMaterias.push(registro);
+        }
+      });
+      this.registroListas = arrayRegistroMaterias;
+      this.loading = false;
     },
-    momentMes(fecha) {
-      return moment(fecha).format("MM");
+
+    filtrarPorMes(array, mes) {
+      let arrayRegistroMaterias = [];
+      array.forEach(function (registro) {
+        if (moment(registro.created_at).format("MM") === mes) {
+          arrayRegistroMaterias.push(registro);
+        }
+      });
+      this.registroListas = arrayRegistroMaterias;
+      this.loading = false;
     },
-    momentAnio(fecha) {
-      return moment(fecha).format("YYYY");
+
+    filtrarPorAnio(array, anio) {
+      let arrayRegistroMaterias = [];
+      array.forEach(function (registro) {
+        if (moment(registro.created_at).format("YYYY") === anio) {
+          arrayRegistroMaterias.push(registro);
+        }
+      });
+      this.registroListas = arrayRegistroMaterias;
+      this.loading = false;
     },
+
     traerGrupoProfesor() {
       let config = {
         headers: {
@@ -244,6 +297,7 @@ export default {
         });
     },
     traerListas() {
+      this.loading = true;
       let config = {
         headers: {
           "Content-Type": "application/json",
