@@ -3,8 +3,15 @@
     <SectionLeft></SectionLeft>
 
     <vue-headful :title="title" />
+
     <div class="feed">
-      <table class="table table-striped" @change="getList">
+      <div class="feed_header linea_border_bottom">
+        <h2>Pasaje de Lista</h2>
+      </div>
+      <div class="spinerCont" v-if="loading">
+        <img class="spinnerCSS" :src="spinner" />
+      </div>
+      <table class="table table-striped" @change="getList" v-else>
         <thead>
           <tr class="text-center">
             <th scope="col">&nbsp;</th>
@@ -13,6 +20,7 @@
             <th scope="col">Asistencia</th>
           </tr>
         </thead>
+
         <tbody>
           <tr
             v-for="alumno in listadoUsuarios.Alumnos"
@@ -43,6 +51,7 @@
       </table>
       <div>
         <input
+          v-if="!loading"
           class="boxText_btn"
           type="submit"
           v-on:click="pasarLista()"
@@ -128,7 +137,8 @@ export default {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;
-        })    .catch(() => {
+        })
+        .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
@@ -144,25 +154,21 @@ export default {
           token: Global.token,
         },
       };
-  
+
       let formdata = new FormData();
       formdata.append("idClase", this.$route.params.idClase);
       formdata.append("presentes", this.presentes);
       formdata.append("ausentes", this.ausentes);
-    
+
       axios
         .post(Global.urlSitio + "lista-clase", formdata, config)
         .then((response) => {
           if (response.status == 200) {
-           this.$swal.fire(
-            "Lista publicada",
-            "",
-            "success"
-          );
+            this.$swal.fire("Lista publicada", "", "success");
           }
         })
-           .catch(() => {
-              this.$swal.fire({
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Credenciales Invalidas ...",

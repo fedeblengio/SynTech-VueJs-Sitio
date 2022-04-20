@@ -171,6 +171,8 @@ export default {
               this.$router.push({
                 name: "PDF",
                 params: {
+                  materia: clase.materia,
+                  fecha: clase.fecha_inicio,
                   idClase: clase.id,
                 },
               });
