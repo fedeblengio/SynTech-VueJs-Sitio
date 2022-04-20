@@ -96,12 +96,13 @@
       >
         <p>No se ha encontrado ninguna lista segun los datos ingresados.</p>
       </div>
-      <div class="" v-else>
+      <div v-else>
         <div
-          class="list-group-item list-group-item-action"
+          class="list-group-item-action item-registro"
           aria-current="true"
           v-for="lista in registroListas"
           :key="lista.id"
+          style="border-bottom: 1px solid var(--background)"
         >
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ lista.idGrupo }} {{ lista.materia }}</h5>
