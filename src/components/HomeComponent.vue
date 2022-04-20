@@ -102,8 +102,9 @@
           >
             <div class="notiPostBody" :id="post.data.id">
               <p
-                class="btn_postBody"
+                class="btn_postBody red"
                 v-on:click="comprobarOpcionEliminar(post.data.id)"
+                style="color:red;"
               >
                 Eliminar
               </p>
