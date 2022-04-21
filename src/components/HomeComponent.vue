@@ -262,11 +262,7 @@ export default {
             this.traerMaterias = res.data;
           }
         })
-        .catch(() => {
-          this.$swal("Error del servidor");
-          localStorage.clear();
-          this.$router.push("/login");
-        });
+  
     },
     traerMateriasUser() {
       let config = {
