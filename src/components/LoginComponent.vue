@@ -81,12 +81,21 @@ export default {
             location.reload();
           }
         })
-        .catch(() => {
-              this.$swal.fire({
+        .catch((res) => {
+          if(res.status==500){
+             this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Servidor fuera de servicio",
+          });
+          }else{
+            this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Credenciales Invalidas ...",
           });
+          }
+              
         });
     },
   },

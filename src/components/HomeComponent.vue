@@ -67,6 +67,7 @@
                   @change="getFile"
                   id="file-input"
                   type="file"
+                  accept=".jpg, .png, .jpeg, .gif, .pdf"
                   v-on:onchange="previewFile(this)"
                   style="display: none"
                 />
@@ -104,7 +105,7 @@
               <p
                 class="btn_postBody red"
                 v-on:click="comprobarOpcionEliminar(post.data.id)"
-                style="color:red;"
+                style="color: red"
               >
                 Eliminar
               </p>
@@ -121,7 +122,10 @@
           <div :id="post.data.id" class="cont">
             <div class="contenedorImg">
               <div class="imgPost" v-for="img in post.imagenes" :key="img.id">
-                <img :src="returnImgProfile(img)" alt="" />
+                <img
+                  :src="returnImgProfile(img)"
+                  v-on:click="cargarImagenSweetAlert(img)"
+                />
               </div>
             </div>
           </div>
@@ -134,7 +138,7 @@
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
                 <h3 v-on:click="descargarPDF(archivo)">
-                  <i class="fal fa-file-alt file"></i>
+                  <i class="fal fa-file-pdf file"></i>
                   <span>{{ simplificarNombre(archivo) }}</span>
                 </h3>
               </div>
@@ -227,7 +231,13 @@ export default {
         }
       }
     },
-
+    cargarImagenSweetAlert(img) {
+      this.$swal.fire({
+        imageUrl: this.returnImgProfile(img),
+        imageHeight: 500,
+        
+      });
+    },
     traerPost() {
       let config = {
         headers: {
@@ -261,8 +271,7 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
-        })
-  
+        });
     },
     traerMateriasUser() {
       let config = {
@@ -368,9 +377,7 @@ export default {
       let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
       axios
         .get(
-          Global.urlSitio +
-            "imagen-perfil?username=" +
-            usuario.username,
+          Global.urlSitio + "imagen-perfil?username=" + usuario.username,
           config
         )
         .then((res) => {

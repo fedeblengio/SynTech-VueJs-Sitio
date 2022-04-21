@@ -209,6 +209,7 @@
                     </label>
                     <input
                       @change="getFile"
+                       accept=".jpg, .png, .jpeg, .gif, .pdf"
                       id="file-input"
                       type="file"
                       v-on:onchange="previewFile(this)"
