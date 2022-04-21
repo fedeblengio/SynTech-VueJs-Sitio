@@ -213,7 +213,15 @@ export default {
       spinner: Global.spinnerUrl,
 
       primera_entrega: {
-        entrega: "",
+        entrega: [
+          {
+            nombreAlumno: "",
+            fecha: "",
+            mensajeAlumno: "",
+            calificacion: "",
+            mensajeProfesor: "",
+          },
+        ],
         archivosAlumno: "",
       },
       segunda_entrega: {
@@ -268,11 +276,11 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-           .catch(() => {
-              this.$swal.fire({
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-              text: "Parece que algo salio mal ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },
@@ -304,7 +312,6 @@ export default {
             this.tarea.imagenes = res.data.imagenes;
             this.cargarHisorialDeEntregas();
           }
-          this.loading = false;
         })
         .catch(() => {
           this.$swal.fire({

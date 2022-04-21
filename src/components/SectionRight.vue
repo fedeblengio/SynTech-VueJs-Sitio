@@ -3,7 +3,7 @@
     <div class="events_header">
       <div
         class="events_icon"
-        v-if="tareasPendientes"
+        v-if="tareasPendientes && usuario.ou=='Alumno'"
         @click="mostrarNoticacion('campana')"
       >
         <i class="far fa-bell noticont" style="color: red">

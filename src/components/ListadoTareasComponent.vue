@@ -770,7 +770,9 @@ export default {
             "tareas?idUsuario=" +
             this.usuario.username +
             "&ou=" +
-            this.usuario.ou,
+            this.usuario.ou +
+            "&idMateria=" +
+            this.routerValues.idMateria,
           config
         )
         .then((res) => {

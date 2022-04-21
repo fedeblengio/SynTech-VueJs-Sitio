@@ -31,7 +31,7 @@ import RegistroClasesComponent from './components/RegistroClasesComponent.vue'
 import VisitarPerfilComponent from './components/VisitarPerfilComponent.vue'
 import PDFComponent from './components/PDFComponent.vue'
 import ListadoCalificacionesComponent from './components/ListadoCalificacionesComponent.vue'
-
+import RegistroDeFaltasComponent from './components/RegistroDeFaltasComponent.vue'
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
@@ -66,6 +66,7 @@ const routes = [
     { path: '/pasar-lista/:idGrupo/:idMateria/:idClase', name: 'pasaje-lista', component: PasajeDeListaComponent },
     { path: '/calificaciones', name: 'calificaciones-alumno', component: ListadoCalificacionesComponent },
     { path: '/PDF/:idClase/:materia/:fecha', name: 'PDF', component: PDFComponent },
+    { path: '/historial-faltas', name: 'historial-faltas', component: RegistroDeFaltasComponent },
     { path: '/cambioPwd', name: 'cambiopwd', component: CambiarContraComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
 ];

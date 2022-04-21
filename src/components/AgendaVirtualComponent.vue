@@ -26,6 +26,15 @@
             Registro de Clases
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link
+            to="/historial-faltas"
+            class="nav-link "
+            style="text-decoration: none"
+          >
+            Historial de Faltas
+          </router-link>
+        </li>
       </ul>
       <div class="agendaContenedor">
         <label>Grupo</label>
@@ -225,7 +234,7 @@ export default {
           }
         })
         .catch(() => {
-              this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Parece que algo salio mal ...",
@@ -257,7 +266,7 @@ export default {
           }
         })
         .catch(() => {
-              this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Parece que algo salio mal ...",
@@ -301,7 +310,6 @@ export default {
             title: "ERROR",
             text: "Parece que algo salio mal ...",
           });
-       
         });
     },
     listarClaseVirtual() {
@@ -328,7 +336,7 @@ export default {
           this.loading = false;
         })
         .catch(() => {
-              this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Parece que algo salio mal ...",

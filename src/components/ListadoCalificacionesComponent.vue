@@ -4,9 +4,9 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-            <h2>Tareas Entregadas</h2>
+        <h2>Tareas Entregadas</h2>
       </div>
-           <div class="second_feed" style="border: none">
+      <div class="second_feed" style="border: none">
         <div class="listadousuarioComponentBuscador">
           <h3 class="">Buscar tarea</h3>
           <div class="input-group mb-3">
@@ -25,12 +25,56 @@
               </span>
             </div>
           </div>
-
-          
         </div>
-     
+        <div class="list-group-item">
+          <router-link
+            :to="{
+              name: 'visualizar-tareas',
+              params: {
+                idAlumnos: tareas.idAlumnos,
+                idTareas: tareas.idTarea,
+              },
+            }"
+            class="list-group-item-action mt-2"
+            v-for="tareas in listadoTareas.entregas_tareas"
+            :key="tareas.id"
+          >
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ tareas.titulo }}</h5>
+              <small class="text-muted"
+                >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
+              >
+            </div>
+            <p class="mb-1">{{ tareas.descripcion }}</p>
+            <small class="text-muted">
+              <b>Haga click para visualizar tu entrega</b></small
+            >
+          </router-link>
 
-  
+          <router-link
+            :to="{
+              name: 'visualizar-tareas',
+              params: {
+                idAlumnos: tareas.idAlumnos,
+                idTareas: tareas.idTarea,
+              },
+            }"
+            class="list-group-item-action mt-2"
+            v-for="tareas in listadoTareas.re_hacer"
+            :key="tareas.id"
+          >
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
+              <small class="text-muted"
+                >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
+              >
+            </div>
+            <p class="mb-1">{{ tareas.descripcion }}</p>
+            <small class="text-muted">
+              <b>Haga click para visualizar tu entrega</b></small
+            >
+          </router-link>
+        </div>
       </div>
     </div>
     <SectionRight></SectionRight>
@@ -62,11 +106,12 @@ export default {
     };
   },
   mounted() {
-      this.cargarTareasCreadasAlumnos();
+    this.cargarTareasEntregadas();
   },
   methods: {
-    filtrarPorNombre(){
-      alert('filtro')
+    
+    filtrarPorNombre() {
+      alert("filtro");
     },
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
@@ -99,8 +144,6 @@ export default {
         });
     },
 
-
-
     moment: function (fecha) {
       return moment(fecha).format("DD/MM/YYYY h:mm a");
     },
@@ -112,8 +155,7 @@ export default {
       }
     },
 
-
-    cargarTareasCreadasAlumnos() {
+    cargarTareasEntregadas() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -124,10 +166,8 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "tareas?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou,
+            "entregas-alumnos?idAlumnos=" +
+            this.usuario.username,
           config
         )
         .then((res) => {
@@ -137,7 +177,6 @@ export default {
           }
         });
     },
-
   },
 };
 </script>

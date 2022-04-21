@@ -27,6 +27,15 @@
             Registro de Clases
           </router-link>
         </li>
+        <li class="nav-item">
+          <router-link
+            to="/historial-faltas"
+            class="nav-link "
+            style="text-decoration: none"
+          >
+            Historial de Faltas
+          </router-link>
+        </li>
       </ul>
 
       <div class="registroContFiltro">
