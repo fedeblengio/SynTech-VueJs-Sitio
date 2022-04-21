@@ -30,7 +30,7 @@
 
                 <input
                   @change="getFile"
-                   accept=".jpg, .png, .jpeg,"
+                  accept=".jpg, .png, .jpeg,"
                   id="file-input"
                   type="file"
                   style="display: none"
@@ -63,6 +63,7 @@
                 disabled
               />
             </div>
+            
             <div class="infoUser">
               <span>Grupo:</span>
               <input
@@ -72,6 +73,51 @@
                 disabled
               />
             </div>
+            <div class="infoUser">
+              <span>Nombre Completo:</span>
+              <div class="input-group mb-3" v-if="!modficarN">
+                <input
+                  type="text"
+                  class="form-control"
+                  :value="usuarioPerfil.nombre"
+                  disabled
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="modficarN = true"
+                  >
+                    <i class="fas fa-pencil"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="input-group mb-3" v-else>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Ejemplo: micorreo@gmail.com"
+                  v-model="newName"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button pr-3"
+                    @click="modificarN(usuario)"
+                  >
+                    <i class="fas fa-check"></i>
+                  </button>
+                  <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    @click="modficarN = false"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div class="infoUser">
               <span>Email:</span>
               <div class="input-group mb-3" v-if="!modficarE">
@@ -210,6 +256,8 @@ export default {
       spinner: Global.spinnerUrl,
       modficarE: false,
       modficarG: false,
+      modficarN: false,
+      newName: "",
       newEmail: "",
       newGenero: "",
       defaultGenero: "Ingresar Genero",
@@ -232,12 +280,11 @@ export default {
       if (res <= 50) {
         this.cambiarFoto(event.target.files[0]);
       } else {
-         this.$swal.fire(
-            "El tamaño del archivo excede el límite máximo permitido (50 MB)",
-            "",
-            "info"
-          );
-       
+        this.$swal.fire(
+          "El tamaño del archivo excede el límite máximo permitido (50 MB)",
+          "",
+          "info"
+        );
       }
     },
     modificarE(usuario) {
@@ -251,6 +298,7 @@ export default {
       let data = {
         username: usuario.username,
         genero: "",
+        nuevoNombre: "",
         nuevoEmail: this.newEmail,
       };
 
@@ -261,6 +309,38 @@ export default {
             this.$swal.fire("Email actualizado", "", "success");
             this.cargarInfoUser();
             this.modficarE = false;
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
+        });
+    },
+    modificarN(usuario) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      let data = {
+        username: usuario.username,
+        genero: "",
+        email: "",
+        nuevoNombre: this.newName,
+      };
+
+      axios
+        .put(Global.urlSitio + "usuario-db", data, config)
+        .then((response) => {
+          if (response.status == 200) {
+            this.$swal.fire("Nombre actualizado", "", "success");
+            this.cargarInfoUser();
+            this.modficarN = false;
           }
         })
         .catch(() => {
@@ -284,6 +364,7 @@ export default {
         username: usuario.username,
         genero: this.newGenero,
         nuevoEmail: "",
+        nuevoNombre: "",
       };
 
       axios
@@ -296,7 +377,7 @@ export default {
             this.modficarG = false;
           }
         })
-         .catch(() => {
+        .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
@@ -321,7 +402,6 @@ export default {
         .post(Global.urlSitio + "imagen-perfil", formData, config)
         .then((res) => {
           if (res.status == 200) {
-          
             this.$swal.fire({
               icon: "success",
               title: "Perfil Actualizado",
@@ -330,7 +410,7 @@ export default {
             });
           }
         })
-          .catch(() => {
+        .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
@@ -370,11 +450,12 @@ export default {
           if (res.status == 200) {
             this.usuarioPerfil = res.data;
           }
-        })   .catch(() => {
-              this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-              text: "Parece que algo salio mal ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },
@@ -403,11 +484,12 @@ export default {
           setTimeout(() => {
             this.tipoDeUser();
           }, 100);
-        })  .catch(() => {
-              this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-              text: "Parece que algo salio mal ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },
@@ -435,11 +517,12 @@ export default {
           setTimeout(() => {
             this.tipoDeUser();
           }, 100);
-        })  .catch(() => {
-              this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-              text: "Parece que algo salio mal ...",
+            text: "Parece que algo salio mal ...",
           });
         });
     },

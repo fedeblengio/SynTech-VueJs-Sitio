@@ -113,7 +113,8 @@
           </i>
           <i v-else class="far menu-card-home btn"> &nbsp; </i>
           <div class="post_title">
-            <span> {{ post.data.titulo }} </span>
+       
+            <span> {{ post.data.nombreAutor }} publico para {{ post.data.idGrupo }} {{ post.data.materia }} </span>
             <p>{{ moment(post.data.fecha) }}</p>
           </div>
           <div class="post_body_text">
@@ -470,17 +471,11 @@ export default {
       };
 
       let formData = new FormData();
-      let tituloForo =
-        this.usuario.nombre +
-        " publico para " +
-        this.selectedGroup[0] +
-        " - " +
-        this.selectedGroup[2];
+
 
       formData.append("idForo", this.foro.idForo);
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
-      formData.append("titulo", tituloForo);
       formData.append("nombre_archivos", nombres);
 
       axios
