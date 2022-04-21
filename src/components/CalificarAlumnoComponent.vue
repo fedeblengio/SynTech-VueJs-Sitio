@@ -7,16 +7,8 @@
         <h2>Tarea Entregada</h2>
       </div>
 
-      <div class="spinnerCSS" v-if="loading">
-        <center>
-          <img
-            style="margin-top: 20px"
-            width="200px"
-            height="200px"
-            :src="spinner"
-            alt=""
-          />
-        </center>
+    <div class="spinerCont" v-if="loading">
+        <img :src="spinner" class="spinnerCSS" />
       </div>
       <div class="post contPostAlu" v-else style="border-bottom: 0px">
         <div class="postAlumcont"></div>

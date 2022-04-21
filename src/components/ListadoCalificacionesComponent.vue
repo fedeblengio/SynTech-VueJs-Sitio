@@ -36,11 +36,11 @@
               },
             }"
             class="list-group-item-action mt-2"
-            v-for="tareas in listadoTareas.entregas_tareas"
+            v-for="tareas in listadoTareas"
             :key="tareas.id"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tareas.titulo }}</h5>
+              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }} </h5>
               <small class="text-muted"
                 >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
               >
@@ -51,29 +51,7 @@
             >
           </router-link>
 
-          <router-link
-            :to="{
-              name: 'visualizar-tareas',
-              params: {
-                idAlumnos: tareas.idAlumnos,
-                idTareas: tareas.idTarea,
-              },
-            }"
-            class="list-group-item-action mt-2"
-            v-for="tareas in listadoTareas.re_hacer"
-            :key="tareas.id"
-          >
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
-              <small class="text-muted"
-                >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
-              >
-            </div>
-            <p class="mb-1">{{ tareas.descripcion }}</p>
-            <small class="text-muted">
-              <b>Haga click para visualizar tu entrega</b></small
-            >
-          </router-link>
+        
         </div>
       </div>
     </div>

@@ -16,13 +16,7 @@
         ></small>
       </div>
       <div class="spinerCont" v-if="loading">
-        <img
-          style="margin-top: 20px"
-          width="200px"
-          height="200px"
-          :src="spinner"
-          class="spinnerCSS"
-        />
+        <img :src="spinner" class="spinnerCSS" />
       </div>
       <div v-else>
         <div class="post">
@@ -70,7 +64,7 @@
         </div>
 
         <!-- 22222222 -->
-        <div class="post">
+        <div class="post" v-if="primeraEntrega">
           <div class="post_avatar">
             <img :src="returnIMGB64(imagen_alumno)" alt="" />
           </div>
@@ -90,7 +84,7 @@
             >
               <div class="contenedor_pdf">
                 <div class="previw_archivosPost">
-                  <h3 v-on:click="descargarPDF(img.archivo)">
+                  <h3 v-on:click="descargarPDF(archivo)">
                     <i class="fal fa-file-alt file"></i>
                     <span> {{ archivo }}</span>
                   </h3>
@@ -100,7 +94,7 @@
           </div>
         </div>
         <!--   profesor nota primera tarea -->
-        <div class="post">
+        <div class="post" v-if="primeraEntrega">
           <div class="post_avatar">
             <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
           </div>
@@ -125,13 +119,14 @@
           </div>
         </div>
         <div
+          v-if="segundaEntrega"
           class="feed_header"
           style="border-bottom: 1px solid var(--background)"
         >
           <h2>Segundo intento</h2>
         </div>
         <!--     segundo intento alumno -->
-        <div class="post">
+        <div class="post" v-if="segundaEntrega">
           <div class="post_avatar">
             <img :src="returnIMGB64(imagen_alumno)" alt="" />
           </div>
@@ -151,7 +146,7 @@
             >
               <div class="contenedor_pdf">
                 <div class="previw_archivosPost">
-                  <h3 v-on:click="descargarPDF(img.archivo)">
+                  <h3 v-on:click="descargarPDF(archivo)">
                     <i class="fal fa-file-alt file"></i>
                     <span> {{ archivo }}</span>
                   </h3>
@@ -160,7 +155,7 @@
             </div>
           </div>
         </div>
-        <div class="post">
+        <div class="post" v-if="segundaEntrega">
           <div class="post_avatar">
             <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
           </div>
@@ -194,10 +189,10 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-import JQuery from "jquery";
+import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
-window.$ = JQuery;
+
 export default {
   name: "VizualizarTareaComponent",
   components: {
@@ -243,6 +238,8 @@ export default {
         imagenes: "",
       },
       imagen_alumno: "",
+      segundaEntrega: false,
+      primeraEntrega: false,
     };
   },
   mounted() {
@@ -340,13 +337,20 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.primera_entrega.entrega = res.data.primera_entrega.entrega;
-            this.segunda_entrega.entrega = res.data.segunda_entrega.entrega;
+            if (!$.isEmptyObject(res.data.primera_entrega.entrega)) {
+              this.primeraEntrega = true;
+              this.primera_entrega.entrega = res.data.primera_entrega.entrega;
+              this.primera_entrega.archivosAlumno =
+                res.data.primera_entrega.archivosAlumno;
+            }
 
-            this.primera_entrega.archivosAlumno =
-              res.data.primera_entrega.archivosAlumno;
-            this.segunda_entrega.archivosAlumno =
-              res.data.segunda_entrega.archivosAlumno;
+            if (!$.isEmptyObject(res.data.segunda_entrega.entrega)) {
+              this.segundaEntrega = true;
+              this.segunda_entrega.entrega = res.data.segunda_entrega.entrega;
+              this.segunda_entrega.archivosAlumno =
+                res.data.segunda_entrega.archivosAlumno;
+            }
+
             this.imagen_alumno = res.data.imagen_perfil_alumno;
           }
           this.loading = false;

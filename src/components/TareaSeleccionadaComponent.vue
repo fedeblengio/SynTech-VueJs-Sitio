@@ -7,14 +7,8 @@
       <div class="feed_header" v-else>
         <h2>{{ tarea.titulo }} {{ tarea.materia }}</h2>
       </div>
-      <div class="spinerCont" v-if="loading">
-        <img
-          style="margin-top: 20px"
-          width="200px"
-          height="200px"
-          :src="spinner"
-          class="spinnerCSS"
-        />
+     <div class="spinerCont" v-if="loading">
+        <img :src="spinner" class="spinnerCSS" />
       </div>
       <div class="post" v-else style="border-top: 1px solid var(--background)">
         <div class="post_avatar">

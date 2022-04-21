@@ -113,8 +113,10 @@
           </i>
           <i v-else class="far menu-card-home btn"> &nbsp; </i>
           <div class="post_title">
-       
-             <span> <b>{{ post.data.nombreAutor }}</b> publicó para <b>{{ post.data.idGrupo }} - {{ post.data.materia }}</b> </span>
+            <span>
+              <b>{{ post.data.nombreAutor }}</b> publicó para
+              <b>{{ post.data.idGrupo }} - {{ post.data.materia }}</b>
+            </span>
             <p>{{ moment(post.data.fecha) }}</p>
           </div>
           <div class="post_body_text">
@@ -236,7 +238,6 @@ export default {
       this.$swal.fire({
         imageUrl: this.returnImgProfile(img),
         imageHeight: 500,
-        
       });
     },
     traerPost() {
@@ -471,7 +472,6 @@ export default {
       };
 
       let formData = new FormData();
-
 
       formData.append("idForo", this.foro.idForo);
       formData.append("idUsuario", this.usuario.username);
