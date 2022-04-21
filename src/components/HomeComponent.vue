@@ -67,7 +67,7 @@
                   @change="getFile"
                   id="file-input"
                   type="file"
-                  accept=".jpg, .png, .jpeg, .gif, .pdf"
+                  accept=".jpg, .png, .jpeg,.pdf"
                   v-on:onchange="previewFile(this)"
                   style="display: none"
                 />

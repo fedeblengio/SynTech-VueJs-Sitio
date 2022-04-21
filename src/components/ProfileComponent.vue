@@ -30,7 +30,7 @@
 
                 <input
                   @change="getFile"
-                   accept=".jpg, .png, .jpeg, .gif, .pdf"
+                   accept=".jpg, .png, .jpeg,"
                   id="file-input"
                   type="file"
                   style="display: none"
