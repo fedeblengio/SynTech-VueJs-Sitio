@@ -194,7 +194,7 @@
           </i>
           <i v-else class="far menu-card-home btn"> &nbsp; </i>
           <div class="post_title">
-            <span> {{ post.data.nombreAutor }} publico para {{ post.data.idGrupo }} {{ post.data.materia }} </span>
+            <span> <b>{{ post.data.nombreAutor }}</b> publicó para <b>{{ post.data.idGrupo }} - {{ post.data.materia }}</b> </span>
             <p>{{ moment(post.data.fecha) }}</p>
           </div>
           <div class="post_body_text">

@@ -431,7 +431,6 @@ details {
 }
 
 .post_title {
-    font-weight: 600;
     font-size: 15px;
     color: rgb(0, 0, 0);
 }
@@ -449,7 +448,6 @@ details {
 }
 
 .post_body span {
-    font-weight: 600;
     font-size: 18px;
 }
 
