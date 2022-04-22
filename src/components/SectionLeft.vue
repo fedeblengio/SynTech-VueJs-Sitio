@@ -1,18 +1,35 @@
 <template>
   <div class="sidebar">
     <router-link
-      :to="{
+      v-if="usuarioPerfil.username == null"
+       :to="{
         name: 'profile',
         params: {
-          idUsuario: usuario.username,
+          idUsuario: usuarioPerfil.username,
         },
       }"
       style="text-decoration: none"
       class="router-link"
     >
       <div class="sidebarUser">
-        <img id="profile_img" :src="returnImgProfile()" />
-        <p>{{ usuario.nombre }}</p>
+        <img id="profile_img" />
+        <p>. . .</p>
+      </div>
+    </router-link>
+    <router-link
+      v-else
+      :to="{
+        name: 'profile',
+        params: {
+          idUsuario: usuarioPerfil.username,
+        },
+      }"
+      style="text-decoration: none"
+      class="router-link"
+    >
+      <div class="sidebarUser">
+        <img id="profile_img" />
+        <p>{{ usuarioPerfil.nombre }}</p>
       </div>
     </router-link>
     <div class="contenedor-sidebar">
@@ -76,18 +93,18 @@
           ></router-link
         >
       </div>
-       <tokenExpired v-if='token'></tokenExpired>
+      <tokenExpired v-if="token"></tokenExpired>
     </div>
   </div>
 </template>
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-import tokenExpired from './TokenExpiradoComponent.vue'
+import tokenExpired from "./TokenExpiradoComponent.vue";
 export default {
   name: "SectionLeft",
   components: {
-    tokenExpired
+    tokenExpired,
   },
   data() {
     return {
@@ -95,46 +112,50 @@ export default {
       traerMaterias: "",
       profesor: false,
       loading: true,
+      usuarioPerfil: "",
       spinner: Global.spinnerUrl,
-      token:false,
+      token: false,
     };
   },
   mounted() {
+    this.cargarInfoUser();
     if (this.usuario.ou == "Profesor") {
       this.profesor = true;
       this.traerGrupoProfesor();
     } else {
       this.traerMateriasUser();
     }
+    setTimeout(() => {
+      document.getElementById("profile_img").src =
+        "data:image/png;base64," + localStorage.getItem("perfil_img");
+    }, 2000);
+
+    /*   this.returnImgProfile(); */
   },
   methods: {
-    cargarFoto() {
+    cargarInfoUser() {
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-
-      let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
       axios
         .get(
-          Global.urlSitio +
-            "imagen-perfil?username=" +
-            usuario.username,
+          Global.urlSitio + "usuario?idUsuario=" + this.usuario.username,
           config
         )
         .then((res) => {
           if (res.status == 200) {
-            let url_imagen = res.data;
-            localStorage.setItem("perfil_img", url_imagen);
-
-            document.getElementById("profile_img").src =
-              "data:image/png;base64," + localStorage.getItem("perfil_img");
-
-            document.getElementById("post_img").src =
-              "data:image/png;base64," + localStorage.getItem("perfil_img");
+            this.usuarioPerfil = res.data;
           }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
         });
     },
     traerGrupoProfesor() {
@@ -177,7 +198,6 @@ export default {
           });
           localStorage.clear();
           this.$router.push("/login");
-       
         });
     },
     traerMateriasUser() {
@@ -199,12 +219,31 @@ export default {
           this.loading = false;
         })
         .catch(() => {
-          this.token=true;
+          this.token = true;
         });
     },
-    returnImgProfile() {
-      return "data:image/png;base64," + localStorage.getItem("perfil_img");
-    },
+    /*     returnImgProfile() {
+       let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "imagen-perfil?username=" +
+            this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            let img = res.data;
+            document.getElementById('profile_img').src ="data:image/png;base64," + img;
+          }
+        });
+   
+    }, */
   },
 };
 </script>
