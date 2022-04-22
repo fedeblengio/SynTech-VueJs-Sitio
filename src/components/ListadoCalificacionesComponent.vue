@@ -39,10 +39,10 @@
         <div class="list-group-item" v-else>
           <router-link
             :to="{
-              name: 'visualizar-tareas',
+              name: 'visualizar-tarea',
               params: {
-                idAlumnos: tareas.idAlumnos,
-                idTareas: tareas.idTarea,
+                 idTareas: tareas.idTareas,
+                idAlumnos: tareas.idAlumnos,     
               },
             }"
             class="list-group-item-action mt-2"
@@ -50,7 +50,7 @@
             :key="tareas.id"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
+              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTareas }}</h5>
               <small class="text-muted"
                 >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
               >
