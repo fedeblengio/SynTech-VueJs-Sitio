@@ -209,7 +209,7 @@
                     </label>
                     <input
                       @change="getFile"
-                       accept=".jpg, .png, .jpeg,  .pdf"
+                      accept=".jpg, .png, .jpeg,  .pdf"
                       id="file-input"
                       type="file"
                       v-on:onchange="previewFile(this)"
@@ -268,7 +268,12 @@
                 <div class="contTareaSele" style="width: 375px !important">
                   <div class="post_title">
                     <span> {{ tareaSeleccionada.titulo }} </span>
-                    <p>{{ tareaSeleccionada.fechaVencimiento }}</p>
+                    <p>
+                      <small class="text-muted">
+                        Vence :
+                        {{ moment(tareaSeleccionada.fechaVencimiento) }}</small
+                      >
+                    </p>
                   </div>
                   <div class="post_body_text">
                     {{ tareaSeleccionada.descripcion }}
@@ -317,8 +322,8 @@
       <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
       </div>
-      <!-- 
-      PROFESOR -->
+
+      <!--  PROFESOR -->
       <div class="list-group" v-else-if="usuario.ou == 'Profesor'">
         <div
           class="list-group-item list-group-item-action"
@@ -442,11 +447,11 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-import JQuery from "jquery";
+/* import $ from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
-window.$ = JQuery;
+
 export default {
   name: "tareasEntregadas",
   components: {
@@ -662,7 +667,7 @@ export default {
       this.$swal.fire({
         title: "Cargando...",
         html: "Estamos creando tu tarea !",
-        timer: 2000,
+        timer: 2500,
         timerProgressBar: true,
         didOpen: () => {
           this.$swal.showLoading();
@@ -675,29 +680,22 @@ export default {
           clearInterval(timerInterval);
         },
       });
-      if (this.tarea.file.length > 0) {
-        setTimeout(() => {
-          for (let i = 0; i < this.tarea.file.length; i++) {
-            nombres.push(fecha + this.tarea.file[i].name);
-            let formData = new FormData();
 
-            formData.append("archivo", this.tarea.file[i]);
-            formData.append("nombre", fecha + this.tarea.file[i].name);
+      setTimeout(() => {
+        for (let i = 0; i < this.tarea.file.length; i++) {
+          nombres.push(fecha + this.tarea.file[i].name);
+          let formData = new FormData();
 
-            axios
-              .post(Global.urlSitio + "FTP", formData, config)
-              .then((response) => {
-                if (response.status == 200) {
-                  this.enviarCuerpoTarea(nombres);
-                }
-              });
-          }
-        }, 2000);
-      } else {
-        setTimeout(() => {
-          this.enviarCuerpoTarea(nombres);
-        }, 2000);
-      }
+          formData.append("archivo", this.tarea.file[i]);
+          formData.append("nombre", fecha + this.tarea.file[i].name);
+
+          axios
+            .post(Global.urlSitio + "FTP", formData, config)
+            .then(() => {
+            });
+        }
+        this.enviarCuerpoTarea(nombres);
+      }, 1000);
     },
     enviarCuerpoTarea(nombres) {
       let config = {
@@ -739,9 +737,9 @@ export default {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
 
-      if (this.tarea.length <= 2) {
+      if (this.tarea.file.length <= 2) {
         if (res <= 50) {
-          this.tarea.push(event.target.files[0]);
+          this.tarea.file.push(event.target.files[0]);
         } else {
           this.$swal.fire(
             "El tamamaño del archivo es mayor a 50 mb",
@@ -757,6 +755,7 @@ export default {
         );
       }
     },
+
     cargarTareasCreadasAlumnos() {
       let config = {
         headers: {

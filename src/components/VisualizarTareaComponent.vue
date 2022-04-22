@@ -248,7 +248,7 @@ export default {
   },
   methods: {
     devolverNota(nota) {
-      return "Nota : " + nota + " / 12";
+      return nota == null ? "S / C" : "Nota : " + nota + " / 12";
     },
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
