@@ -36,7 +36,7 @@
         >
           <p>No se ha encontrado ninguna tarea segun los datos ingresados.</p>
         </div>
-        <div class="list-group-item" v-else>
+        <div class="contLisCalif" v-else>
           <router-link
             :to="{
               name: 'visualizar-tarea',
@@ -45,20 +45,22 @@
                 idAlumnos: tareas.idAlumnos,     
               },
             }"
-            class="list-group-item-action mt-2"
+            class="list-group-item-action listadoStyle"
             v-for="tareas in listadoTareas"
             :key="tareas.id"
           >
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTareas }}</h5>
-              <small class="text-muted"
-                >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
-              >
+          <div class="contLisCalif">
+            <div class="calificacionesCont">
+              <h5 class="calititulo">{{ tareas.titulo }}</h5>  
+                <p class="calfecha"
+                >Vence: {{ moment(tareas.fecha_vencimiento) }}</p>
             </div>
-            <p class="mb-1">{{ tareas.descripcion }}</p>
-            <small class="text-muted">
-              <b>Haga click para visualizar tu entrega</b></small
-            >
+            <div class="calificacionesCont" style="margin-top:10px;">
+              <h5 style="font-size: 14px;" class="calititulo">{{ tareas.descripcion }}</h5>  
+                <i class="far fa-eye eyeListado"></i>
+            </div>
+          </div>
+             
           </router-link>
         </div>
       </div>
