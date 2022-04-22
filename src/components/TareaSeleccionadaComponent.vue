@@ -5,7 +5,7 @@
     <div class="feed">
       <div class="feed_header text-center" v-if="loading">Cargando..</div>
       <div class="feed_header" v-else>
-        <h2>{{ tarea.titulo }} {{ tarea.materia }}</h2>
+        <h2> {{ tarea.materia }}</h2>
       </div>
       <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
