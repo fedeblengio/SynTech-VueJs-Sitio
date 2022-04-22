@@ -273,7 +273,7 @@ export default {
       let timerInterval;
       this.$swal.fire({
         title: "Cargando...",
-        html: "Estamos creando tu tarea !",
+        html: "Estamos enviando tu tarea !",
         timer: 2000,
         timerProgressBar: true,
         didOpen: () => {

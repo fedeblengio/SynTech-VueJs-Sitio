@@ -56,7 +56,7 @@ const routes = [
     { path: '/tarea/:materia/:idTarea/:re_hacer', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },
     { path: '/listado-entregas/:idGrupo/:idMateria/:idTareas/', name: 'entregas', component: ListadoTareasEntregadasComponent },
     { path: '/calificar-alumno/:idAlumnos/:idTareas/:re_entrega', name: 'calificar-alumnos', component: CalificarAlumnoComponent },
-    { path: '/visualizar-tarea/:idAlumnos/:idTareas/', name: 'visualizar-tareas', component: VisualizarTareaComponent },
+    { path: '/visualizar-tarea/:idTareas/:idAlumnos/', name: 'visualizar-tarea', component: VisualizarTareaComponent },
     { path: '/materias', name: 'materias-component', component: MateriasComponent },
     { path: '/materia-seleccionada/:idGrupo-:idMateria/:materia', name: 'materia-seleccionada', component: MateriasSeleccionadaComponent },
     { path: '/agenda-virtual', name: 'agenda-virtual', component: AgendaVirtualComponent },

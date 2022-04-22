@@ -243,8 +243,8 @@ export default {
     };
   },
   mounted() {
-    this.cargarTareaSeleccionada();
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
+    this.cargarTareaSeleccionada(this.$route.params.idTareas);
   },
   methods: {
     devolverNota(nota) {
@@ -281,7 +281,7 @@ export default {
           });
         });
     },
-    cargarTareaSeleccionada() {
+    cargarTareaSeleccionada(idTarea) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -291,7 +291,7 @@ export default {
 
       axios
         .get(
-          Global.urlSitio + "tarea?idTarea=" + this.$route.params.idTareas,
+          Global.urlSitio + "tarea?idTarea=" + idTarea,
           config
         )
         .then((res) => {
