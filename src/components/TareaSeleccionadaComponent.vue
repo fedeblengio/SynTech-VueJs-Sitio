@@ -7,7 +7,7 @@
       <div class="feed_header" v-else>
         <h2>{{ tarea.titulo }} {{ tarea.materia }}</h2>
       </div>
-     <div class="spinerCont" v-if="loading">
+      <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
       </div>
       <div class="post" v-else style="border-top: 1px solid var(--background)">
@@ -90,7 +90,7 @@
 
                 <input
                   @change="getFile"
-                   accept=".jpg, .png, .jpeg,  .pdf"
+                  accept=".jpg, .png, .jpeg,  .pdf"
                   id="file-input"
                   type="file"
                   v-on:onchange="previewFile(this)"
@@ -163,7 +163,7 @@ export default {
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
-      if (this.entregarTarea.file.length <= 4) {
+      if (this.entregarTarea.file.length <= 2) {
         if (res <= 50) {
           this.entregarTarea.file.push(event.target.files[0]);
         } else {
@@ -175,7 +175,7 @@ export default {
         }
       } else {
         this.$swal.fire(
-          "Solo se permite 5 archivos por publicacion",
+          "Solo se permite 3 archivos por publicacion",
           "",
           "info"
         );
@@ -274,7 +274,7 @@ export default {
       this.$swal.fire({
         title: "Cargando...",
         html: "Estamos enviando tu tarea !",
-        timer: 2000,
+        timer: 2500,
         timerProgressBar: true,
         didOpen: () => {
           this.$swal.showLoading();
@@ -287,30 +287,20 @@ export default {
           clearInterval(timerInterval);
         },
       });
-      if (this.entregarTarea.file.length > 0) {
-        setTimeout(() => {
-          for (let i = 0; i < this.entregarTarea.file.length; i++) {
-            nombres.push(fecha + this.entregarTarea.file[i].name);
-            let formData = new FormData();
 
-            formData.append("archivo", this.entregarTarea.file[i]);
-            formData.append("nombre", fecha + this.entregarTarea.file[i].name);
+      setTimeout(() => {
+        for (let i = 0; i < this.entregarTarea.file.length; i++) {
+          nombres.push(fecha + this.entregarTarea.file[i].name);
+          let formData = new FormData();
 
-            axios
-              .post(Global.urlSitio + "FTP", formData, config)
-              .then((response) => {
-                if (response.status == 200) {
-                  this.enviarPost(nombres);
-                }
-              })
-              .catch(() => {});
-          }
-        }, 2000);
-      } else {
-        setTimeout(() => {
-          this.enviarPost(nombres);
-        }, 2000);
-      }
+          formData.append("archivo", this.entregarTarea.file[i]);
+          formData.append("nombre", fecha + this.entregarTarea.file[i].name);
+
+          axios.post(Global.urlSitio + "FTP", formData, config);
+        }
+        this.enviarPost(nombres);
+      }, 2000);
+      
     },
     enviarPost(nombres) {
       let config = {
