@@ -26,7 +26,17 @@
             </div>
           </div>
         </div>
-        <div class="list-group-item">
+
+        <div class="spinerCont" v-if="loading">
+          <img :src="spinner" class="spinnerCSS" />
+        </div>
+        <div
+          class="noResultadoRegistroComp"
+          v-else-if="comprobarArrayVacio(listadoTareas)"
+        >
+          <p>No se ha encontrado ninguna tarea segun los datos ingresados.</p>
+        </div>
+        <div class="list-group-item" v-else>
           <router-link
             :to="{
               name: 'visualizar-tareas',
@@ -40,7 +50,7 @@
             :key="tareas.id"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }} </h5>
+              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
               <small class="text-muted"
                 >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
               >
@@ -50,8 +60,6 @@
               <b>Haga click para visualizar tu entrega</b></small
             >
           </router-link>
-
-        
         </div>
       </div>
     </div>
@@ -63,6 +71,7 @@ import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import JQuery from "jquery";
+import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
@@ -87,9 +96,24 @@ export default {
     this.cargarTareasEntregadas();
   },
   methods: {
-    
     filtrarPorNombre() {
-      alert("filtro");
+      var input = document.getElementById("filtro").value.toLowerCase();
+      var listaTarea = [];
+
+      if (input == "") {
+        this.loading = true;
+        this.cargarTareasEntregadas();
+      }
+
+      this.listadoTareas.forEach(function (tarea) {
+        if (tarea.titulo.toLowerCase().indexOf(input) !== -1)
+          listaTarea.push(tarea);
+      });
+
+      this.listadoTareas = listaTarea;
+    },
+    comprobarArrayVacio(array) {
+      return $.isEmptyObject(array);
     },
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
