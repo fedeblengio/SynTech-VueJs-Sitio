@@ -96,7 +96,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Ejemplo: micorreo@gmail.com"
+                  placeholder="Escriba su nombre aqui ..."
                   v-model="newName"
                 />
                 <div class="input-group-append">
