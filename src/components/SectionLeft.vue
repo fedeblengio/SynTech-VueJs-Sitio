@@ -5,7 +5,7 @@
        :to="{
         name: 'profile',
         params: {
-          idUsuario: usuarioPerfil.username,
+          idUsuario: usuario.username,
         },
       }"
       style="text-decoration: none"
