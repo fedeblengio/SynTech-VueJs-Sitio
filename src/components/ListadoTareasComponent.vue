@@ -228,7 +228,82 @@
         </div>
       </div>
       <!-- --- FIN MODAL --- -->
-
+      <!-- MODAL VER CALIFIACIONES  -->
+      <div
+        class="modal fade bd-example-modal-lg"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myLargeModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Historial de Entregas
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true" >&times;</span>
+              </button>
+            </div>
+            <div class="spinerCont mt-2 mb-2 p-2" v-if="cargandoTareas">
+              <img :src="spinner" class="spinnerCSS" />
+            </div>
+            <div class="p-4" v-else-if="objectoVacio(listadoHistorialTareas)">
+              <p class="p-4 m-2 text-center">
+                No hay tareas entregadas registradas.
+              </p>
+            </div>
+            <div class="p-4" v-else>
+              <table class="table table-striped">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col">Tarea</th>
+                    <th scope="col">Cedula</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col ml-1">Primer Nota</th>
+                    <th scope="col ml-1">Segunda Nota</th>
+                    <th scope="col">Entrega</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="tarea in listadoHistorialTareas" :key="tarea.id">
+                    <th scope="row">{{ tarea.titulo }}</th>
+                    <td>{{ tarea.idAlumnos }}</td>
+                    <td>{{ tarea.nombreAlumno }}</td>
+                    <td class="ml-2">
+                      {{ calificacion(tarea.calificacion) }}
+                    </td>
+                    <td class="ml-4">
+                      {{ calificacion(tarea.nota_reHacer.calificacion) }}
+                    </td>
+                    <td>
+                      <router-link
+                      aria-hidden="true"  
+                      data-dismiss="modal"
+                        :to="{
+                          name: 'visualizar-tarea',
+                          params: {
+                            idAlumnos: tarea.idAlumnos,
+                            idTareas: tarea.idTareas,
+                          },
+                        }"
+                        >Ver</router-link
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- FIN MODAL VER CALIFIACIONES -->
       <!-- MODAL VER TAREA -->
 
       <div
@@ -317,14 +392,20 @@
       <!--FIN  MODAL VER TAREA -->
 
       <div class="sub_header" v-if="this.$route.params.tareas_vencidas">
-        <h3>Tareas Caducadas</h3>
+        <h3>Historial de Correciones</h3>
       </div>
       <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
       </div>
 
       <!--  PROFESOR -->
-      <div class="list-group" v-else-if="usuario.ou == 'Profesor'">
+
+      <div
+        class="list-group"
+        v-else-if="
+          usuario.ou == 'Profesor' && !this.$route.params.tareas_vencidas
+        "
+      >
         <div
           class="list-group-item list-group-item-action"
           aria-current="true"
@@ -381,7 +462,7 @@
       </div>
 
       <!--  ALUMNO -->
-      <div class="list-group" v-else>
+      <div class="list-group" v-else-if="usuario.ou == 'Alumno'">
         <div
           class="list-group-item list-group-item-action"
           v-for="tareas in listadoTareas.tareas"
@@ -439,6 +520,39 @@
           </router-link>
         </div>
       </div>
+      <div v-else>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Cedula</th>
+              <th scope="col">Nombre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="alumno in listadoUsuarios.Alumnos" :key="alumno.id">
+              <th scope="row">
+                <img
+                  width="50px"
+                  height="50px"
+                  style="border-radius: 50%"
+                  :src="returnImgProfile(alumno.imagen_perfil)"
+                  alt=""
+                />
+              </th>
+              <td>{{ alumno.idAlumnos }}</td>
+              <td>{{ alumno.nombre }}</td>
+              <td
+                @click="cargarListaCalificaciones(alumno.idAlumnos)"
+                data-toggle="modal"
+                data-target=".bd-example-modal-lg"
+              >
+                Ver entregas <i class="far fa-eye"></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <SectionRight></SectionRight>
   </div>
@@ -447,7 +561,7 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-/* import $ from "jquery"; */
+import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
@@ -481,6 +595,7 @@ export default {
         materiaGrupo: [],
         file: [],
       },
+      cargandoTareas: false,
       tareaSeleccionada: {
         idTarea: "",
         titulo: "",
@@ -495,6 +610,11 @@ export default {
         imagenes: "",
       },
       aux: 1,
+      listadoUsuarios: {
+        Profesor: "",
+        Alumnos: "",
+      },
+      listadoHistorialTareas: "",
     };
   },
   mounted() {
@@ -509,6 +629,19 @@ export default {
     }
   },
   methods: {
+    objectoVacio(objecto) {
+      return $.isEmptyObject(objecto);
+    },
+    calificacion(nota) {
+      if (nota == undefined || nota == 0 || nota == null) {
+        return "S / C";
+      } else {
+        return nota + " / 12";
+      }
+    },
+    returnImgProfile(img) {
+      return "data:image/png;base64," + img;
+    },
     cargarTareaSeleccionada(idTarea) {
       this.cargandoFoto = true;
       let config = {
@@ -549,6 +682,33 @@ export default {
     },
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
+    },
+    cargarListaCalificaciones(idAlumno) {
+      this.cargandoTareas = true;
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .get(
+          Global.urlSitio +
+            "notas-alumno?idAlumnos=" +
+            idAlumno +
+            "&idGrupo=" +
+            this.routerValues.idGrupo +
+            "&idMateria=" +
+            this.routerValues.idMateria,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.listadoHistorialTareas = res.data;
+            this.cargandoTareas = false;
+          }
+        });
     },
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
@@ -689,10 +849,7 @@ export default {
           formData.append("archivo", this.tarea.file[i]);
           formData.append("nombre", fecha + this.tarea.file[i].name);
 
-          axios
-            .post(Global.urlSitio + "FTP", formData, config)
-            .then(() => {
-            });
+          axios.post(Global.urlSitio + "FTP", formData, config).then(() => {});
         }
         this.enviarCuerpoTarea(nombres);
       }, 1000);
@@ -807,10 +964,40 @@ export default {
           if (res.status == 200) {
             if (this.$route.params.tareas_vencidas) {
               this.listadoTareas = res.data.vencidas;
+              this.traerUsuarios();
             } else {
               this.listadoTareas = res.data.noVencidas;
+              this.loading = false;
             }
           }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Parece que algo salio mal ...",
+          });
+        });
+    },
+    traerUsuarios() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "listar-alumnos?idGrupo=" +
+            this.$route.params.idGrupo +
+            "&idMateria=" +
+            this.$route.params.idMateria,
+          config
+        )
+        .then((res) => {
+          this.listadoUsuarios.Alumnos = res.data.Alumnos;
+          this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;
         })
         .catch(() => {

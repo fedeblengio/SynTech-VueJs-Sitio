@@ -128,7 +128,7 @@
             >
               <router-link
                 :to="{
-                  name: 'visualizar-tareas',
+                  name: 'visualizar-tarea',
                   params: {
                     idAlumnos: corregidas.idAlumnos,
                     idTareas: corregidas.idTarea,
