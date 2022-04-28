@@ -524,9 +524,10 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">#</th>
+              <th scope="col">Foto</th>
               <th scope="col">Cedula</th>
               <th scope="col">Nombre</th>
+            <th scope="col">&nbsp;</th>
             </tr>
           </thead>
           <tbody>

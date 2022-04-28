@@ -98,7 +98,7 @@
           </router-link>
         </div>
       
-        <tokenExpired v-if='token'></tokenExpired>
+       
       </div>
     </div>
   </div>
@@ -109,11 +109,10 @@ import { Global } from "../Global";
 import axios from "axios";
 import $ from "jquery"; 
 import moment from "moment";
-import tokenExpired from './TokenExpiradoComponent.vue'
 export default {
   name: "SectionRight",
   components: {
-    tokenExpired
+
   },
   data() {
     return {
@@ -125,7 +124,7 @@ export default {
       profesor: false,
       aux: 1,
       date: new Date(),
-      token:false
+     
     };
   },
   mounted() {
@@ -262,10 +261,6 @@ export default {
           }
           this.loading = false;
         })
-        .catch(() => {
-          this.token=true;
-        });
-
     },
   },
 };

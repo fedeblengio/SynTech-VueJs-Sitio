@@ -2,7 +2,7 @@
   <div class="sidebar">
     <router-link
       v-if="usuarioPerfil.username == null"
-       :to="{
+      :to="{
         name: 'profile',
         params: {
           idUsuario: usuario.username,
@@ -93,19 +93,16 @@
           ></router-link
         >
       </div>
-      <tokenExpired v-if="token"></tokenExpired>
     </div>
   </div>
 </template>
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-import tokenExpired from "./TokenExpiradoComponent.vue";
+
 export default {
   name: "SectionLeft",
-  components: {
-    tokenExpired,
-  },
+  components: {},
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
@@ -114,7 +111,6 @@ export default {
       loading: true,
       usuarioPerfil: "",
       spinner: Global.spinnerUrl,
-      token: false,
     };
   },
   mounted() {
@@ -219,7 +215,25 @@ export default {
           this.loading = false;
         })
         .catch(() => {
-          this.token = true;
+          let timerInterval;
+          this.$swal.fire({
+            title: "Saliendo ...",
+            html: "Parece que tu sesion ha finalizado !",
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: () => {
+              this.$swal.showLoading();
+              const b = this.$swal.getHtmlContainer().querySelector("b");
+              timerInterval = setInterval(() => {
+                b.textContent = this.$swal.getTimerLeft();
+              }, 100);
+            },
+            willClose: () => {
+              clearInterval(timerInterval);
+            },
+          });
+          localStorage.clear();
+          this.$router.push("/login");
         });
     },
     /*     returnImgProfile() {
