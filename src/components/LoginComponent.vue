@@ -40,7 +40,7 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-import moment from "moment";
+
 export default {
   name: "LoginComponent",
   data() {
@@ -61,6 +61,26 @@ export default {
   },
 
   methods: {
+    cargarFoto(username, token) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: token,
+        },
+      };
+ 
+      axios
+        .get(Global.urlSitio + "imagen-perfil?username=" + username, config)
+        .then((res) => {
+          if (res.status == 200) {
+            let url_imagen = res.data;
+            localStorage.setItem("perfil_img",url_imagen);
+            this.$router.push("/home");
+            location.reload();
+          }
+        })
+       
+    },
     procesar() {
       let config = {
         headers: {
@@ -73,29 +93,23 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             localStorage.setItem("auth_token", response.data.datos);
-            localStorage.setItem(
-              "fecha_token",
-              moment().add(90, "minutes").format("DD/MM/YYYY h:mm a")
-            );
-            this.$router.push("/home");
-            location.reload();
+            this.cargarFoto(this.contacto.username , response.data.datos);
           }
         })
         .catch((res) => {
-          if(res.status==500){
-             this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: "Servidor fuera de servicio",
-          });
-          }else{
+          if (res.status == 500) {
             this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: "Credenciales Invalidas ...",
-          });
+              icon: "error",
+              title: "ERROR",
+              text: "Servidor fuera de servicio",
+            });
+          } else {
+            this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Credenciales Invalidas ...",
+            });
           }
-              
         });
     },
   },

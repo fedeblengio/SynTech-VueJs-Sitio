@@ -408,7 +408,7 @@ export default {
               footer:
                 '<a href="">Tu foto se actualizara en los proximos minutos</a>',
             });
-            this.cargarFoto();
+        
           }
         })
         .catch(() => {
@@ -419,27 +419,7 @@ export default {
           });
         });
     },
-    cargarFoto() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
 
-      let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
-      axios
-        .get(
-          Global.urlSitio + "imagen-perfil?username=" + usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            let url_imagen = res.data;
-            localStorage.setItem("perfil_img", url_imagen);
-          }
-        });
-    },
     returnImgProfile() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },

@@ -92,7 +92,12 @@
         :id="post.id"
       >
         <div class="post_avatar">
-          <img :src="returnImgProfile(post.data.profile_picture)" />
+          <img
+            :src="returnImgB64()"
+            v-if="post.data.idUsuario === usuario.username"
+          />
+
+          <img :src="returnImgProfile(post.data.profile_picture)" v-else />
         </div>
 
         <div class="post_body">
@@ -227,7 +232,7 @@ export default {
         this.usuario = JSON.parse(
           window.atob(localStorage.getItem("auth_token"))
         );
-        this.cargarFoto();
+
         if (this.usuario.ou == "Profesor") {
           this.profesor = true;
           this.traerGrupoProfesor();
@@ -368,27 +373,7 @@ export default {
         );
       }
     },
-    cargarFoto() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
 
-      let usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
-      axios
-        .get(
-          Global.urlSitio + "imagen-perfil?username=" + usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            let url_imagen = res.data;
-            localStorage.setItem("perfil_img", url_imagen);
-          }
-        });
-    },
     delateFile(nombre) {
       let i;
 

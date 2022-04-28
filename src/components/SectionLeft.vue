@@ -1,7 +1,8 @@
 <template>
   <div class="sidebar">
+
     <router-link
-      v-if="usuarioPerfil.username == null"
+
       :to="{
         name: 'profile',
         params: {
@@ -12,24 +13,8 @@
       class="router-link"
     >
       <div class="sidebarUser">
-        <img id="profile_img" />
-        <p>. . .</p>
-      </div>
-    </router-link>
-    <router-link
-      v-else
-      :to="{
-        name: 'profile',
-        params: {
-          idUsuario: usuarioPerfil.username,
-        },
-      }"
-      style="text-decoration: none"
-      class="router-link"
-    >
-      <div class="sidebarUser">
-        <img id="profile_img" />
-        <p>{{ usuarioPerfil.nombre }}</p>
+        <img :src='returnImgB64()' />
+        <p>{{ usuario.nombre }}</p>
       </div>
     </router-link>
     <div class="contenedor-sidebar">
@@ -109,51 +94,27 @@ export default {
       traerMaterias: "",
       profesor: false,
       loading: true,
-      usuarioPerfil: "",
+    
       spinner: Global.spinnerUrl,
     };
   },
   mounted() {
-    this.cargarInfoUser();
+
     if (this.usuario.ou == "Profesor") {
       this.profesor = true;
       this.traerGrupoProfesor();
     } else {
       this.traerMateriasUser();
     }
-    setTimeout(() => {
-      document.getElementById("profile_img").src =
-        "data:image/png;base64," + localStorage.getItem("perfil_img");
-    }, 2000);
+
 
     /*   this.returnImgProfile(); */
   },
   methods: {
-    cargarInfoUser() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio + "usuario?idUsuario=" + this.usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.usuarioPerfil = res.data;
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: "Parece que algo salio mal ...",
-          });
-        });
+      returnImgB64() {
+      return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },
+
     traerGrupoProfesor() {
       let config = {
         headers: {
