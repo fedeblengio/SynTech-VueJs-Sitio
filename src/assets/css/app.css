@@ -1202,32 +1202,70 @@ input[type="number"]::-webkit-inner-spin-button {
     border-top: 1px solid var(--background);
 }
 
-.calificacionesCont{
+.calificacionesCont {
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     justify-content: space-between;
     width: 95%;
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 .listadoStyle {
-    text-decoration:none !important;
+    text-decoration: none !important;
 }
-.eyeListado{
-    margin:0 50px;
+
+.eyeListado {
+    margin: 0 50px;
 }
-.contLisCalif{
+
+.contLisCalif {
     border-bottom: 1px solid var(--background);
 }
-.contLisCalif:first-child{
+
+.contLisCalif:first-child {
     border-top: 1px solid var(--background);
 }
-.calititulo{
+
+.calititulo {
     width: 55%;
-    margin-top:5px;
+    margin-top: 5px;
     font-size: 17px;
 }
-.calfecha{
-    margin-top:5px;
+
+.calfecha {
+    margin-top: 5px;
     font-size: 14px;
+}
+
+.tooltip2 {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+}
+
+.tooltip2 .tooltiptext {
+    font-size: 14px;
+    visibility: hidden;
+    width: 150px;
+    height: auto;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    margin-left: 5px;
+}
+
+.tooltiptext p {
+    padding: 2px;
+    margin: 0;
+}
+
+.tooltip2:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tableFalta {
+    margin: 0 !important;
 }

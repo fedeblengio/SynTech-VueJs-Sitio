@@ -58,7 +58,6 @@
           >
             {{ materia.idGrupo }} - {{ materia.Materia }}
           </button>
-          <p></p>
         </div>
         <!-- MODAL FALTAS GRUPO  -->
 
@@ -71,7 +70,7 @@
         >
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
-              <table class="table">
+              <table class="table tableFalta">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Cedula</th>
@@ -88,13 +87,17 @@
                     <td>{{ alumno.cantidad_faltas }}</td>
                     <td>{{ alumno.total_clases }}</td>
                     <td>
-                      <p
-                        v-for="fecha in alumno.fechas_ausencia"
-                        :key="fecha.id"
-                      > 
-                        {{ fechaAusencia(fecha) }}
-                     
-                      </p>
+                      <div class="tooltip2">
+                        <i class="fas fa-eye"></i>
+                        <span class="tooltiptext">
+                          <p
+                            v-for="fecha in alumno.fechas_ausencia"
+                            :key="fecha.id"
+                          >
+                            {{ fechaAusencia(fecha) }}
+                          </p>
+                        </span>
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -148,9 +151,9 @@ export default {
   },
   methods: {
     fechaAusencia(fecha) {
-       
-            
-        return $.isEmptyObject(fecha)? "No hay fecha": moment(fecha.fecha_clase).format("DD/MM/YYYY HH:mm a");
+      return $.isEmptyObject(fecha)
+        ? "No hay fecha"
+        : moment(fecha.fecha_clase).format("DD/MM/YYYY HH:mm a");
     },
     traerGrupoProfesor() {
       let config = {
