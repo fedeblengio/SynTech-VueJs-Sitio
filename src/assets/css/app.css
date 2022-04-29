@@ -1269,3 +1269,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .tableFalta {
     margin: 0 !important;
 }
+
+.verTarea {
+    cursor: pointer;
+}

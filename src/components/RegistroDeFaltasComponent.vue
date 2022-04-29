@@ -88,7 +88,7 @@
                     <td>{{ alumno.total_clases }}</td>
                     <td>
                       <div class="tooltip2">
-                        <i class="fas fa-eye"></i>
+                        Ver <i class="fas fa-eye"></i>
                         <span class="tooltiptext">
                           <p
                             v-for="fecha in alumno.fechas_ausencia"

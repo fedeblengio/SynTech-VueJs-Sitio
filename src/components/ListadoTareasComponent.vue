@@ -539,14 +539,17 @@
               </th>
               <td>{{ alumno.idAlumnos }}</td>
               <td>{{ alumno.nombre }}</td>
-              <td
-                @click="
-                  cargarListaCalificaciones(alumno.idAlumnos, alumno.nombre)
-                "
-                data-toggle="modal"
-                data-target=".bd-example-modal-lg"
-              >
-                Ver entregas <i class="far fa-eye"></i>
+              <td>
+                <div
+                  class="verTarea"
+                  @click="
+                    cargarListaCalificaciones(alumno.idAlumnos, alumno.nombre)
+                  "
+                  data-toggle="modal"
+                  data-target=".bd-example-modal-lg"
+                >
+                  Ver <i class="far fa-eye"></i>
+                </div>
               </td>
             </tr>
           </tbody>
