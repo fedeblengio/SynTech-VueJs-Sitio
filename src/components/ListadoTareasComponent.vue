@@ -240,7 +240,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">
-                Historial de Entregas
+                {{ this.nalumno }} - {{ this.ciAlumnos }}
               </h5>
               <button
                 type="button"
@@ -248,7 +248,7 @@
                 data-dismiss="modal"
                 aria-label="Close"
               >
-                <span aria-hidden="true" >&times;</span>
+                <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="spinerCont mt-2 mb-2 p-2" v-if="cargandoTareas">
@@ -264,8 +264,6 @@
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col">Tarea</th>
-                    <th scope="col">Cedula</th>
-                    <th scope="col">Nombre</th>
                     <th scope="col ml-1">Primer Nota</th>
                     <th scope="col ml-1">Segunda Nota</th>
                     <th scope="col">Entrega</th>
@@ -274,8 +272,6 @@
                 <tbody>
                   <tr v-for="tarea in listadoHistorialTareas" :key="tarea.id">
                     <th scope="row">{{ tarea.titulo }}</th>
-                    <td>{{ tarea.idAlumnos }}</td>
-                    <td>{{ tarea.nombreAlumno }}</td>
                     <td class="ml-2">
                       {{ calificacion(tarea.calificacion) }}
                     </td>
@@ -284,8 +280,8 @@
                     </td>
                     <td>
                       <router-link
-                      aria-hidden="true"  
-                      data-dismiss="modal"
+                        aria-hidden="true"
+                        data-dismiss="modal"
                         :to="{
                           name: 'visualizar-tarea',
                           params: {
@@ -527,7 +523,7 @@
               <th scope="col">Foto</th>
               <th scope="col">Cedula</th>
               <th scope="col">Nombre</th>
-            <th scope="col">&nbsp;</th>
+              <th scope="col">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
@@ -544,7 +540,9 @@
               <td>{{ alumno.idAlumnos }}</td>
               <td>{{ alumno.nombre }}</td>
               <td
-                @click="cargarListaCalificaciones(alumno.idAlumnos)"
+                @click="
+                  cargarListaCalificaciones(alumno.idAlumnos, alumno.nombre)
+                "
                 data-toggle="modal"
                 data-target=".bd-example-modal-lg"
               >
@@ -616,6 +614,8 @@ export default {
         Alumnos: "",
       },
       listadoHistorialTareas: "",
+      nalumno: "",
+      ciAlumnos: "",
     };
   },
   mounted() {
@@ -684,7 +684,7 @@ export default {
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
-    cargarListaCalificaciones(idAlumno) {
+    cargarListaCalificaciones(idAlumno, nombreAlumno) {
       this.cargandoTareas = true;
       let config = {
         headers: {
@@ -708,6 +708,8 @@ export default {
           if (res.status == 200) {
             this.listadoHistorialTareas = res.data;
             this.cargandoTareas = false;
+            this.nalumno = nombreAlumno;
+            this.ciAlumnos = idAlumno;
           }
         });
     },
