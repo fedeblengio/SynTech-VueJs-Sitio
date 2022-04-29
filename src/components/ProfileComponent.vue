@@ -21,7 +21,7 @@
           <div class="imgContenedorProfile">
             <img :src="returnImgProfile()" />
             <div class="textImg">
-              <h3>{{ usuarioPerfil.nombre }}</h3>
+              <h3>{{ usuario.nombre }}</h3>
 
               <div class="image-upload">
                 <label for="file-input">
@@ -59,7 +59,7 @@
               <input
                 type="text"
                 class="form-control"
-                :value="usuarioPerfil.username"
+                :value="usuario.username"
                 disabled
               />
             </div>
@@ -79,7 +79,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  :value="usuarioPerfil.nombre"
+                  :value="usuario.nombre"
                   disabled
                 />
                 <div class="input-group-append">
@@ -124,7 +124,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-if="usuarioPerfil.email == null"
+                  v-if="usuario.email == null"
                   :value="defaultEmail"
                   disabled
                 />
@@ -132,7 +132,7 @@
                   type="text"
                   class="form-control"
                   v-else
-                  :value="usuarioPerfil.email"
+                  :value="usuario.email"
                   disabled
                 />
                 <div class="input-group-append">
@@ -176,7 +176,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  v-if="usuarioPerfil.genero == null"
+                  v-if="usuario.genero == null"
                   :value="defaultGenero"
                   disabled
                 />
@@ -184,7 +184,7 @@
                   type="text"
                   class="form-control"
                   v-else
-                  :value="usuarioPerfil.genero"
+                  :value="usuario.genero"
                   disabled
                 />
                 <div class="input-group-append">
@@ -262,7 +262,6 @@ export default {
       newGenero: "",
       defaultGenero: "Ingresar Genero",
       defaultEmail: "Ingresar Email",
-      usuarioPerfil: "",
     };
   },
   mounted() {
@@ -272,6 +271,7 @@ export default {
     } else {
       this.traerMateriasUser();
     }
+    this.actualizarJSON(" ", "COSO@gmail.com", " ");
   },
   methods: {
     getFile(event) {
@@ -286,6 +286,33 @@ export default {
           "info"
         );
       }
+    },
+    cargarFoto() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .get(Global.urlSitio + "imagen-perfil?username=" + this.usuario.username, config)
+        .then((res) => {
+          if (res.status == 200) {
+            let url_imagen = res.data;
+            localStorage.setItem("perfil_img", url_imagen);
+          }
+        });
+    },
+    actualizarJSON(nombre, email, genero) {
+      let persona = JSON.parse(window.atob(localStorage.getItem("auth_token")));
+      if (nombre !== " ") persona.nombre = nombre;
+      if (email !== " ") persona.email = email;
+      if (genero !== " ") persona.genero = genero;
+      localStorage.setItem("auth_token", window.btoa(JSON.stringify(persona)));
+      this.usuario = JSON.parse(
+        window.atob(localStorage.getItem("auth_token"))
+      );
     },
     modificarE(usuario) {
       let config = {
@@ -306,8 +333,14 @@ export default {
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Email actualizado", "", "success");
-            this.cargarInfoUser();
+            this.actualizarJSON(" ", data.nuevoEmail, " ");
+            this.$swal.fire({
+              icon: "success",
+              title: "Perfil Actualizado",
+              footer:
+                '<a href="">Tus datos se actualizaran en unos minutos</a>',
+            });
+
             this.modficarE = false;
           }
         })
@@ -330,7 +363,7 @@ export default {
       let data = {
         username: usuario.username,
         genero: "",
-        email: "",
+        nuevoEmail: "",
         nuevoNombre: this.newName,
       };
 
@@ -338,8 +371,14 @@ export default {
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Nombre actualizado", "", "success");
-            this.cargarInfoUser();
+            this.actualizarJSON(data.nuevoNombre, " ", " ");
+            this.$swal.fire({
+              icon: "success",
+              title: "Perfil Actualizado",
+              footer:
+                   '<a href="">Tus datos se actualizaran en unos minutos</a>',
+            });
+
             this.modficarN = false;
           }
         })
@@ -371,8 +410,13 @@ export default {
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Genero actualizado", "", "success");
-            this.cargarInfoUser();
+            this.actualizarJSON(" ", " ", data.genero);
+            this.$swal.fire({
+              icon: "success",
+              title: "Perfil Actualizado",
+              footer:
+                '<a href="">Tus datos se actualizaran en unos minutos</a>',
+            });
 
             this.modficarG = false;
           }
@@ -402,13 +446,14 @@ export default {
         .post(Global.urlSitio + "imagen-perfil", formData, config)
         .then((res) => {
           if (res.status == 200) {
+             this.cargarFoto();
             this.$swal.fire({
               icon: "success",
               title: "Perfil Actualizado",
               footer:
-                '<a href="">Tu foto se actualizara en los proximos minutos</a>',
+                   '<a href="">Tus datos se actualizaran en unos minutos</a>',
             });
-        
+           
           }
         })
         .catch(() => {
@@ -436,31 +481,6 @@ export default {
       }
     },
 
-    cargarInfoUser() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio + "usuario?idUsuario=" + this.usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.usuarioPerfil = res.data;
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: "Parece que algo salio mal ...",
-          });
-        });
-    },
     traerGrupoProfesor() {
       let config = {
         headers: {
@@ -480,7 +500,6 @@ export default {
             this.traerMaterias = res.data;
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
-            this.cargarInfoUser();
           }
 
           setTimeout(() => {
@@ -515,7 +534,7 @@ export default {
             this.nombreGrupo = res.data[0].nombreCompleto;
             this.loading = false;
           }
-          this.cargarInfoUser();
+
           setTimeout(() => {
             this.tipoDeUser();
           }, 100);
