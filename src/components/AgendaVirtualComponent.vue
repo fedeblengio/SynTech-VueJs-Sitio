@@ -29,15 +29,32 @@
         <li class="nav-item">
           <router-link
             to="/historial-faltas"
-            class="nav-link "
+            class="nav-link"
             style="text-decoration: none"
           >
             Historial de Faltas
           </router-link>
         </li>
       </ul>
+      <div
+        v-if="camposVacios"
+        class="alert alert-warning alert-dismissible fade show"
+        role="alert"
+      >
+        Es obligatorio completar todos los campos de abajo para agendar una
+        clase
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          v-on:click="camposVacios = false"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <div class="agendaContenedor">
-        <label>Grupo</label>
+        <label>Grupo <em>*</em></label>
         <select
           class="form-control"
           v-model="agenda.idGrupo"
@@ -57,7 +74,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label> Materia</label>
+        <label> Materia <em>*</em></label>
         <select
           class="form-control"
           v-model="agenda.materia"
@@ -71,7 +88,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label>Fecha</label>
+        <label>Fecha <em>*</em></label>
         <input
           type="datetime-local"
           id="meeting-time"
@@ -83,7 +100,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label>Duracion</label>
+        <label>Duracion <em>*</em></label>
 
         <div class="contenedorDuracion">
           <select name="meeting-hrs" v-model="agenda.duracionHrs" required>
@@ -177,6 +194,7 @@ export default {
       usuario: "",
       traerGrupos: "",
       materias: "",
+      camposVacios: false,
       clasesVirtualesCreadas: "",
       agenda: {
         idProfesor: "",
@@ -184,7 +202,6 @@ export default {
         idGrupo: "",
         fecha_inicio: "",
         duracionHrs: "",
-        duracionMin: "",
       },
     };
   },
@@ -196,6 +213,14 @@ export default {
     this.listarClaseVirtual();
   },
   methods: {
+    comprobarCamposVacios(input1, input2, input3, input4) {
+      return (
+        input1.length == 0 ||
+        input2.length == 0 ||
+        input3.length == 0 ||
+        input4.length == 0
+      );
+    },
     comprobarOpcionEliminar(idClase) {
       this.$swal
         .fire({
@@ -281,36 +306,43 @@ export default {
         },
       };
 
-      if (this.agenda.duracionMin == undefined) {
-        this.agenda.duracionMin = 0;
-      }
       let data = {
         idProfesor: this.agenda.idProfesor,
         materia: this.agenda.materia,
         idGrupo: this.agenda.idGrupo,
         fecha_inicio: this.agenda.fecha_inicio,
         fecha_fin: moment(
-          moment(this.agenda.fecha_inicio)
-            .add(this.agenda.duracionHrs, "hours")
-            .add(this.agenda.duracionMin, "minutes")
+          moment(this.agenda.fecha_inicio).add(this.agenda.duracionHrs, "hours")
         ).format("YYYY-MM-DDTHH:mm"),
       };
 
-      axios
-        .post(Global.urlSitio + "agenda-clase", data, config)
-        .then((res) => {
-          if (res.status == 200) {
-            location.reload();
-            this.$swal.fire("Clase creada", "", "success");
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: "Parece que algo salio mal ...",
+      this.camposVacios = this.comprobarCamposVacios(
+        this.agenda.materia,
+        this.agenda.idGrupo,
+        this.agenda.duracionHrs,
+        this.agenda.fecha_inicio
+      );
+      if (!this.camposVacios) {
+        axios
+          .post(Global.urlSitio + "agenda-clase", data, config)
+          .then((res) => {
+            if (res.status == 200) {
+              location.reload();
+              this.$swal.fire({
+                icon: "success",
+                title: "Agenda",
+                text: "Clase creada correctamente",
+              });
+            }
+          })
+          .catch(() => {
+            this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Parece que algo salio mal ...",
+            });
           });
-        });
+      }
     },
     listarClaseVirtual() {
       let config = {
