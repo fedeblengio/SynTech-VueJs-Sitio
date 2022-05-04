@@ -13,8 +13,24 @@
           Estas a punto de cambiar la contraseña de acceso, asegurate de
           recordarla
         </div>
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+          v-if="camposVacios && password.actual == ''"
+        >
+          Debes ingresar tu contraseña actual
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            v-on:click="camposVacios = false"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="inputsPwd">
-          <span>Actual contraseña</span>
+          <span>Actual contraseña <em>*</em></span>
           <input
             type="password"
             id="password"
@@ -28,8 +44,24 @@
             v-on:click="mostrarContasenia()"
           ></i>
         </div>
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+          v-if="camposVacios && password.nueva == ''"
+        >
+         Debes ingresar una contraseña nueva
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            v-on:click="camposVacios = false"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="inputsPwd">
-          <span>Nueva contraseña</span>
+          <span>Nueva contraseña <em>*</em></span>
           <input
             type="password"
             id="password2"
@@ -40,8 +72,24 @@
             v-model="password.nueva"
           />
         </div>
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+          v-if="camposVacios && password.confirmacion == ''"
+        >
+          Debes repetir la contraseña ingresada previamente
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            v-on:click="camposVacios = false"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="inputsPwd">
-          <span>Confirmar contraseña</span>
+          <span>Confirmar contraseña <em>*</em></span>
           <input
             type="password"
             id="password1"
@@ -87,10 +135,14 @@ export default {
         nueva: "",
         confirmacion: "",
       },
+      camposVacios: false,
     };
   },
   mounted() {},
   methods: {
+    comprobarCamposVacios(input1, input2, input3) {
+      return input1.length == 0 || input2.length == 0 || input3.length == 0;
+    },
     verificarContraseniaActual() {
       let config = {
         headers: {
@@ -101,20 +153,27 @@ export default {
         username: this.usuario.username,
         password: this.password.actual,
       };
-      axios
-        .post(Global.urlBackOffice + "login", userActual, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.procesar();
-          }
-        })
-        .catch(() => {
-          this.$swal.fire(
-            "ERROR : La constraseña actual es incorrecta",
-            "",
-            "error"
-          );
-        });
+      this.camposVacios = this.comprobarCamposVacios(
+        this.password.actual,
+        this.password.nueva,
+        this.password.confirmacion
+      );
+      if (!this.camposVacios) {
+        axios
+          .post(Global.urlBackOffice + "login", userActual, config)
+          .then((response) => {
+            if (response.status == 200) {
+              this.procesar();
+            }
+          })
+          .catch(() => {
+            this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "La constraseña actual es incorrecta ...",
+            });
+          });
+      }
     },
     mostrarContasenia() {
       let input = document.getElementById("password1");
@@ -142,11 +201,11 @@ export default {
       if (this.password.nueva === this.password.confirmacion) {
         this.cambiarContrasenia();
       } else {
-        this.$swal.fire(
-          "ERROR : Las contraseñas ingresadas no coinciden",
-          "",
-          "error"
-        );
+          this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Las contraseñas ingresadas no coinciden ...",
+            });
       }
     },
     cambiarContrasenia() {
@@ -174,28 +233,11 @@ export default {
           }
         })
         .catch(() => {
-          this.$swal.fire(
-            "",
-            "",
-            "error"
-          );
-          let timerInterval;
-           this.$swal.fire({
-            title: "Oops !",
-            html: "Error Inesperado al intentar cambiar la contraseña",
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: () => {
-               this.$swal.showLoading();
-              const b =  this.$swal.getHtmlContainer().querySelector("b");
-              timerInterval = setInterval(() => {
-                b.textContent =  this.$swal.getTimerLeft();
-              }, 100);
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            },
-          })
+             this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: "Hubo un error al intentar actualizar su contraseña ...",
+            });
         });
     },
   },
