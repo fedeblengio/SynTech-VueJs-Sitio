@@ -5,12 +5,30 @@
         <form form name="form" id="form" v-on:submit.prevent="procesar()">
           <img src="../assets/images/LogoFinal.png" alt="" />
           <h2>Inicio de sesión</h2>
+
           <div class="form-group">
+            <div
+              v-if="camposVacios"
+              class="alert alert-warning alert-dismissible fade show"
+              role="alert"
+            >
+              <strong>Oops..</strong> Parece que alguno de los campos de debajo
+              estan vacios.
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+                v-on:click="camposVacios=false;"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
             <label>Usuario</label>
             <input
               type="text"
               class="form-control"
-              placeholder="Ejemplo: 51818993"
+              placeholder="Cedula sin puntos ni guion"
               v-model="contacto.username"
             />
           </div>
@@ -49,6 +67,7 @@ export default {
         username: "",
         password: "",
       },
+      camposVacios: false,
     };
   },
   mounted() {
@@ -61,6 +80,9 @@ export default {
   },
 
   methods: {
+    verificarCamposVacios(input1, input2) {
+      return input1.length == 0 || input2.length == 0;
+    },
     cargarFoto(username, token) {
       let config = {
         headers: {
@@ -68,18 +90,17 @@ export default {
           token: token,
         },
       };
- 
+
       axios
         .get(Global.urlSitio + "imagen-perfil?username=" + username, config)
         .then((res) => {
           if (res.status == 200) {
             let url_imagen = res.data;
-            localStorage.setItem("perfil_img",url_imagen);
+            localStorage.setItem("perfil_img", url_imagen);
             this.$router.push("/home");
             location.reload();
           }
-        })
-       
+        });
     },
     procesar() {
       let config = {
@@ -87,30 +108,37 @@ export default {
           "Content-Type": "application/json",
         },
       };
+      this.camposVacios = this.verificarCamposVacios(
+        this.contacto.username,
+        this.contacto.password
+      );
 
-      axios
-        .post(Global.urlBackOffice + "login", this.contacto, config)
-        .then((response) => {
-          if (response.status == 200) {
-            localStorage.setItem("auth_token", response.data.datos);
-            this.cargarFoto(this.contacto.username , response.data.datos);
-          }
-        })
-        .catch((res) => {
-          if (res.status == 500) {
-            this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Servidor fuera de servicio",
-            });
-          } else {
-            this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Credenciales Invalidas ...",
-            });
-          }
-        });
+      if (!this.camposVacios) {
+        this.camposVacios = false;
+        axios
+          .post(Global.urlBackOffice + "login", this.contacto, config)
+          .then((response) => {
+            if (response.status == 200) {
+              localStorage.setItem("auth_token", response.data.datos);
+              this.cargarFoto(this.contacto.username, response.data.datos);
+            }
+          })
+          .catch((res) => {
+            if (res.status == 500) {
+              this.$swal.fire({
+                icon: "error",
+                title: "ERROR",
+                text: "Servidor fuera de servicio",
+              });
+            } else {
+              this.$swal.fire({
+                icon: "error",
+                title: "ERROR",
+                text: "Credenciales Invalidas ...",
+              });
+            }
+          });
+      }
     },
   },
 };
