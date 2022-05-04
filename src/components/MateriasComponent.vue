@@ -14,7 +14,7 @@
         <div class="card-header">{{ clase.idGrupo }} - {{ clase.Materia }}</div>
         <div class="card-body">
           <h6>
-            <em>Profesor/a: {{ clase.Profesor }}</em>
+            <i>Profesor/a: {{ clase.Profesor }}</i>
           </h6>
           <p class="card-text">{{ clase.nombreCompleto }}</p>
           <router-link
