@@ -7,11 +7,27 @@
       <div class="feed_header linea_border_bottom">
         <h2>Home</h2>
       </div>
-
+      <div
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+        v-if="camposVacios"
+      >
+        Debes completar todos los campos antes de enviar tu publicacion.
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          v-on:click="camposVacios = false"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <div class="boxText">
         <div class="form">
           <div class="boxText_input">
             <img :src="returnImgB64()" />
+
             <textarea
               id="textarea"
               placeholder="Escribe algo!"
@@ -30,6 +46,7 @@
                 <option value="" disabled selected hidden>
                   Seleccione un grupo
                 </option>
+
                 <option
                   v-for="todo in traerMaterias"
                   :key="todo.id"
@@ -195,6 +212,7 @@ export default {
       traerMaterias: "",
       index: null,
       aux: 1,
+      camposVacios: false,
     };
   },
   mounted() {
@@ -216,6 +234,9 @@ export default {
     };
   },
   methods: {
+    comprobarCamposVacios(input1, input2) {
+      return input1.length == 0 || input2.length == 0;
+    },
     simplificarNombre(nombreArchivo) {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
@@ -239,6 +260,7 @@ export default {
         }
       }
     },
+
     cargarImagenSweetAlert(img) {
       this.$swal.fire({
         imageUrl: this.returnImgProfile(img),
@@ -406,45 +428,51 @@ export default {
         },
       };
       let nombres = [];
-      let timerInterval;
-      this.$swal.fire({
-        title: "Enviando...",
-        html: "Estamos publicando tus archivos !",
-        timer: 2000,
-        timerProgressBar: true,
-        didOpen: () => {
-          this.$swal.showLoading();
-          const b = this.$swal.getHtmlContainer().querySelector("b");
-          timerInterval = setInterval(() => {
-            b.textContent = this.$swal.getTimerLeft();
-          }, 100);
-        },
-        willClose: () => {
-          clearInterval(timerInterval);
-        },
-      });
-      if (this.file.length > 0) {
-        setTimeout(() => {
-          for (let i = 0; i < this.file.length; i++) {
-            nombres.push(fecha + this.file[i].name);
-            let formData = new FormData();
+      this.camposVacios = this.comprobarCamposVacios(
+        this.selectedGroup,
+        this.mensaje
+      );
+      if (!this.camposVacios) {
+        let timerInterval;
+        this.$swal.fire({
+          title: "Enviando...",
+          html: "Estamos publicando tus archivos !",
+          allowOutsideClick: false,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+        if (this.file.length > 0) {
+          setTimeout(() => {
+            for (let i = 0; i < this.file.length; i++) {
+              nombres.push(fecha + this.file[i].name);
+              let formData = new FormData();
 
-            formData.append("archivo", this.file[i]);
-            formData.append("nombre", fecha + this.file[i].name);
+              formData.append("archivo", this.file[i]);
+              formData.append("nombre", fecha + this.file[i].name);
 
-            axios
-              .post(Global.urlSitio + "FTP", formData, config)
-              .then((response) => {
-                if (response.status == 200) {
-                  this.enviarPost(nombres);
-                }
-              });
-          }
-        }, 2000);
-      } else {
-        setTimeout(() => {
-          this.enviarPost(nombres);
-        }, 2000);
+              axios
+                .post(Global.urlSitio + "FTP", formData, config)
+                .then((response) => {
+                  if (response.status == 200) {
+                    this.enviarPost(nombres);
+                  }
+                });
+            }
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            this.enviarPost(nombres);
+          }, 2000);
+        }
       }
     },
 
