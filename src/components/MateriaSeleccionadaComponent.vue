@@ -511,7 +511,7 @@ export default {
       this.$swal.fire({
         title: "Enviando...",
         html: "Estamos publicando tus archivos !",
-        timer: 2000,
+        allowOutsideClick: false,
         timerProgressBar: true,
         didOpen: () => {
           this.$swal.showLoading();

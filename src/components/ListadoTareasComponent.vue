@@ -833,7 +833,7 @@ export default {
       this.$swal.fire({
         title: "Cargando...",
         html: "Estamos creando tu tarea !",
-        timer: 2500,
+        allowOutsideClick: false,
         timerProgressBar: true,
         didOpen: () => {
           this.$swal.showLoading();
