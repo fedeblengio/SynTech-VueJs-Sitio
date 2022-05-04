@@ -6,22 +6,41 @@
       <div class="feed_header linea_border_bottom">
         <h2>Tarea Entregada</h2>
       </div>
-
+          <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+          v-if="camposVacios"
+        >
+         Deben completar todos los campos antes de corregir a un alumno.
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            v-on:click="camposVacios = false"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
     <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
       </div>
+      
       <div class="post contPostAlu" v-else style="border-bottom: 0px">
-        <div class="postAlumcont"></div>
+        
         <div class="post_avatar">
           <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
         </div>
+        
         <div class="post_body">
+
           <div class="post_title">
             <div>
               <span>{{ tarea.nombreUsuario }}</span>
               <p>{{ tarea.fecha }}</p>
             </div>
             <div>
+                   
               <div class="alumnoEntregaTarea_puntaje">
                 <input
                   type="number"
@@ -73,7 +92,7 @@
             name="re_hacer"
             v-model="calificar.re_hacer"
           />
-          <label for="re_hacer"> Realizar nuevamente</label>
+          <label for="re_hacer"> Solicitar re-entrega</label>
         </div>
         <div class="entregaTareaCont">
           <h2>Juicio :</h2>
@@ -135,6 +154,7 @@ export default {
         re_hacer: "",
       },
       re_entrega: this.$route.params.re_entrega,
+      camposVacios: false,
     };
   },
   mounted() {
@@ -148,6 +168,9 @@ export default {
     };
   },
   methods: {
+    comprobarCamposVacios(input1, input2){
+      return input1 == "" || input2 == 0;
+    },
     calificarEntrega() {
       let config = {
         headers: {
@@ -167,7 +190,10 @@ export default {
         mensaje: this.calificar.mensaje,
         re_hacer: re_hacer,
       };
-
+    
+      this.camposVacios = this.comprobarCamposVacios(this.calificar.mensaje , this.calificar.calificacion)
+     
+      if(!this.camposVacios){
       axios
         .put(Global.urlSitio + "entregas-correccion", data, config)
         .then((res) => {
@@ -187,6 +213,7 @@ export default {
             text: "Parece que algo salio mal ...",
           });
         });
+         }
     },
 
     returnIMGB64(img) {
