@@ -442,6 +442,10 @@ details {
     margin-top: 15px;
 }
 
+em {
+    color: red;
+}
+
 .post_body p {
     font-weight: 1000;
     font-size: 12px;
