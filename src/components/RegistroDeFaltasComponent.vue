@@ -49,15 +49,14 @@
           :key="materia.id"
           style="border-bottom: 1px solid var(--background)"
         >
-          <button
-            type="button"
-            class="btn btn-primary"
+          <div
+            style="cursor:pointer"
             data-toggle="modal"
             data-target=".bd-example-modal-lg"
             @click="traerFaltasTotales(materia.idGrupo, materia.idMateria)"
           >
-            {{ materia.idGrupo }} - {{ materia.Materia }}
-          </button>
+           <h5> {{ materia.idGrupo }}  {{ materia.Materia }}</h5>
+          </div>
         </div>
         <!-- MODAL FALTAS GRUPO  -->
 
@@ -72,7 +71,7 @@
             <div class="modal-content">
               <table class="table tableFalta">
                 <thead class="thead-dark">
-                  <tr>
+                  <tr class='text-center'>
                     <th scope="col">Cedula</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Cantidad Faltas</th>
@@ -81,14 +80,14 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="alumno in tablaData" :key="alumno.id">
+                  <tr v-for="alumno in tablaData" :key="alumno.id" class='text-center'>
                     <th scope="row">{{ alumno.idAlumno }}</th>
                     <td>{{ alumno.nombreAlumno }}</td>
                     <td>{{ alumno.cantidad_faltas }}</td>
                     <td>{{ alumno.total_clases }}</td>
                     <td>
                       <div class="tooltip2">
-                        Ver <i class="fas fa-eye"></i>
+                        Ver <i class="far fa-eye"></i>
                         <span class="tooltiptext">
                           <p
                             v-for="fecha in alumno.fechas_ausencia"
