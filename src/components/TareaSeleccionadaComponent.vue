@@ -5,7 +5,7 @@
     <div class="feed">
       <div class="feed_header text-center" v-if="loading">Cargando..</div>
       <div class="feed_header" v-else>
-        <h2> {{ tarea.materia }}</h2>
+        <h2>{{ tarea.materia }}</h2>
       </div>
       <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
@@ -55,6 +55,22 @@
       >
         <h3>Entregar Tarea</h3>
         <div class="form">
+                <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+          v-if="camposVacios"
+        >
+         Debes escribri algo antes de enviar tu tarea.
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            v-on:click="camposVacios = false"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
           <div class="boxText_input">
             <img :src="returnImgLocalStorage()" />
             <textarea
@@ -146,6 +162,7 @@ export default {
         mensaje: "",
         file: [],
       },
+      camposVacios: false,
     };
   },
   mounted() {
@@ -160,6 +177,9 @@ export default {
     };
   },
   methods: {
+    comprobarCamposVacios(input1){
+      return input1.length == 0;
+    },
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
@@ -269,38 +289,38 @@ export default {
           token: Global.token,
         },
       };
-      let nombres = [];
-      let timerInterval;
-      this.$swal.fire({
-        title: "Cargando...",
-        html: "Estamos enviando tu tarea !",
-        allowOutsideClick: false,
-        timerProgressBar: true,
-        didOpen: () => {
-          this.$swal.showLoading();
-          const b = this.$swal.getHtmlContainer().querySelector("b");
-          timerInterval = setInterval(() => {
-            b.textContent = this.$swal.getTimerLeft();
-          }, 100);
-        },
-        willClose: () => {
-          clearInterval(timerInterval);
-        },
-      });
+      this.camposVacios = this.comprobarCamposVacios(
+        this.entregarTarea.mensaje
+      );
+      if (!this.camposVacios) {
+        let nombres = [];
+        let timerInterval;
+        this.$swal.fire({
+          title: "Cargando...",
+          html: "Estamos enviando tu tarea !",
+          allowOutsideClick: false,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
 
-      setTimeout(() => {
-        for (let i = 0; i < this.entregarTarea.file.length; i++) {
-          nombres.push(fecha + this.entregarTarea.file[i].name);
-          let formData = new FormData();
+        setTimeout(() => {
+          for (let i = 0; i < this.entregarTarea.file.length; i++) {
+            nombres.push(fecha + this.entregarTarea.file[i].name);
+            let formData = new FormData();
 
-          formData.append("archivo", this.entregarTarea.file[i]);
-          formData.append("nombre", fecha + this.entregarTarea.file[i].name);
+            formData.append("archivo", this.entregarTarea.file[i]);
+            formData.append("nombre", fecha + this.entregarTarea.file[i].name);
 
-          axios.post(Global.urlSitio + "FTP", formData, config);
-        }
-        this.enviarPost(nombres);
-      }, 2000);
-      
+            axios.post(Global.urlSitio + "FTP", formData, config);
+          }
+          this.enviarPost(nombres);
+        }, 2000);
+      }
     },
     enviarPost(nombres) {
       let config = {
