@@ -150,28 +150,37 @@ export default {
       this.verificarAsistencia();
       let config = {
         headers: {
-          "Content-Type": "form-data",
+          "Content-Type": "application/json",
           token: Global.token,
         },
       };
 
-      let formdata = new FormData();
+      let lista = {
+        idClase: this.$route.params.idClase,
+        presentes : this.presentes,
+        ausentes : this.ausentes
+      }
+
+  /*     let formdata = new FormData();
       formdata.append("idClase", this.$route.params.idClase);
       formdata.append("presentes", this.presentes);
-      formdata.append("ausentes", this.ausentes);
+      formdata.append("ausentes", this.ausentes); */
 
+      console.log(lista);
       axios
-        .post(Global.urlSitio + "lista-clase", formdata, config)
+        .post(Global.urlSitio + "lista-clase", lista, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire("Lista publicada", "", "success");
+             this.$router.back();
           }
+          
         })
         .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Credenciales Invalidas ...",
+            text: "Error al intentar publicar la lista ...",
           });
         });
     },
