@@ -3,7 +3,7 @@
     <div class="events_header">
       <div
         class="events_icon"
-        v-if="tareasPendientes && usuario.ou=='Alumno'"
+        v-if="tareasPendientes && usuario.ou == 'Alumno'"
         @click="mostrarNoticacion('campana')"
       >
         <i class="far fa-bell noticont" style="color: red">
@@ -17,7 +17,7 @@
                   idGrupo: tarea.idGrupo,
                   idMateria: tarea.idMateria,
                   tareas_vencidas: false,
-                }, 
+                },
               }"
               class="nav-link strippedRow"
               v-for="tarea in tareaMateriasArray()"
@@ -35,6 +35,11 @@
           </span>
         </i>
       </div>
+      <div class="events_icon">
+          <i v-if="lang=='es'" v-on:click="changeLanguage(lang)"><country-flag country='es' size='normal'/></i>
+           <i v-else v-on:click="changeLanguage(lang)" ><country-flag country='gb' size='medium'/></i>
+      </div>
+      
       <div class="events_icon" @click="mostrarNoticacion('configuracion')">
         <i class="fal fa-cog noticont">
           <span class="icon_noti" id="configuracion">
@@ -97,8 +102,8 @@
             </span>
           </router-link>
         </div>
-      
-       
+
+         {{language.prueba1}}
       </div>
     </div>
   </div>
@@ -107,12 +112,14 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-import $ from "jquery"; 
+import $ from "jquery";
 import moment from "moment";
+import language from "../assets/lang/sectionRight.json"
+import CountryFlag from 'vue-country-flag'
 export default {
   name: "SectionRight",
   components: {
-
+        CountryFlag
   },
   data() {
     return {
@@ -124,7 +131,8 @@ export default {
       profesor: false,
       aux: 1,
       date: new Date(),
-     
+      lang: "es",
+      language: "",
     };
   },
   mounted() {
@@ -135,8 +143,19 @@ export default {
       this.cargarTareasCreadas();
     }
     this.cargarEventos();
+    this.changeLanguage(localStorage.getItem("lang"))
   },
   methods: {
+    changeLanguage(lang){
+   if(lang=="es"){
+      this.lang = "en";
+        this.language = language.en
+    }else {
+       this.lang = "es";
+       this.language = language.es
+     
+    }
+    },
     tareaMateriasArray() {
       let array = [];
       const map = new Map();
@@ -260,7 +279,7 @@ export default {
             this.eventos = res.data;
           }
           this.loading = false;
-        })
+        });
     },
   },
 };
