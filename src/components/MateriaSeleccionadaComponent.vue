@@ -110,6 +110,22 @@
           </router-link>
         </li>
       </ul>
+      <div
+        class="alert alert-warning alert-dismissible fade show"
+        role="alert"
+        v-if="camposVacios"
+      >
+        Debes escribir un mensaje antes de enviar tu publicacion.
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          v-on:click="camposVacios = false"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <div class="boxText">
         <div class="form">
           <div class="boxText_input">
@@ -146,7 +162,7 @@
 
                 <input
                   @change="getFile"
-                   accept=".jpg, .png, .jpeg,  .pdf"
+                  accept=".jpg, .png, .jpeg,  .pdf"
                   id="file-input"
                   type="file"
                   v-on:onchange="previewFile(this)"
@@ -172,7 +188,7 @@
         :key="post.id"
         :id="post.id"
       >
-           <div class="post_avatar">
+        <div class="post_avatar">
           <img
             :src="returnImgB64()"
             v-if="post.data.idUsuario === usuario.username"
@@ -191,7 +207,7 @@
               <p
                 class="btn_postBody red"
                 v-on:click="comprobarOpcionEliminar(post.data.id)"
-                 style="color:red;"
+                style="color: red"
               >
                 Eliminar
               </p>
@@ -199,7 +215,10 @@
           </i>
           <i v-else class="far menu-card-home btn"> &nbsp; </i>
           <div class="post_title">
-            <span> <b>{{ post.data.nombreAutor }}</b> publicó para <b>{{ post.data.idGrupo }} - {{ post.data.materia }}</b> </span>
+            <span>
+              <b>{{ post.data.nombreAutor }}</b> publicó para
+              <b>{{ post.data.idGrupo }} - {{ post.data.materia }}</b>
+            </span>
             <p>{{ moment(post.data.fecha) }}</p>
           </div>
           <div class="post_body_text">
@@ -269,6 +288,7 @@ export default {
       value: 1,
       traerMaterias: "",
       index: null,
+      camposVacios: false,
     };
   },
   mounted() {
@@ -289,6 +309,9 @@ export default {
     };
   },
   methods: {
+    comprobarCamposVacios(input1) {
+      return input1.length == 0;
+    },
     simplificarNombre(nombreArchivo) {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
@@ -302,7 +325,7 @@ export default {
         this.usuario = JSON.parse(
           window.atob(localStorage.getItem("auth_token"))
         );
-      
+
         if (this.usuario.ou == "Profesor") {
           this.profesor = true;
           this.traerGrupoProfesor();
@@ -323,8 +346,9 @@ export default {
           if (res.status == 200) {
             this.grupoProfesor = res.data;
           }
-        })   .catch(() => {
-             this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Error inesperado ...",
@@ -349,8 +373,9 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
-        })   .catch(() => {
-              this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Error inesperado ...",
@@ -373,8 +398,9 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
-        }).catch(() => {
-            this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Error inesperado ...",
@@ -411,8 +437,9 @@ export default {
             this.traerArchivos = res.data;
           }
           this.loading = false;
-        }).catch(() => {
-             this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Error inesperado ...",
@@ -440,8 +467,9 @@ export default {
           if (res.status == 200) {
             this.foro = res.data;
           }
-        }).catch(() => {
-            this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Error inesperado ...",
@@ -506,47 +534,50 @@ export default {
           token: Global.token,
         },
       };
-      let nombres = [];
-      let timerInterval;
-      this.$swal.fire({
-        title: "Enviando...",
-        html: "Estamos publicando tus archivos !",
-        allowOutsideClick: false,
-        timerProgressBar: true,
-        didOpen: () => {
-          this.$swal.showLoading();
-          const b = this.$swal.getHtmlContainer().querySelector("b");
-          timerInterval = setInterval(() => {
-            b.textContent = this.$swal.getTimerLeft();
-          }, 100);
-        },
-        willClose: () => {
-          clearInterval(timerInterval);
-        },
-      });
-      if (this.file.length > 0) {
-        setTimeout(() => {
-          for (let i = 0; i < this.file.length; i++) {
-            nombres.push(fecha + this.file[i].name);
-            let formData = new FormData();
+      this.camposVacios = this.comprobarCamposVacios(this.mensaje);
+      if (!this.camposVacios) {
+        let nombres = [];
+        let timerInterval;
+        this.$swal.fire({
+          title: "Enviando...",
+          html: "Estamos publicando tus archivos !",
+          allowOutsideClick: false,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
+        if (this.file.length > 0) {
+          setTimeout(() => {
+            for (let i = 0; i < this.file.length; i++) {
+              nombres.push(fecha + this.file[i].name);
+              let formData = new FormData();
 
-            formData.append("archivo", this.file[i]);
-            formData.append("nombre", fecha + this.file[i].name);
+              formData.append("archivo", this.file[i]);
+              formData.append("nombre", fecha + this.file[i].name);
 
-            axios
-              .post(Global.urlSitio + "FTP", formData, config)
-              .then((response) => {
-                if (response.status == 200) {
-                  this.enviarPost(nombres);
-                }
-              })
-              .catch(() => {});
-          }
-        }, 2000);
-      } else {
-        setTimeout(() => {
-          this.enviarPost(nombres);
-        }, 2000);
+              axios
+                .post(Global.urlSitio + "FTP", formData, config)
+                .then((response) => {
+                  if (response.status == 200) {
+                    this.enviarPost(nombres);
+                  }
+                })
+                .catch(() => {});
+            }
+          }, 2000);
+        } else {
+          setTimeout(() => {
+            this.enviarPost(nombres);
+          }, 2000);
+        }
       }
     },
 
@@ -560,28 +591,22 @@ export default {
 
       let formData = new FormData();
 
-
       formData.append("idForo", this.foro.idForo);
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
-  
+
       formData.append("nombre_archivos", nombres);
 
       axios
         .post(Global.urlSitio + "foro", formData, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire(
-            "Publicado correctamente",
-            "",
-            "success"
-          );
+            this.$swal.fire("Publicado correctamente", "", "success");
             location.reload();
-         
           }
         })
         .catch(() => {
-            this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Error inesperado ...",
@@ -614,16 +639,12 @@ export default {
         .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire(
-            "Publicacion borrada correctamente",
-            "",
-            "success"
-          );
+            this.$swal.fire("Publicacion borrada correctamente", "", "success");
             location.reload();
           }
         })
-         .catch(() => {
-               this.$swal.fire({
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Error inesperado ...",
@@ -649,8 +670,8 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-              .catch(() => {
-              this.$swal.fire({
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Error inesperado ...",
