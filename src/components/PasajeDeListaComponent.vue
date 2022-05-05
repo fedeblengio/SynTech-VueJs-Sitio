@@ -161,12 +161,8 @@ export default {
         ausentes : this.ausentes
       }
 
-  /*     let formdata = new FormData();
-      formdata.append("idClase", this.$route.params.idClase);
-      formdata.append("presentes", this.presentes);
-      formdata.append("ausentes", this.ausentes); */
 
-      console.log(lista);
+    
       axios
         .post(Global.urlSitio + "lista-clase", lista, config)
         .then((response) => {
