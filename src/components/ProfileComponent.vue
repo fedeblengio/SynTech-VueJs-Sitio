@@ -271,7 +271,6 @@ export default {
     } else {
       this.traerMateriasUser();
     }
-    this.actualizarJSON(" ", "COSO@gmail.com", " ");
   },
   methods: {
     getFile(event) {
@@ -304,21 +303,18 @@ export default {
           }
         });
     },
-    actualizarJSON(nombre, email, genero) {
-      let persona = JSON.parse(window.atob(localStorage.getItem("auth_token")));
-      if (nombre !== " ") persona.nombre = nombre;
-      if (email !== " ") persona.email = email;
-      if (genero !== " ") persona.genero = genero;
-      localStorage.setItem("auth_token", window.btoa(JSON.stringify(persona)));
+    actualizarJSON(newToken) {
+      localStorage.setItem("auth_token", newToken);
       this.usuario = JSON.parse(
         window.atob(localStorage.getItem("auth_token"))
       );
+      Global.token = localStorage.getItem("auth_token");
     },
     modificarE(usuario) {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token,
+          token:  Global.token,
         },
       };
 
@@ -333,7 +329,7 @@ export default {
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
           if (response.status == 200) {
-            this.actualizarJSON(" ", data.nuevoEmail, " ");
+            this.actualizarJSON(response.data.token);
             this.$swal.fire({
               icon: "success",
               title: "Perfil Actualizado",
@@ -356,7 +352,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token,
+          token:  Global.token,
         },
       };
 
@@ -371,7 +367,7 @@ export default {
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
           if (response.status == 200) {
-            this.actualizarJSON(data.nuevoNombre, " ", " ");
+            this.actualizarJSON(response.data.token);
             this.$swal.fire({
               icon: "success",
               title: "Perfil Actualizado",
@@ -395,7 +391,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token,
+          token:  Global.token,
         },
       };
 
@@ -410,7 +406,7 @@ export default {
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
           if (response.status == 200) {
-            this.actualizarJSON(" ", " ", data.genero);
+            this.actualizarJSON(response.data.token);
             this.$swal.fire({
               icon: "success",
               title: "Perfil Actualizado",
@@ -433,7 +429,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
-          token: Global.token,
+          token:  Global.token,
         },
       };
 
@@ -485,7 +481,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token,
+          token:  Global.token,
         },
       };
       axios
@@ -518,7 +514,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token: Global.token,
+          token:  Global.token,
         },
       };
       axios
