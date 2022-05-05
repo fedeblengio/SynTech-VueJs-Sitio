@@ -90,8 +90,8 @@
         </div>
         <div>
           <i
-            class="fas fa-trash-undo btn-lupa-registro"
-            style="background-color: red"
+            class="fas fa-sync btn-lupa-registro"
+            style="background-color: green"
             v-on:click="limpiarFiltro()"
           ></i>
         </div>
