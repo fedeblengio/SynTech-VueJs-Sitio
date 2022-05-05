@@ -134,6 +134,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">Crear Tarea</h5>
+    
               <button
                 type="button"
                 class="close"
@@ -144,9 +145,25 @@
               </button>
             </div>
             <div class="modal-body">
+                                <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+          v-if="camposVacios"
+        >
+         Debes completar todos los campos antes de crear una tarea
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            v-on:click="camposVacios = false"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
               <div class="styleTarea">
                 <div class="text-right">
-                  <small style="margin-right: 28px; font-size: 16px"
+                  <small class="text-muted" style="margin-right: 28px; font-size: 16px"
                     >Publicar para : {{ routerValues.idGrupo }}
                     {{ routerValues.materia }}
                   </small>
@@ -403,7 +420,7 @@
         "
       >
         <div
-          class="list-group-item list-group-item-action"
+          class="list-group-item list-group-item-action "
           aria-current="true"
           v-for="tarea in listadoTareas"
           :key="tarea.id"
@@ -440,7 +457,7 @@
             }"
             class="router-link"
           >
-            <div class="d-flex w-100 justify-content-between">
+            <div class="d-flex w-100 justify-content-between ">
               <h5 class="mb-1">{{ tarea.titulo }}</h5>
               <small class="text-muted" v-if="tareas_vencidas"
                 >Vencio: {{ moment(tarea.fecha_vencimiento) }}
@@ -619,6 +636,7 @@ export default {
       listadoHistorialTareas: "",
       nalumno: "",
       ciAlumnos: "",
+      camposVacios: false,
     };
   },
   mounted() {
@@ -633,6 +651,9 @@ export default {
     }
   },
   methods: {
+    comprobarCamposVacios(input1, input2, input3) {
+      return input1.length == 0 || input2.length == 0 || input3.length == 0;
+    },
     objectoVacio(objecto) {
       return $.isEmptyObject(objecto);
     },
@@ -828,37 +849,46 @@ export default {
           token: Global.token,
         },
       };
-      let nombres = [];
-      let timerInterval;
-      this.$swal.fire({
-        title: "Cargando...",
-        html: "Estamos creando tu tarea !",
-        allowOutsideClick: false,
-        timerProgressBar: true,
-        didOpen: () => {
-          this.$swal.showLoading();
-          const b = this.$swal.getHtmlContainer().querySelector("b");
-          timerInterval = setInterval(() => {
-            b.textContent = this.$swal.getTimerLeft();
-          }, 100);
-        },
-        willClose: () => {
-          clearInterval(timerInterval);
-        },
-      });
+      this.camposVacios = this.comprobarCamposVacios(
+        this.tarea.titulo,
+        this.tarea.descripcion,
+        this.tarea.fecha_vencimiento
+      );
+      if (!this.camposVacios) {
+        let nombres = [];
+        let timerInterval;
+        this.$swal.fire({
+          title: "Cargando...",
+          html: "Estamos creando tu tarea !",
+          allowOutsideClick: false,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            const b = this.$swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent = this.$swal.getTimerLeft();
+            }, 100);
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        });
 
-      setTimeout(() => {
-        for (let i = 0; i < this.tarea.file.length; i++) {
-          nombres.push(fecha + this.tarea.file[i].name);
-          let formData = new FormData();
+        setTimeout(() => {
+          for (let i = 0; i < this.tarea.file.length; i++) {
+            nombres.push(fecha + this.tarea.file[i].name);
+            let formData = new FormData();
 
-          formData.append("archivo", this.tarea.file[i]);
-          formData.append("nombre", fecha + this.tarea.file[i].name);
+            formData.append("archivo", this.tarea.file[i]);
+            formData.append("nombre", fecha + this.tarea.file[i].name);
 
-          axios.post(Global.urlSitio + "FTP", formData, config).then(() => {});
-        }
-        this.enviarCuerpoTarea(nombres);
-      }, 1000);
+            axios
+              .post(Global.urlSitio + "FTP", formData, config)
+              .then(() => {});
+          }
+          this.enviarCuerpoTarea(nombres);
+        }, 1000);
+      }
     },
     enviarCuerpoTarea(nombres) {
       let config = {
