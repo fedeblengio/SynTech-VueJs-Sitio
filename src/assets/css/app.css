@@ -1080,12 +1080,12 @@ input[type="number"]::-webkit-inner-spin-button {
     border-bottom: 1px solid var(--background);
 }
 
-.listadousuarioComponentBuscador {
+.listadoUsuarioComponentBuscador {
     width: 80%;
     margin: 10px auto;
 }
 
-.listadousuarioComponentBuscador h3 {
+.listadoUsuarioComponentBuscador h3 {
     text-align: center;
     font-size: 18px;
     font-weight: 600;

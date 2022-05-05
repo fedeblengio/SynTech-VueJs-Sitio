@@ -112,7 +112,7 @@
         </li>
       </ul>
       <div class="second_feed" style="border: none">
-        <div class="listadousuarioComponentBuscador">
+        <div class="listadoUsuarioComponentBuscador">
           <h3 class="">Miembros</h3>
           <div class="input-group mb-3">
             <input

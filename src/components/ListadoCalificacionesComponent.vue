@@ -7,7 +7,7 @@
         <h2>Tareas Entregadas</h2>
       </div>
       <div class="second_feed" style="border: none">
-        <div class="listadousuarioComponentBuscador">
+        <div class="listadoUsuarioComponentBuscador">
           <h3 class="">Buscar tarea</h3>
           <div class="input-group mb-3">
             <input
