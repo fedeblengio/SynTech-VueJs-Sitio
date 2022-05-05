@@ -73,6 +73,7 @@
                 disabled
               />
             </div>
+            
             <div class="infoUser">
               <span>Nombre Completo:</span>
               <div class="input-group mb-3" v-if="!modficarN">
@@ -273,6 +274,18 @@ export default {
     }
   },
   methods: {
+    comprobarInputVacio(input1,datoActuallizar){
+        if(input1.length== 0){
+               this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            html: "No puedes ingresar un <b>"+ datoActuallizar+"</b> vacio",
+          });
+          return true;
+        }else{
+          return false;
+        }
+    },
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
@@ -295,7 +308,10 @@ export default {
       };
 
       axios
-        .get(Global.urlSitio + "imagen-perfil?username=" + this.usuario.username, config)
+        .get(
+          Global.urlSitio + "imagen-perfil?username=" + this.usuario.username,
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             let url_imagen = res.data;
@@ -305,16 +321,14 @@ export default {
     },
     actualizarJSON(newToken) {
       localStorage.setItem("auth_token", newToken);
-      this.usuario = JSON.parse(
-        window.atob(localStorage.getItem("auth_token"))
-      );
-      Global.token = localStorage.getItem("auth_token");
+      this.usuario = JSON.parse(window.atob(newToken));
+      Global.token = newToken;
     },
     modificarE(usuario) {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token:  Global.token,
+          token: Global.token,
         },
       };
 
@@ -324,7 +338,7 @@ export default {
         nuevoNombre: "",
         nuevoEmail: this.newEmail,
       };
-
+      if(!this.comprobarInputVacio(this.newEmail,"Email")){
       axios
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
@@ -347,12 +361,13 @@ export default {
             text: "Parece que algo salio mal ...",
           });
         });
+      }
     },
     modificarN(usuario) {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token:  Global.token,
+          token: Global.token,
         },
       };
 
@@ -362,7 +377,7 @@ export default {
         nuevoEmail: "",
         nuevoNombre: this.newName,
       };
-
+      if(!this.comprobarInputVacio(this.newName,"Nombre")){
       axios
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
@@ -372,7 +387,7 @@ export default {
               icon: "success",
               title: "Perfil Actualizado",
               footer:
-                   '<a href="">Tus datos se actualizaran en unos minutos</a>',
+                '<a href="">Tus datos se actualizaran en unos minutos</a>',
             });
 
             this.modficarN = false;
@@ -385,13 +400,14 @@ export default {
             text: "Parece que algo salio mal ...",
           });
         });
+      }
     },
 
     modificarG(usuario) {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token:  Global.token,
+          token: Global.token,
         },
       };
 
@@ -401,7 +417,7 @@ export default {
         nuevoEmail: "",
         nuevoNombre: "",
       };
-
+      if(!this.comprobarInputVacio(this.newGenero,"Genero")){
       axios
         .put(Global.urlSitio + "usuario-db", data, config)
         .then((response) => {
@@ -424,12 +440,13 @@ export default {
             text: "Parece que algo salio mal ...",
           });
         });
+      }
     },
     cambiarFoto(foto) {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
-          token:  Global.token,
+          token: Global.token,
         },
       };
 
@@ -442,14 +459,13 @@ export default {
         .post(Global.urlSitio + "imagen-perfil", formData, config)
         .then((res) => {
           if (res.status == 200) {
-             this.cargarFoto();
+            this.cargarFoto();
             this.$swal.fire({
               icon: "success",
               title: "Perfil Actualizado",
               footer:
-                   '<a href="">Tus datos se actualizaran en unos minutos</a>',
+                '<a href="">Tus datos se actualizaran en unos minutos</a>',
             });
-           
           }
         })
         .catch(() => {
@@ -481,7 +497,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token:  Global.token,
+          token: Global.token,
         },
       };
       axios
@@ -514,7 +530,7 @@ export default {
       let config = {
         headers: {
           "Content-Type": "application/json",
-          token:  Global.token,
+          token: Global.token,
         },
       };
       axios
