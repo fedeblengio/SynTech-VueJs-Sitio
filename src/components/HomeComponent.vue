@@ -264,7 +264,9 @@ export default {
     cargarImagenSweetAlert(img) {
       this.$swal.fire({
         imageUrl: this.returnImgProfile(img),
-        imageHeight: 500,
+        showCloseButton: true,
+        showConfirmButton:false,
+        confirmButtonText: false,
       });
     },
     traerPost() {

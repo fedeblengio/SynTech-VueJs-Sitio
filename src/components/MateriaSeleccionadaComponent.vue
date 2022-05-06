@@ -227,7 +227,10 @@
           <div :id="post.data.id" class="cont">
             <div class="contenedorImg">
               <div class="imgPost" v-for="img in post.imagenes" :key="img.id">
-                <img :src="returnImgProfile(img)" alt="" />
+                 <img
+                  :src="returnImgProfile(img)"
+                  v-on:click="cargarImagenSweetAlert(img)"
+                />
               </div>
             </div>
           </div>
@@ -515,7 +518,16 @@ export default {
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
-
+      
+                
+    cargarImagenSweetAlert(img) {
+      this.$swal.fire({
+        imageUrl: this.returnImgProfile(img),
+        showCloseButton: true,
+        showConfirmButton:false,
+        confirmButtonText: false,
+      });
+    },
     enviarArchivos() {
       this.traerIdForo();
       var hoy = new Date();
