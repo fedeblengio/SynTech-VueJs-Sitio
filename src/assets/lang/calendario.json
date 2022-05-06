@@ -1,0 +1,27 @@
+{
+    "es": {
+        "calendarioClases": "Calendario de Clases",
+        "misClases": "Mis clases",
+        "grupo": "Grupo",
+        "materia": "Materia",
+        "dia": "Dia",
+        "hora": "Hora",
+        "link": "Link",
+        "iniciar": "Iniciar",
+        "entrar": "Entrar",
+        "calendario": "es"
+    },
+    "en": {
+        "calendarioClases": "Calendar of Classes",
+        "misClases": "My classes",
+        "grupo": "Group",
+        "materia": "Subject",
+        "dia": "Day",
+        "hora": "Time",
+        "link": "Link",
+        "iniciar": "Start",
+        "entrar": "Join",
+        "calendario": "en"
+
+    }
+}

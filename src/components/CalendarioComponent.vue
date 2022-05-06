@@ -4,7 +4,7 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header linea_border_bottom">
-        <h2>Calendario de Clases</h2>
+        <h2>{{language.calendarioClases}}</h2>
       </div>
 
       <FullCalendar
@@ -12,16 +12,16 @@
         style="margin-top: -25px !important"
       />
       <div class="sub_header">
-        <h3>Mis Clases</h3>
+        <h3>{{language.misClases}}</h3>
       </div>
       <table class="table table-striped">
         <thead>
           <tr class="text-center">
-            <th scope="col">Grupo</th>
-            <th scope="col">Materia</th>
-            <th scope="col">Dia</th>
-            <th scope="col">Hora</th>
-            <th scope="col">Link</th>
+            <th scope="col">{{language.grupo}}</th>
+            <th scope="col">{{language.materia}}</th>
+            <th scope="col">{{language.dia}}</th>
+            <th scope="col">{{language.hora}}</th>
+            <th scope="col">{{language.link}}</th>
           </tr>
         </thead>
         <div class="spinerCont" v-if="loading">
@@ -49,10 +49,10 @@
                 v-on:click="entrarJitsi(clase)"
                 v-if="profesor"
               >
-                Iniciar
+                {{language.iniciar}}
               </button>
               <button class="btn_jitsi" v-on:click="entrarJitsi(clase)" v-else>
-                Entrar
+                {{language.entrar}}
               </button>
             </td>
           </tr>
@@ -67,6 +67,7 @@ import vueHeadful from "vue-headful";
 
 import { Global } from "../Global";
 import axios from "axios";
+import language from "../assets/lang/calendario.json";
 /* import $ from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
@@ -87,11 +88,12 @@ export default {
     return {
       loading: true,
       spinner: Global.spinnerUrl,
+      events: [],
       calendarOptions: {
         plugins: [dayGridPlugin],
         initialView: "dayGridMonth",
         weekends: false,
-        locale: "es",
+        locale: "",
         height: 450,
         timeZone: "GMT-3",
         events: [],
@@ -100,15 +102,27 @@ export default {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listClasesVirtuales: "",
       profesor: false,
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
 
   mounted() {
     this.clasesVirtualesCreadas();
     this.verificarRol();
+     this.selectLanguage()
   },
 
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+        this.calendarOptions.locale =  this.language.calendario
+      } else {
+        this.language = language.en;
+         this.calendarOptions.locale = this.language.calendario
+      }
+    },
     hora: function (fecha) {
       return moment(fecha).format("HH:mm ");
     },
@@ -179,8 +193,8 @@ export default {
             }
           }
         })
-         .catch(() => {
-              this.$swal.fire({
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Parece que algo salio mal ...",
@@ -235,7 +249,7 @@ export default {
           this.loading = false;
         })
         .catch(() => {
-              this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: "Parece que algo salio mal ...",
