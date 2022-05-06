@@ -4,7 +4,7 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>Agendar Clase Virtual</h2>
+        <h2>{{language.agendarClaseVirtual}}</h2>
       </div>
       <ul class="nav nav-tabs justify-content-center text-decoration-none">
         <li class="nav-item">
@@ -13,7 +13,7 @@
             class="nav-link active"
             style="text-decoration: none"
           >
-            Agendar Clase</router-link
+            {{language.agendarClase}}</router-link
           >
         </li>
 
@@ -23,7 +23,7 @@
             class="nav-link"
             style="text-decoration: none"
           >
-            Registro de Clases
+          {{language.registroClases}}
           </router-link>
         </li>
         <li class="nav-item">
@@ -32,7 +32,7 @@
             class="nav-link"
             style="text-decoration: none"
           >
-            Historial de Faltas
+            {{language.historialFaltas}}
           </router-link>
         </li>
       </ul>
@@ -41,8 +41,8 @@
         class="alert alert-warning alert-dismissible fade show"
         role="alert"
       >
-        Es obligatorio completar todos los campos de abajo para agendar una
-        clase
+       
+        {{language.camposVaciosAlert}}
         <button
           type="button"
           class="close"
@@ -54,7 +54,7 @@
         </button>
       </div>
       <div class="agendaContenedor">
-        <label>Grupo <em>*</em></label>
+        <label>{{language.grupos}} <em>*</em></label>
         <select
           class="form-control"
           v-model="agenda.idGrupo"
@@ -74,7 +74,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label> Materia <em>*</em></label>
+        <label> {{language.materias}} <em>*</em></label>
         <select
           class="form-control"
           v-model="agenda.materia"
@@ -88,7 +88,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label>Fecha <em>*</em></label>
+        <label>{{language.fecha}} <em>*</em></label>
         <input
           type="datetime-local"
           id="meeting-time"
@@ -100,7 +100,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label>Duracion <em>*</em></label>
+        <label>{{language.duracion}} <em>*</em></label>
 
         <div class="contenedorDuracion">
           <select name="meeting-hrs" v-model="agenda.duracionHrs" required>
@@ -116,21 +116,21 @@
       <div class="agendaContenedor movimientoBtnAgenda">
         <input
           type="submit"
-          value="Crear Clase"
+          :value="language.crearClase"
           v-on:click="crearClaseVirtual()"
           class="btn_crearClase"
         />
       </div>
       <div class="sub_header">
-        <h3>Clases Programadas</h3>
+        <h3>{{language.clasesProgramadas}}</h3>
       </div>
       <table class="table table-striped">
         <thead>
           <tr class="text-center">
-            <th scope="col">Grupo</th>
-            <th scope="col">Materia</th>
-            <th scope="col">Dia</th>
-            <th scope="col">Hora</th>
+            <th scope="col">{{language.grupo}}</th>
+            <th scope="col">{{language.materia}}</th>
+            <th scope="col">{{language.dia}}</th>
+            <th scope="col">{{language.hora}}</th>
             <th scope="col">&nbsp;</th>
           </tr>
         </thead>
@@ -172,7 +172,7 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-
+import language from "../assets/lang/agendaVirtual.json";
 /* import $ from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
@@ -203,6 +203,8 @@ export default {
         fecha_inicio: "",
         duracionHrs: "",
       },
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
@@ -211,8 +213,16 @@ export default {
     this.traerGrupoProfesor(this.usuario.username);
     this.agenda.idProfesor = this.usuario.username;
     this.listarClaseVirtual();
+    this.selectLanguage();
   },
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+    },
     comprobarCamposVacios(input1, input2, input3, input4) {
       return (
         input1.length == 0 ||

@@ -1,0 +1,18 @@
+{
+    "es": {
+        "inicio": "Inicio",
+        "materias": "Materias",
+        "agendaVirtual": "Agenda Virtual",
+        "calificaciones": "Calificaciones",
+        "calendario": "Calendario",
+        "misClases": "Mis clases"
+    },
+    "en": {
+        "inicio": "Home",
+        "materias": "Subjects",
+        "agendaVirtual": "Virtual Schedule",
+        "calificaciones": "Marks",
+        "calendario": "Calendar",
+        "misClases": "My classes"
+    }
+}

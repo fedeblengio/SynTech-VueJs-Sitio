@@ -1,0 +1,38 @@
+{
+    "es": {
+        "agendarClaseVirtual": "Agendar Clase Virtual",
+        "agendarClase": "Agendar clase",
+        "registroClases": "Registro de clases",
+        "historialFaltas": "Historial de faltas",
+        "camposVaciosAlert": " Es obligatorio completar todos los campos de abajo para agendar una clase ",
+        "grupos": "Grupos",
+        "materias": "Materias",
+        "fecha": "Fecha",
+        "duracion": "Duracion",
+        "crearClase": "Crear clase",
+        "clasesProgramadas": "Clases Programadas",
+        "grupo": "Grupo",
+        "materia": "Materia",
+        "dia": "Dia",
+        "hora": "Hora"
+
+    },
+    "en": {
+        "agendarClaseVirtual": "Schedule Virtual Class",
+        "agendarClase": "Schedule a class",
+        "registroClases": "Class Registration",
+        "historialFaltas": "Faults history",
+        "camposVaciosAlert": " All fields below must be completed in order to schedule a class. ",
+        "grupos": "Groups",
+        "materias": "Subjects",
+        "fecha": "Date",
+        "duracion": "Length",
+        "crearClase": "Create class",
+        "clasesProgramadas": "Scheduled Classes",
+        "grupo": "Group",
+        "materia": "Subject",
+        "dia": "Day",
+        "hora": "Time"
+
+    }
+}

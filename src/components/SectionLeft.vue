@@ -19,37 +19,37 @@
       <div class="sidebarOption">
         <i class="fas fa-home"></i>
         <router-link to="/home" class="router-link">
-          <h2>Inicio</h2>
+          <h2>{{language.inicio}}</h2>
         </router-link>
       </div>
       <div class="sidebarOption">
         <i class="fas fa-book"></i>
         <router-link to="/materias" class="router-link">
-          <h2>Materias</h2>
+          <h2>{{language.materias}}</h2>
         </router-link>
       </div>
       <div class="sidebarOption" v-if="profesor">
         <i class="fas fa-chalkboard-teacher"></i>
 
         <router-link to="/agenda-virtual" class="router-link">
-          <h2>Agenda Virtual</h2>
+          <h2>{{language.agendaVirtual}}</h2>
         </router-link>
       </div>
       <div class="sidebarOption" v-else>
         <i class="fas fa-pen"></i>
         <router-link to="/calificaciones" class="router-link">
-          <h2>Calificaciones</h2>
+          <h2>{{language.calificaciones}}</h2>
         </router-link>
       </div>
       <div class="sidebarOption">
         <i class="fas fa-calendar"></i>
         <router-link to="/calendario" class="router-link">
-          <h2>Calendario</h2>
+          <h2>{{language.calendario}}</h2>
         </router-link>
       </div>
     </div>
     <div class="sidebarClass">
-      <h3>Mis Clases</h3>
+      <h3>{{language.misClases}}</h3>
       <div class="sidebarElement" v-if="loading">
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
@@ -82,7 +82,7 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-
+import language from "../assets/lang/sectionLeft.json";
 export default {
   name: "SectionLeft",
   components: {},
@@ -92,7 +92,8 @@ export default {
       traerMaterias: "",
       profesor: false,
       loading: true,
-
+      lang: localStorage.getItem("lang"),
+      language: "",
       spinner: Global.spinnerUrl,
     };
   },
@@ -104,9 +105,16 @@ export default {
       this.traerMateriasUser();
     }
 
-    /*   this.returnImgProfile(); */
+      this.selectLanguage()
   },
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+    },
     returnImgB64() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },
@@ -189,28 +197,6 @@ export default {
           this.$router.push("/login");
         });
     },
-    /*     returnImgProfile() {
-       let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio +
-            "imagen-perfil?username=" +
-            this.usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            let img = res.data;
-            document.getElementById('profile_img').src ="data:image/png;base64," + img;
-          }
-        });
-   
-    }, */
   },
 };
 </script>
