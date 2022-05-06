@@ -1,8 +1,6 @@
 <template>
   <div class="sidebar">
-
     <router-link
-
       :to="{
         name: 'profile',
         params: {
@@ -13,7 +11,7 @@
       class="router-link"
     >
       <div class="sidebarUser">
-        <img :src='returnImgB64()' />
+        <img :src="returnImgB64()" />
         <p>{{ usuario.nombre }}</p>
       </div>
     </router-link>
@@ -94,12 +92,11 @@ export default {
       traerMaterias: "",
       profesor: false,
       loading: true,
-    
+
       spinner: Global.spinnerUrl,
     };
   },
   mounted() {
-
     if (this.usuario.ou == "Profesor") {
       this.profesor = true;
       this.traerGrupoProfesor();
@@ -107,11 +104,10 @@ export default {
       this.traerMateriasUser();
     }
 
-
     /*   this.returnImgProfile(); */
   },
   methods: {
-      returnImgB64() {
+    returnImgB64() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },
 
@@ -149,7 +145,9 @@ export default {
               clearInterval(timerInterval);
             },
           });
-          localStorage.clear();
+          localStorage.removeItem("auth_token");
+          localStorage.removeItem("perfil_img");
+          localStorage.removeItem("logged");
           this.$router.push("/login");
         });
     },
@@ -185,7 +183,9 @@ export default {
               clearInterval(timerInterval);
             },
           });
-          localStorage.clear();
+          localStorage.removeItem("auth_token");
+          localStorage.removeItem("perfil_img");
+          localStorage.removeItem("logged");
           this.$router.push("/login");
         });
     },

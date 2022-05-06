@@ -35,11 +35,7 @@
           </span>
         </i>
       </div>
-      <div class="events_icon">
-          <i v-if="lang=='es'" v-on:click="changeLanguage(lang)"><country-flag country='es' size='normal'/></i>
-           <i v-else v-on:click="changeLanguage(lang)" ><country-flag country='gb' size='medium'/></i>
-      </div>
-      
+
       <div class="events_icon" @click="mostrarNoticacion('configuracion')">
         <i class="fal fa-cog noticont">
           <span class="icon_noti" id="configuracion">
@@ -68,6 +64,15 @@
           </span>
         </i>
       </div>
+      <div class="events_icon">
+        <i v-if="lang == 'es'" v-on:click="changeLanguage()"
+          ><country-flag country="es" size="normal" style="margin-top: -4px"
+        /></i>
+        <i v-else v-on:click="changeLanguage()"
+          ><country-flag country="gb" size="normal" style="margin-top: -4px"
+        /></i>
+      </div>
+
       <div class="events_icon">
         <i class="fal fa-door-open" v-on:click="cerrarSesion()"></i>
       </div>
@@ -102,8 +107,7 @@
             </span>
           </router-link>
         </div>
-
-         {{language.prueba1}}
+        {{ language.prueba1 }}
       </div>
     </div>
   </div>
@@ -114,12 +118,12 @@ import { Global } from "../Global";
 import axios from "axios";
 import $ from "jquery";
 import moment from "moment";
-import language from "../assets/lang/sectionRight.json"
-import CountryFlag from 'vue-country-flag'
+import language from "../assets/lang/sectionRight.json";
+import CountryFlag from "vue-country-flag";
 export default {
   name: "SectionRight",
   components: {
-        CountryFlag
+    CountryFlag,
   },
   data() {
     return {
@@ -131,7 +135,7 @@ export default {
       profesor: false,
       aux: 1,
       date: new Date(),
-      lang: "es",
+      lang: localStorage.getItem("lang"),
       language: "",
     };
   },
@@ -143,18 +147,24 @@ export default {
       this.cargarTareasCreadas();
     }
     this.cargarEventos();
-    this.changeLanguage(localStorage.getItem("lang"))
+    this.selectLanguage();
   },
   methods: {
-    changeLanguage(lang){
-   if(lang=="es"){
-      this.lang = "en";
-        this.language = language.en
-    }else {
-       this.lang = "es";
-       this.language = language.es
-     
-    }
+    changeLanguage() {
+      if (this.lang == "es") {
+        localStorage.setItem("lang", "en");
+        location.reload();
+      } else {
+        localStorage.setItem("lang", "es");
+        location.reload();
+      }
+    },
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
     },
     tareaMateriasArray() {
       let array = [];
@@ -235,7 +245,9 @@ export default {
         });
     },
     cerrarSesion() {
-      localStorage.clear();
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("perfil_img");
+      localStorage.removeItem("logged");
       location.reload();
     },
     traerGrupoProfesor() {

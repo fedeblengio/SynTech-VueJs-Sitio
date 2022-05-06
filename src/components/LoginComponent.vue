@@ -19,7 +19,7 @@
                 class="close"
                 data-dismiss="alert"
                 aria-label="Close"
-                v-on:click="camposVacios=false;"
+                v-on:click="camposVacios = false"
               >
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -75,7 +75,12 @@ export default {
       this.$router.push("/home");
       this.$swal.fire("Ya tienes una sesion iniciada", "", "success");
     } else {
-      localStorage.clear();
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("perfil_img");
+      localStorage.removeItem("logged");
+    }
+    if (localStorage.getItem("lang") == null) {
+      localStorage.setItem("lang", "es");
     }
   },
 

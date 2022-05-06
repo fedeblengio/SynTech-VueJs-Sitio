@@ -49,7 +49,7 @@
           role="alert"
           v-if="camposVacios && password.nueva == ''"
         >
-         Debes ingresar una contraseña nueva
+          Debes ingresar una contraseña nueva
           <button
             type="button"
             class="close"
@@ -201,11 +201,11 @@ export default {
       if (this.password.nueva === this.password.confirmacion) {
         this.cambiarContrasenia();
       } else {
-          this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Las contraseñas ingresadas no coinciden ...",
-            });
+        this.$swal.fire({
+          icon: "error",
+          title: "ERROR",
+          text: "Las contraseñas ingresadas no coinciden ...",
+        });
       }
     },
     cambiarContrasenia() {
@@ -223,7 +223,9 @@ export default {
         .put(Global.urlSitio + "usuario", parametros, config)
         .then((response) => {
           if (response.status == 200) {
-            localStorage.clear();
+            localStorage.removeItem("auth_token");
+            localStorage.removeItem("perfil_img");
+            localStorage.removeItem("logged");
             this.$router.push("/login");
             this.$swal.fire(
               "Contraseña actualizada correctamente",
@@ -233,11 +235,11 @@ export default {
           }
         })
         .catch(() => {
-             this.$swal.fire({
-              icon: "error",
-              title: "ERROR",
-              text: "Hubo un error al intentar actualizar su contraseña ...",
-            });
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Hubo un error al intentar actualizar su contraseña ...",
+          });
         });
     },
   },
