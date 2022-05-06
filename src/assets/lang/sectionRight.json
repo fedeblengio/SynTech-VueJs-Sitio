@@ -1,10 +1,16 @@
 {
     "es": {
-        "prueba1": "Esto es una prueba",
-        "prueba2": "Este texto esta en español"
+        "sinNotificaciones": "No hay notificaciones",
+        "miPerfil": "Mi Perfil",
+        "cambiarContra": "Cambiar contraseña",
+        "eventosHoy": "Mis Eventos (Hoy)",
+        "calendario": "es"
     },
     "en": {
-        "prueba1": "This is a test",
-        "prueba2": "This text is in english"
+        "sinNotificaciones": "No notifications",
+        "cambiarContra": "Change password",
+        "eventosHoy": "My Events (Today)",
+        "miPerfil": "My Profile",
+        "calendario": "en"
     }
 }

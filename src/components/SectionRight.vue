@@ -31,7 +31,7 @@
       <div class="events_icon" v-else @click="mostrarNoticacion('campana')">
         <i class="far fa-bell-slash noticont">
           <span class="icon_noti" id="campana">
-            <p>Sin notificaciones</p>
+            <p>{{ language.sinNotificaciones }}</p>
           </span>
         </i>
       </div>
@@ -50,7 +50,7 @@
                 style="text-decoration: none"
                 class="router-link"
               >
-                Mi Perfil</router-link
+               {{ language.miPerfil }}</router-link
               >
             </p>
             <p>
@@ -58,7 +58,7 @@
                 to="/cambioPwd"
                 style="text-decoration: none !important"
               >
-                Cambiar Contraseña
+              {{ language.cambiarContra }}
               </router-link>
             </p>
           </span>
@@ -80,7 +80,9 @@
 
     <div class="calendarioElement">
       <v-date-picker
+      show-weeknumbers="right-outside"
         mode="date"
+        :locale=language.calendario
         v-model="date"
         :valid-hours="{ min: 4, max: 17 }"
         is24hr
@@ -89,7 +91,7 @@
 
     <div class="currentEvent">
       <div class="currentEvent_contenedor">
-        <h3>Mis Eventos (Hoy)</h3>
+        <h3> {{ language.eventosHoy }}</h3>
         <div class="sidebarElement" v-if="loading">
           <span class="clases text-center">
             <span class="sidebarDot_event"></span> . . .
