@@ -4,7 +4,7 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>{{language.agendarClaseVirtual}}</h2>
+        <h2>{{ language.agendarClaseVirtual }}</h2>
       </div>
       <ul class="nav nav-tabs justify-content-center text-decoration-none">
         <li class="nav-item">
@@ -13,7 +13,7 @@
             class="nav-link active"
             style="text-decoration: none"
           >
-            {{language.agendarClase}}</router-link
+            {{ language.agendarClase }}</router-link
           >
         </li>
 
@@ -23,7 +23,7 @@
             class="nav-link"
             style="text-decoration: none"
           >
-          {{language.registroClases}}
+            {{ language.registroClases }}
           </router-link>
         </li>
         <li class="nav-item">
@@ -32,7 +32,7 @@
             class="nav-link"
             style="text-decoration: none"
           >
-            {{language.historialFaltas}}
+            {{ language.historialFaltas }}
           </router-link>
         </li>
       </ul>
@@ -41,8 +41,7 @@
         class="alert alert-warning alert-dismissible fade show"
         role="alert"
       >
-       
-        {{language.camposVaciosAlert}}
+        {{ language.camposVaciosAlert }}
         <button
           type="button"
           class="close"
@@ -54,7 +53,7 @@
         </button>
       </div>
       <div class="agendaContenedor">
-        <label>{{language.grupos}} <em>*</em></label>
+        <label>{{ language.grupos }} <em>*</em></label>
         <select
           class="form-control"
           v-model="agenda.idGrupo"
@@ -74,7 +73,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label> {{language.materias}} <em>*</em></label>
+        <label> {{ language.materias }} <em>*</em></label>
         <select
           class="form-control"
           v-model="agenda.materia"
@@ -88,7 +87,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label>{{language.fecha}} <em>*</em></label>
+        <label>{{ language.fecha }} <em>*</em></label>
         <input
           type="datetime-local"
           id="meeting-time"
@@ -100,7 +99,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label>{{language.duracion}} <em>*</em></label>
+        <label>{{ language.duracion }} <em>*</em></label>
 
         <div class="contenedorDuracion">
           <select name="meeting-hrs" v-model="agenda.duracionHrs" required>
@@ -122,15 +121,15 @@
         />
       </div>
       <div class="sub_header">
-        <h3>{{language.clasesProgramadas}}</h3>
+        <h3>{{ language.clasesProgramadas }}</h3>
       </div>
       <table class="table table-striped">
         <thead>
           <tr class="text-center">
-            <th scope="col">{{language.grupo}}</th>
-            <th scope="col">{{language.materia}}</th>
-            <th scope="col">{{language.dia}}</th>
-            <th scope="col">{{language.hora}}</th>
+            <th scope="col">{{ language.grupo }}</th>
+            <th scope="col">{{ language.materia }}</th>
+            <th scope="col">{{ language.dia }}</th>
+            <th scope="col">{{ language.hora }}</th>
             <th scope="col">&nbsp;</th>
           </tr>
         </thead>
@@ -189,7 +188,7 @@ export default {
     return {
       loading: true,
       spinner: Global.spinnerUrl,
-      title: "agenda-clase",
+      title:"",
       today: "",
       usuario: "",
       traerGrupos: "",
@@ -219,9 +218,11 @@ export default {
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
+        
       } else {
         this.language = language.en;
       }
+      this.title =  this.language.title;
     },
     comprobarCamposVacios(input1, input2, input3, input4) {
       return (
@@ -234,10 +235,10 @@ export default {
     comprobarOpcionEliminar(idClase) {
       this.$swal
         .fire({
-          title: "¿ Estas seguro que quieres eliminar ?",
+          title: this.language.confirmacionEliminar,
           showDenyButton: true,
-          confirmButtonText: "Eliminar",
-          denyButtonText: `Cancelar`,
+          confirmButtonText: this.language.eliminar,
+          denyButtonText: this.language.cancelar,
         })
         .then((result) => {
           /* Read more about isConfirmed, isDenied below */
@@ -265,14 +266,14 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             location.reload();
-            this.$swal.fire("Eliminada", "", "success");
+            this.$swal.fire(this.language.eliminarExitoso, "", "success");
           }
         })
         .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -304,7 +305,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -341,7 +342,7 @@ export default {
               this.$swal.fire({
                 icon: "success",
                 title: "Agenda",
-                text: "Clase creada correctamente",
+                text: this.language.claseCreada,
               });
             }
           })
@@ -349,7 +350,7 @@ export default {
             this.$swal.fire({
               icon: "error",
               title: "ERROR",
-              text: "Parece que algo salio mal ...",
+              text: this.language.algoSalioMal,
             });
           });
       }
@@ -381,7 +382,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },

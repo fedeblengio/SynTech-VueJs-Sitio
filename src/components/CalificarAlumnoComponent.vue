@@ -4,43 +4,40 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header linea_border_bottom">
-        <h2>Tarea Entregada</h2>
+        <h2>{{language.tareaEntregada}}</h2>
       </div>
-          <div
-          class="alert alert-warning alert-dismissible fade show"
-          role="alert"
-          v-if="camposVacios"
+      <div
+        class="alert alert-warning alert-dismissible fade show"
+        role="alert"
+        v-if="camposVacios"
+      >
+      {{language.camposVaciosAlert}}
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          v-on:click="camposVacios = false"
         >
-         Deben completar todos los campos antes de corregir a un alumno.
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-            v-on:click="camposVacios = false"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-    <div class="spinerCont" v-if="loading">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
       </div>
-      
+
       <div class="post contPostAlu" v-else style="border-bottom: 0px">
-        
         <div class="post_avatar">
           <img :src="returnIMGB64(tarea.profile_picture)" alt="" />
         </div>
-        
-        <div class="post_body">
 
+        <div class="post_body">
           <div class="post_title">
             <div>
               <span>{{ tarea.nombreUsuario }}</span>
               <p>{{ tarea.fecha }}</p>
             </div>
             <div>
-                   
               <div class="alumnoEntregaTarea_puntaje">
                 <input
                   type="number"
@@ -82,24 +79,21 @@
         </div>
       </div>
       <div class="alumnoEntregaTareaContenedor">
-        <div
-          class="alumnoEntregaTarea_checkbox"
-          v-if="!re_entrega"
-        >
+        <div class="alumnoEntregaTarea_checkbox" v-if="!re_entrega">
           <input
             type="checkbox"
             id="re_hacer"
             name="re_hacer"
             v-model="calificar.re_hacer"
           />
-          <label for="re_hacer"> Solicitar re-entrega</label>
+          <label for="re_hacer"> {{language.solicitarReEntrega}}</label>
         </div>
         <div class="entregaTareaCont">
-          <h2>Juicio :</h2>
+          <h2>{{language.juicio}} :</h2>
           <div class="">
             <textarea
               id="textarea"
-              placeholder="Escribe algo!"
+              :placeholder="language.escribeAlgo"
               required
               v-model="calificar.mensaje"
             ></textarea>
@@ -108,7 +102,7 @@
             class="boxText_btn alumnoEntregaTareaBtn"
             v-on:click="calificarEntrega()"
           >
-            <p>Calificar Entrega</p>
+            <p>{{language.calificarEntrega}}</p>
           </button>
         </div>
       </div>
@@ -122,6 +116,7 @@ import { Global } from "../Global";
 import axios from "axios";
 import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
+import language from "../assets/lang/calificarAlumno.json";
 import SectionRight from "./SectionRight.vue";
 window.$ = JQuery;
 export default {
@@ -133,7 +128,7 @@ export default {
   },
   data() {
     return {
-      title: "Corregir Alumno",
+      title: "",
       usuario: "",
       loading: true,
       spinner: Global.spinnerUrl,
@@ -155,6 +150,8 @@ export default {
       },
       re_entrega: this.$route.params.re_entrega,
       camposVacios: false,
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
@@ -166,9 +163,18 @@ export default {
       textarea.style.height = "";
       textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
     };
+    this.selectLanguage();
   },
   methods: {
-    comprobarCamposVacios(input1, input2){
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title =  this.language.title;
+    },
+    comprobarCamposVacios(input1, input2) {
       return input1 == "" || input2 == 0;
     },
     calificarEntrega() {
@@ -190,30 +196,29 @@ export default {
         mensaje: this.calificar.mensaje,
         re_hacer: re_hacer,
       };
-    
-      this.camposVacios = this.comprobarCamposVacios(this.calificar.mensaje , this.calificar.calificacion)
-     
-      if(!this.camposVacios){
-      axios
-        .put(Global.urlSitio + "entregas-correccion", data, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.$swal.fire(
-              "Tarea calificada correctamente.",
-              "",
-              "success"
-            );
-            this.$router.back();
-          }
-        })
-       .catch(() => {
-              this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: "Parece que algo salio mal ...",
+
+      this.camposVacios = this.comprobarCamposVacios(
+        this.calificar.mensaje,
+        this.calificar.calificacion
+      );
+
+      if (!this.camposVacios) {
+        axios
+          .put(Global.urlSitio + "entregas-correccion", data, config)
+          .then((res) => {
+            if (res.status == 200) {
+              this.$swal.fire(this.language.tareaCalificada, "", "success");
+              this.$router.back();
+            }
+          })
+          .catch(() => {
+            this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: this.language.algoSalioMal,
+            });
           });
-        });
-         }
+      }
     },
 
     returnIMGB64(img) {
@@ -240,10 +245,10 @@ export default {
           URL.revokeObjectURL(link.href);
         })
         .catch(() => {
-              this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+             text: this.language.algoSalioMal,
           });
         });
     },
@@ -279,11 +284,12 @@ export default {
             this.tarea.imagenes = res.data[0].imagenes;
           }
           this.loading = false;
-        }) .catch(() => {
-              this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+             text: this.language.algoSalioMal,
           });
         });
     },

@@ -142,8 +142,8 @@ export default {
         .catch(() => {
           let timerInterval;
           this.$swal.fire({
-            title: "Saliendo ...",
-            html: "Parece que tu sesion ha finalizado !",
+            title: this.language.tituloTokenExpirado,
+            html: this.language.tokenExpirado,
             timer: 2000,
             timerProgressBar: true,
             didOpen: () => {
@@ -180,8 +180,8 @@ export default {
         .catch(() => {
           let timerInterval;
           this.$swal.fire({
-            title: "Saliendo ...",
-            html: "Parece que tu sesion ha finalizado !",
+             title: this.language.tituloTokenExpirado,
+            html: this.language.tokenExpirado,
             timer: 2000,
             timerProgressBar: true,
             didOpen: () => {

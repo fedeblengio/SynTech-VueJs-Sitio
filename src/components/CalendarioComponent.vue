@@ -4,7 +4,7 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header linea_border_bottom">
-        <h2>{{language.calendarioClases}}</h2>
+        <h2>{{ language.calendarioClases }}</h2>
       </div>
 
       <FullCalendar
@@ -12,16 +12,16 @@
         style="margin-top: -25px !important"
       />
       <div class="sub_header">
-        <h3>{{language.misClases}}</h3>
+        <h3>{{ language.misClases }}</h3>
       </div>
       <table class="table table-striped">
         <thead>
           <tr class="text-center">
-            <th scope="col">{{language.grupo}}</th>
-            <th scope="col">{{language.materia}}</th>
-            <th scope="col">{{language.dia}}</th>
-            <th scope="col">{{language.hora}}</th>
-            <th scope="col">{{language.link}}</th>
+            <th scope="col">{{ language.grupo }}</th>
+            <th scope="col">{{ language.materia }}</th>
+            <th scope="col">{{ language.dia }}</th>
+            <th scope="col">{{ language.hora }}</th>
+            <th scope="col">{{ language.link }}</th>
           </tr>
         </thead>
         <div class="spinerCont" v-if="loading">
@@ -49,10 +49,10 @@
                 v-on:click="entrarJitsi(clase)"
                 v-if="profesor"
               >
-                {{language.iniciar}}
+                {{ language.iniciar }}
               </button>
               <button class="btn_jitsi" v-on:click="entrarJitsi(clase)" v-else>
-                {{language.entrar}}
+                {{ language.entrar }}
               </button>
             </td>
           </tr>
@@ -98,7 +98,7 @@ export default {
         timeZone: "GMT-3",
         events: [],
       },
-      title: "Calendario",
+      title: "",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listClasesVirtuales: "",
       profesor: false,
@@ -110,18 +110,18 @@ export default {
   mounted() {
     this.clasesVirtualesCreadas();
     this.verificarRol();
-     this.selectLanguage()
+    this.selectLanguage();
   },
 
   methods: {
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
-        this.calendarOptions.locale =  this.language.calendario
       } else {
         this.language = language.en;
-         this.calendarOptions.locale = this.language.calendario
       }
+      this.title = this.language.title;
+      this.calendarOptions.locale = this.language.calendario;
     },
     hora: function (fecha) {
       return moment(fecha).format("HH:mm ");
@@ -197,7 +197,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.lenguage.algoSalioMal,
           });
         });
     },
@@ -218,7 +218,7 @@ export default {
           .focus();
       } else {
         this.$swal.fire(
-          "Solo puedes acceder a la clase 5 min. antes de la hora especificada",
+          this.language.infoAcceder,
           "",
           "info"
         );
@@ -252,7 +252,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.lenguage.algoSalioMal,
           });
         });
     },

@@ -1,5 +1,6 @@
 {
     "es": {
+        "title": "Agenda Virtual",
         "agendarClaseVirtual": "Agendar Clase Virtual",
         "agendarClase": "Agendar clase",
         "registroClases": "Registro de clases",
@@ -14,10 +15,18 @@
         "grupo": "Grupo",
         "materia": "Materia",
         "dia": "Dia",
-        "hora": "Hora"
+        "hora": "Hora",
 
+
+        "confirmacionEliminar": "¿ Estas seguro que quieres eliminar ?",
+        "cancelar": "Cancelar",
+        "eliminar": "Eliminar",
+        "eliminarExitoso": "Eliminada",
+        "algoSalioMal": "Parece que algo salio mal ...",
+        "claseCreada": "Clase creada correctamente"
     },
     "en": {
+        "title": "Virtual Schedule",
         "agendarClaseVirtual": "Schedule Virtual Class",
         "agendarClase": "Schedule a class",
         "registroClases": "Class Registration",
@@ -32,7 +41,14 @@
         "grupo": "Group",
         "materia": "Subject",
         "dia": "Day",
-        "hora": "Time"
+        "hora": "Time",
 
+
+        "confirmacionEliminar": "Are you sure you want to delete?",
+        "cancelar": "Cancel",
+        "eliminar": "Delete",
+        "eliminarExitoso": "Deleted",
+        "algoSalioMal": "It seems that something went wrong...",
+        "claseCreada": "Class successfully created"
     }
 }

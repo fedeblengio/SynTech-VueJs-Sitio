@@ -1,5 +1,6 @@
 {
     "es": {
+        "title": "Calendario",
         "calendarioClases": "Calendario de Clases",
         "misClases": "Mis clases",
         "grupo": "Grupo",
@@ -9,9 +10,13 @@
         "link": "Link",
         "iniciar": "Iniciar",
         "entrar": "Entrar",
-        "calendario": "es"
+        "calendario": "es",
+
+        "algoSalioMal": "Parece que algo salio mal ...",
+        "infoAcceder": "Solo puedes acceder a la clase 5 min. antes de la hora especificada"
     },
     "en": {
+        "title": "Calendar",
         "calendarioClases": "Calendar of Classes",
         "misClases": "My classes",
         "grupo": "Group",
@@ -21,7 +26,11 @@
         "link": "Link",
         "iniciar": "Start",
         "entrar": "Join",
-        "calendario": "en"
+        "calendario": "en",
+
+        "algoSalioMal": "It seems that something went wrong...",
+        "infoAcceder": "You can only enter the class 5 minutes before the specified time."
+
 
     }
 }

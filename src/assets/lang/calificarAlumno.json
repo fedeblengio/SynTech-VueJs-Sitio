@@ -1,0 +1,32 @@
+{
+    "es": {
+        "title": "Corregir Alumno",
+        "tareaEntregada": "Tarea Entregada",
+        "camposVaciosAlert": "  Deben completar todos los campos antes de corregir a un alumno.",
+        "solicitarReEntrega": "Solicitar re-entrega",
+        "juicio": "Juicio",
+        "calificarEntrega": "Calificar Entrega",
+        "escribeAlgo": "Escribe tu juicio aqui",
+
+
+
+
+
+        "algoSalioMal": "Parece que algo salio mal ...",
+        "tareaCalificada": "Tarea calificada correctamente."
+    },
+    "en": {
+        "title": "Correct Student",
+        "tareaEntregada": "Task Submitted",
+        "camposVaciosAlert": "  All fields must be completed before correcting a student.",
+        "solicitarReEntrega": "Request re-delivery",
+        "juicio": "Judgement",
+        "calificarEntrega": "Rate Delivery",
+        "escribeAlgo": "Write your judgement here",
+
+
+        "algoSalioMal": "It seems that something went wrong...",
+        "tareaCalificada": "Correctly graded homework."
+
+    }
+}
