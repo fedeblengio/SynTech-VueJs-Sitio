@@ -5,20 +5,19 @@
 
     <div class="feed">
       <div class="feed_header">
-        <h2>Cambio contraseña</h2>
+        <h2>{{language.cambiarContra}}</h2>
       </div>
 
       <div class="cambioPwdContenedor">
         <div class="alert alert-secondary" role="alert">
-          Estas a punto de cambiar la contraseña de acceso, asegurate de
-          recordarla
+          {{language.avisoContra}}
         </div>
         <div
           class="alert alert-danger alert-dismissible fade show"
           role="alert"
           v-if="camposVacios && password.actual == ''"
         >
-          Debes ingresar tu contraseña actual
+         {{language.inputVacio1}}
           <button
             type="button"
             class="close"
@@ -30,7 +29,7 @@
           </button>
         </div>
         <div class="inputsPwd">
-          <span>Actual contraseña <em>*</em></span>
+          <span>{{language.contraActual}} <em>*</em></span>
           <input
             type="password"
             id="password"
@@ -49,7 +48,7 @@
           role="alert"
           v-if="camposVacios && password.nueva == ''"
         >
-          Debes ingresar una contraseña nueva
+         {{language.inputVacio2}}
           <button
             type="button"
             class="close"
@@ -61,7 +60,7 @@
           </button>
         </div>
         <div class="inputsPwd">
-          <span>Nueva contraseña <em>*</em></span>
+          <span>{{language.nuevaContra}} <em>*</em></span>
           <input
             type="password"
             id="password2"
@@ -77,7 +76,7 @@
           role="alert"
           v-if="camposVacios && password.confirmacion == ''"
         >
-          Debes repetir la contraseña ingresada previamente
+         {{language.inputVacio3}}
           <button
             type="button"
             class="close"
@@ -89,7 +88,7 @@
           </button>
         </div>
         <div class="inputsPwd">
-          <span>Confirmar contraseña <em>*</em></span>
+          <span>{{language.confirmarContra}} <em>*</em></span>
           <input
             type="password"
             id="password1"
@@ -102,7 +101,7 @@
         </div>
         <div class="cambioPwdBtn">
           <button class="boxText_btn" v-on:click="verificarContraseniaActual()">
-            Enviar
+           {{language.btnEnviar}}
           </button>
         </div>
       </div>
@@ -117,6 +116,7 @@ import axios from "axios";
 import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import language from "../assets/lang/cambiarContra.json";
 window.$ = JQuery;
 export default {
   name: "ProfileComponent",
@@ -127,7 +127,7 @@ export default {
   },
   data() {
     return {
-      title: "Profile",
+      title: "",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       aux: 0,
       password: {
@@ -136,10 +136,23 @@ export default {
         confirmacion: "",
       },
       camposVacios: false,
+         lang: localStorage.getItem("lang"),
+      language: ""
     };
   },
-  mounted() {},
+  mounted() {
+    this.selectLanguage();
+  },
+
   methods: {
+        selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title =  this.language.title;
+    },
     comprobarCamposVacios(input1, input2, input3) {
       return input1.length == 0 || input2.length == 0 || input3.length == 0;
     },
@@ -170,7 +183,7 @@ export default {
             this.$swal.fire({
               icon: "error",
               title: "ERROR",
-              text: "La constraseña actual es incorrecta ...",
+              text: this.language.contraIncorrecta,
             });
           });
       }
@@ -204,7 +217,7 @@ export default {
         this.$swal.fire({
           icon: "error",
           title: "ERROR",
-          text: "Las contraseñas ingresadas no coinciden ...",
+          text: this.language.contraNoCoinciden,
         });
       }
     },
@@ -228,7 +241,7 @@ export default {
             localStorage.removeItem("logged");
             this.$router.push("/login");
             this.$swal.fire(
-              "Contraseña actualizada correctamente",
+            this.language.contraCambiada,
               "",
               "success"
             );
@@ -238,7 +251,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Hubo un error al intentar actualizar su contraseña ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
