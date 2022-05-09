@@ -1,18 +1,18 @@
 <template>
   <div class="contenedorDiv">
-    <vue-headful :title="title" />
+    <vue-headful :title="language.title" />
     <SectionLeft></SectionLeft>
 
     <div class="feed">
       <div class="feed_header linea_border_bottom">
-        <h2>Home</h2>
+        <h2>{{language.title}}</h2>
       </div>
       <div
         class="alert alert-danger alert-dismissible fade show"
         role="alert"
         v-if="camposVacios"
       >
-        Debes completar todos los campos antes de enviar tu publicacion.
+       {{language.inputVacio1}}
         <button
           type="button"
           class="close"
@@ -30,7 +30,7 @@
 
             <textarea
               id="textarea"
-              placeholder="Escribe algo!"
+              :placeholder=language.escribeAlgo
               required
               v-model="mensaje"
             ></textarea>
@@ -44,7 +44,7 @@
                 required
               >
                 <option value="" disabled selected hidden>
-                  Seleccione un grupo
+                 {{language.seleccioneGrupo}}
                 </option>
 
                 <option
@@ -91,7 +91,7 @@
               </div>
             </div>
             <button class="boxText_btn" v-on:click="enviarArchivos()">
-              Enviar
+              {{language.enviar}}
             </button>
           </div>
         </div>
@@ -129,14 +129,14 @@
                 v-on:click="comprobarOpcionEliminar(post.data.id)"
                 style="color: red"
               >
-                Eliminar
+                {{language.eliminar}}
               </p>
             </div>
           </i>
           <i v-else class="far menu-card-home btn"> &nbsp; </i>
           <div class="post_title">
             <span>
-              <b>{{ post.data.nombreAutor }}</b> publicó para
+              <b>{{ post.data.nombreAutor }}</b> {{language.publicoPara}}
               <b>{{ post.data.idGrupo }} - {{ post.data.materia }}</b>
             </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -186,6 +186,7 @@ import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
+import language from "../assets/lang/home.json";
 
 window.$ = JQuery;
 
@@ -202,7 +203,6 @@ export default {
       spinner: Global.spinnerUrl,
       usuario: "",
       profesor: false,
-      title: "Home",
       selectedGroup: "",
       file: [],
       traerArchivos: "",
@@ -213,9 +213,12 @@ export default {
       index: null,
       aux: 1,
       camposVacios: false,
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
+     this.selectLanguage();
     this.loading = true;
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
@@ -232,8 +235,17 @@ export default {
       textarea.style.height = "";
       textarea.style.height = Math.min(textarea.scrollHeight, 300) + "px";
     };
+   
   },
   methods: {
+       selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     comprobarCamposVacios(input1, input2) {
       return input1.length == 0 || input2.length == 0;
     },
@@ -384,14 +396,14 @@ export default {
           this.file.push(event.target.files[0]);
         } else {
           this.$swal.fire(
-            "El tamamaño del archivo es mayor a 50 mb",
+            this.language.archivoMayor50,
             "",
             "info"
           );
         }
       } else {
         this.$swal.fire(
-          "Solo se permite 3 archivos por publicacion",
+          this.language.maximo3Archivos,
           "",
           "info"
         );
@@ -437,8 +449,8 @@ export default {
       if (!this.camposVacios) {
         let timerInterval;
         this.$swal.fire({
-          title: "Enviando...",
-          html: "Estamos publicando tus archivos !",
+          title: this.language.enviando,
+          html: this.language.enviandoTuPublicacion,
           allowOutsideClick: false,
           timerProgressBar: true,
           didOpen: () => {
@@ -500,7 +512,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -508,7 +520,7 @@ export default {
     comprobarOpcionEliminar(idPublicacion) {
       this.$swal
         .fire({
-          title: "¿ Estas seguro que quieres eliminar ?",
+          title: this.language.confirmarEliminacion,
           showDenyButton: true,
           confirmButtonText: "Eliminar",
           denyButtonText: `Cancelar`,
@@ -533,7 +545,7 @@ export default {
         .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Publicacion eliminada", "", "success");
+            this.$swal.fire(this.language.publicacionEliminada, "", "success");
             location.reload();
           }
         })
@@ -541,7 +553,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },

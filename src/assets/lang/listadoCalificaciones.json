@@ -1,0 +1,20 @@
+{
+    "es": {
+        "title": "Historial de Entregas",
+        "tareasEntregadas": "Tareas Entregadas",
+        "buscarTarea": "Buscar tarea",
+        "buscarTareaInput": "Escriba nombre de tarea",
+        "noSeEncontroTarea": "No se ha encontrado ninguna tarea segun los datos ingresados.",
+        "vence": "Vence",
+        "algoSalioMal": "Parece que algo salio mal ..."
+    },
+    "en": {
+        "title": "Delivery History",
+        "tareasEntregadas": "Tasks Delivered",
+        "buscarTarea": "Search task",
+        "buscarTareaInput": "Enter task name",
+        "noSeEncontroTarea": "No task has been found according to the data entered.",
+        "vence": "Expires",
+        "algoSalioMal": "It seems that something went wrong..."
+    }
+}

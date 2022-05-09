@@ -1,6 +1,6 @@
 <template>
   <div class="contenedorDiv">
-    <vue-headful :title="title" />
+    <vue-headful :title="language.title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
@@ -13,7 +13,7 @@
           data-toggle="modal"
           data-target="#modalTarea"
         >
-          Crear Tarea
+         {{ language.crearTarea}}
         </button>
         <!--  </div> -->
       </div>
@@ -30,7 +30,7 @@
               },
             }"
             class="nav-link"
-            >Inicio</router-link
+            >{{language.navInicio}}</router-link
           >
         </li>
 
@@ -47,7 +47,7 @@
             }"
             class="nav-link"
           >
-            Miembros
+           {{language.navMiembros}}
           </router-link>
         </li>
         <li class="nav-item">
@@ -65,7 +65,7 @@
             }"
             class="nav-link active"
           >
-            Tareas
+             {{language.navTareas}}
           </router-link>
           <router-link
             v-else
@@ -81,7 +81,7 @@
             }"
             class="nav-link"
           >
-            Tareas
+             {{language.navTareas}}
           </router-link>
         </li>
         <li class="nav-item" v-if="usuario.ou == 'Profesor'">
@@ -99,7 +99,7 @@
             }"
             class="nav-link active"
           >
-            Registro
+             {{language.navRegistro}}
           </router-link>
 
           <router-link
@@ -116,7 +116,7 @@
             }"
             class="nav-link"
           >
-            Registro
+              {{language.navRegistro}}
           </router-link>
         </li>
       </ul>
@@ -133,7 +133,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Crear Tarea</h5>
+              <h5 class="modal-title" id="exampleModalLabel">{{language.crearTarea}}</h5>
     
               <button
                 type="button"
@@ -150,7 +150,7 @@
           role="alert"
           v-if="camposVacios"
         >
-         Debes completar todos los campos antes de crear una tarea
+         {{language.inputVacio1}}
           <button
             type="button"
             class="close"
@@ -164,36 +164,36 @@
               <div class="styleTarea">
                 <div class="text-right">
                   <small class="text-muted" style="margin-right: 28px; font-size: 16px"
-                    >Publicar para : {{ routerValues.idGrupo }}
+                    >{{language.publicarPara}} : {{ routerValues.idGrupo }}
                     {{ routerValues.materia }}
                   </small>
                 </div>
                 <div>
                   <label for="titulo" style="margin-left: 24px"
-                    >Titulo :
+                    >{{language.tituloTarea}} :
                   </label>
                   <input
                     type="text"
                     v-model="tarea.titulo"
-                    placeholder="Escribe una Titulo"
+                    :placeholder='language.placeholderTitulo'
                     required
                   />
                 </div>
 
                 <div>
                   <label for="descripcion" style="margin-left: 24px"
-                    >Descripcion :
+                    >{{language.descripcionTarea}} :
                   </label>
                   <textarea
                     id="textarea"
-                    placeholder="Escribe una Descripcion"
+                    :placeholder='language.placeholderDesc'
                     required
                     v-model="tarea.descripcion"
                   ></textarea>
                 </div>
                 <div>
                   <label for="datePicker" style="margin-left: 24px"
-                    >Fecha de Vencimiento :
+                    >{{language.fecha_vencimiento}} :
                   </label>
                   <input
                     type="date"
@@ -238,7 +238,7 @@
             </div>
             <div class="modal-footer">
               <button class="boxText_btn_tarea" v-on:click="crearTarea()">
-                Publicar
+                {{language.crearBtn}}
               </button>
             </div>
           </div>
@@ -273,17 +273,17 @@
             </div>
             <div class="p-4" v-else-if="objectoVacio(listadoHistorialTareas)">
               <p class="p-4 m-2 text-center">
-                No hay tareas entregadas registradas.
+                {{language.noHayTareasRegistradas}}
               </p>
             </div>
             <div class="p-4" v-else>
               <table class="table table-striped">
                 <thead class="thead-dark">
                   <tr>
-                    <th scope="col">Tarea</th>
-                    <th scope="col ml-1">Primer Nota</th>
-                    <th scope="col ml-1">Segunda Nota</th>
-                    <th scope="col">Entrega</th>
+                    <th scope="col">{{language.tablaTarea}}</th>
+                    <th scope="col ml-1">{language.tablaPrimerNota}}</th>
+                    <th scope="col ml-1">{language.tablaSegundaNota}}</th>
+                    <th scope="col">{language.tablaEntrega}}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -306,7 +306,7 @@
                             idTareas: tarea.idTareas,
                           },
                         }"
-                        >Ver</router-link
+                        >{{language.ver}}</router-link
                       >
                     </td>
                   </tr>
@@ -331,7 +331,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">
-                Tarea Publicada
+                {{language.tareaPublicada}}
               </h5>
               <button
                 type="button"
@@ -358,7 +358,7 @@
                     <span> {{ tareaSeleccionada.titulo }} </span>
                     <p>
                       <small class="text-muted">
-                        Vence :
+                        {{language.vence}} :
                         {{ moment(tareaSeleccionada.fechaVencimiento) }}</small
                       >
                     </p>
@@ -405,7 +405,7 @@
       <!--FIN  MODAL VER TAREA -->
 
       <div class="sub_header" v-if="this.$route.params.tareas_vencidas">
-        <h3>Historial de Correciones</h3>
+        <h3>{{language.historialCorreciones}}</h3>
       </div>
       <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
@@ -436,13 +436,13 @@
                 data-toggle="modal"
                 data-target="#exampleModal"
               >
-                Ver
+                {{language.ver}}
               </p>
               <p
                 class="btn_postBody red"
                 v-on:click="comprobarOpcionEliminar(tarea.idTarea)"
               >
-                Eliminar
+                {{language.eliminar}}
               </p>
             </div>
           </i>
@@ -460,15 +460,15 @@
             <div class="d-flex w-100 justify-content-between ">
               <h5 class="mb-1">{{ tarea.titulo }}</h5>
               <small class="text-muted" v-if="tareas_vencidas"
-                >Vencio: {{ moment(tarea.fecha_vencimiento) }}
+                >{{language.vencio}}: {{ moment(tarea.fecha_vencimiento) }}
               </small>
               <small class="text-muted" v-else
-                >Vence: {{ moment(tarea.fecha_vencimiento) }}</small
+                >{{language.vence}}: {{ moment(tarea.fecha_vencimiento) }}</small
               >
             </div>
             <p class="mb-1">{{ tarea.descripcion }}</p>
             <small class="text-muted">
-              <b>Haga click para visualizar las entregas</b></small
+              <b>{{language.hagaClickParaVerEntregas}}</b></small
             >
           </router-link>
         </div>
@@ -495,12 +495,12 @@
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">{{ tareas.titulo }}</h5>
               <small class="text-muted"
-                >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
+                >{{language.vence}}: {{ moment(tareas.fecha_vencimiento) }}</small
               >
             </div>
             <p class="mb-1">{{ tareas.descripcion }}</p>
             <small class="text-muted">
-              <b>Haga click para visualizar las entregas</b></small
+              <b>{{language.hagaClickParaVerEntregas}}</b></small
             >
           </router-link>
         </div>
@@ -523,12 +523,12 @@
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
               <small class="text-muted"
-                >Vence: {{ moment(tareas.fecha_vencimiento) }}</small
+                >{{language.vence}}: {{ moment(tareas.fecha_vencimiento) }}</small
               >
             </div>
             <p class="mb-1">{{ tareas.descripcion }}</p>
             <small class="text-muted">
-              <b>Haga click para visualizar las entregas</b></small
+              <b>{{language.hagaClickParaVerEntregas}}</b></small
             >
           </router-link>
         </div>
@@ -537,9 +537,9 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">Foto</th>
-              <th scope="col">Cedula</th>
-              <th scope="col">Nombre</th>
+              <th scope="col">{{language.alumnoFoto}}</th>
+              <th scope="col">{{language.alumnoCedula}}</th>
+              <th scope="col">{{language.alumnoNombre}}</th>
               <th scope="col">&nbsp;</th>
             </tr>
           </thead>
@@ -565,7 +565,7 @@
                   data-toggle="modal"
                   data-target=".bd-example-modal-lg"
                 >
-                  Ver <i class="far fa-eye"></i>
+                  {{language.ver}} <i class="far fa-eye"></i>
                 </div>
               </td>
             </tr>
@@ -584,6 +584,7 @@ import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
+import language from "../assets/lang/listadoTareas.json";
 
 export default {
   name: "tareasEntregadas",
@@ -594,7 +595,7 @@ export default {
   },
   data() {
     return {
-      title: "Tareas",
+      title: "",
       loading: true,
       spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
@@ -637,9 +638,12 @@ export default {
       nalumno: "",
       ciAlumnos: "",
       camposVacios: false,
+          lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
+    this.selectLanguage() 
     this.routerValues.idGrupo = this.$route.params.idGrupo;
     this.routerValues.idMateria = this.$route.params.idMateria;
     this.routerValues.materia = this.$route.params.materia;
@@ -651,6 +655,14 @@ export default {
     }
   },
   methods: {
+       selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     comprobarCamposVacios(input1, input2, input3) {
       return input1.length == 0 || input2.length == 0 || input3.length == 0;
     },
@@ -659,7 +671,7 @@ export default {
     },
     calificacion(nota) {
       if (nota == undefined || nota == 0 || nota == null) {
-        return "S / C";
+        return this.language.sinCalificar;
       } else {
         return nota + " / 12";
       }
@@ -701,7 +713,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -760,7 +772,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -777,10 +789,10 @@ export default {
     comprobarOpcionEliminar(idTarea) {
       this.$swal
         .fire({
-          title: "¿ Estas seguro que quieres eliminar ?",
+          title: this.language.preguntarEliminar,
           showDenyButton: true,
-          confirmButtonText: "Eliminar",
-          denyButtonText: `Cancelar`,
+          confirmButtonText: this.language.eliminar,
+          denyButtonText: this.language.cancelar,
         })
         .then((result) => {
           /* Read more about isConfirmed, isDenied below */
@@ -801,7 +813,7 @@ export default {
         .delete(Global.urlSitio + "tarea?idTareas=" + idTarea, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Tarea eliminada correctamente", "", "success");
+            this.$swal.fire(this.language.tareaEliminada, "success");
             location.reload();
           }
         })
@@ -809,7 +821,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -858,8 +870,8 @@ export default {
         let nombres = [];
         let timerInterval;
         this.$swal.fire({
-          title: "Cargando...",
-          html: "Estamos creando tu tarea !",
+          title: this.language.cargando,
+          html: this.language.creandoTarea,
           allowOutsideClick: false,
           timerProgressBar: true,
           didOpen: () => {
@@ -909,7 +921,7 @@ export default {
         .post(Global.urlSitio + "tarea", formData, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Tarea creada", "", "success");
+            this.$swal.fire(this.languages.tareaCreada, "", "success");
             location.reload();
           }
         })
@@ -917,7 +929,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -931,14 +943,14 @@ export default {
           this.tarea.file.push(event.target.files[0]);
         } else {
           this.$swal.fire(
-            "El tamamaño del archivo es mayor a 50 mb",
+           this.language.archivoMayor50,
             "",
             "info"
           );
         }
       } else {
         this.$swal.fire(
-          "Solo se permite 3 archivos por publicacion",
+          this.language.maximo3Archivos,
           "",
           "info"
         );
@@ -1007,7 +1019,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -1036,7 +1048,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text:this.language.algoSalioMal,
           });
         });
     },

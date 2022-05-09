@@ -4,17 +4,17 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>Tareas Entregadas</h2>
+        <h2>{{language.tareasEntregadas}}</h2>
       </div>
       <div class="second_feed" style="border: none">
         <div class="listadoUsuarioComponentBuscador">
-          <h3 class="">Buscar tarea</h3>
+          <h3 class="">{{language.buscarTarea}}</h3>
           <div class="input-group mb-3">
             <input
               type="text"
               class="form-control"
-              placeholder="Buscar Usuario"
-              aria-label="Buscar Usuario"
+              :placeholder=language.buscarTareaInput
+              :aria-label=language.buscarTareaInput
               id="filtro"
               aria-describedby="basic-addon2"
               v-on:keyup="filtrarPorNombre"
@@ -34,7 +34,7 @@
           class="noResultadoRegistroComp"
           v-else-if="comprobarArrayVacio(listadoTareas)"
         >
-          <p>No se ha encontrado ninguna tarea segun los datos ingresados.</p>
+          <p>{{language.noSeEncontroTarea}}</p>
         </div>
         <div class="contLisCalif" v-else>
           <router-link
@@ -53,7 +53,7 @@
             <div class="calificacionesCont">
               <h5 class="calititulo">{{ tareas.titulo }}</h5>  
                 <p class="calfecha"
-                >Vence: {{ moment(tareas.fecha_vencimiento) }}</p>
+                >{{language.vence}}: {{ moment(tareas.fecha_vencimiento) }}</p>
             </div>
             <div class="calificacionesCont" style="margin-top:10px;">
               <h5 style="font-size: 14px;" class="calititulo">{{ tareas.descripcion }}</h5>  
@@ -77,6 +77,8 @@ import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
+import language from "../assets/lang/listadoCalificaciones.json";
+
 window.$ = JQuery;
 export default {
   name: "tareasEntregadas",
@@ -87,17 +89,29 @@ export default {
   },
   data() {
     return {
-      title: "Historial de Entregas",
+      title: "",
       loading: true,
       spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listadoTareas: "",
+       lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
+     this.selectLanguage();
     this.cargarTareasEntregadas();
+
   },
   methods: {
+       selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     filtrarPorNombre() {
       var input = document.getElementById("filtro").value.toLowerCase();
       var listaTarea = [];
@@ -143,7 +157,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },

@@ -18,7 +18,7 @@ import vueHeadful from "vue-headful";
 /* import { Global } from "../Global";
 import axios from "axios";
 import JQuery from "jquery"; */
-import language from "../assets/lang/errorComponent.json";
+import language from "../assets/lang/error404.json";
 
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
