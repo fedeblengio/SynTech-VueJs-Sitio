@@ -5,7 +5,7 @@
 
     <div class="feed" v-if="loading">
       <div class="feed_header linea_border_bottom">
-        <h2>Informacion Personal</h2>
+        <h2>{{ language.informacionPersonal }}</h2>
       </div>
       <div class="spinerCont">
         <img :src="spinner" class="spinnerCSS" />
@@ -13,7 +13,7 @@
     </div>
     <div class="feed" v-else>
       <div class="feed_header linea_border_bottom">
-        <h2>Informacion Personal</h2>
+        <h2>{{ language.informacionPersonal }}</h2>
       </div>
 
       <div class="boxText" style="border-bottom: none">
@@ -25,7 +25,7 @@
 
               <div class="image-upload">
                 <label for="file-input">
-                  <h4>Cambiar foto</h4>
+                  <h4>{{ language.cambiarFoto }}</h4>
                 </label>
 
                 <input
@@ -41,21 +41,21 @@
         </div>
 
         <div class="contenedorPerfil">
-          <h5>Tipo de Usuario:</h5>
+          <h5>{{ language.tipoDeUsuario }}:</h5>
           <div class="tipoDeUser">
             <div class="contenidoUser" id="profesor">
-              <h4>Profesor</h4>
+              <h4>{{ language.profesor }}</h4>
               <i class="fal fa-chalkboard-teacher"></i>
             </div>
             <div class="contenidoUser" id="alumno">
-              <h4>Alumno</h4>
+              <h4>{{ language.alumno }}</h4>
               <i class="fal fa-users-class"></i>
             </div>
           </div>
 
           <div class="infoUserContenedor">
             <div class="infoUser">
-              <span>CI:</span>
+              <span>{{ language.ci }}:</span>
               <input
                 type="text"
                 class="form-control"
@@ -65,7 +65,7 @@
             </div>
 
             <div class="infoUser">
-              <span>Grupo:</span>
+              <span>{{ language.grupo }}:</span>
               <input
                 type="text"
                 class="form-control"
@@ -73,9 +73,9 @@
                 disabled
               />
             </div>
-            
+
             <div class="infoUser">
-              <span>Nombre Completo:</span>
+              <span>{{ language.nombreCompleto }}:</span>
               <div class="input-group mb-3" v-if="!modficarN">
                 <input
                   type="text"
@@ -97,7 +97,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Escriba su nombre aqui ..."
+                  :placeholder="language.placeholderNuevoNombre"
                   v-model="newName"
                 />
                 <div class="input-group-append">
@@ -120,7 +120,7 @@
             </div>
 
             <div class="infoUser">
-              <span>Email:</span>
+              <span>{{ language.email }}:</span>
               <div class="input-group mb-3" v-if="!modficarE">
                 <input
                   type="text"
@@ -150,7 +150,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Ejemplo: micorreo@gmail.com"
+                  :placeholder="language.placeholderNuevoEmail"
                   v-model="newEmail"
                 />
                 <div class="input-group-append">
@@ -172,7 +172,7 @@
               </div>
             </div>
             <div class="infoUser">
-              <span>Genero:</span>
+              <span>{{ language.genero }}:</span>
               <div class="input-group mb-3" v-if="!modficarG">
                 <input
                   type="text"
@@ -202,7 +202,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Ejemplo: Helicoptero Apache H-21"
+                  :placeholder="language.placeholderNuevoGenero"
                   v-model="newGenero"
                 />
                 <div class="input-group-append">
@@ -225,7 +225,9 @@
             </div>
           </div>
 
-          <router-link to="/cambioPwd"> cambiar contraseña </router-link>
+          <router-link to="/cambioPwd">
+            {{ language.cambiarContrasenia }}
+          </router-link>
         </div>
       </div>
     </div>
@@ -239,6 +241,7 @@ import axios from "axios";
 import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import language from "../assets/lang/profile.json";
 window.$ = JQuery;
 export default {
   name: "ProfileComponent",
@@ -249,7 +252,7 @@ export default {
   },
   data() {
     return {
-      title: "Perfil",
+      title: "",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       traerMaterias: "",
       nombreGrupo: "",
@@ -261,11 +264,14 @@ export default {
       newName: "",
       newEmail: "",
       newGenero: "",
-      defaultGenero: "Ingresar Genero",
-      defaultEmail: "Ingresar Email",
+      defaultGenero: "",
+      defaultEmail: "",
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
+    this.selectLanguage();
     if (this.usuario.ou == "Profesor") {
       this.profesor = true;
       this.traerGrupoProfesor();
@@ -274,17 +280,31 @@ export default {
     }
   },
   methods: {
-    comprobarInputVacio(input1,datoActuallizar){
-        if(input1.length== 0){
-               this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            html: "No puedes ingresar un <b>"+ datoActuallizar+"</b> vacio",
-          });
-          return true;
-        }else{
-          return false;
-        }
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+      this.defaultGenero = this.language.defaultGenero;
+      this.defaultEmail = this.language.defaultEmail;
+    },
+    comprobarInputVacio(input1, datoActuallizar) {
+      if (input1.length == 0) {
+        this.$swal.fire({
+          icon: "error",
+          title: "ERROR",
+          html:
+            this.language.noPuedeIngresar +
+            " <b>" +
+            datoActuallizar +
+            "</b>" 
+        });
+        return true;
+      } else {
+        return false;
+      }
     },
     getFile(event) {
       let size = event.target.files[0].size;
@@ -292,11 +312,7 @@ export default {
       if (res <= 50) {
         this.cambiarFoto(event.target.files[0]);
       } else {
-        this.$swal.fire(
-          "El tamaño del archivo excede el límite máximo permitido (50 MB)",
-          "",
-          "info"
-        );
+        this.$swal.fire(this.language.archivoMayor50, "", "info");
       }
     },
     cargarFoto() {
@@ -338,29 +354,31 @@ export default {
         nuevoNombre: "",
         nuevoEmail: this.newEmail,
       };
-      if(!this.comprobarInputVacio(this.newEmail,"Email")){
-      axios
-        .put(Global.urlSitio + "usuario-db", data, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.actualizarJSON(response.data.token);
-            this.$swal.fire({
-              icon: "success",
-              title: "Perfil Actualizado",
-              footer:
-                '<a href="">Tus datos se actualizaran en unos minutos</a>',
-            });
+      if (!this.comprobarInputVacio(this.newEmail, this.language.email)) {
+        axios
+          .put(Global.urlSitio + "usuario-db", data, config)
+          .then((response) => {
+            if (response.status == 200) {
+              this.actualizarJSON(response.data.token);
+              this.$swal.fire({
+                icon: "success",
+                title: this.language.perfilActualizado,
+                footer:
+                  '<a href="">' +
+                  this.language.tusDatosSeranActualizados +
+                  "</a>",
+              });
 
-            this.modficarE = false;
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: "Parece que algo salio mal ...",
+              this.modficarE = false;
+            }
+          })
+          .catch(() => {
+            this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: this.language.algoSalioMal,
+            });
           });
-        });
       }
     },
     modificarN(usuario) {
@@ -377,29 +395,31 @@ export default {
         nuevoEmail: "",
         nuevoNombre: this.newName,
       };
-      if(!this.comprobarInputVacio(this.newName,"Nombre")){
-      axios
-        .put(Global.urlSitio + "usuario-db", data, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.actualizarJSON(response.data.token);
-            this.$swal.fire({
-              icon: "success",
-              title: "Perfil Actualizado",
-              footer:
-                '<a href="">Tus datos se actualizaran en unos minutos</a>',
-            });
+      if (!this.comprobarInputVacio(this.newName, this.language.nombreCompleto)) {
+        axios
+          .put(Global.urlSitio + "usuario-db", data, config)
+          .then((response) => {
+            if (response.status == 200) {
+              this.actualizarJSON(response.data.token);
+              this.$swal.fire({
+                icon: "success",
+                title: this.language.perfilActualizado,
+                footer:
+                  '<a href="">' +
+                  this.language.tusDatosSeranActualizados +
+                  "</a>",
+              });
 
-            this.modficarN = false;
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: "Parece que algo salio mal ...",
+              this.modficarN = false;
+            }
+          })
+          .catch(() => {
+            this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: this.language.algoSalioMal,
+            });
           });
-        });
       }
     },
 
@@ -417,29 +437,31 @@ export default {
         nuevoEmail: "",
         nuevoNombre: "",
       };
-      if(!this.comprobarInputVacio(this.newGenero,"Genero")){
-      axios
-        .put(Global.urlSitio + "usuario-db", data, config)
-        .then((response) => {
-          if (response.status == 200) {
-            this.actualizarJSON(response.data.token);
-            this.$swal.fire({
-              icon: "success",
-              title: "Perfil Actualizado",
-              footer:
-                '<a href="">Tus datos se actualizaran en unos minutos</a>',
-            });
+      if (!this.comprobarInputVacio(this.newGenero,this.language.genero)) {
+        axios
+          .put(Global.urlSitio + "usuario-db", data, config)
+          .then((response) => {
+            if (response.status == 200) {
+              this.actualizarJSON(response.data.token);
+              this.$swal.fire({
+                icon: "success",
+                title: this.language.perfilActualizado,
+                footer:
+                  '<a href="">' +
+                  this.language.tusDatosSeranActualizados +
+                  "</a>",
+              });
 
-            this.modficarG = false;
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: "Parece que algo salio mal ...",
+              this.modficarG = false;
+            }
+          })
+          .catch(() => {
+            this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: this.language.algoSalioMal,
+            });
           });
-        });
       }
     },
     cambiarFoto(foto) {
@@ -462,9 +484,11 @@ export default {
             this.cargarFoto();
             this.$swal.fire({
               icon: "success",
-              title: "Perfil Actualizado",
+              title: this.language.perfilActualizado,
               footer:
-                '<a href="">Tus datos se actualizaran en unos minutos</a>',
+                '<a href="">' +
+                this.language.tusDatosSeranActualizados +
+                "</a>",
             });
           }
         })
@@ -472,7 +496,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+             text: this.language.algoSalioMal,
           });
         });
     },
@@ -522,7 +546,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+              text: this.language.algoSalioMal,
           });
         });
     },
@@ -555,7 +579,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+              text: this.language.algoSalioMal,
           });
         });
     },
