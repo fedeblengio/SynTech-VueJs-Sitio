@@ -5,7 +5,7 @@
 
     <div class="feed">
       <div class="feed_header">
-        <h2>Registro de Listas pasadas</h2>
+        <h2>{{ language.registroClasesPasadas }}</h2>
       </div>
       <ul class="nav nav-tabs justify-content-center text-decoration-none">
         <li class="nav-item">
@@ -14,7 +14,7 @@
             class="nav-link"
             style="text-decoration: none"
           >
-            Agendar Clase</router-link
+            {{ language.agendarClase }}</router-link
           >
         </li>
 
@@ -24,16 +24,16 @@
             class="nav-link active"
             style="text-decoration: none"
           >
-            Registro de Clases
+            {{ language.registroClases }}
           </router-link>
         </li>
         <li class="nav-item">
           <router-link
             to="/historial-faltas"
-            class="nav-link "
+            class="nav-link"
             style="text-decoration: none"
           >
-            Historial de Faltas
+            {{ language.historialFaltas }}
           </router-link>
         </li>
       </ul>
@@ -44,9 +44,9 @@
           v-model="idMateria"
           name="grupos"
           required
-          placeholder="Seleccione Grupo y Asignatura"
+          :placeholder=language.placeholderSeleccioneGrupoYMateria
         >
-          <option value="" disabled selected hidden>Seleccione grupo</option>
+          <option value="" disabled selected hidden>{{ language.seleccioneGrupo }}</option>
           <option
             v-for="todo in traerMaterias"
             :key="todo.id"
@@ -103,7 +103,7 @@
         class="noResultadoRegistroComp"
         v-else-if="comprobarArrayVacio(registroListas)"
       >
-        <p>No se ha encontrado ninguna lista segun los datos ingresados.</p>
+        <p>{{language.noEncontroDatos}}</p>
       </div>
       <div v-else>
         <div
@@ -126,7 +126,7 @@
                   },
                 }"
                 class="router-link"
-                >Ver<i
+                >{{language.ver}}<i
                   class="fas fa-eye"
                   v-on:click="descargarLista(lista.idClase)"
                 >
@@ -135,7 +135,7 @@
             </small>
           </div>
           <p class="fechaRegistroComponent">
-            Fecha: {{ moment(lista.created_at) }}
+            {{language.fecha}}: {{ moment(lista.created_at) }}
           </p>
         </div>
       </div>
@@ -153,7 +153,7 @@ import moment from "moment";
 import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
-
+import language from "../assets/lang/registroClases.json";
 export default {
   name: "App",
   components: {
@@ -163,7 +163,7 @@ export default {
   },
   data() {
     return {
-      title: "Registro Listas",
+      title: "",
       loading: true,
       spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
@@ -175,13 +175,24 @@ export default {
       anio: "",
       opt: false,
       resultadoVacio: false,
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
+    this.selectLanguage();
     this.traerListas();
     this.traerGrupoProfesor();
   },
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     moment: function (fecha) {
       return moment(fecha).format("DD/MM/YYYY h:mm a");
     },
@@ -206,7 +217,7 @@ export default {
       }
       if (!this.opt) {
         this.$swal.fire(
-          "Debes ingresar algun dato antes de filtrar",
+          this.language.inputVacio1,
           "",
           "info"
         );
@@ -293,7 +304,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text:this.language.algoSalioMal,
           });
         });
     },
@@ -322,7 +333,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text:this.language.algoSalioMal,
           });
         });
     },
