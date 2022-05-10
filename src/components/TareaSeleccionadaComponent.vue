@@ -53,29 +53,29 @@
         class="tareaSeleccionadaCont"
         style="border-bottom: 1px solid var(--background)"
       >
-        <h3>Entregar Tarea</h3>
+        <h3>{{ language.publicarTarea }}</h3>
         <div class="form">
-                <div
-          class="alert alert-warning alert-dismissible fade show"
-          role="alert"
-          v-if="camposVacios"
-        >
-         Debes escribri algo antes de enviar tu tarea.
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-            v-on:click="camposVacios = false"
+          <div
+            class="alert alert-warning alert-dismissible fade show"
+            role="alert"
+            v-if="camposVacios"
           >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+            {{ language.inputVacio1 }}
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              aria-label="Close"
+              v-on:click="camposVacios = false"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
           <div class="boxText_input">
             <img :src="returnImgLocalStorage()" />
             <textarea
               id="textarea"
-              placeholder="Escribe algo!"
+              :placeholder="language.placeholderEntregaAlumno"
               required
               v-model="entregarTarea.mensaje"
             ></textarea>
@@ -115,7 +115,7 @@
               </div>
             </div>
             <button class="boxText_btn" v-on:click="enviarArchivos()">
-              Enviar Tarea
+              {{ language.enviar }}
             </button>
           </div>
         </div>
@@ -131,6 +131,7 @@ import axios from "axios";
 import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import language from "../assets/lang/tareaSeleccionada.json";
 window.$ = JQuery;
 export default {
   name: "TareaSeleccionadaComponent",
@@ -141,7 +142,9 @@ export default {
   },
   data() {
     return {
-      title: "Tarea",
+      lang: localStorage.getItem("lang"),
+      language: "",
+      title: "",
       usuario: "",
       loading: true,
       spinner: Global.spinnerUrl,
@@ -166,6 +169,7 @@ export default {
     };
   },
   mounted() {
+    this.selectLanguage();
     this.cargarTareaSeleccionada();
 
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
@@ -177,7 +181,15 @@ export default {
     };
   },
   methods: {
-    comprobarCamposVacios(input1){
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
+    comprobarCamposVacios(input1) {
       return input1.length == 0;
     },
     getFile(event) {
@@ -187,18 +199,10 @@ export default {
         if (res <= 50) {
           this.entregarTarea.file.push(event.target.files[0]);
         } else {
-          this.$swal.fire(
-            "El tamamaño del archivo es mayor a 50 mb",
-            "",
-            "info"
-          );
+          this.$swal.fire(this.language.archivoMayor50, "", "info");
         }
       } else {
-        this.$swal.fire(
-          "Solo se permite 3 archivos por publicacion",
-          "",
-          "info"
-        );
+        this.$swal.fire(this.language.maximo3Archivos, "", "info");
       }
     },
     cargarTareaSeleccionada() {
@@ -234,7 +238,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -267,7 +271,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -296,8 +300,8 @@ export default {
         let nombres = [];
         let timerInterval;
         this.$swal.fire({
-          title: "Cargando...",
-          html: "Estamos enviando tu tarea !",
+          title: this.language.cargando,
+          html: this.language.estamosEnviando,
           allowOutsideClick: false,
           timerProgressBar: true,
           didOpen: () => {
@@ -348,14 +352,14 @@ export default {
           if (response.status == 200) {
             /* REDIRECCIONAR AL MENU DE TAREAS , SACARLO DE LA TAREA ACTUAL */
             this.$router.back();
-            this.$swal.fire("Tarea entregada", "", "success");
+            this.$swal.fire(this.language.tareaEntregada, "", "success");
           }
         })
         .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
