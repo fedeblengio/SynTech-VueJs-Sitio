@@ -4,7 +4,7 @@
     <header style="z-index: ">
       <div class="contenedor">
         <a href="#" style="text-decoration: none"
-          ><h1><i class="fas fa-books"></i> {{language.lms}}</h1></a
+          ><h1><i class="fas fa-books"></i> {{ language.lms }}</h1></a
         >
         <input type="checkbox" id="menu-barra" />
         <label class="icon-menu" for="menu-barra"></label>
@@ -12,7 +12,23 @@
           <a href="#">
             <i class="fa fa-home" aria-hidden="true"></i>
           </a>
-          <a v-on:click="cambiarValorLocalStorage()" href="/login"> {{language.iniciarSesion}}</a>
+          <a v-on:click="cambiarValorLocalStorage()" href="/login">
+            {{ language.iniciarSesion }}</a
+          >
+          <a href="#" class="events_icon">
+            <i v-if="lang == 'es'" v-on:click="changeLanguage()"
+              ><country-flag
+                country="es"
+                size="normal"
+                style="margin-top: -8px"
+            /></i>
+            <i v-else v-on:click="changeLanguage()"
+              ><country-flag
+                country="gb"
+                size="normal"
+                style="margin-top: -8px"
+            /></i>
+          </a>
         </nav>
       </div>
     </header>
@@ -27,15 +43,15 @@
           </div>
 
           <div class="texo-articulo uno">
-            <h2>{{language.texto1}}</h2>
+            <h2>{{ language.texto1 }}</h2>
             <p>
-             {{language.texto2}}
+              {{ language.texto2 }}
             </p>
             <a
               v-on:click="cambiarValorLocalStorage()"
               href="/login"
               class="btn btn-warning"
-              >{{language.iniciarSesion}}</a
+              >{{ language.iniciarSesion }}</a
             >
           </div>
         </div>
@@ -44,10 +60,10 @@
       <div class="articulo-card">
         <div class="articulo-contenedor">
           <div class="texo-articulo dos">
-            <h3 class="text-muted">{{ language.paraEducadores}}</h3>
-            <h2>{{language.texto3}}</h2>
+            <h3 class="text-muted">{{ language.paraEducadores }}</h3>
+            <h2>{{ language.texto3 }}</h2>
             <p>
-            {{language.texto4}}
+              {{ language.texto4 }}
             </p>
           </div>
           <div class="articulo-img">
@@ -69,10 +85,10 @@
           </div>
 
           <div class="texo-articulo uno">
-            <h3 class="text-muted">{{language.paraEstudiantes}}</h3>
-            <h2>{{language.texto5}}</h2>
+            <h3 class="text-muted">{{ language.paraEstudiantes }}</h3>
+            <h2>{{ language.texto5 }}</h2>
             <p>
-            {{language.texto6}}
+              {{ language.texto6 }}
             </p>
           </div>
         </div>
@@ -84,10 +100,12 @@
 <script>
 import vueHeadful from "vue-headful";
 import language from "../assets/lang/dashboard.json";
+import CountryFlag from "vue-country-flag";
 export default {
   name: "homeComponent",
   components: {
     vueHeadful,
+    CountryFlag
   },
 
   data() {
@@ -101,6 +119,15 @@ export default {
     this.selectLanguage();
   },
   methods: {
+    changeLanguage() {
+      if (this.lang == "es") {
+        localStorage.setItem("lang", "en");
+        location.reload();
+      } else {
+        localStorage.setItem("lang", "es");
+        location.reload();
+      }
+    },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;

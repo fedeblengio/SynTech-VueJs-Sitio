@@ -40,6 +40,14 @@
               v-model="contacto.password"
             />
           </div>
+                <div class="events_icon">
+        <i v-if="lang == 'es'" v-on:click="changeLanguage()"
+          ><country-flag country="es" size="normal" style="margin-top: -4px"
+        /></i>
+        <i v-else v-on:click="changeLanguage()"
+          ><country-flag country="gb" size="normal" style="margin-top: -4px"
+        /></i>
+      </div>
           <button type="submit" class="btn session boxText_btn btn_login">
             {{language.entrar}}
           </button>
@@ -58,8 +66,12 @@
 import { Global } from "../Global";
 import axios from "axios";
 import language from "../assets/lang/login.json";
+import CountryFlag from "vue-country-flag";
 export default {
   name: "LoginComponent",
+   components: {
+    CountryFlag
+  },
   data() {
     return {
       contacto: {
@@ -88,6 +100,15 @@ export default {
   },
 
   methods: {
+        changeLanguage() {
+      if (this.lang == "es") {
+        localStorage.setItem("lang", "en");
+        location.reload();
+      } else {
+        localStorage.setItem("lang", "es");
+        location.reload();
+      }
+    },
       selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
