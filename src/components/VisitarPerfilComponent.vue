@@ -5,7 +5,7 @@
 
     <div class="feed" v-if="loading">
       <div class="feed_header linea_border_bottom">
-        <h2>Informacion Personal</h2>
+        <h2>{{language.informacionPersonal}}</h2>
       </div>
       <div class="spinerCont">
         <img :src="spinner" class="spinnerCSS" />
@@ -13,7 +13,7 @@
     </div>
     <div class="feed" v-else>
       <div class="feed_header linea_border_bottom">
-        <h2>Informacion Personal</h2>
+       <h2>{{language.informacionPersonal}}</h2>
       </div>
 
       <div class="boxText" style="border-bottom: none">
@@ -27,21 +27,21 @@
         </div>
 
         <div class="contenedorPerfil">
-          <h5>Tipo de Usuario:</h5>
+          <h5>{{language.tipoDeUsuario}}:</h5>
           <div class="tipoDeUser">
             <div :class="usuarioProfesor(usuarioPerfil.ou)" id="profesor">
-              <h4>Profesor</h4>
+              <h4>{{language.profesor}}</h4>
               <i class="fal fa-chalkboard-teacher"></i>
             </div>
             <div :class="usuarioAlumno(usuarioPerfil.ou)" id="alumno">
-              <h4>Alumno</h4>
+              <h4>{{language.alumno}}</h4>
               <i class="fal fa-users-class"></i>
             </div>
           </div>
 
           <div class="infoUserContenedor">
             <div class="infoUser">
-              <span>CI:</span>
+              <span>{{language.ci}}:</span>
               <input
                 type="text"
                 class="form-control"
@@ -50,7 +50,7 @@
               />
             </div>
             <div class="infoUser">
-              <span>Grupo:</span>
+              <span>{{language.grupo}}:</span>
               <input
                 type="text"
                 class="form-control"
@@ -59,7 +59,7 @@
               />
             </div>
             <div class="infoUser">
-              <span>Email:</span>
+              <span>{{language.email}}:</span>
               <div class="input-group mb-3">
                 <input
                   type="text"
@@ -70,7 +70,7 @@
               </div>
             </div>
             <div class="infoUser">
-              <span>Genero:</span>
+              <span>{{language.genero}}:</span>
               <div class="input-group mb-3">
                 <input
                   type="text"
@@ -94,6 +94,7 @@ import axios from "axios";
 import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import language from "../assets/lang/visitarPerfil.json";
 window.$ = JQuery;
 export default {
   name: "ProfileComponent",
@@ -104,18 +105,29 @@ export default {
   },
   data() {
     return {
-      title: "Perfil",
+      title: "",
       usuarioPerfil: "",
       nombreGrupo: "",
       loading: true,
       spinner: Global.spinnerUrl,
       profesor: false,
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
+    this.selectLanguage();
     this.cargarInfoUser();
   },
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     comprobarUsuario() {
       if (this.usuarioPerfil.ou == "Profesor") {
         this.profesor = true;
@@ -167,7 +179,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -196,7 +208,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -222,7 +234,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
