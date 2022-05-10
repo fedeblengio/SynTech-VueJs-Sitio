@@ -4,7 +4,7 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>{{language.tareaEntregadas}}</h2>
+        <h2>{{ language.tareaEntregadas }}</h2>
       </div>
       <div class="accordion" id="accordionExample">
         <div class="card">
@@ -18,7 +18,7 @@
                 aria-expanded="true"
                 aria-controls="collapseOne"
               >
-               {{language.tareaEntregadas}}
+                {{ language.tareasEntregadas }}
               </button>
             </h5>
           </div>
@@ -51,10 +51,10 @@
               >
                 <div class="d-flex w-100 justify-content-between">
                   <small class="text-muted"
-                    >{{language.titulo}} : {{ entregas.titulo }}
+                    >{{ language.titulo }} : {{ entregas.titulo }}
                   </small>
                   <small class="text-muted">
-                    {{language.nota}} :
+                    {{ language.nota }} :
                     <b> {{ calificacion(entregas.calificacion) }}</b></small
                   >
                 </div>
@@ -79,10 +79,10 @@
               >
                 <div class="d-flex w-100 justify-content-between">
                   <small class="text-muted"
-                    >{{language.titulo}} : {{ re_entregas.titulo }}
+                    >{{ language.titulo }} : {{ re_entregas.titulo }}
                   </small>
                   <small class="text-muted">
-                    {{language.nota}} :
+                    {{ language.nota }} :
                     <b> {{ calificacion(re_entregas.calificacion) }}</b></small
                   >
                 </div>
@@ -94,7 +94,7 @@
             </div>
             <div class="list-group" v-else>
               <p class="list-group-item list-group-item-action">
-              {{language.noHayEntregas}}
+                {{ language.noHayEntregas }}
               </p>
             </div>
           </div>
@@ -110,7 +110,7 @@
                 aria-expanded="false"
                 aria-controls="collapseTwo"
               >
-               {{language.tareasCorregidas}}
+                {{ language.tareasCorregidas }}
               </button>
             </h5>
           </div>
@@ -141,10 +141,10 @@
               >
                 <div class="d-flex w-100 justify-content-between">
                   <small class="text-muted"
-                    >{{language.titulo}} : {{ corregidas.titulo }}
+                    >{{ language.titulo }} : {{ corregidas.titulo }}
                   </small>
                   <small class="text-muted">
-                    {{language.nota}} :
+                    {{ language.nota }} :
                     <b> {{ calificacion(corregidas.calificacion) }}</b></small
                   >
                 </div>
@@ -168,10 +168,10 @@
               >
                 <div class="d-flex w-100 justify-content-between">
                   <small class="text-muted"
-                    >{{language.titulo}} : {{ re_corregidas.titulo }}
+                    >{{ language.titulo }} : {{ re_corregidas.titulo }}
                   </small>
                   <small class="text-muted">
-                    {{language.nota}} :
+                    {{ language.nota }} :
                     <b>
                       {{ calificacion(re_corregidas.calificacion) }}</b
                     ></small
@@ -185,7 +185,7 @@
             </div>
             <div class="list-group" v-else>
               <p class="list-group-item list-group-item-action">
-               {{language.noHayCorregidas}}
+                {{ language.noHayCorregidas }}
               </p>
             </div>
           </div>
@@ -220,9 +220,9 @@ export default {
         idGrupo: "",
         idMateria: "",
         idTareas: "",
-           lang: localStorage.getItem("lang"),
-      language: "",
       },
+      lang: localStorage.getItem("lang"),
+      language: "",
       listadoEntregasGrupo: {
         entregas_totalesNoCorregidas: {
           entregas_tareas_no_corregidas: [],
@@ -236,7 +236,7 @@ export default {
     };
   },
   mounted() {
-     this.selectLanguage();
+    this.selectLanguage();
     this.routerValues.idGrupo = this.$route.params.idGrupo;
     this.routerValues.idMateria = this.$route.params.idMateria;
     this.routerValues.idTareas = this.$route.params.idTareas;
@@ -318,7 +318,7 @@ export default {
           }
         })
         .catch(() => {
-              this.$swal.fire({
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
             text: this.language.algoSalioMal,

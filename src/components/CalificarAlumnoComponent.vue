@@ -195,6 +195,7 @@ export default {
         calificacion: this.calificar.nota,
         mensaje: this.calificar.mensaje,
         re_hacer: re_hacer,
+        re_entrega : this.re_entrega,
       };
 
       this.camposVacios = this.comprobarCamposVacios(
