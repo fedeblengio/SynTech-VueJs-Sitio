@@ -21,7 +21,7 @@
               },
             }"
             class="nav-link"
-            >{{language.navInicio}}</router-link
+            >{{ language.navInicio }}</router-link
           >
         </li>
 
@@ -38,7 +38,7 @@
             }"
             class="nav-link active"
           >
-          {{language.navMiembros}}
+            {{ language.navMiembros }}
           </router-link>
         </li>
         <li class="nav-item">
@@ -56,7 +56,7 @@
             }"
             class="nav-link"
           >
-           {{language.navTareas}}
+            {{ language.navTareas }}
           </router-link>
           <router-link
             v-else
@@ -72,7 +72,7 @@
             }"
             class="nav-link"
           >
-            {{language.navTareas}}
+            {{ language.navTareas }}
           </router-link>
         </li>
         <li class="nav-item" v-if="usuario.ou == 'Profesor'">
@@ -90,7 +90,7 @@
             }"
             class="nav-link"
           >
-             {{language.navRegistro}}
+            {{ language.navRegistro }}
           </router-link>
 
           <router-link
@@ -107,18 +107,18 @@
             }"
             class="nav-link"
           >
-             {{language.navRegistro}}
+            {{ language.navRegistro }}
           </router-link>
         </li>
       </ul>
       <div class="second_feed" style="border: none">
         <div class="listadoUsuarioComponentBuscador">
-          <h3 class="">{{language.title}}</h3>
+          <h3 class="">{{ language.title }}</h3>
           <div class="input-group mb-3">
             <input
               type="text"
               class="form-control"
-              :placeholder=language.placeholderBuscar
+              :placeholder="language.placeholderBuscar"
               aria-label="Buscar Usuario"
               id="filtro"
               aria-describedby="basic-addon2"
@@ -156,12 +156,12 @@
                 />
               </div>
               <div class="textUser">
-               {{language.profesor}} - {{ listadoUsuarios.Profesor.nombre }}
+                {{ language.profesor }} - {{ listadoUsuarios.Profesor.nombre }}
               </div>
             </router-link>
           </div>
           <div class="usuariosComponentSeparacion">
-            <p>{{language.alumnos}}</p>
+            <p>{{ language.alumnos }}</p>
           </div>
           <div
             class="usuariosComponentContedor"
@@ -219,17 +219,17 @@ export default {
       listadoUsuarios: {
         Profesor: "",
         Alumnos: "",
-         lang: localStorage.getItem("lang"),
-      language: "",
       },
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
-      this.selectLanguage();
     this.traerUsuarios();
+    this.selectLanguage();
   },
   methods: {
-       selectLanguage() {
+    selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
       } else {
@@ -276,11 +276,12 @@ export default {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;
-        })    .catch(() => {
-              this.$swal.fire({
+        })
+        .catch(() => {
+          this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text:this.language.algoSalioMal,
+            text: this.language.algoSalioMal,
           });
         });
     },
