@@ -13,7 +13,7 @@
           data-toggle="modal"
           data-target="#modalTarea"
         >
-         {{ language.crearTarea}}
+          {{ language.crearTarea }}
         </button>
         <!--  </div> -->
       </div>
@@ -30,7 +30,7 @@
               },
             }"
             class="nav-link"
-            >{{language.navInicio}}</router-link
+            >{{ language.navInicio }}</router-link
           >
         </li>
 
@@ -47,7 +47,7 @@
             }"
             class="nav-link"
           >
-           {{language.navMiembros}}
+            {{ language.navMiembros }}
           </router-link>
         </li>
         <li class="nav-item">
@@ -65,7 +65,7 @@
             }"
             class="nav-link active"
           >
-             {{language.navTareas}}
+            {{ language.navTareas }}
           </router-link>
           <router-link
             v-else
@@ -81,7 +81,7 @@
             }"
             class="nav-link"
           >
-             {{language.navTareas}}
+            {{ language.navTareas }}
           </router-link>
         </li>
         <li class="nav-item" v-if="usuario.ou == 'Profesor'">
@@ -99,7 +99,7 @@
             }"
             class="nav-link active"
           >
-             {{language.navRegistro}}
+            {{ language.navRegistro }}
           </router-link>
 
           <router-link
@@ -116,7 +116,7 @@
             }"
             class="nav-link"
           >
-              {{language.navRegistro}}
+            {{ language.navRegistro }}
           </router-link>
         </li>
       </ul>
@@ -133,8 +133,10 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">{{language.crearTarea}}</h5>
-    
+              <h5 class="modal-title" id="exampleModalLabel">
+                {{ language.crearTarea }}
+              </h5>
+
               <button
                 type="button"
                 class="close"
@@ -145,55 +147,57 @@
               </button>
             </div>
             <div class="modal-body">
-                                <div
-          class="alert alert-warning alert-dismissible fade show"
-          role="alert"
-          v-if="camposVacios"
-        >
-         {{language.inputVacio1}}
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-            v-on:click="camposVacios = false"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+              <div
+                class="alert alert-warning alert-dismissible fade show"
+                role="alert"
+                v-if="camposVacios"
+              >
+                {{ language.inputVacio1 }}
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="Close"
+                  v-on:click="camposVacios = false"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
               <div class="styleTarea">
                 <div class="text-right">
-                  <small class="text-muted" style="margin-right: 28px; font-size: 16px"
-                    >{{language.publicarPara}} : {{ routerValues.idGrupo }}
+                  <small
+                    class="text-muted"
+                    style="margin-right: 28px; font-size: 16px"
+                    >{{ language.publicarPara }} : {{ routerValues.idGrupo }}
                     {{ routerValues.materia }}
                   </small>
                 </div>
                 <div>
                   <label for="titulo" style="margin-left: 24px"
-                    >{{language.tituloTarea}} :
+                    >{{ language.tituloTarea }} :
                   </label>
                   <input
                     type="text"
                     v-model="tarea.titulo"
-                    :placeholder='language.placeholderTitulo'
+                    :placeholder="language.placeholderTitulo"
                     required
                   />
                 </div>
 
                 <div>
                   <label for="descripcion" style="margin-left: 24px"
-                    >{{language.descripcionTarea}} :
+                    >{{ language.descripcionTarea }} :
                   </label>
                   <textarea
                     id="textarea"
-                    :placeholder='language.placeholderDesc'
+                    :placeholder="language.placeholderDesc"
                     required
                     v-model="tarea.descripcion"
                   ></textarea>
                 </div>
                 <div>
                   <label for="datePicker" style="margin-left: 24px"
-                    >{{language.fecha_vencimiento}} :
+                    >{{ language.fecha_vencimiento }} :
                   </label>
                   <input
                     type="date"
@@ -238,7 +242,7 @@
             </div>
             <div class="modal-footer">
               <button class="boxText_btn_tarea" v-on:click="crearTarea()">
-                {{language.crearBtn}}
+                {{ language.crearBtn }}
               </button>
             </div>
           </div>
@@ -273,21 +277,21 @@
             </div>
             <div class="p-4" v-else-if="objectoVacio(listadoHistorialTareas)">
               <p class="p-4 m-2 text-center">
-                {{language.noHayTareasRegistradas}}
+                {{ language.noHayTareasRegistradas }}
               </p>
             </div>
             <div class="p-4" v-else>
               <table class="table table-striped">
                 <thead class="thead-dark">
-                  <tr>
-                    <th scope="col">{{language.tablaTarea}}</th>
-                    <th scope="col ml-1">{language.tablaPrimerNota}}</th>
-                    <th scope="col ml-1">{language.tablaSegundaNota}}</th>
-                    <th scope="col">{language.tablaEntrega}}</th>
+                  <tr  class='text-center'>
+                    <th scope="col">{{ language.tablaTarea }}</th>
+                    <th scope="col ml-1">{{ language.tablaPrimerNota }}</th>
+                    <th scope="col ml-1">{{ language.tablaSegundaNota }}</th>
+                    <th scope="col">{{ language.tablaEntrega }}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="tarea in listadoHistorialTareas" :key="tarea.id">
+                  <tr v-for="tarea in listadoHistorialTareas" :key="tarea.id" class='text-center'>
                     <th scope="row">{{ tarea.titulo }}</th>
                     <td class="ml-2">
                       {{ calificacion(tarea.calificacion) }}
@@ -306,7 +310,8 @@
                             idTareas: tarea.idTareas,
                           },
                         }"
-                        >{{language.ver}}</router-link
+                        
+                        >{{ language.ver }}</router-link
                       >
                     </td>
                   </tr>
@@ -331,7 +336,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">
-                {{language.tareaPublicada}}
+                {{ language.tareaPublicada }}
               </h5>
               <button
                 type="button"
@@ -358,7 +363,7 @@
                     <span> {{ tareaSeleccionada.titulo }} </span>
                     <p>
                       <small class="text-muted">
-                        {{language.vence}} :
+                        {{ language.vence }} :
                         {{ moment(tareaSeleccionada.fechaVencimiento) }}</small
                       >
                     </p>
@@ -405,7 +410,7 @@
       <!--FIN  MODAL VER TAREA -->
 
       <div class="sub_header" v-if="this.$route.params.tareas_vencidas">
-        <h3>{{language.historialCorreciones}}</h3>
+        <h3>{{ language.historialCorreciones }}</h3>
       </div>
       <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
@@ -420,7 +425,7 @@
         "
       >
         <div
-          class="list-group-item list-group-item-action "
+          class="list-group-item list-group-item-action"
           aria-current="true"
           v-for="tarea in listadoTareas"
           :key="tarea.id"
@@ -436,13 +441,13 @@
                 data-toggle="modal"
                 data-target="#exampleModal"
               >
-                {{language.ver}}
+                {{ language.ver }}
               </p>
               <p
                 class="btn_postBody red"
                 v-on:click="comprobarOpcionEliminar(tarea.idTarea)"
               >
-                {{language.eliminar}}
+                {{ language.eliminar }}
               </p>
             </div>
           </i>
@@ -457,18 +462,19 @@
             }"
             class="router-link"
           >
-            <div class="d-flex w-100 justify-content-between ">
+            <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">{{ tarea.titulo }}</h5>
               <small class="text-muted" v-if="tareas_vencidas"
-                >{{language.vencio}}: {{ moment(tarea.fecha_vencimiento) }}
+                >{{ language.vencio }}: {{ moment(tarea.fecha_vencimiento) }}
               </small>
               <small class="text-muted" v-else
-                >{{language.vence}}: {{ moment(tarea.fecha_vencimiento) }}</small
+                >{{ language.vence }}:
+                {{ moment(tarea.fecha_vencimiento) }}</small
               >
             </div>
             <p class="mb-1">{{ tarea.descripcion }}</p>
             <small class="text-muted">
-              <b>{{language.hagaClickParaVerEntregas}}</b></small
+              <b>{{ language.hagaClickParaVerEntregas }}</b></small
             >
           </router-link>
         </div>
@@ -495,12 +501,13 @@
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">{{ tareas.titulo }}</h5>
               <small class="text-muted"
-                >{{language.vence}}: {{ moment(tareas.fecha_vencimiento) }}</small
+                >{{ language.vence }}:
+                {{ moment(tareas.fecha_vencimiento) }}</small
               >
             </div>
             <p class="mb-1">{{ tareas.descripcion }}</p>
             <small class="text-muted">
-              <b>{{language.hagaClickParaVerEntregas}}</b></small
+              <b>{{ language.hagaClickParaVerEntregas }}</b></small
             >
           </router-link>
         </div>
@@ -523,12 +530,13 @@
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
               <small class="text-muted"
-                >{{language.vence}}: {{ moment(tareas.fecha_vencimiento) }}</small
+                >{{ language.vence }}:
+                {{ moment(tareas.fecha_vencimiento) }}</small
               >
             </div>
             <p class="mb-1">{{ tareas.descripcion }}</p>
             <small class="text-muted">
-              <b>{{language.hagaClickParaVerEntregas}}</b></small
+              <b>{{ language.hagaClickParaVerEntregas }}</b></small
             >
           </router-link>
         </div>
@@ -536,15 +544,15 @@
       <div v-else>
         <table class="table table-striped">
           <thead>
-            <tr>
-              <th scope="col">{{language.alumnoFoto}}</th>
-              <th scope="col">{{language.alumnoCedula}}</th>
-              <th scope="col">{{language.alumnoNombre}}</th>
+            <tr class="text-center">
+              <th scope="col">{{ language.alumnoFoto }}</th>
+              <th scope="col">{{ language.alumnoCedula }}</th>
+              <th scope="col">{{ language.alumnoNombre }}</th>
               <th scope="col">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="alumno in listadoUsuarios.Alumnos" :key="alumno.id">
+            <tr class="text-center" v-for="alumno in listadoUsuarios.Alumnos" :key="alumno.id">
               <th scope="row">
                 <img
                   width="50px"
@@ -565,7 +573,7 @@
                   data-toggle="modal"
                   data-target=".bd-example-modal-lg"
                 >
-                  {{language.ver}} <i class="far fa-eye"></i>
+                  {{ language.ver }} <i class="far fa-eye"></i>
                 </div>
               </td>
             </tr>
@@ -638,12 +646,12 @@ export default {
       nalumno: "",
       ciAlumnos: "",
       camposVacios: false,
-          lang: localStorage.getItem("lang"),
+      lang: localStorage.getItem("lang"),
       language: "",
     };
   },
   mounted() {
-    this.selectLanguage() 
+    this.selectLanguage();
     this.routerValues.idGrupo = this.$route.params.idGrupo;
     this.routerValues.idMateria = this.$route.params.idMateria;
     this.routerValues.materia = this.$route.params.materia;
@@ -655,7 +663,7 @@ export default {
     }
   },
   methods: {
-       selectLanguage() {
+    selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
       } else {
@@ -789,7 +797,7 @@ export default {
     comprobarOpcionEliminar(idTarea) {
       this.$swal
         .fire({
-          title: this.language.preguntarEliminar,
+          title: this.language.confirmarEliminacion,
           showDenyButton: true,
           confirmButtonText: this.language.eliminar,
           denyButtonText: this.language.cancelar,
@@ -813,7 +821,7 @@ export default {
         .delete(Global.urlSitio + "tarea?idTareas=" + idTarea, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire(this.language.tareaEliminada, "success");
+             this.$swal.fire(this.language.tareaEliminada, "","success");
             location.reload();
           }
         })
@@ -890,9 +898,7 @@ export default {
             formData.append("archivo", this.tarea.file[i]);
             formData.append("nombre", fecha + this.tarea.file[i].name);
 
-            axios
-              .post(Global.urlSitio + "FTP", formData, config)
-              .then(() => {});
+            axios.post(Global.urlSitio + "FTP", formData, config);
           }
           this.enviarCuerpoTarea(nombres);
         }, 1000);
@@ -921,7 +927,8 @@ export default {
         .post(Global.urlSitio + "tarea", formData, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire(this.languages.tareaCreada, "", "success");
+            this.$swal.fire(this.language.tareaCreada, "", "success");
+            
             location.reload();
           }
         })
@@ -929,7 +936,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: this.language.algoSalioMal,
+            text: "ERRORasdad",
           });
         });
     },
@@ -942,18 +949,10 @@ export default {
         if (res <= 50) {
           this.tarea.file.push(event.target.files[0]);
         } else {
-          this.$swal.fire(
-           this.language.archivoMayor50,
-            "",
-            "info"
-          );
+          this.$swal.fire(this.language.archivoMayor50, "", "info");
         }
       } else {
-        this.$swal.fire(
-          this.language.maximo3Archivos,
-          "",
-          "info"
-        );
+        this.$swal.fire(this.language.maximo3Archivos, "", "info");
       }
     },
 
@@ -1048,7 +1047,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text:this.language.algoSalioMal,
+            text: this.language.algoSalioMal,
           });
         });
     },
