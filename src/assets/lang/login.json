@@ -1,0 +1,24 @@
+{
+    "es": {
+        "inicioSesion": "Inicio de sesión",
+        "inputVacio1": "Parece que alguno de los campos de debajo estan vacios.",
+        "usuario": "Usuario",
+        "placeholderUsuario": "Inserte su cedula",
+        "contrasenia": "Contraseña",
+        "placeholderContrasenia": "Inserte contraseña",
+        "entrar": "Iniciar Sesion",
+        "yaTienesUnaSesion": "Ya tienes una sesion iniciada",
+        "credencialesInvalidas": "Credenciales Invalidas ..."
+    },
+    "en": {
+        "inicioSesion": "Log in",
+        "inputVacio1": "It seems that some of the fields below are empty.",
+        "usuario": "User",
+        "placeholderUsuario": "Insert your ID",
+        "contrasenia": "Password",
+        "placeholderContrasenia": "Enter password",
+        "entrar": "Login",
+        "yaTienesUnaSesion": "You are already logged in",
+        "credencialesInvalidas": "Invalid Credentials ..."
+    }
+}

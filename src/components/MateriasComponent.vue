@@ -1,10 +1,10 @@
 <template>
   <div class="contenedorDiv">
-    <vue-headful :title="title" />
+    <vue-headful :title="language.title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header linea_border_bottom">
-        <h2>Mis Materias</h2>
+        <h2>{{ language.misMaterias }}</h2>
       </div>
 
       <div class="spinerCont" v-if="loading">
@@ -14,7 +14,7 @@
         <div class="card-header">{{ clase.idGrupo }} - {{ clase.Materia }}</div>
         <div class="card-body">
           <h6>
-            <i>Profesor/a: {{ clase.Profesor }}</i>
+            <i>{{language.profesor}}: {{ clase.Profesor }}</i>
           </h6>
           <p class="card-text">{{ clase.nombreCompleto }}</p>
           <router-link
@@ -28,7 +28,7 @@
                 materia: clase.Materia,
               },
             }"
-            >Material del curso</router-link
+            >{{language.materialDelCurso}}</router-link
           >
         </div>
       </div>
@@ -43,6 +43,7 @@ import axios from "axios";
 /* import JQuery from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import language from "../assets/lang/materias.json";
 export default {
   name: "materias-component",
   components: {
@@ -52,18 +53,29 @@ export default {
   },
   data() {
     return {
-      title: "Mis Materias",
+      title: "",
       loading: true,
       spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       alumno: false,
       traerMaterias: "",
+         lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
     this.verificarRol();
+    this.selectLanguage()
   },
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     verificarRol() {
       if (this.usuario.ou == "Profesor") {
         this.alumno = false;
@@ -92,11 +104,12 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
-        })     .catch(() => {
+        })
+        .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -117,11 +130,12 @@ export default {
             this.traerMaterias = res.data;
           }
           this.loading = false;
-        })      .catch(() => {
+        })
+        .catch(() => {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },

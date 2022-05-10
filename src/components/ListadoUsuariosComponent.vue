@@ -21,7 +21,7 @@
               },
             }"
             class="nav-link"
-            >Inicio</router-link
+            >{{language.navInicio}}</router-link
           >
         </li>
 
@@ -38,7 +38,7 @@
             }"
             class="nav-link active"
           >
-            Miembros
+          {{language.navMiembros}}
           </router-link>
         </li>
         <li class="nav-item">
@@ -56,7 +56,7 @@
             }"
             class="nav-link"
           >
-            Tareas
+           {{language.navTareas}}
           </router-link>
           <router-link
             v-else
@@ -72,7 +72,7 @@
             }"
             class="nav-link"
           >
-            Tareas
+            {{language.navTareas}}
           </router-link>
         </li>
         <li class="nav-item" v-if="usuario.ou == 'Profesor'">
@@ -90,7 +90,7 @@
             }"
             class="nav-link"
           >
-            Registro
+             {{language.navRegistro}}
           </router-link>
 
           <router-link
@@ -107,18 +107,18 @@
             }"
             class="nav-link"
           >
-            Registro
+             {{language.navRegistro}}
           </router-link>
         </li>
       </ul>
       <div class="second_feed" style="border: none">
         <div class="listadoUsuarioComponentBuscador">
-          <h3 class="">Miembros</h3>
+          <h3 class="">{{language.title}}</h3>
           <div class="input-group mb-3">
             <input
               type="text"
               class="form-control"
-              placeholder="Buscar Usuario"
+              :placeholder=language.placeholderBuscar
               aria-label="Buscar Usuario"
               id="filtro"
               aria-describedby="basic-addon2"
@@ -156,12 +156,12 @@
                 />
               </div>
               <div class="textUser">
-                Profesor/a - {{ listadoUsuarios.Profesor.nombre }}
+               {{language.profesor}} - {{ listadoUsuarios.Profesor.nombre }}
               </div>
             </router-link>
           </div>
           <div class="usuariosComponentSeparacion">
-            <p>Alumnos</p>
+            <p>{{language.alumnos}}</p>
           </div>
           <div
             class="usuariosComponentContedor"
@@ -202,7 +202,7 @@ import axios from "axios";
 /* import $ from "jquery"; */
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
-
+import language from "../assets/lang/listadoDeUsuarios.json";
 export default {
   name: "App",
   components: {
@@ -212,20 +212,31 @@ export default {
   },
   data() {
     return {
-      title: "Usuarios",
+      title: "",
       loading: true,
       spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listadoUsuarios: {
         Profesor: "",
         Alumnos: "",
+         lang: localStorage.getItem("lang"),
+      language: "",
       },
     };
   },
   mounted() {
+      this.selectLanguage();
     this.traerUsuarios();
   },
   methods: {
+       selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     filtrarNombre() {
       var input = document.getElementById("filtro").value.toLowerCase();
       var listaUsuario = [];
@@ -269,7 +280,7 @@ export default {
               this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text:this.language.algoSalioMal,
           });
         });
     },

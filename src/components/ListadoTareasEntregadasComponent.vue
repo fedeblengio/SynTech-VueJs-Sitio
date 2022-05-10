@@ -1,10 +1,10 @@
 <template>
   <div class="contenedorDiv">
-    <vue-headful :title="title" />
+    <vue-headful :title="language.title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>Tareas Entregadas</h2>
+        <h2>{{language.tareaEntregadas}}</h2>
       </div>
       <div class="accordion" id="accordionExample">
         <div class="card">
@@ -18,7 +18,7 @@
                 aria-expanded="true"
                 aria-controls="collapseOne"
               >
-                Tareas Entregadas
+               {{language.tareaEntregadas}}
               </button>
             </h5>
           </div>
@@ -51,10 +51,10 @@
               >
                 <div class="d-flex w-100 justify-content-between">
                   <small class="text-muted"
-                    >Titulo : {{ entregas.titulo }}
+                    >{{language.titulo}} : {{ entregas.titulo }}
                   </small>
                   <small class="text-muted">
-                    Nota :
+                    {{language.nota}} :
                     <b> {{ calificacion(entregas.calificacion) }}</b></small
                   >
                 </div>
@@ -79,10 +79,10 @@
               >
                 <div class="d-flex w-100 justify-content-between">
                   <small class="text-muted"
-                    >Titulo : {{ re_entregas.titulo }}
+                    >{{language.titulo}} : {{ re_entregas.titulo }}
                   </small>
                   <small class="text-muted">
-                    Nota :
+                    {{language.nota}} :
                     <b> {{ calificacion(re_entregas.calificacion) }}</b></small
                   >
                 </div>
@@ -94,7 +94,7 @@
             </div>
             <div class="list-group" v-else>
               <p class="list-group-item list-group-item-action">
-                No hay tareas entregadas.
+              {{language.noHayEntregas}}
               </p>
             </div>
           </div>
@@ -110,7 +110,7 @@
                 aria-expanded="false"
                 aria-controls="collapseTwo"
               >
-                Tareas Corregidas
+               {{language.tareasCorregidas}}
               </button>
             </h5>
           </div>
@@ -141,10 +141,10 @@
               >
                 <div class="d-flex w-100 justify-content-between">
                   <small class="text-muted"
-                    >Titulo : {{ corregidas.titulo }}
+                    >{{language.titulo}} : {{ corregidas.titulo }}
                   </small>
                   <small class="text-muted">
-                    Nota :
+                    {{language.nota}} :
                     <b> {{ calificacion(corregidas.calificacion) }}</b></small
                   >
                 </div>
@@ -168,10 +168,10 @@
               >
                 <div class="d-flex w-100 justify-content-between">
                   <small class="text-muted"
-                    >Titulo : {{ re_corregidas.titulo }}
+                    >{{language.titulo}} : {{ re_corregidas.titulo }}
                   </small>
                   <small class="text-muted">
-                    Nota :
+                    {{language.nota}} :
                     <b>
                       {{ calificacion(re_corregidas.calificacion) }}</b
                     ></small
@@ -185,7 +185,7 @@
             </div>
             <div class="list-group" v-else>
               <p class="list-group-item list-group-item-action">
-                No hay tareas corregidas.
+               {{language.noHayCorregidas}}
               </p>
             </div>
           </div>
@@ -202,6 +202,7 @@ import axios from "axios";
 import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import language from "../assets/lang/listadoTareasEntregadas.json";
 window.$ = JQuery;
 export default {
   name: "TareasComponent",
@@ -212,13 +213,15 @@ export default {
   },
   data() {
     return {
-      title: "Tareas",
+      title: "",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       alumno: true,
       routerValues: {
         idGrupo: "",
         idMateria: "",
         idTareas: "",
+           lang: localStorage.getItem("lang"),
+      language: "",
       },
       listadoEntregasGrupo: {
         entregas_totalesNoCorregidas: {
@@ -233,12 +236,21 @@ export default {
     };
   },
   mounted() {
+     this.selectLanguage();
     this.routerValues.idGrupo = this.$route.params.idGrupo;
     this.routerValues.idMateria = this.$route.params.idMateria;
     this.routerValues.idTareas = this.$route.params.idTareas;
     this.verificarRol();
   },
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     hayEntregas(entregas) {
       if (
         entregas.entregas_tareas_no_corregidas.length > 0 ||
@@ -263,7 +275,7 @@ export default {
       if (nota != undefined) {
         return nota + " / 12";
       } else {
-        return "S / C";
+        return this.language.sinCalificar;
       }
     },
     verificarRol() {
@@ -309,7 +321,7 @@ export default {
               this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },

@@ -1,0 +1,18 @@
+{
+    "es": {
+        "title": "Materias",
+        "misMaterias": "Mis Materias",
+        "profesor": "Profesor/a",
+        "materialDelCurso": "Material del curso",
+        "algoSalioMal": "Parece que algo salio mal ..."
+
+    },
+    "en": {
+        "title": "Subjects",
+        "misMaterias": "My Subjects",
+        "profesor": "Teacher",
+        "materialDelCurso": "Course materials",
+        "algoSalioMal": "It seems that something went wrong..."
+
+    }
+}

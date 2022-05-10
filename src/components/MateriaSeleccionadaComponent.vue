@@ -20,7 +20,7 @@
               },
             }"
             class="nav-link active"
-            >Inicio
+            >{{language.navInicio}}
           </router-link>
         </li>
 
@@ -37,7 +37,7 @@
             }"
             class="nav-link"
           >
-            Miembros
+            {{language.navMiembros}}
           </router-link>
         </li>
         <li class="nav-item">
@@ -55,7 +55,7 @@
             }"
             class="nav-link"
           >
-            Tareas
+            {{language.navTareas}}
           </router-link>
           <router-link
             v-else
@@ -71,7 +71,7 @@
             }"
             class="nav-link"
           >
-            Tareas
+              {{language.navTareas}}
           </router-link>
         </li>
         <li class="nav-item" v-if="usuario.ou == 'Profesor'">
@@ -89,7 +89,7 @@
             }"
             class="nav-link"
           >
-            Registro
+            {{language.navRegistro}}
           </router-link>
 
           <router-link
@@ -106,7 +106,7 @@
             }"
             class="nav-link"
           >
-            Registro
+             {{language.navRegistro}}
           </router-link>
         </li>
       </ul>
@@ -115,7 +115,7 @@
         role="alert"
         v-if="camposVacios"
       >
-        Debes escribir un mensaje antes de enviar tu publicacion.
+       {{language.inputVacio1}}
         <button
           type="button"
           class="close"
@@ -132,7 +132,7 @@
             <img :src="returnImgB64()" />
             <textarea
               id="textarea"
-              placeholder="Escribe algo!"
+              :placeholder="language.escribeAlgo"
               required
               v-model="mensaje"
             ></textarea>
@@ -171,7 +171,7 @@
               </div>
             </div>
             <button class="boxText_btn" v-on:click="enviarArchivos()">
-              Enviar
+              {{language.enviar}}
             </button>
           </div>
         </div>
@@ -209,14 +209,14 @@
                 v-on:click="comprobarOpcionEliminar(post.data.id)"
                 style="color: red"
               >
-                Eliminar
+                 {{language.eliminar}}
               </p>
             </div>
           </i>
           <i v-else class="far menu-card-home btn"> &nbsp; </i>
           <div class="post_title">
             <span>
-              <b>{{ post.data.nombreAutor }}</b> publicó para
+              <b>{{ post.data.nombreAutor }}</b> {{language.publicoPara}}
               <b>{{ post.data.idGrupo }} - {{ post.data.materia }}</b>
             </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -266,7 +266,7 @@ import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
-
+import language from "../assets/lang/materiaSeleccionada.json";
 window.$ = JQuery;
 
 export default {
@@ -292,9 +292,12 @@ export default {
       traerMaterias: "",
       index: null,
       camposVacios: false,
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
+      this.selectLanguage();
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
@@ -312,6 +315,14 @@ export default {
     };
   },
   methods: {
+       selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     comprobarCamposVacios(input1) {
       return input1.length == 0;
     },
@@ -354,7 +365,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Error inesperado ...",
+            text:this.language.algoSalioMal,
           });
         });
     },
@@ -381,7 +392,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Error inesperado ...",
+            text: this.languages.algoSalioMal,
           });
         });
     },
@@ -406,7 +417,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Error inesperado ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -445,7 +456,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Error inesperado ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -475,7 +486,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Error inesperado ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -488,14 +499,14 @@ export default {
           this.file.push(event.target.files[0]);
         } else {
           this.$swal.fire(
-            "El tamamaño del archivo es mayor a 50 mb",
+           this.language.archivoMayor50,
             "",
             "info"
           );
         }
       } else {
         this.$swal.fire(
-          "Solo se permite 3 archivos por publicacion",
+          this.language.maximo3Archivos,
           "",
           "info"
         );
@@ -551,8 +562,8 @@ export default {
         let nombres = [];
         let timerInterval;
         this.$swal.fire({
-          title: "Enviando...",
-          html: "Estamos publicando tus archivos !",
+          title:this.language.enviando,
+          html: this.language.enviandoTuPublicacion,
           allowOutsideClick: false,
           timerProgressBar: true,
           didOpen: () => {
@@ -609,7 +620,7 @@ export default {
         .post(Global.urlSitio + "foro", formData, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Publicado correctamente", "", "success");
+            this.$swal.fire(this.language.publicadoCorrectamente, "", "success");
             location.reload();
           }
         })
@@ -617,17 +628,17 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Error inesperado ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
     comprobarOpcionEliminar(idPublicacion) {
       this.$swal
         .fire({
-          title: "¿ Estas seguro que quieres eliminar ?",
+          title: this.language.confirmarEliminacion,
           showDenyButton: true,
-          confirmButtonText: "Eliminar",
-          denyButtonText: `Cancelar`,
+          confirmButtonText: this.language.btnEliminar,
+          denyButtonText: this.language.btnCancelar,
         })
         .then((result) => {
           if (result.isConfirmed) {
@@ -647,7 +658,7 @@ export default {
         .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Publicacion borrada correctamente", "", "success");
+            this.$swal.fire(this.language.publicacionEliminada, "", "success");
             location.reload();
           }
         })
@@ -655,7 +666,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Error inesperado ...",
+            text:this.language.algoSalioMal,
           });
         });
     },
@@ -682,7 +693,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Error inesperado ...",
+            text: this.language.algoSalioMal,
           });
         });
     },

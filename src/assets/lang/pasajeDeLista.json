@@ -1,0 +1,24 @@
+{
+    "es": {
+        "title": "Pasar Lista",
+        "pasajeLista": "Pasaje de Lista",
+        "cedula": "Cedula",
+        "nombre": "Nombre",
+        "asistencia": "Asistencia",
+        "pasarLista": "Pasar Lista",
+        "algoSalioMal": "Parece que algo salio mal ...",
+        "listaPublicada": "Lista publicada",
+        "errorPublicarLista": "Error al intentar publicar la lista ..."
+    },
+    "en": {
+        "title": "Roll call",
+        "pasajeLista": "Roll call",
+        "cedula": "ID",
+        "nombre": "Name",
+        "asistencia": "Assistance",
+        "pasarLista": "Take attendance",
+        "algoSalioMal": "It seems that something went wrong...",
+        "listaPublicada": "List published",
+        "errorPublicarLista": "Error trying to publish the list ..."
+    }
+}

@@ -6,7 +6,7 @@
 
     <div class="feed">
       <div class="feed_header linea_border_bottom">
-        <h2>Pasaje de Lista</h2>
+        <h2>{{language.pasajeLista}}</h2>
       </div>
       <div class="spinerCont" v-if="loading">
         <img class="spinnerCSS" :src="spinner" />
@@ -15,9 +15,9 @@
         <thead>
           <tr class="text-center">
             <th scope="col">&nbsp;</th>
-            <th scope="col">Cedula</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Asistencia</th>
+            <th scope="col">{{language.cedula}}</th>
+            <th scope="col">{{language.nombre}}</th>
+            <th scope="col">{{language.asistencia}}</th>
           </tr>
         </thead>
 
@@ -55,7 +55,7 @@
           class="boxText_btn"
           type="submit"
           v-on:click="pasarLista()"
-          value="Pasar Lista"
+          :value=language.pasarLista
         />
       </div>
     </div>
@@ -70,6 +70,7 @@ import axios from "axios";
 import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
+import language from "../assets/lang/pasajeDeLista.json";
 export default {
   name: "pasaje-lista-component",
   components: {
@@ -90,12 +91,23 @@ export default {
       table: "",
       presentes: "",
       ausentes: "",
+          lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
     this.traerUsuarios();
+    this.selectLanguage()
   },
   methods: {
+        selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     verificarAsistencia() {
       let presentes = [];
       let ausentes = [];
@@ -142,7 +154,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -167,7 +179,7 @@ export default {
         .post(Global.urlSitio + "lista-clase", lista, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Lista publicada", "", "success");
+            this.$swal.fire(this.language.listaPublicada, "", "success");
              this.$router.back();
           }
           
@@ -176,7 +188,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Error al intentar publicar la lista ...",
+            text: this.language.errorPublicarLista,
           });
         });
     },

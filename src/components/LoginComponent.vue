@@ -4,7 +4,7 @@
       <div class="sidenav">
         <form form name="form" id="form" v-on:submit.prevent="procesar()">
           <img src="../assets/images/LogoFinal.png" alt="" />
-          <h2>Inicio de sesión</h2>
+          <h2>{{language.inicioSesion}}</h2>
 
           <div class="form-group">
             <div
@@ -12,8 +12,7 @@
               class="alert alert-warning alert-dismissible fade show"
               role="alert"
             >
-              <strong>Oops..</strong> Parece que alguno de los campos de debajo
-              estan vacios.
+              <strong>Oops..</strong> {{language.inputVacio1}}
               <button
                 type="button"
                 class="close"
@@ -24,25 +23,25 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <label>Usuario</label>
+            <label>{{language.usuario}}</label>
             <input
               type="text"
               class="form-control"
-              placeholder="Cedula sin puntos ni guion"
+              :placeholder="language.placeholderUsuario"
               v-model="contacto.username"
             />
           </div>
           <div class="form-group">
-            <label>Contraseña</label>
+            <label>{{language.contrasenia}}</label>
             <input
               type="password"
               class="form-control"
-              placeholder="Contraseña"
+              :placeholder="language.placeholderContrasenia"
               v-model="contacto.password"
             />
           </div>
           <button type="submit" class="btn session boxText_btn btn_login">
-            Login
+            {{language.entrar}}
           </button>
         </form>
       </div>
@@ -58,7 +57,7 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-
+import language from "../assets/lang/login.json";
 export default {
   name: "LoginComponent",
   data() {
@@ -66,14 +65,18 @@ export default {
       contacto: {
         username: "",
         password: "",
+           
       },
+       lang: localStorage.getItem("lang"),
+      language: "",
       camposVacios: false,
     };
   },
   mounted() {
+       this.selectLanguage();
     if (localStorage.getItem("auth_token")) {
       this.$router.push("/home");
-      this.$swal.fire("Ya tienes una sesion iniciada", "", "success");
+      this.$swal.fire(this.language.yaTienesUnaSesion, "", "success");
     } else {
       localStorage.removeItem("auth_token");
       localStorage.removeItem("perfil_img");
@@ -85,6 +88,14 @@ export default {
   },
 
   methods: {
+      selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     verificarCamposVacios(input1, input2) {
       return input1.length == 0 || input2.length == 0;
     },
@@ -128,20 +139,14 @@ export default {
               this.cargarFoto(this.contacto.username, response.data.datos);
             }
           })
-          .catch((res) => {
-            if (res.status == 500) {
+          .catch(() => {
+      
               this.$swal.fire({
                 icon: "error",
                 title: "ERROR",
-                text: "Servidor fuera de servicio",
+                text: this.language.credencialesInvalidas,
               });
-            } else {
-              this.$swal.fire({
-                icon: "error",
-                title: "ERROR",
-                text: "Credenciales Invalidas ...",
-              });
-            }
+            
           });
       }
     },

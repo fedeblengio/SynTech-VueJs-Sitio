@@ -1,0 +1,25 @@
+{
+    "es": {
+        "title": "Tareas",
+        "tareasEntregadas": "Tareas Entregadas",
+        "titulo": "Titulo",
+        "nota": "Nota",
+        "noHayEntregas": "No hay tareas entregadas.",
+        "tareasCorregidas": "Tareas Corregidas",
+        "noHayCorregidas": "No hay tareas corregidas.",
+        "sinCalificar": "S / C",
+        "algoSalioMal": "Parece que algo salio mal ..."
+
+    },
+    "en": {
+        "title": "Tasks",
+        "tareasEntregadas": "Tasks Delivered",
+        "titulo": "Title",
+        "nota": "Marks",
+        "noHayEntregas": "There are no tasks delivered.",
+        "tareasCorregidas": "Corrected Tasks",
+        "noHayCorregidas": "There are no corrected tasks.",
+        "sinCalificar": "N / Q",
+        "algoSalioMal": "Something seems to have gone wrong..."
+    }
+}
