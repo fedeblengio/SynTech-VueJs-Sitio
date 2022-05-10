@@ -4,7 +4,7 @@
     <header style="z-index: ">
       <div class="contenedor">
         <a href="#" style="text-decoration: none"
-          ><h1><i class="fas fa-books"></i> LMS</h1></a
+          ><h1><i class="fas fa-books"></i> {{language.lms}}</h1></a
         >
         <input type="checkbox" id="menu-barra" />
         <label class="icon-menu" for="menu-barra"></label>
@@ -12,12 +12,11 @@
           <a href="#">
             <i class="fa fa-home" aria-hidden="true"></i>
           </a>
-          <a v-on:click='cambiarValorLocalStorage()' href="/login"> Login</a>
+          <a v-on:click="cambiarValorLocalStorage()" href="/login"> {{language.iniciarSesion}}</a>
         </nav>
       </div>
     </header>
     <section>
-      
       <div class="articulo-card">
         <div class="articulo-contenedor">
           <div class="articulo-img">
@@ -28,11 +27,16 @@
           </div>
 
           <div class="texo-articulo uno">
-            <h2>Aprender mejor juntos</h2>
+            <h2>{{language.texto1}}</h2>
             <p>
-              Administra tu aula. Involucra a tus estudiantes. Seguro. Simple.
+             {{language.texto2}}
             </p>
-            <a v-on:click='cambiarValorLocalStorage()' href="/login" class="btn btn-warning">Login</a>
+            <a
+              v-on:click="cambiarValorLocalStorage()"
+              href="/login"
+              class="btn btn-warning"
+              >{{language.iniciarSesion}}</a
+            >
           </div>
         </div>
       </div>
@@ -40,12 +44,10 @@
       <div class="articulo-card">
         <div class="articulo-contenedor">
           <div class="texo-articulo dos">
-            <h3 class="text-muted">PARA EDUCADORES</h3>
-            <h2>Herramientas que los profesores necesitan</h2>
+            <h3 class="text-muted">{{ language.paraEducadores}}</h3>
+            <h2>{{language.texto3}}</h2>
             <p>
-              Envía mensajes, comparte materiales de clase y haz que el
-              aprendizaje sea accesible en cualquier lugar. Ahorra tiempo al
-              reunir todas las herramientas de tu clase.
+            {{language.texto4}}
             </p>
           </div>
           <div class="articulo-img">
@@ -67,12 +69,10 @@
           </div>
 
           <div class="texo-articulo uno">
-            <h3 class="text-muted">PARA ESTUDIANTES</h3>
-            <h2>Una plataforma que los estudiantes aman</h2>
+            <h3 class="text-muted">{{language.paraEstudiantes}}</h3>
+            <h2>{{language.texto5}}</h2>
             <p>
-              Aumenta tu seguridad, encuentra tu voz y experimenta lo que
-              significa ser un ciudadano digital. Potencia tu aprendizaje y
-              forma parte de una vibrante comunidad de aulas.
+            {{language.texto6}}
             </p>
           </div>
         </div>
@@ -83,6 +83,7 @@
 
 <script>
 import vueHeadful from "vue-headful";
+import language from "../assets/lang/dashboard.json";
 export default {
   name: "homeComponent",
   components: {
@@ -91,19 +92,27 @@ export default {
 
   data() {
     return {
-      title: "Home",
-
+      title: "",
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
-
-
+    this.selectLanguage();
   },
-   methods: {
-     cambiarValorLocalStorage(){
-       localStorage.setItem('logged', true);
-     }
-   }
+  methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
+    cambiarValorLocalStorage() {
+      localStorage.setItem("logged", true);
+    },
+  },
 };
 </script>
 <style>
@@ -180,8 +189,6 @@ header label {
   transform: translateX(0%);
 }
 
-
-
 /******Foro******************************************************************/
 
 .boton-foro:hover {
@@ -222,9 +229,6 @@ header label {
   border-radius: 7px;
   margin: 56px 8px 0px 8px;
 }
-
-
-
 
 /******Home******************************************************************/
 
