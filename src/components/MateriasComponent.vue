@@ -30,8 +30,21 @@
             }"
             >{{language.materialDelCurso}}</router-link
           >
+          <a class="generarPromedio">
+            <router-link
+            :to="{
+              name: 'materia-generarPromedio',
+              params: {
+                idGrupo: clase.idGrupo,
+                idMateria: clase.idMateria,   
+              },
+            }"
+            >{{language.generarPromedio}}
+            </router-link>
+          </a>
         </div>
       </div>
+      
     </div>
     <SectionRight></SectionRight>
   </div>

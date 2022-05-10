@@ -4,7 +4,8 @@
         "misMaterias": "Mis Materias",
         "profesor": "Profesor/a",
         "materialDelCurso": "Material del curso",
-        "algoSalioMal": "Parece que algo salio mal ..."
+        "algoSalioMal": "Parece que algo salio mal ...",
+        "generarPromedio": "Generar Promedio"
 
     },
     "en": {
@@ -12,7 +13,7 @@
         "misMaterias": "My Subjects",
         "profesor": "Teacher",
         "materialDelCurso": "Course materials",
-        "algoSalioMal": "It seems that something went wrong..."
-
+        "algoSalioMal": "It seems that something went wrong...",
+        "generarPromedio": "Generate Averages"
     }
 }

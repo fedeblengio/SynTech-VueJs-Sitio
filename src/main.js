@@ -32,6 +32,7 @@ import VisitarPerfilComponent from './components/VisitarPerfilComponent.vue'
 import PDFComponent from './components/PDFComponent.vue'
 import ListadoCalificacionesComponent from './components/ListadoCalificacionesComponent.vue'
 import RegistroDeFaltasComponent from './components/RegistroDeFaltasComponent.vue'
+import GenerarPromedioComponent from './components/GenerarPromedioComponent.vue'
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
@@ -68,6 +69,7 @@ const routes = [
     { path: '/PDF/:idClase/:materia/:fecha', name: 'PDF', component: PDFComponent },
     { path: '/historial-faltas', name: 'historial-faltas', component: RegistroDeFaltasComponent },
     { path: '/cambioPwd', name: 'cambiopwd', component: CambiarContraComponent },
+    { path: '/generarPromedio/:idGrupo/:idMateria', name: 'materia-generarPromedio', component: GenerarPromedioComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
 ];
 
