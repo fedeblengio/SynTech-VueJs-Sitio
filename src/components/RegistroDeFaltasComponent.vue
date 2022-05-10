@@ -5,7 +5,7 @@
 
     <div class="feed">
       <div class="feed_header">
-        <h2>Registro de Listas pasadas</h2>
+        <h2>{{ language.registroListasPasadas }}</h2>
       </div>
       <ul class="nav nav-tabs justify-content-center text-decoration-none">
         <li class="nav-item">
@@ -14,7 +14,7 @@
             class="nav-link"
             style="text-decoration: none"
           >
-            Agendar Clase</router-link
+            {{ language.agendarClase }}</router-link
           >
         </li>
 
@@ -24,7 +24,7 @@
             class="nav-link"
             style="text-decoration: none"
           >
-            Registro de Clases
+            {{ language.registroClases }}
           </router-link>
         </li>
         <li class="nav-item">
@@ -33,7 +33,7 @@
             class="nav-link active"
             style="text-decoration: none"
           >
-            Historial de Faltas
+            {{ language.historialFaltas }}
           </router-link>
         </li>
       </ul>
@@ -50,12 +50,12 @@
           style="border-bottom: 1px solid var(--background)"
         >
           <div
-            style="cursor:pointer"
+            style="cursor: pointer"
             data-toggle="modal"
             data-target=".bd-example-modal-lg"
             @click="traerFaltasTotales(materia.idGrupo, materia.idMateria)"
           >
-           <h5> {{ materia.idGrupo }}  {{ materia.Materia }}</h5>
+            <h5>{{ materia.idGrupo }} {{ materia.Materia }}</h5>
           </div>
         </div>
         <!-- MODAL FALTAS GRUPO  -->
@@ -71,23 +71,27 @@
             <div class="modal-content">
               <table class="table tableFalta">
                 <thead class="thead-dark">
-                  <tr class='text-center'>
-                    <th scope="col">Cedula</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Cantidad Faltas</th>
-                    <th scope="col">Cantidad Clases</th>
-                    <th scope="col">Fechas de Ausencia</th>
+                  <tr class="text-center">
+                    <th scope="col">{{language.cedula}}</th>
+                    <th scope="col">{{language.nombre}}</th>
+                    <th scope="col">{{language.cantFaltas}}</th>
+                    <th scope="col">{{language.cantClases}}</th>
+                    <th scope="col">{{language.fechasAusencia}}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="alumno in tablaData" :key="alumno.id" class='text-center'>
+                  <tr
+                    v-for="alumno in tablaData"
+                    :key="alumno.id"
+                    class="text-center"
+                  >
                     <th scope="row">{{ alumno.idAlumno }}</th>
                     <td>{{ alumno.nombreAlumno }}</td>
                     <td>{{ alumno.cantidad_faltas }}</td>
                     <td>{{ alumno.total_clases }}</td>
                     <td>
                       <div class="tooltip2">
-                        Ver <i class="far fa-eye"></i>
+                        {{language.ver}} <i class="far fa-eye"></i>
                         <span class="tooltiptext">
                           <p
                             v-for="fecha in alumno.fechas_ausencia"
@@ -108,7 +112,7 @@
                   class="btn btn-secondary"
                   data-dismiss="modal"
                 >
-                  Cerrar
+                  {{ language.cerrar}}
                 </button>
               </div>
             </div>
@@ -127,7 +131,7 @@ import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
-
+import language from "../assets/lang/registroDeFaltas.json";
 export default {
   name: "tareasEntregadas",
   components: {
@@ -137,21 +141,32 @@ export default {
   },
   data() {
     return {
-      title: "Historial de Entregas",
+      title: "",
       loading: true,
       spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       traerMaterias: "",
       tablaData: "",
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
+    this.selectLanguage();
     this.traerGrupoProfesor();
   },
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     fechaAusencia(fecha) {
       return $.isEmptyObject(fecha)
-        ? "No hay fecha"
+        ? this.language.noHayFecha
         : moment(fecha.fecha_clase).format("DD/MM/YYYY HH:mm a");
     },
     traerGrupoProfesor() {
@@ -178,7 +193,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -208,13 +223,11 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+             text: this.language.algoSalioMal,
           });
         });
     },
-    filtrarPorNombre() {
-      alert("filtro");
-    },
+
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
