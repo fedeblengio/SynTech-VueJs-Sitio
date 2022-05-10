@@ -6,7 +6,7 @@
 
     <div id="feed" class="feed">
       <div class="feed_header">
-        <h2>Lista</h2>
+        <h2>{{ language.lista }} {{ returnFechaLista() }}</h2>
       </div>
       <div class="div" v-if="loading">
         <center>
@@ -17,7 +17,7 @@
         <div class="contPdf">
           <div class="btnpdf" style="cursor: pointer" v-if="!modificar">
             <p @click="modificar = true">
-              Modificar <i class="fas fa-pencil"></i>
+              {{ language.modificar }} <i class="fas fa-pencil"></i>
             </p>
           </div>
 
@@ -27,13 +27,13 @@
               @click="downloadPDF()"
               style="width: 115px; cursor: pointer; background-color: green"
             >
-              Descargar <i class="fas fa-download"> </i>
+              {{ language.descargar }} <i class="fas fa-download"> </i>
             </p>
           </div>
         </div>
         <div class="pdfContSegundo">
           <div class="btnpdf btncheck" style="background: red" v-if="modificar">
-            <p @click="modificar = false">Cancelar</p>
+            <p @click="modificar = false">{{ language.cancelar }}</p>
           </div>
           <div v-if="modificar">
             <p
@@ -42,7 +42,7 @@
               v-on:click="actualizarLista()"
               style="background: green"
             >
-              Actualizar
+              {{ language.actualizar }}
             </p>
           </div>
         </div>
@@ -51,9 +51,9 @@
           <thead>
             <tr class="text-center">
               <th scope="col">&nbsp;</th>
-              <th scope="col">Cedula</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Asistencia</th>
+              <th scope="col">{{ language.cedula }}</th>
+              <th scope="col">{{ language.nombre }}</th>
+              <th scope="col">{{ language.asistencia }}</th>
             </tr>
           </thead>
           <tbody>
@@ -101,6 +101,7 @@ import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import jsPDF from "jspdf";
 import moment from "moment";
+import language from "../assets/lang/PDF.json";
 /* import html2canvas from "html2canvas"; */
 import "jspdf-autotable";
 export default {
@@ -112,22 +113,37 @@ export default {
   data() {
     return {
       listado: "",
-      title: "Registro Listas",
+      title: "",
       loading: true,
       spinner: Global.spinnerUrl,
       modificar: false,
       presentes: "",
       ausentes: "",
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
     this.cargarLista();
+    this.selectLanguage();
   },
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
-
+    returnFechaLista() {
+      return moment(this.$route.params.fecha)
+        .locale(this.lang)
+        .format("MMMM Do YYYY, h:mm a");
+    },
     cargarLista() {
       let config = {
         headers: {
@@ -153,7 +169,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -199,7 +215,7 @@ export default {
         .put(Global.urlSitio + "lista-clase", data, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Lista Actualizada", "", "success");
+            this.$swal.fire(this.language.listaActualizada, "", "success");
             this.cargarLista();
             this.modificar = false;
           }
@@ -208,7 +224,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -227,18 +243,41 @@ export default {
       let bodyAlumnos = [];
 
       for (let i = 0; i < this.listado.length; i++) {
-        let array = [
-          this.listado[i].idAlumno,
-          this.listado[i].nombre,
-          this.listado[i].asistencia,
-        ];
+        let array = [];
+        if (this.lang == "es") {
+          array = [
+            this.listado[i].idAlumno,
+            this.listado[i].nombre,
+            this.listado[i].asistencia,
+          ];
+        } else {
+          if (this.listado[i].asistencia == "Presente") {
+            array = [
+              this.listado[i].idAlumno,
+              this.listado[i].nombre,
+              "Present",
+            ];
+          } else {
+            array = [
+              this.listado[i].idAlumno,
+              this.listado[i].nombre,
+              "Absent",
+            ];
+          }
+        }
         bodyAlumnos.push(array);
       }
       doc.setFontSize(16).text(materia_fecha, 0.5, 1.0);
       doc.setLineWidth(0.01).line(0.5, 1.1, 8.0, 1.1);
 
       doc.autoTable({
-        head: [["Cedula", "Nombre", "Asistencia"]],
+        head: [
+          [
+            this.language.cedula,
+            this.language.nombre,
+            this.language.asistencia,
+          ],
+        ],
         body: bodyAlumnos,
         margin: { left: 0.5, top: 1.25 },
       });

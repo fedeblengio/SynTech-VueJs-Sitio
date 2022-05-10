@@ -1,0 +1,28 @@
+{
+    "es": {
+        "title": "Registro Listas",
+        "lista": "Fecha de la lista :",
+        "modificar": "Modificar",
+        "descargar": "Descargar",
+        "cancelar": "Cancelar",
+        "actualizar": "Actualizar",
+        "cedula": "Cedula",
+        "nombre": "Nombre",
+        "asistencia": "Asistencia",
+        "algoSalioMal": "Parece que algo salio mal ...",
+        "listaActualizada": "Lista Actualizada"
+    },
+    "en": {
+        "title": "Register Lists",
+        "lista": "Date of the list: ",
+        "modificar": "Modify",
+        "descargar": "Download",
+        "cancelar": "Cancel",
+        "actualizar": "Update",
+        "cedula": "ID",
+        "nombre": "Name",
+        "asistencia": "Assistance",
+        "algoSalioMal": "It seems that something went wrong...",
+        "listaActualizada": "List updated"
+    }
+}
