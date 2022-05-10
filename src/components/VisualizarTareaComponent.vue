@@ -7,12 +7,12 @@
         class="feed_header"
         style="border-bottom: 1px solid var(--background)"
       >
-        <h2>Tarea Corregida</h2>
+        <h2>{{ language.tareaCorregida }}</h2>
       </div>
 
       <div class="alumnoEntregaTareaContenedor text-center">
         <small class="text-muted"
-          >Solo apta para visualizar <i class="fas fa-eye"></i
+          >{{ language.sapv }}<i class="fas fa-eye"></i
         ></small>
       </div>
       <div class="spinerCont" v-if="loading">
@@ -101,7 +101,7 @@
           <div class="post_body">
             <div class="post_title">
               <div class="profeCalificacion">
-                <span>Correccion Tarea</span>
+                <span>{{ language.correccionTarea}}</span>
                 <input
                   type="text"
                   disabled
@@ -111,7 +111,7 @@
             </div>
             <div class="post_body_text">
               <div class="visualizarTareacomponentCorrecionProfe">
-                <span>Juicio:</span>
+                <span>{{language.juicio}}:</span>
 
                 <p>{{ primera_entrega.entrega[0].mensajeProfesor }}</p>
               </div>
@@ -123,7 +123,7 @@
           class="feed_header"
           style="border-bottom: 1px solid var(--background)"
         >
-          <h2>Segundo intento</h2>
+          <h2>{{language.segundoIntento}}</h2>
         </div>
         <!--     segundo intento alumno -->
         <div class="post" v-if="segundaEntrega">
@@ -162,7 +162,7 @@
           <div class="post_body">
             <div class="post_title">
               <div class="profeCalificacion">
-                <span>Correccion Tarea</span>
+                <span>{{language.correccionTarea}}</span>
                 <input
                   type="text"
                   disabled
@@ -173,7 +173,7 @@
             </div>
             <div class="post_body_text">
               <div class="visualizarTareacomponentCorrecionProfe">
-                <span>Juicio:</span>
+                <span>{{language.juicio}}:</span>
 
                 <p>{{ segunda_entrega.entrega[0].mensajeProfesor }}</p>
               </div>
@@ -192,7 +192,7 @@ import axios from "axios";
 import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
-
+import language from "../assets/lang/visualizarTarea.json";
 export default {
   name: "VizualizarTareaComponent",
   components: {
@@ -202,7 +202,7 @@ export default {
   },
   data() {
     return {
-      title: "Vizualizar Tarea",
+      title: "",
       usuario: "",
       loading: true,
       spinner: Global.spinnerUrl,
@@ -240,15 +240,26 @@ export default {
       imagen_alumno: "",
       segundaEntrega: false,
       primeraEntrega: false,
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
+    this.selectLanguage();
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
     this.cargarTareaSeleccionada(this.$route.params.idTareas);
   },
   methods: {
+    selectLanguage() {
+      if (localStorage.getItem("lang") == "es") {
+        this.language = language.es;
+      } else {
+        this.language = language.en;
+      }
+      this.title = this.language.title;
+    },
     devolverNota(nota) {
-      return nota == null ? "S / C" : "Nota : " + nota + " / 12";
+      return nota == null ? this.language.sinCalificar : this.language.nota + nota + " / 12";
     },
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
@@ -277,7 +288,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -290,10 +301,7 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio + "tarea?idTarea=" + idTarea,
-          config
-        )
+        .get(Global.urlSitio + "tarea?idTarea=" + idTarea, config)
         .then((res) => {
           if (res.status == 200) {
             this.tarea.idTarea = res.data.datos.idTarea;
@@ -314,7 +322,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -359,7 +367,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Parece que algo salio mal ...",
+            text: this.language.algoSalioMal,
           });
         });
     },
