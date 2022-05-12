@@ -50,7 +50,7 @@
                 style="text-decoration: none"
                 class="router-link"
               >
-               {{ language.miPerfil }}</router-link
+                {{ language.miPerfil }}</router-link
               >
             </p>
             <p>
@@ -58,19 +58,59 @@
                 to="/cambioPwd"
                 style="text-decoration: none !important"
               >
-              {{ language.cambiarContra }}
+                {{ language.cambiarContra }}
               </router-link>
             </p>
           </span>
         </i>
       </div>
-      <div class="events_icon">
-        <i v-if="lang == 'es'" v-on:click="changeLanguage()"
-          ><country-flag country="es" size="normal" style="margin-top: -4px"
-        /></i>
-        <i v-else v-on:click="changeLanguage()"
-          ><country-flag country="gb" size="normal" style="margin-top: -4px"
-        /></i>
+      <div class="events_icon dropdown">
+        <i class="fal fa-globe dropbtn"></i>
+     
+        <div class="dropdown-content" v-if="lang == 'es'">
+          <p>
+            <i v-on:click="changeLanguage()"
+              ><country-flag
+                country="es"
+                size="normal"
+                style="margin-top: -4px"
+            /></i>
+            {{ language.espaniol }}
+          </p>
+          <p>
+            <i v-on:click="changeLanguage()"
+              ><country-flag
+                country="gb"
+                size="normal"
+                style="margin-top: -4px"
+            /></i>
+            {{ language.ingles }}
+          </p>
+        </div>
+
+        <div class="dropdown-content" v-else>
+          <p>
+            <i v-on:click="changeLanguage()"
+              ><country-flag
+                country="es"
+                size="normal"
+                style="margin-top: -4px"
+            /></i>
+            {{ language.espaniol }}
+          </p>
+          <p>
+            <i v-on:click="changeLanguage()"
+              ><country-flag
+                country="gb"
+                size="normal"
+                style="margin-top: -4px"
+            /></i>
+            {{ language.ingles }}
+          </p>
+        </div>
+
+        <!--        
+        -->
       </div>
 
       <div class="events_icon">
@@ -80,9 +120,9 @@
 
     <div class="calendarioElement">
       <v-date-picker
-      show-weeknumbers="right-outside"
+        show-weeknumbers="right-outside"
         mode="date"
-        :locale=language.calendario
+        :locale="language.calendario"
         v-model="date"
         :valid-hours="{ min: 4, max: 17 }"
         is24hr
@@ -91,7 +131,7 @@
 
     <div class="currentEvent">
       <div class="currentEvent_contenedor">
-        <h3> {{ language.eventosHoy }}</h3>
+        <h3>{{ language.eventosHoy }}</h3>
         <div class="sidebarElement" v-if="loading">
           <span class="clases text-center">
             <span class="sidebarDot_event"></span> . . .
@@ -298,3 +338,46 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* Dropdown Button */
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 120px;
+  height: 80px;
+  font-size: 12pt;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content i {
+  color: black;
+  padding-bottom: 3px;
+  padding-left: 3px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content p:hover {
+  background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+</style>

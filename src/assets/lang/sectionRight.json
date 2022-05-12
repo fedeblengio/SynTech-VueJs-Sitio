@@ -4,13 +4,17 @@
         "miPerfil": "Mi Perfil",
         "cambiarContra": "Cambiar contraseña",
         "eventosHoy": "Mis Eventos (Hoy)",
-        "calendario": "es"
+        "calendario": "es",
+        "ingles": "ING",
+        "espaniol": "ESP"
     },
     "en": {
         "sinNotificaciones": "No notifications",
         "cambiarContra": "Change password",
         "eventosHoy": "My Events (Today)",
         "miPerfil": "My Profile",
-        "calendario": "en"
+        "calendario": "en",
+        "ingles": "ENG",
+        "espaniol": "SP"
     }
 }
