@@ -20,7 +20,7 @@
                 },
               }"
               class="nav-link strippedRow"
-              v-for="tarea in tareaMateriasArray()"
+              v-for="tarea in materiasTareasPendientes"
               :key="tarea.id"
             >
               <p>{{ tarea.Materia }}</p>
@@ -173,12 +173,13 @@ export default {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       eventos: "",
       cargarTareas: "",
-      tareasPendientes: false,
+      tareasPendientes: true,
       profesor: false,
       aux: 1,
       date: new Date(),
       lang: localStorage.getItem("lang"),
       language: "",
+      materiasTareasPendientes:'',
     };
   },
   mounted() {
@@ -281,8 +282,9 @@ export default {
             this.cargarTareas = res.data;
             this.loading = false;
             if ($.isEmptyObject(res.data)) {
-              this.tareasPendientes = true;
+              this.tareasPendientes = false;
             }
+            this.materiasTareasPendientes = this.tareaMateriasArray();
           }
         });
     },
