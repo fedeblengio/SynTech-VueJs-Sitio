@@ -158,7 +158,7 @@
 <script>
 import { Global } from "../Global";
 import axios from "axios";
-import $ from "jquery";
+/* import $ from "jquery"; */
 import moment from "moment";
 import language from "../assets/lang/sectionRight.json";
 import CountryFlag from "vue-country-flag";
@@ -281,7 +281,7 @@ export default {
           if (res.status == 200) {
             this.cargarTareas = res.data;
             this.loading = false;
-            if ($.isEmptyObject(res.data)) {
+            if (res.data.re_hacer.length === 0 && res.data.tareas.length === 0) {
               this.tareasPendientes = false;
             }
             this.materiasTareasPendientes = this.tareaMateriasArray();
