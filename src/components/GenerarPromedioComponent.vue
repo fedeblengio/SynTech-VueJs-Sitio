@@ -22,12 +22,13 @@
           <td>{{language.promedio}}</td>
           <td>{{language.asis}}</td>
           <td>{{language.aprobado}}</td>
+
         </tr>
       </thead>
       <tbody>
       <tr v-for="promedio in traerPromedios" :key="promedio.id">
           <td>{{promedio.idAlumnos}}</td>
-           <td>{{promedio.nombreAlumno}}</td>
+          <td>{{promedio.nombreAlumno}}</td>
           <td>{{promedio.promedio}}</td>
           <td>Faltas</td>
           <td class="greenA" v-if="promedio.promedio >= 7"><i class="fas fa-check-circle"></i></td>
@@ -37,6 +38,9 @@
     
   </tbody>
 </table>
+   <div class="spinerCont" v-if="loading">
+        <img :src="spinner" class="spinnerCSS" />
+      </div>
        </div>
     </div>
     <SectionRight></SectionRight>
@@ -63,6 +67,8 @@ export default {
       language: "",
       traerPromedios: "",
       lang: localStorage.getItem("lang"),
+      spinner: Global.spinnerUrl,
+      loading: true,
     };
   },
 mounted() {
@@ -86,6 +92,7 @@ mounted() {
         .then((res) => {
           if (res.status == 200) {
             this.traerPromedios = res.data;
+            this.loading = false;
     
           }
         });
