@@ -30,7 +30,7 @@
             }"
             >{{language.materialDelCurso}}</router-link
           >
-          <a class="generarPromedio">
+          <a class="generarPromedio" v-if="usuario.ou == 'Profesor'">
             <router-link
             :to="{
               name: 'materia-generarPromedio',
