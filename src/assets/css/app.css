@@ -1282,3 +1282,24 @@ input[type="number"]::-webkit-inner-spin-button {
     display: flex;
     flex-direction: row-reverse;
 }
+
+.GenerarCont{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+  
+    
+}
+.GenerarCont p{
+   margin: auto 0;
+}
+.btnGenerar{
+    background-color: var(--color);
+    border: none;
+    color: white;
+    font-weight: 900;
+    border-radius: 7px;
+    width: 110px;
+    height: 35px;
+    cursor: pointer;
+}
