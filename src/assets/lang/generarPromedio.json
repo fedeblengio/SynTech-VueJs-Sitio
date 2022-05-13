@@ -1,0 +1,27 @@
+{
+    "es": {
+        "title": "Generar Promedios",
+        "titulo": "Promedio",
+        "listaAlumno": "Lista de Alumno",
+        "descargar": "Descargar",
+        "cedula": "Cedula",
+        "nombre": "Nombre",
+        "promedio": "Promedio",
+        "asis": "Asistencia %",
+        "aprobado": "Aprobado",
+        "reprobado": "Reprobado"
+
+    },
+    "en": {
+        "title": "Generate Averages",
+        "titulo": "Average",
+        "listaAlumno": "Student List",
+        "descargar": "Download",
+        "cedula": "ID",
+        "nombre": "Name",
+        "promedio": "Average",
+        "asis": "Assistance %",
+        "aprobado": "Approved",
+        "reprobado": "Failed"      
+    }
+}

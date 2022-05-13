@@ -36,7 +36,8 @@
               name: 'materia-generarPromedio',
               params: {
                 idGrupo: clase.idGrupo,
-                idMateria: clase.idMateria,   
+                idMateria: clase.idMateria,
+                Materia: clase.Materia,   
               },
             }"
             >{{language.generarPromedio}}

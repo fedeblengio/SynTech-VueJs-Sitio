@@ -69,7 +69,7 @@ const routes = [
     { path: '/PDF/:idClase/:materia/:fecha', name: 'PDF', component: PDFComponent },
     { path: '/historial-faltas', name: 'historial-faltas', component: RegistroDeFaltasComponent },
     { path: '/cambioPwd', name: 'cambiopwd', component: CambiarContraComponent },
-    { path: '/generarPromedio/:idGrupo/:idMateria', name: 'materia-generarPromedio', component: GenerarPromedioComponent },
+    { path: '/generarPromedio/:idGrupo/:Materia/:idMateria', name: 'materia-generarPromedio', component: GenerarPromedioComponent },
     { path: '*', name: 'error404', component: ErrorComponent },
 ];
 
