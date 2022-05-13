@@ -507,7 +507,7 @@
             </div>
             <p class="mb-1">{{ tareas.descripcion }}</p>
             <small class="text-muted">
-              <b>{{ language.hagaClickParaVerEntregas }}</b></small
+              <b>{{ language.verTareaAlumno }}</b></small
             >
           </router-link>
         </div>
@@ -536,7 +536,7 @@
             </div>
             <p class="mb-1">{{ tareas.descripcion }}</p>
             <small class="text-muted">
-              <b>{{ language.hagaClickParaVerEntregas }}</b></small
+              <b>{{ language.verTareaAlumno }}</b></small
             >
           </router-link>
         </div>
@@ -936,7 +936,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "ERRORasdad",
+            text: this.language.algoSalioMal,
           });
         });
     },
