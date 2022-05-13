@@ -19,7 +19,14 @@
         <tr>
           <td> {{language.cedula}} </td>
           <td> {{language.nombre}} </td>
-          <td>{{language.promedio}}</td>
+          <td>{{language.promedio}} 
+              <div class="tooltip2">
+                <i class="far fa-eye"></i>
+                <span class="tooltiptext">
+                  {{language.tooltip}}
+                </span>
+              </div>
+          </td>
           <td>{{language.asis}}</td>
           <td>{{language.aprobado}}</td>
 

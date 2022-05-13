@@ -9,10 +9,12 @@
         "promedio": "Promedio",
         "asis": "Asistencia %",
         "aprobado": "Aprobado",
-        "reprobado": "Reprobado"
+        "reprobado": "Reprobado",
+        "tooltip": "Recuerda que el promedio fina lo pones tu"
 
     },
     "en": {
+        "tooltip": "Recuerda que el promedio fina lo pones tu",
         "title": "Generate Averages",
         "titulo": "Average",
         "listaAlumno": "Student List",
