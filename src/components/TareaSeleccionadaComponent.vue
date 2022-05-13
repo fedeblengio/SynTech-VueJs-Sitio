@@ -304,6 +304,7 @@ export default {
           html: this.language.estamosEnviando,
           allowOutsideClick: false,
           timerProgressBar: true,
+          allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
           },
@@ -312,18 +313,16 @@ export default {
           },
         });
 
-        setTimeout(() => {
-          for (let i = 0; i < this.entregarTarea.file.length; i++) {
-            nombres.push(fecha + this.entregarTarea.file[i].name);
-            let formData = new FormData();
+        for (let i = 0; i < this.entregarTarea.file.length; i++) {
+          nombres.push(fecha + this.entregarTarea.file[i].name);
+          let formData = new FormData();
 
-            formData.append("archivo", this.entregarTarea.file[i]);
-            formData.append("nombre", fecha + this.entregarTarea.file[i].name);
+          formData.append("archivo", this.entregarTarea.file[i]);
+          formData.append("nombre", fecha + this.entregarTarea.file[i].name);
 
-            axios.post(Global.urlSitio + "FTP", formData, config);
-          }
-          this.enviarPost(nombres);
-        }, 2000);
+          axios.post(Global.urlSitio + "FTP", formData, config);
+        }
+        this.enviarPost(nombres);
       }
     },
     enviarPost(nombres) {

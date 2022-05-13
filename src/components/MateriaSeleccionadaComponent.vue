@@ -20,7 +20,7 @@
               },
             }"
             class="nav-link active"
-            >{{language.navInicio}}
+            >{{ language.navInicio }}
           </router-link>
         </li>
 
@@ -37,7 +37,7 @@
             }"
             class="nav-link"
           >
-            {{language.navMiembros}}
+            {{ language.navMiembros }}
           </router-link>
         </li>
         <li class="nav-item">
@@ -55,7 +55,7 @@
             }"
             class="nav-link"
           >
-            {{language.navTareas}}
+            {{ language.navTareas }}
           </router-link>
           <router-link
             v-else
@@ -71,7 +71,7 @@
             }"
             class="nav-link"
           >
-              {{language.navTareas}}
+            {{ language.navTareas }}
           </router-link>
         </li>
         <li class="nav-item" v-if="usuario.ou == 'Profesor'">
@@ -89,7 +89,7 @@
             }"
             class="nav-link"
           >
-            {{language.navRegistro}}
+            {{ language.navRegistro }}
           </router-link>
 
           <router-link
@@ -106,7 +106,7 @@
             }"
             class="nav-link"
           >
-             {{language.navRegistro}}
+            {{ language.navRegistro }}
           </router-link>
         </li>
       </ul>
@@ -115,7 +115,7 @@
         role="alert"
         v-if="camposVacios"
       >
-       {{language.inputVacio1}}
+        {{ language.inputVacio1 }}
         <button
           type="button"
           class="close"
@@ -171,7 +171,7 @@
               </div>
             </div>
             <button class="boxText_btn" v-on:click="enviarArchivos()">
-              {{language.enviar}}
+              {{ language.enviar }}
             </button>
           </div>
         </div>
@@ -209,14 +209,14 @@
                 v-on:click="comprobarOpcionEliminar(post.data.id)"
                 style="color: red"
               >
-                 {{language.eliminar}}
+                {{ language.eliminar }}
               </p>
             </div>
           </i>
           <i v-else class="far menu-card-home btn"> &nbsp; </i>
           <div class="post_title">
             <span>
-              <b>{{ post.data.nombreAutor }}</b> {{language.publicoPara}}
+              <b>{{ post.data.nombreAutor }}</b> {{ language.publicoPara }}
               <b>{{ post.data.idGrupo }} - {{ post.data.materia }}</b>
             </span>
             <p>{{ moment(post.data.fecha) }}</p>
@@ -227,7 +227,7 @@
           <div :id="post.data.id" class="cont">
             <div class="contenedorImg">
               <div class="imgPost" v-for="img in post.imagenes" :key="img.id">
-                 <img
+                <img
                   :src="returnImgProfile(img)"
                   v-on:click="cargarImagenSweetAlert(img)"
                 />
@@ -297,7 +297,7 @@ export default {
     };
   },
   mounted() {
-      this.selectLanguage();
+    this.selectLanguage();
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
@@ -315,7 +315,7 @@ export default {
     };
   },
   methods: {
-       selectLanguage() {
+    selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
       } else {
@@ -365,7 +365,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text:this.language.algoSalioMal,
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -498,18 +498,10 @@ export default {
         if (res <= 50) {
           this.file.push(event.target.files[0]);
         } else {
-          this.$swal.fire(
-           this.language.archivoMayor50,
-            "",
-            "info"
-          );
+          this.$swal.fire(this.language.archivoMayor50, "", "info");
         }
       } else {
-        this.$swal.fire(
-          this.language.maximo3Archivos,
-          "",
-          "info"
-        );
+        this.$swal.fire(this.language.maximo3Archivos, "", "info");
       }
     },
 
@@ -529,13 +521,12 @@ export default {
     returnImgProfile(img) {
       return "data:image/png;base64," + img;
     },
-      
-                
+
     cargarImagenSweetAlert(img) {
       this.$swal.fire({
         imageUrl: this.returnImgProfile(img),
         showCloseButton: true,
-        showConfirmButton:false,
+        showConfirmButton: false,
         confirmButtonText: false,
       });
     },
@@ -562,10 +553,11 @@ export default {
         let nombres = [];
         let timerInterval;
         this.$swal.fire({
-          title:this.language.enviando,
+          title: this.language.enviando,
           html: this.language.enviandoTuPublicacion,
           allowOutsideClick: false,
           timerProgressBar: true,
+          allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
           },
@@ -573,30 +565,17 @@ export default {
             clearInterval(timerInterval);
           },
         });
-        if (this.file.length > 0) {
-          setTimeout(() => {
-            for (let i = 0; i < this.file.length; i++) {
-              nombres.push(fecha + this.file[i].name);
-              let formData = new FormData();
 
-              formData.append("archivo", this.file[i]);
-              formData.append("nombre", fecha + this.file[i].name);
+        for (let i = 0; i < this.file.length; i++) {
+          nombres.push(fecha + this.file[i].name);
+          let formData = new FormData();
 
-              axios
-                .post(Global.urlSitio + "FTP", formData, config)
-                .then((response) => {
-                  if (response.status == 200) {
-                    this.enviarPost(nombres);
-                  }
-                })
-                .catch(() => {});
-            }
-          }, 2000);
-        } else {
-          setTimeout(() => {
-            this.enviarPost(nombres);
-          }, 2000);
+          formData.append("archivo", this.file[i]);
+          formData.append("nombre", fecha + this.file[i].name);
+
+          axios.post(Global.urlSitio + "FTP", formData, config);
         }
+        this.enviarPost(nombres);
       }
     },
 
@@ -620,7 +599,11 @@ export default {
         .post(Global.urlSitio + "foro", formData, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire(this.language.publicadoCorrectamente, "", "success");
+            this.$swal.fire(
+              this.language.publicadoCorrectamente,
+              "",
+              "success"
+            );
             location.reload();
           }
         })
@@ -666,7 +649,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text:this.language.algoSalioMal,
+            text: this.language.algoSalioMal,
           });
         });
     },

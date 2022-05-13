@@ -283,7 +283,7 @@
             <div class="p-4" v-else>
               <table class="table table-striped">
                 <thead class="thead-dark">
-                  <tr  class='text-center'>
+                  <tr class="text-center">
                     <th scope="col">{{ language.tablaTarea }}</th>
                     <th scope="col ml-1">{{ language.tablaPrimerNota }}</th>
                     <th scope="col ml-1">{{ language.tablaSegundaNota }}</th>
@@ -291,7 +291,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="tarea in listadoHistorialTareas" :key="tarea.id" class='text-center'>
+                  <tr
+                    v-for="tarea in listadoHistorialTareas"
+                    :key="tarea.id"
+                    class="text-center"
+                  >
                     <th scope="row">{{ tarea.titulo }}</th>
                     <td class="ml-2">
                       {{ calificacion(tarea.calificacion) }}
@@ -310,7 +314,6 @@
                             idTareas: tarea.idTareas,
                           },
                         }"
-                        
                         >{{ language.ver }}</router-link
                       >
                     </td>
@@ -552,7 +555,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="text-center" v-for="alumno in listadoUsuarios.Alumnos" :key="alumno.id">
+            <tr
+              class="text-center"
+              v-for="alumno in listadoUsuarios.Alumnos"
+              :key="alumno.id"
+            >
               <th scope="row">
                 <img
                   width="50px"
@@ -821,7 +828,7 @@ export default {
         .delete(Global.urlSitio + "tarea?idTareas=" + idTarea, config)
         .then((response) => {
           if (response.status == 200) {
-             this.$swal.fire(this.language.tareaEliminada, "","success");
+            this.$swal.fire(this.language.tareaEliminada, "", "success");
             location.reload();
           }
         })
@@ -882,6 +889,7 @@ export default {
           html: this.language.creandoTarea,
           allowOutsideClick: false,
           timerProgressBar: true,
+           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
           },
@@ -890,18 +898,16 @@ export default {
           },
         });
 
-        setTimeout(() => {
-          for (let i = 0; i < this.tarea.file.length; i++) {
-            nombres.push(fecha + this.tarea.file[i].name);
-            let formData = new FormData();
+        for (let i = 0; i < this.tarea.file.length; i++) {
+          nombres.push(fecha + this.tarea.file[i].name);
+          let formData = new FormData();
 
-            formData.append("archivo", this.tarea.file[i]);
-            formData.append("nombre", fecha + this.tarea.file[i].name);
+          formData.append("archivo", this.tarea.file[i]);
+          formData.append("nombre", fecha + this.tarea.file[i].name);
 
-            axios.post(Global.urlSitio + "FTP", formData, config);
-          }
-          this.enviarCuerpoTarea(nombres);
-        }, 1000);
+          axios.post(Global.urlSitio + "FTP", formData, config);
+        }
+        this.enviarCuerpoTarea(nombres);
       }
     },
     enviarCuerpoTarea(nombres) {
@@ -928,7 +934,7 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.tareaCreada, "", "success");
-            
+
             location.reload();
           }
         })
