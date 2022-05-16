@@ -1283,19 +1283,19 @@ input[type="number"]::-webkit-inner-spin-button {
     flex-direction: row-reverse;
 }
 
-.GenerarCont{
-    display:flex;
+.GenerarCont {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
-  
-    
 }
-.GenerarCont p{
-   margin: auto 0;
-   font-size: 16px;
-   font-weight: bold;
+
+.GenerarCont p {
+    margin: auto 0;
+    font-size: 16px;
+    font-weight: bold;
 }
-.btnGenerar{
+
+.btnGenerar {
     background-color: var(--color);
     border: none;
     color: white;
@@ -1306,9 +1306,15 @@ input[type="number"]::-webkit-inner-spin-button {
     cursor: pointer;
 }
 
-.redA{
-    color:red;
+.redA {
+    color: red;
 }
-.greenA{
-    color:green;
+
+.greenA {
+    color: green;
+}
+
+.iconBar {
+    font-size: 15px;
+    margin: 0;
 }

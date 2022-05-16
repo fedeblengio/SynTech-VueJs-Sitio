@@ -64,56 +64,26 @@
           </span>
         </i>
       </div>
-      <div class="events_icon dropdown">
+      <div class="events_icon dropdown" style="cursor: pointer">
         <i class="fal fa-globe dropbtn"></i>
-     
-        <div class="dropdown-content" v-if="lang == 'es'">
-          <p>
+
+        <div class="dropdown-content" style="cursor: pointer">
+          <p class="iconBar">
             <i v-on:click="changeLanguage()"
-              ><country-flag
-                country="es"
-                size="normal"
-                style="margin-top: -4px"
+              ><country-flag country="es" size="normal"
             /></i>
-            {{ language.espaniol }}
+            <a> {{ language.espaniol }}</a>
           </p>
-          <p>
+          <p class="iconBar">
             <i v-on:click="changeLanguage()"
-              ><country-flag
-                country="gb"
-                size="normal"
-                style="margin-top: -4px"
+              ><country-flag country="gb" size="normal"
             /></i>
-            {{ language.ingles }}
+            <a> {{ language.ingles }}</a>
           </p>
         </div>
-
-        <div class="dropdown-content" v-else>
-          <p>
-            <i v-on:click="changeLanguage()"
-              ><country-flag
-                country="es"
-                size="normal"
-                style="margin-top: -4px"
-            /></i>
-            {{ language.espaniol }}
-          </p>
-          <p>
-            <i v-on:click="changeLanguage()"
-              ><country-flag
-                country="gb"
-                size="normal"
-                style="margin-top: -4px"
-            /></i>
-            {{ language.ingles }}
-          </p>
-        </div>
-
-        <!--        
-        -->
       </div>
 
-      <div class="events_icon">
+      <div class="events_icon" style="cursor: pointer">
         <i class="fal fa-door-open" v-on:click="cerrarSesion()"></i>
       </div>
     </div>
@@ -179,7 +149,7 @@ export default {
       date: new Date(),
       lang: localStorage.getItem("lang"),
       language: "",
-      materiasTareasPendientes:'',
+      materiasTareasPendientes: "",
     };
   },
   mounted() {
@@ -281,7 +251,10 @@ export default {
           if (res.status == 200) {
             this.cargarTareas = res.data;
             this.loading = false;
-            if (res.data.re_hacer.length === 0 && res.data.tareas.length === 0) {
+            if (
+              res.data.re_hacer.length === 0 &&
+              res.data.tareas.length === 0
+            ) {
               this.tareasPendientes = false;
             }
             this.materiasTareasPendientes = this.tareaMateriasArray();
