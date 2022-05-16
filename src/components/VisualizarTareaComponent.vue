@@ -41,7 +41,7 @@
                 <div class="previw_archivosPost">
                   <h3 v-on:click="descargarPDF(img.archivo)">
                     <i class="fal fa-file-alt file"></i>
-                    <span>{{ img.archivo }}</span>
+                    <span>{{ simplificarNombre(img.archivo) }}</span>
                   </h3>
                 </div>
               </div>
@@ -55,7 +55,7 @@
                 <div class="previw_archivosPost">
                   <h3 v-on:click="descargarPDF(archivo.archivo)">
                     <i class="fal fa-file-alt file"></i>
-                    <span>{{ archivo.archivo }}</span>
+                    <span>{{ simplificarNombre(archivo.archivo) }}</span>
                   </h3>
                 </div>
               </div>
@@ -86,7 +86,7 @@
                 <div class="previw_archivosPost">
                   <h3 v-on:click="descargarPDF(archivo)">
                     <i class="fal fa-file-alt file"></i>
-                    <span> {{ archivo }}</span>
+                    <span> {{ simplificarNombre(archivo) }}</span>
                   </h3>
                 </div>
               </div>
@@ -148,7 +148,7 @@
                 <div class="previw_archivosPost">
                   <h3 v-on:click="descargarPDF(archivo)">
                     <i class="fal fa-file-alt file"></i>
-                    <span> {{ archivo }}</span>
+                    <span> {{ simplificarNombre(archivo) }}</span>
                   </h3>
                 </div>
               </div>
@@ -280,7 +280,7 @@ export default {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
-          link.download = label;
+          link.download = this.simplificarNombre(label);
           link.click();
           URL.revokeObjectURL(link.href);
         })
@@ -291,6 +291,9 @@ export default {
             text: this.language.algoSalioMal,
           });
         });
+    },
+        simplificarNombre(nombreArchivo) {
+      return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
     cargarTareaSeleccionada(idTarea) {
       let config = {

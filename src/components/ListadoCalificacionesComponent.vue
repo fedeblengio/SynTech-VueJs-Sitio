@@ -4,17 +4,17 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>{{language.tareasEntregadas}}</h2>
+        <h2>{{ language.tareasEntregadas }}</h2>
       </div>
       <div class="second_feed" style="border: none">
         <div class="listadoUsuarioComponentBuscador">
-          <h3 class="">{{language.buscarTarea}}</h3>
+          <h3 class="">{{ language.buscarTarea }}</h3>
           <div class="input-group mb-3">
             <input
               type="text"
               class="form-control"
-              :placeholder=language.buscarTareaInput
-              :aria-label=language.buscarTareaInput
+              :placeholder="language.buscarTareaInput"
+              :aria-label="language.buscarTareaInput"
               id="filtro"
               aria-describedby="basic-addon2"
               v-on:keyup="filtrarPorNombre"
@@ -34,33 +34,35 @@
           class="noResultadoRegistroComp"
           v-else-if="comprobarArrayVacio(listadoTareas)"
         >
-          <p>{{language.noSeEncontroTarea}}</p>
+          <p>{{ language.noSeEncontroTarea }}</p>
         </div>
         <div class="contLisCalif" v-else>
           <router-link
             :to="{
               name: 'visualizar-tarea',
               params: {
-                 idTareas: tareas.idTareas,
-                idAlumnos: tareas.idAlumnos,     
+                idTareas: tareas.idTareas,
+                idAlumnos: tareas.idAlumnos,
               },
             }"
             class="list-group-item-action listadoStyle"
             v-for="tareas in listadoTareas"
             :key="tareas.id"
           >
-          <div class="contLisCalif">
-            <div class="calificacionesCont">
-              <h5 class="calititulo">{{ tareas.titulo }}</h5>  
-                <p class="calfecha"
-                >{{language.vence}}: {{ moment(tareas.fecha_vencimiento) }}</p>
-            </div>
-            <div class="calificacionesCont" style="margin-top:10px;">
-              <h5 style="font-size: 14px;" class="calititulo">{{ tareas.descripcion }}</h5>  
+            <div class="contLisCalif">
+              <div class="calificacionesCont">
+                <h5 class="calititulo">{{ tareas.titulo }}</h5>
+                <p class="calfecha">
+                  {{ language.vence }}: {{ moment(tareas.fecha_vencimiento) }}
+                </p>
+              </div>
+              <div class="calificacionesCont" style="margin-top: 10px">
+                <h5 style="font-size: 14px" class="calititulo">
+                  {{ tareas.descripcion }}
+                </h5>
                 <i class="far fa-eye eyeListado"></i>
+              </div>
             </div>
-          </div>
-             
           </router-link>
         </div>
       </div>
@@ -94,17 +96,16 @@ export default {
       spinner: Global.spinnerUrl,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listadoTareas: "",
-       lang: localStorage.getItem("lang"),
+      lang: localStorage.getItem("lang"),
       language: "",
     };
   },
   mounted() {
-     this.selectLanguage();
+    this.selectLanguage();
     this.cargarTareasEntregadas();
-
   },
   methods: {
-       selectLanguage() {
+    selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
       } else {
@@ -134,6 +135,9 @@ export default {
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
+    simplificarNombre(nombreArchivo) {
+      return nombreArchivo.replace(/^([\d_^)]+)/, "");
+    },
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
 
@@ -145,11 +149,11 @@ export default {
             token: Global.token,
           },
         })
-        .then((response) => {
+     .then((response) => {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
-          link.download = label;
+          link.download = this.simplificarNombre(label);
           link.click();
           URL.revokeObjectURL(link.href);
         })

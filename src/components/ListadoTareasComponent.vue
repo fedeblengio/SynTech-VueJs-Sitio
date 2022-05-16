@@ -384,7 +384,7 @@
                       <div class="previw_archivosPost">
                         <h3 v-on:click="descargarPDF(img.archivo)">
                           <i class="fal fa-file-alt file"></i>
-                          <span>{{ img.archivo }}</span>
+                          <span>{{ simplificarNombre(img.archivo) }}</span>
                         </h3>
                       </div>
                     </div>
@@ -398,7 +398,7 @@
                       <div class="previw_archivosPost">
                         <h3 v-on:click="descargarPDF(archivo.archivo)">
                           <i class="fal fa-file-alt file"></i>
-                          <span>{{ archivo.archivo }}</span>
+                          <span>{{ simplificarNombre(archivo.archivo) }}</span>
                         </h3>
                       </div>
                     </div>
@@ -785,11 +785,11 @@ export default {
             token: Global.token,
           },
         })
-        .then((response) => {
+      .then((response) => {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
-          link.download = label;
+          link.download = this.simplificarNombre(label);
           link.click();
           URL.revokeObjectURL(link.href);
         })
@@ -801,7 +801,9 @@ export default {
           });
         });
     },
-
+    simplificarNombre(nombreArchivo) {
+      return nombreArchivo.replace(/^([\d_^)]+)/, "");
+    },
     comprobarOpcionEliminar(idTarea) {
       this.$swal
         .fire({
