@@ -965,6 +965,10 @@ input[type="number"]::-webkit-inner-spin-button {
     cursor: pointer;
 }
 
+.ellipsis-home:hover>.notiPostBody {
+    display: block;
+}
+
 .notiPostBody {
     display: none;
     top: 5px;
@@ -986,7 +990,7 @@ input[type="number"]::-webkit-inner-spin-button {
     color: red;
 }
 
-.btn_postBody:hover {
+.notiPostBody:hover {
     background-color: lightgray;
 }
 

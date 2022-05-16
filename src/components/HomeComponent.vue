@@ -25,11 +25,10 @@
         </button>
       </div>
       <div class="boxText">
-        
         <div class="form">
           <div class="boxText_input">
             <img :src="returnImgB64()" />
-          
+
             <textarea
               id="textarea"
               :placeholder="language.escribeAlgo"
@@ -131,8 +130,7 @@
         <div class="post_body">
           <i
             v-if="post.data.idUsuario === usuario.username"
-            class="far fa-ellipsis-h menu-card-home"
-            v-on:click="showOptionBody(post.data.id)"
+            class="far fa-ellipsis-h menu-card-home ellipsis-home"
           >
             <div class="notiPostBody" :id="post.data.id">
               <p
@@ -519,7 +517,6 @@ export default {
           denyButtonText: `Cancelar`,
         })
         .then((result) => {
-          /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
             this.borrarPublicacion(idPublicacion);
           }
@@ -570,16 +567,6 @@ export default {
           URL.revokeObjectURL(link.href);
         })
         .catch(console.error);
-    },
-    showOptionBody(id) {
-      let elipsis = document.getElementById(id);
-      if (this.aux == 0) {
-        elipsis.style.display = "none";
-        this.aux = 1;
-      } else {
-        elipsis.style.display = "block";
-        this.aux = 0;
-      }
     },
   },
 };
