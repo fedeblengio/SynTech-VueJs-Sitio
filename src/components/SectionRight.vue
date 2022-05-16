@@ -67,18 +67,29 @@
       <div class="events_icon dropdown" style="cursor: pointer">
         <i class="fal fa-globe dropbtn"></i>
 
-        <div class="dropdown-content" style="cursor: pointer">
-          <p class="iconBar">
-            <i v-on:click="changeLanguage()"
-              ><country-flag country="es" size="normal"
-            /></i>
-            <a> {{ language.espaniol }}</a>
+        <div
+          class="dropdown-content"
+          style="cursor: pointer"
+          v-if="lang == 'es'"
+        >
+          <p class="iconBar active">
+            <span><country-flag country="es" size="normal" /> </span>
           </p>
           <p class="iconBar">
-            <i v-on:click="changeLanguage()"
-              ><country-flag country="gb" size="normal"
-            /></i>
-            <a> {{ language.ingles }}</a>
+            <span v-on:click="changeLanguage()"
+              ><country-flag country="gb" size="normal" />
+            </span>
+          </p>
+        </div>
+
+        <div class="dropdown-content" style="cursor: pointer" v-else>
+          <p class="iconBar">
+            <span v-on:click="changeLanguage()"
+              ><country-flag country="es" size="normal" />
+            </span>
+          </p>
+          <p class="iconBar active">
+            <span><country-flag country="gb" size="normal" /> </span>
           </p>
         </div>
       </div>
@@ -328,7 +339,7 @@ export default {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
-  min-width: 120px;
+  min-width: auto;
   height: 80px;
   font-size: 12pt;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -336,10 +347,12 @@ export default {
 }
 
 /* Links inside the dropdown */
-.dropdown-content i {
-  color: black;
-  padding-bottom: 3px;
-  padding-left: 3px;
+.dropdown-content span {
+  color: skyblue;
+  text-align: center;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   text-decoration: none;
   display: inline-block;
 }
@@ -348,7 +361,9 @@ export default {
 .dropdown-content p:hover {
   background-color: #ddd;
 }
-
+.active {
+  background-color: rgb(121, 172, 249);
+}
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
