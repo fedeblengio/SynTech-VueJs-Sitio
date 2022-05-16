@@ -200,7 +200,7 @@
         <div class="post_body">
           <i
             v-if="post.data.idUsuario === usuario.username"
-            class="far fa-ellipsis-h menu-card-home"
+            class="far fa-ellipsis-h menu-card-home ellipsis-home"
             v-on:click="showOptionBody(post.data.id)"
           >
             <div class="notiPostBody" :id="post.data.id">
@@ -679,16 +679,6 @@ export default {
             text: this.language.algoSalioMal,
           });
         });
-    },
-    showOptionBody(id) {
-      let elipsis = document.getElementById(id);
-      if (this.aux == 0) {
-        elipsis.style.display = "none";
-        this.aux = 1;
-      } else {
-        elipsis.style.display = "block";
-        this.aux = 0;
-      }
     },
   },
 };

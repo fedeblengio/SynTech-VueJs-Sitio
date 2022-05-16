@@ -404,6 +404,16 @@
                     </div>
                   </div>
                 </div>
+                <div
+                  v-on:click="
+                    comprobarOpcionEliminar(tareaSeleccionada.idTarea)
+                  "
+                  class="trashTarea"
+                >
+                  <p class="btn btn-outline-danger">
+                    {{ language.eliminar }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -434,7 +444,7 @@
           :key="tarea.id"
         >
           <i
-            class="far fa-ellipsis-h menu-card-home btn"
+            class="far fa-ellipsis-h menu-card-home btn ellipsis-home"
             v-on:click="showOptionBody(tarea.idTarea)"
           >
             <div class="notiPostBody" :id="tarea.idTarea" style="top: 15px">
@@ -446,12 +456,12 @@
               >
                 {{ language.ver }}
               </p>
-              <p
+              <!--   <p
                 class="btn_postBody red"
                 v-on:click="comprobarOpcionEliminar(tarea.idTarea)"
               >
                 {{ language.eliminar }}
-              </p>
+              </p> -->
             </div>
           </i>
           <router-link
@@ -791,16 +801,7 @@ export default {
           });
         });
     },
-    showOptionBody(id) {
-      let elipsis = document.getElementById(id);
-      if (this.aux == 0) {
-        elipsis.style.display = "none";
-        this.aux = 1;
-      } else {
-        elipsis.style.display = "block";
-        this.aux = 0;
-      }
-    },
+
     comprobarOpcionEliminar(idTarea) {
       this.$swal
         .fire({
@@ -889,7 +890,7 @@ export default {
           html: this.language.creandoTarea,
           allowOutsideClick: false,
           timerProgressBar: true,
-           allowEscapeKey: false,
+          allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
           },
