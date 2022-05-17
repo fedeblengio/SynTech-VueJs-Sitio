@@ -7,7 +7,7 @@
         "cedula": "Cedula",
         "nombre": "Nombre",
         "promedio": "Promedio",
-        "asis": "Asistencia %",
+        "asis": "Inasistencia %",
         "aprobado": "Aprobado",
         "reprobado": "Reprobado",
         "info": "Estos promedios fueron generados con la suma de todas los notas divido la cantidad de tareas creadas, pero recuerda que la nota final la marcas tu",
@@ -22,7 +22,7 @@
         "cedula": "ID",
         "nombre": "Name",
         "promedio": "Mark",
-        "asis": "Assistance %",
+        "asis": "Absence %",
         "aprobado": "Approved",
         "reprobado": "Failed",
         "promediosDe": "Averages generated for"
