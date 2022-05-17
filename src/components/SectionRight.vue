@@ -2,14 +2,30 @@
   <div class="events">
     <div class="events_header">
       <div
-        class="events_icon"
+        class="events_icon dropdown"
+        style="cursor: pointer"
         v-if="tareasPendientes && usuario.ou == 'Alumno'"
         @click="mostrarNoticacion('campana')"
       >
-        <i class="far fa-bell noticont" style="color: red">
-          <span class="icon_noti" id="campana">
+        <i class="far fa-bell dropbtn"></i>
+        <div
+          class="dropdown-content"
+          style="
+            text-decoration: none;
+            width: 120px !important;
+            cursor: pointer;
+            text-align: center;
+            margin: 0;
+          "
+        >
+          <span style="padding: 0px !important">
             <router-link
-              style="text-decoration: none"
+              style="
+                text-decoration: none;
+                font-size: 14px;
+                padding: 0px !important;
+              "
+              class="router-link"
               :to="{
                 name: 'listado-tareas',
                 params: {
@@ -19,57 +35,90 @@
                   tareas_vencidas: false,
                 },
               }"
-              class="nav-link strippedRow"
               v-for="tarea in materiasTareasPendientes"
               :key="tarea.id"
             >
               <p>{{ tarea.Materia }}</p>
             </router-link>
           </span>
-        </i>
-      </div>
-      <div class="events_icon" v-else @click="mostrarNoticacion('campana')">
-        <i class="far fa-bell-slash noticont">
-          <span class="icon_noti" id="campana">
-            <p>{{ language.sinNotificaciones }}</p>
-          </span>
-        </i>
+        </div>
       </div>
 
-      <div class="events_icon" @click="mostrarNoticacion('configuracion')">
-        <i class="fal fa-cog noticont">
-          <span class="icon_noti" id="configuracion">
-            <p>
-              <router-link
-                :to="{
-                  name: 'profile',
-                  params: {
-                    idUsuario: usuario.username,
-                  },
-                }"
-                style="text-decoration: none"
-                class="router-link"
-              >
-                {{ language.miPerfil }}</router-link
-              >
-            </p>
-            <p>
-              <router-link
-                to="/cambioPwd"
-                style="text-decoration: none !important"
-              >
-                {{ language.cambiarContra }}
-              </router-link>
+      <div
+        class="events_icon dropdown"
+        style="cursor: pointer"
+        v-else
+        @click="mostrarNoticacion('campana')"
+      >
+        <i class="far fa-bell dropbtn"></i>
+        <div
+          class="dropdown-content"
+          style="
+            text-decoration: none;
+            width: 130px !important;
+            cursor: pointer;
+            text-align: center;
+            margin: 0;
+          "
+        >
+          <span id="campana" style="padding: 0px !important">
+            <p
+              style="
+                text-decoration: none;
+                font-size: 14px;
+                padding: 0px !important;
+                color: black;
+              "
+            >
+              {{ language.sinNotificaciones }}
             </p>
           </span>
-        </i>
+        </div>
       </div>
+
+      <div
+        class="events_icon dropdown"
+        style="cursor: pointer"
+        @click="mostrarNoticacion('configuracion')"
+      >
+        <i class="fal fa-cog dropbtn"></i>
+        <div class="dropdown-content" style="cursor: pointer">
+          <span>
+            <router-link
+              :to="{
+                name: 'profile',
+                params: {
+                  idUsuario: usuario.username,
+                },
+              }"
+              style="text-decoration: none; font-size: 14px; padding: 5px"
+              class="router-link"
+            >
+              {{ language.miPerfil }}</router-link
+            >
+          </span>
+          <span>
+            <router-link
+              to="/cambioPwd"
+              style="
+                text-decoration: none !important;
+                font-size: 14px;
+                padding: 5px;
+              "
+              class="router-link"
+            >
+              {{ language.cambiarContra }}
+            </router-link>
+          </span>
+        </div>
+      </div>
+
       <div class="events_icon dropdown" style="cursor: pointer">
         <i class="fal fa-globe dropbtn"></i>
 
         <div
           class="dropdown-content"
-          style="cursor: pointer"
+          style="cursor: pointer; width: 55px !important"
           v-if="lang == 'es'"
         >
           <p class="iconBar active">
@@ -82,7 +131,11 @@
           </p>
         </div>
 
-        <div class="dropdown-content" style="cursor: pointer" v-else>
+        <div
+          class="dropdown-content"
+          style="cursor: pointer; width: 55px !important"
+          v-else
+        >
           <p class="iconBar">
             <span v-on:click="changeLanguage()"
               ><country-flag country="es" size="normal" />
@@ -339,8 +392,8 @@ export default {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
-  min-width: auto;
-  height: 80px;
+  width: 99px;
+  height: auto;
   font-size: 12pt;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
@@ -349,7 +402,6 @@ export default {
 /* Links inside the dropdown */
 .dropdown-content span {
   color: skyblue;
-  text-align: center;
   padding-bottom: 5px;
   padding-left: 10px;
   padding-right: 10px;
@@ -357,10 +409,6 @@ export default {
   display: inline-block;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content p:hover {
-  background-color: #ddd;
-}
 .active {
   background-color: rgb(121, 172, 249);
 }
