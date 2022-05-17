@@ -4,7 +4,7 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header">
-        <h2>{{ language.tareaEntregadas }}</h2>
+        <h2>{{ language.tareasEntregadas }}</h2>
       </div>
       <div class="accordion" id="accordionExample">
         <div class="card">
@@ -116,7 +116,7 @@
           </div>
           <div
             id="collapseTwo"
-            class="collapse"
+            class="collapse show"
             aria-labelledby="headingTwo"
             data-parent="#accordionExample"
           >
