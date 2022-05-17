@@ -15,8 +15,8 @@
         "confirmarEliminacion": "¿ Estas seguro que quieres eliminar ?",
         "btnEliminar": "Eliminar",
         "btnCancelar": "Cancelar",
-        "publicacionEliminada": "Publicacion eliminada"
-
+        "publicacionEliminada": "Publicacion eliminada",
+        "cargarMas": "Cargar mas publicaciones"
     },
     "en": {
         "title": "Home",
@@ -34,7 +34,8 @@
         "confirmarEliminacion": "Are you sure you want to delete?",
         "btnEliminar": "Delete",
         "btnCancelar": "Abort",
-        "publicacionEliminada": "Publication removed"
+        "publicacionEliminada": "Publication removed",
+        "cargarMas": "Load more publications"
 
     }
 }

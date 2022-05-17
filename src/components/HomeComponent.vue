@@ -192,7 +192,7 @@
           style="color: skyblue; cursor: pointer"
           v-if="!loading"
         >
-          Cargar mas publicaciones
+             {{ language.cargarMas }}
         </p>
       </center>
     </div>

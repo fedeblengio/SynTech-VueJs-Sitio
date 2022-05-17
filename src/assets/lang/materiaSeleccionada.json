@@ -19,7 +19,8 @@
         "btnEliminar": "Eliminar",
         "btnCancelar": "Cancelar",
         "publicacionEliminada": "Publicacion eliminada",
-        "publicadoCorrectamente": "Publicado correctamente"
+        "publicadoCorrectamente": "Publicado correctamente",
+        "cargarMas": "Cargar mas publicaciones"
     },
     "en": {
         "title": "Selected Subject",
@@ -41,7 +42,8 @@
         "btnEliminar": "Delete",
         "btnCancelar": "Abort",
         "publicacionEliminada": "Publication removed",
-        "publicadoCorrectamente": "Correctly published"
+        "publicadoCorrectamente": "Correctly published",
+        "cargarMas": "Load more publications"
 
 
     }
