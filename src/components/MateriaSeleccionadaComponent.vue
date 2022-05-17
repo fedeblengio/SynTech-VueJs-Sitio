@@ -130,12 +130,16 @@
         <div class="form">
           <div class="boxText_input">
             <img :src="returnImgB64()" />
-            <textarea
+                <textarea
               id="textarea"
               :placeholder="language.escribeAlgo"
               required
               v-model="mensaje"
+              maxlength="250"
             ></textarea>
+            <span class="float-right mt-2 text-muted ml-3 mr-2">
+              {{ mensaje.length }} / 250</span
+            >
           </div>
           <div
             class="preview_contenedor"

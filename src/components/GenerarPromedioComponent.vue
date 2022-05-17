@@ -1,54 +1,55 @@
 <template>
- <div class="contenedorDiv">
+  <div class="contenedorDiv">
     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
-      <div class="feed_header" style="border-bottom: 1px solid var(--background);margin-bottom:10px;">
-        <h2>{{language.titulo}}</h2>
+      <div
+        class="feed_header"
+        style="border-bottom: 1px solid var(--background); margin-bottom: 10px"
+      >
+        <h2>{{ language.titulo }}</h2>
       </div>
-       
-       <div class="GenerarCont" style="width: 95%;margin:0 auto; ">
-         <p>
-           {{language.listaAlumno}} 
-         </p>
-         <button class="btnGenerar" @click="downloadPDF()">{{language.descargar}} </button>
-       </div>
-       <div style='margin-top:10px; text-align: center;'>
-         <table class="table" >
-        <thead>
-        <tr>
-          <td> {{language.cedula}} </td>
-          <td> {{language.nombre}} </td>
-          <td>{{language.promedio}} 
-              <div class="tooltip2">
-                <i class="far fa-eye"></i>
-                <span class="tooltiptext">
-                  {{language.tooltip}}
-                </span>
-              </div>
-          </td>
-          <td>{{language.asis}}</td>
-          <td>{{language.aprobado}}</td>
+      <div class="alert alert-primary" role="alert">
+        {{ language.info }}
+      </div>
+      <div class="GenerarCont" style="width: 95%; margin: 0 auto">
+        <p>
+          {{ language.listaAlumno }}
+        </p>
 
-        </tr>
-      </thead>
-      <tbody>
-      <tr v-for="promedio in traerPromedios" :key="promedio.id">
-          <td>{{promedio.idAlumnos}}</td>
-          <td>{{promedio.nombreAlumno}}</td>
-          <td>{{promedio.promedio}}</td>
-          <td>Faltas</td>
-          <td class="greenA" v-if="promedio.promedio >= 7"><i class="fas fa-check-circle"></i></td>
-          <td class="redA" v-else><i class="fas fa-times-circle"></i></td>    
-           
-      </tr>
-    
-  </tbody>
-</table>
-   <div class="spinerCont" v-if="loading">
-        <img :src="spinner" class="spinnerCSS" />
+        <button class="btnGenerar" @click="downloadPDF()">
+          {{ language.descargar }}
+        </button>
       </div>
-       </div>
+
+      <div style="margin-top: 10px; text-align: center">
+        <table class="table">
+          <thead>
+            <tr>
+              <td>{{ language.cedula }}</td>
+              <td>{{ language.nombre }}</td>
+
+              <td>{{ language.asis }}</td>
+              <td>{{ language.promedio }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="promedio in traerPromedios" :key="promedio.id">
+              <td>{{ promedio.idAlumnos }}</td>
+              <td>{{ promedio.nombreAlumno }}</td>
+
+              <td>Faltas</td>
+              <td class="greenA" v-if="promedio.promedio >= 7">
+                {{ promedio.promedio }}
+              </td>
+              <td class="redA" v-else>{{ promedio.promedio }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="spinerCont" v-if="loading">
+          <img :src="spinner" class="spinnerCSS" />
+        </div>
+      </div>
     </div>
     <SectionRight></SectionRight>
   </div>
@@ -69,7 +70,7 @@ export default {
     SectionLeft,
     SectionRight,
   },
-   data() {
+  data() {
     return {
       language: "",
       traerPromedios: "",
@@ -78,10 +79,10 @@ export default {
       loading: true,
     };
   },
-mounted() {
-  this.selectLanguage();
-  this.traerPromedio();
-},
+  mounted() {
+    this.selectLanguage();
+    this.traerPromedio();
+  },
   methods: {
     traerPromedio() {
       let config = {
@@ -93,18 +94,20 @@ mounted() {
       axios
         .get(
           Global.urlSitio +
-            "promedio?idMateria=" + this.$route.params.idMateria + "&idGrupo="+ this.$route.params.idGrupo,
+            "promedio?idMateria=" +
+            this.$route.params.idMateria +
+            "&idGrupo=" +
+            this.$route.params.idGrupo,
           config
         )
         .then((res) => {
           if (res.status == 200) {
             this.traerPromedios = res.data;
             this.loading = false;
-    
           }
         });
     },
-     selectLanguage() {
+    selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
       } else {
@@ -112,36 +115,34 @@ mounted() {
       }
       this.title = this.language.title;
     },
-    
-      downloadPDF() {
+
+    downloadPDF() {
       const doc = new jsPDF({
         orientation: "portrait",
         unit: "in",
         format: "letter",
       });
-      let materia_fecha =
-        this.$route.params.Materia +
-        " " +
-        moment().format("DD/MM/YYYY h:mm a");
+      let materia_fecha = this.language.promediosDe + " " + 
+        this.$route.params.Materia + " " + moment().format("DD/MM/YYYY h:mm a");
 
       let bodyAlumnos = [];
 
       for (let i = 0; i < this.traerPromedios.length; i++) {
         let array = [];
 
-          let aprobado;
-          if(this.traerPromedios[i].promedio >= 7){
-            aprobado = this.language.aprobado
-          }else{
-            aprobado = this.language.reprobado
-          }
-          array = [
-            this.traerPromedios[i].idAlumnos,
-            this.traerPromedios[i].nombreAlumno,
-            this.traerPromedios[i].promedio,
-            this.traerPromedios[i].idAlumnos,
-            aprobado
-          ];
+        let aprobado;
+        if (this.traerPromedios[i].promedio >= 7) {
+          aprobado = this.language.aprobado;
+        } else {
+          aprobado = this.language.reprobado;
+        }
+        array = [
+          this.traerPromedios[i].idAlumnos,
+          this.traerPromedios[i].nombreAlumno,
+          this.traerPromedios[i].promedio,
+          this.traerPromedios[i].idAlumnos,
+          aprobado,
+        ];
 
         bodyAlumnos.push(array);
       }
@@ -151,11 +152,11 @@ mounted() {
       doc.autoTable({
         head: [
           [
-          this.language.cedula,
-          this.language.nombre,
-          this.language.promedio,
-          this.language.asis,
-          this.language.aprobado,
+            this.language.cedula,
+            this.language.nombre,
+            this.language.promedio,
+            this.language.asis,
+            this.language.aprobado,
           ],
         ],
         body: bodyAlumnos,
@@ -165,10 +166,8 @@ mounted() {
       doc.save(materia_fecha + ".pdf");
     },
   },
-
-}
+};
 </script>
 
 <style>
-
 </style>

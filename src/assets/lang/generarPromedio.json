@@ -10,20 +10,21 @@
         "asis": "Asistencia %",
         "aprobado": "Aprobado",
         "reprobado": "Reprobado",
-        "tooltip": "Recuerda que el promedio fina lo pones tu"
-
+        "info": "Estos promedios fueron generados con la suma de todas los notas divido la cantidad de tareas creadas, pero recuerda que la nota final la marcas tu",
+        "promediosDe": "Promedios generados para"
     },
     "en": {
-        "tooltip": "Recuerda que el promedio fina lo pones tu",
+        "info": "These averages were generated with the sum of all grades divided by the number of tasks created, but remember that the final grade is set by you.",
         "title": "Generate Averages",
         "titulo": "Average",
         "listaAlumno": "Student List",
         "descargar": "Download",
         "cedula": "ID",
         "nombre": "Name",
-        "promedio": "Average",
+        "promedio": "Mark",
         "asis": "Assistance %",
         "aprobado": "Approved",
-        "reprobado": "Failed"      
+        "reprobado": "Failed",
+        "promediosDe": "Averages generated for"
     }
 }
