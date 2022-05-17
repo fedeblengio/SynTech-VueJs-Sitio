@@ -130,7 +130,7 @@
         <div class="form">
           <div class="boxText_input">
             <img :src="returnImgB64()" />
-                <textarea
+            <textarea
               id="textarea"
               :placeholder="language.escribeAlgo"
               required
@@ -255,6 +255,20 @@
           </div>
         </div>
       </div>
+      <center v-if="cargandoMasPublicaciones">
+        <div class="spinerCont">
+          <img :src="spinner" class="spinnerCSS" />
+        </div>
+      </center>
+      <center v-else class="mt-2 mb-2">
+        <p
+          @click="cargarMasPost()"
+          style="color: skyblue; cursor: pointer"
+          v-if="!loading"
+        >
+          Cargar mas publicaciones
+        </p>
+      </center>
     </div>
 
     <SectionRight></SectionRight>
@@ -298,6 +312,8 @@ export default {
       camposVacios: false,
       lang: localStorage.getItem("lang"),
       language: "",
+      cargandoMasPublicaciones: false,
+      limit: 10,
     };
   },
   mounted() {
@@ -319,6 +335,11 @@ export default {
     };
   },
   methods: {
+    cargarMasPost() {
+      this.cargandoMasPublicaciones = true;
+      this.limit += 5;
+      this.traerPostarchivos();
+    },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
@@ -447,13 +468,15 @@ export default {
             "&ou=" +
             this.usuario.ou +
             "&idMateria=" +
-            this.$route.params.idMateria,
+            this.$route.params.idMateria+"&limit=" +this.limit,
           config
         )
         .then((res) => {
           if (res.status == 200) {
             this.traerArchivos = res.data;
+            
           }
+          this.cargandoMasPublicaciones = false;
           this.loading = false;
         })
         .catch(() => {
