@@ -38,7 +38,7 @@
               <td>{{ promedio.idAlumnos }}</td>
               <td>{{ promedio.nombreAlumno }}</td>
 
-              <td>Faltas</td>
+              <td>{{ promedio.porcentajeFaltas }}</td>
               <td class="greenA" v-if="promedio.promedio >= 7">
                 {{ promedio.promedio }}
               </td>
@@ -140,7 +140,7 @@ export default {
           this.traerPromedios[i].idAlumnos,
           this.traerPromedios[i].nombreAlumno,
           this.traerPromedios[i].promedio,
-          this.traerPromedios[i].idAlumnos,
+          this.traerPromedios[i].porcentajeFaltas,
           aprobado,
         ];
 

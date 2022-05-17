@@ -432,21 +432,18 @@
       <!--  PROFESOR -->
 
       <div
-        class="list-group"
         v-else-if="
           usuario.ou == 'Profesor' && !this.$route.params.tareas_vencidas
         "
       >
         <div
-          class="list-group-item list-group-item-action"
+          class="list-group-item-action item-registro"
           aria-current="true"
           v-for="tarea in listadoTareas"
           :key="tarea.id"
+          style="border-bottom: 1px solid var(--background)"
         >
-          <i
-            class="far fa-ellipsis-h menu-card-home btn ellipsis-home"
-            v-on:click="showOptionBody(tarea.idTarea)"
-          >
+          <i class="far fa-ellipsis-h menu-card-home btn ellipsis-home">
             <div class="notiPostBody" :id="tarea.idTarea" style="top: 15px">
               <p
                 class="btn_postBody"
@@ -456,12 +453,6 @@
               >
                 {{ language.ver }}
               </p>
-              <!--   <p
-                class="btn_postBody red"
-                v-on:click="comprobarOpcionEliminar(tarea.idTarea)"
-              >
-                {{ language.eliminar }}
-              </p> -->
             </div>
           </i>
           <router-link
@@ -476,29 +467,26 @@
             class="router-link"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tarea.titulo }}</h5>
-              <small class="text-muted" v-if="tareas_vencidas"
-                >{{ language.vencio }}: {{ moment(tarea.fecha_vencimiento) }}
-              </small>
-              <small class="text-muted" v-else
-                >{{ language.vence }}:
-                {{ moment(tarea.fecha_vencimiento) }}</small
-              >
+              <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.materia }}</h5>
             </div>
-            <p class="mb-1">{{ tarea.descripcion }}</p>
-            <small class="text-muted">
-              <b>{{ language.hagaClickParaVerEntregas }}</b></small
-            >
           </router-link>
+          <p class="fechaRegistroComponent">
+            {{ language.vence }}: {{ moment(tarea.fecha_vencimiento) }}
+          </p>
+          <small class="text-muted">
+            <b>{{ language.hagaClickParaVerEntregas }}</b></small
+          >
         </div>
       </div>
 
       <!--  ALUMNO -->
       <div class="list-group" v-else-if="usuario.ou == 'Alumno'">
         <div
-          class="list-group-item list-group-item-action"
+          class="list-group-item-action item-registro"
+          aria-current="true"
           v-for="tareas in listadoTareas.tareas"
           :key="tareas.id"
+          style="border-bottom: 1px solid var(--background)"
         >
           <router-link
             :to="{
@@ -513,21 +501,22 @@
           >
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">{{ tareas.titulo }}</h5>
-              <small class="text-muted"
-                >{{ language.vence }}:
-                {{ moment(tareas.fecha_vencimiento) }}</small
-              >
             </div>
-            <p class="mb-1">{{ tareas.descripcion }}</p>
-            <small class="text-muted">
-              <b>{{ language.verTareaAlumno }}</b></small
-            >
           </router-link>
+          <p class="fechaRegistroComponent">
+            {{ language.vence }}: {{ moment(tareas.fecha_vencimiento) }}
+          </p>
+          <small class="text-muted">
+            <b>{{ tareas.descripcion }}</b></small
+          >
         </div>
+
         <div
-          class="list-group-item list-group-item-action"
+          class="list-group-item-action item-registro"
+          aria-current="true"
           v-for="tareas in listadoTareas.re_hacer"
           :key="tareas.id"
+          style="border-bottom: 1px solid var(--background)"
         >
           <router-link
             :to="{
@@ -541,17 +530,15 @@
             class="router-link"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tareas.titulo }} {{ tareas.idTarea }}</h5>
-              <small class="text-muted"
-                >{{ language.vence }}:
-                {{ moment(tareas.fecha_vencimiento) }}</small
-              >
+              <h5 class="mb-1">{{ tareas.titulo }}</h5>
             </div>
-            <p class="mb-1">{{ tareas.descripcion }}</p>
-            <small class="text-muted">
-              <b>{{ language.verTareaAlumno }}</b></small
-            >
           </router-link>
+          <p class="fechaRegistroComponent">
+            {{ language.vence }}: {{ moment(tareas.fecha_vencimiento) }}
+          </p>
+          <small class="text-muted">
+            <b>{{ tareas.descripcion }}</b></small
+          >
         </div>
       </div>
       <div v-else>
@@ -785,7 +772,7 @@ export default {
             token: Global.token,
           },
         })
-      .then((response) => {
+        .then((response) => {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);

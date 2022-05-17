@@ -37,33 +37,37 @@
           <p>{{ language.noSeEncontroTarea }}</p>
         </div>
         <div class="contLisCalif" v-else>
-          <router-link
-            :to="{
-              name: 'visualizar-tarea',
-              params: {
-                idTareas: tareas.idTareas,
-                idAlumnos: tareas.idAlumnos,
-              },
-            }"
-            class="list-group-item-action listadoStyle"
+          <div
+            class="list-group-item-action item-registro"
+            aria-current="true"
             v-for="tareas in listadoTareas"
             :key="tareas.id"
+            style="border-bottom: 1px solid var(--background)"
           >
-            <div class="contLisCalif">
-              <div class="calificacionesCont">
-                <h5 class="calititulo">{{ tareas.titulo }}</h5>
-                <p class="calfecha">
-                  {{ language.vence }}: {{ moment(tareas.fecha_vencimiento) }}
-                </p>
+            <router-link
+              :to="{
+                name: 'visualizar-tarea',
+                params: {
+                  idTareas: tareas.idTareas,
+                  idAlumnos: tareas.idAlumnos,
+                },
+              }"
+              style="text-decoration: none; color: var(--colorLetra)"
+            >
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ tareas.titulo }}</h5>
               </div>
-              <div class="calificacionesCont" style="margin-top: 10px">
-                <h5 style="font-size: 14px" class="calititulo">
-                  {{ tareas.descripcion }}
-                </h5>
-                <i class="far fa-eye eyeListado"></i>
-              </div>
-            </div>
-          </router-link>
+              <small class="text-muted float-right">
+                {{ language.ver }}<i class="fas fa-eye"> </i>
+              </small>
+              <p class="fechaRegistroComponent">
+                {{ language.vence }}: {{ moment(tareas.fecha_vencimiento) }}
+              </p>
+              <small class="text-muted">
+                <b>{{ tareas.descripcion }}</b></small
+              >
+            </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -149,7 +153,7 @@ export default {
             token: Global.token,
           },
         })
-     .then((response) => {
+        .then((response) => {
           const blob = new Blob([response.data], { type: "application/pdf" });
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
