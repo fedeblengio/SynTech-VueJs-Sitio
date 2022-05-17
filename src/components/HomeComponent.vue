@@ -181,6 +181,20 @@
           </div>
         </div>
       </div>
+      <center v-if="cargandoMasPublicaciones">
+        <div class="spinerCont">
+          <img :src="spinner" class="spinnerCSS" />
+        </div>
+      </center>
+      <center v-else class="mt-2 mb-2">
+        <p
+          @click="cargarMasPost()"
+          style="color: skyblue; cursor: pointer"
+          v-if="!loading"
+        >
+          Cargar mas publicaciones
+        </p>
+      </center>
     </div>
 
     <SectionRight></SectionRight>
@@ -222,9 +236,11 @@ export default {
       traerMaterias: "",
       index: null,
       aux: 1,
+      limit: 10,
       camposVacios: false,
       lang: localStorage.getItem("lang"),
       language: "",
+      cargandoMasPublicaciones: false,
     };
   },
   mounted() {
@@ -350,6 +366,11 @@ export default {
       }
       return arrayImg;
     },
+    cargarMasPost() {
+      this.cargandoMasPublicaciones = true;
+      this.limit += 5;
+      this.traerPostarchivos();
+    },
     traerPostarchivos() {
       let config = {
         headers: {
@@ -363,13 +384,16 @@ export default {
             "foro?idUsuario=" +
             this.usuario.username +
             "&ou=" +
-            this.usuario.ou,
+            this.usuario.ou +
+            "&limit=" +
+            this.limit,
           config
         )
         .then((res) => {
           if (res.status == 200) {
             this.traerArchivos = res.data;
           }
+          this.cargandoMasPublicaciones = false;
           this.loading = false;
         });
     },
