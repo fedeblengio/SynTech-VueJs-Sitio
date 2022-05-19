@@ -188,7 +188,7 @@ export default {
     return {
       loading: true,
       spinner: Global.spinnerUrl,
-      title:"",
+      title: "",
       today: "",
       usuario: "",
       traerGrupos: "",
@@ -208,6 +208,7 @@ export default {
   },
   mounted() {
     this.today = moment().format("YYYY-MM-DDTHH:mm");
+
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
     this.traerGrupoProfesor(this.usuario.username);
     this.agenda.idProfesor = this.usuario.username;
@@ -218,18 +219,18 @@ export default {
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
-        
       } else {
         this.language = language.en;
       }
-      this.title =  this.language.title;
+      this.title = this.language.title;
     },
     comprobarCamposVacios(input1, input2, input3, input4) {
       return (
         input1.length == 0 ||
         input2.length == 0 ||
         input3.length == 0 ||
-        input4.length == 0
+        input4.length == 0 ||
+        moment(this.today).isAfter(moment(this.agenda.fecha_inicio))
       );
     },
     comprobarOpcionEliminar(idClase) {
@@ -316,6 +317,8 @@ export default {
           token: Global.token,
         },
       };
+
+ 
 
       let data = {
         idProfesor: this.agenda.idProfesor,
