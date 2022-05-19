@@ -203,6 +203,7 @@
                     type="date"
                     v-model="tarea.fecha_vencimiento"
                     required
+                    :min="today"
                   />
                 </div>
 
@@ -618,6 +619,7 @@ export default {
         idMateria: "",
         materia: "",
       },
+      today: "",
       cargandoFoto: true,
       alumno: false,
       tarea: {
@@ -655,6 +657,7 @@ export default {
     };
   },
   mounted() {
+    this.today = moment().format("YYYY-MM-DD");
     this.selectLanguage();
     this.routerValues.idGrupo = this.$route.params.idGrupo;
     this.routerValues.idMateria = this.$route.params.idMateria;
