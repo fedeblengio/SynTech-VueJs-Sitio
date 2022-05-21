@@ -5,9 +5,8 @@
         class="events_icon dropdown"
         style="cursor: pointer"
         v-if="tareasPendientes && usuario.ou == 'Alumno'"
-        @click="mostrarNoticacion('campana')"
       >
-        <i class="far fa-bell dropbtn"></i>
+        <i class="far fa-bell dropbtn" style="color: red"></i>
         <div
           class="dropdown-content"
           style="
@@ -44,13 +43,49 @@
         </div>
       </div>
 
-      <div
+              <div
         class="events_icon dropdown"
         style="cursor: pointer"
-        v-else
-        @click="mostrarNoticacion('campana')"
+        v-else-if="tareasPendientes && usuario.ou == 'Profesor'"
       >
-        <i class="far fa-bell dropbtn"></i>
+        <i class="far fa-bell dropbtn" style="color: red"></i>
+        <div
+          class="dropdown-content"
+          style="
+            text-decoration: none;
+            width: 120px !important;
+            cursor: pointer;
+            text-align: center;
+            margin: 0;
+          "
+        >
+          <span style="padding-top: 10px !important">
+            <router-link
+              style="
+                text-decoration: none;
+                font-size: 14px;
+                padding: 0px !important;
+              "
+              class="router-link"
+            :to="{
+              name: 'entregas',
+              params: {
+                idGrupo: tarea.idGrupo,
+                idMateria: tarea.idMateria,
+                idTareas: tarea.idTarea,
+              },
+            }"
+              v-for="tarea in cargarTareas"
+              :key="tarea.id"
+            >
+
+              <p>{{ tarea.titulo }}</p>
+            </router-link>
+          </span>
+        </div>
+      </div>
+      <div class="events_icon dropdown" style="cursor: pointer" v-else>
+        <i class="far fa-bell-slash dropbtn"></i>
         <div
           class="dropdown-content"
           style="
@@ -220,6 +255,7 @@ export default {
     if (this.usuario.ou == "Profesor") {
       this.traerGrupoProfesor();
       this.profesor = true;
+      this.cargarTareasCorregir();
     } else {
       this.cargarTareasCreadas();
     }
@@ -242,6 +278,31 @@ export default {
       } else {
         this.language = language.en;
       }
+    },
+    cargarTareasCorregir() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "tareas-corregir?idProfesor=" +
+            this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.cargarTareas = res.data;
+
+            if (res.data.length === 0) {
+              this.tareasPendientes = false;
+            }
+           
+          }
+        });
     },
     tareaMateriasArray() {
       let array = [];
@@ -275,7 +336,7 @@ export default {
       location.reload();
     },
 
-    mostrarNoticacion(id) {
+    /*     mostrarNoticacion(id) {
       let noti = document.getElementById(id);
       let campana = document.getElementById("campana");
       let configuracion = document.getElementById("configuracion");
@@ -293,7 +354,7 @@ export default {
         }
         this.aux = 0;
       }
-    },
+    }, */
     cargarTareasCreadas() {
       let config = {
         headers: {
