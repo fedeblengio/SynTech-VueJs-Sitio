@@ -366,7 +366,14 @@
                   <div class="post_title">
                     <span> {{ tareaSeleccionada.titulo }} </span>
                     <p>
-                      <small :class='tiempoDeVencimiento(tareaSeleccionada.fechaVencimiento,"text-muted")' >
+                      <small
+                        :class="
+                          tiempoDeVencimiento(
+                            tareaSeleccionada.fechaVencimiento,
+                            'text-muted'
+                          )
+                        "
+                      >
                         {{ language.vence }} :
                         {{ moment(tareaSeleccionada.fechaVencimiento) }}</small
                       >
@@ -471,7 +478,14 @@
               <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.materia }}</h5>
             </div>
           </router-link>
-          <p  :class='tiempoDeVencimiento(tarea.fecha_vencimiento,"fechaRegistroComponent")'>
+          <p
+            :class="
+              tiempoDeVencimiento(
+                tarea.fecha_vencimiento,
+                'fechaRegistroComponent'
+              )
+            "
+          >
             {{ language.vence }}: {{ moment(tarea.fecha_vencimiento) }}
           </p>
           <small class="text-muted">
@@ -504,7 +518,14 @@
               <h5 class="mb-1">{{ tareas.titulo }}</h5>
             </div>
           </router-link>
-          <p  :class='tiempoDeVencimiento(tarea.fecha_vencimiento,"fechaRegistroComponent")'>
+          <p
+            :class="
+              tiempoDeVencimiento(
+                tareas.fecha_vencimiento,
+                'fechaRegistroComponent'
+              )
+            "
+          >
             {{ language.vence }}: {{ moment(tareas.fecha_vencimiento) }}
           </p>
           <small class="text-muted">
@@ -534,7 +555,14 @@
               <h5 class="mb-1">{{ tareas.titulo }}</h5>
             </div>
           </router-link>
-          <p  :class='tiempoDeVencimiento(tarea.fecha_vencimiento,"fechaRegistroComponent")'>
+          <p
+            :class="
+              tiempoDeVencimiento(
+                tareas.fecha_vencimiento,
+                'fechaRegistroComponent'
+              )
+            "
+          >
             {{ language.vence }}: {{ moment(tareas.fecha_vencimiento) }}
           </p>
           <small class="text-muted">
@@ -670,19 +698,20 @@ export default {
     }
   },
   methods: {
-    tiempoDeVencimiento(fecha,defaultCSS) {
-     let nextDay = moment().add(1,'d').format("YYYY-MM-DD")
-     let followNextDay = moment().add(2,'d').format("YYYY-MM-DD")
-
-     if(moment(nextDay).isSame(fecha)){
-        return  defaultCSS+" red"
-     }else if (moment(followNextDay).isSame(fecha)){
-        return defaultCSS+" orange"
-     }else{
-       return defaultCSS+" green"
-     } 
-  
-      
+    tiempoDeVencimiento(fecha, defaultCSS) {
+      let nextDay = moment().add(1, "d").format("YYYY-MM-DD");
+      let followNextDay = moment().add(2, "d").format("YYYY-MM-DD");
+      let today = moment().format("YYYY-MM-DD");
+     
+      if (moment(nextDay).isSame(fecha)) {
+        return defaultCSS + " red";
+      } else if (moment(followNextDay).isSame(fecha)) {
+        return defaultCSS + " orange";
+      } else if (moment(today).isAfter(fecha)) {
+        return defaultCSS + " red";
+      } else {
+        return defaultCSS + " green";
+      }
     },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
@@ -1069,14 +1098,13 @@ export default {
 </script>
 
 <style scoped>
-
-.green{
+.green {
   color: green !important;
 }
-.orange{
+.orange {
   color: orange !important;
 }
-.red{ 
-  color: red !important; 
+.red {
+  color: red !important;
 }
 </style>
