@@ -20,7 +20,8 @@
         "btnCancelar": "Cancelar",
         "publicacionEliminada": "Publicacion eliminada",
         "publicadoCorrectamente": "Publicado correctamente",
-        "cargarMas": "Cargar mas publicaciones"
+        "cargarMas": "Cargar mas publicaciones",
+        "noPosts": "No hay publicaciones recientes."
     },
     "en": {
         "title": "Selected Subject",
@@ -43,7 +44,8 @@
         "btnCancelar": "Abort",
         "publicacionEliminada": "Publication removed",
         "publicadoCorrectamente": "Correctly published",
-        "cargarMas": "Load more publications"
+        "cargarMas": "Load more publications",
+        "noPosts": "There is no publication yet."
 
 
     }
