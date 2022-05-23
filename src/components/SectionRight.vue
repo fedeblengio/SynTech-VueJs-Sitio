@@ -15,6 +15,7 @@
             cursor: pointer;
             text-align: center;
             margin: 0;
+            z-index:1000;
           "
         >
           <span style="padding-top: 10px !important">
@@ -57,6 +58,7 @@
             cursor: pointer;
             text-align: center;
             margin: 0;
+            z-index:1000;
           "
         >
           <span style="padding-top: 10px !important">
@@ -189,6 +191,7 @@
 
     <div class="calendarioElement">
       <v-date-picker
+    
         show-weeknumbers="right-outside"
         mode="date"
         :locale="language.calendario"
