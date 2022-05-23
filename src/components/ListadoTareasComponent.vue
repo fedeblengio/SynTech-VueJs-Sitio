@@ -704,10 +704,10 @@ export default {
       let today = moment().format("YYYY-MM-DD");
      
       if (moment(nextDay).isSame(fecha)) {
-        return defaultCSS + " red";
+        return defaultCSS + " orange";
       } else if (moment(followNextDay).isSame(fecha)) {
         return defaultCSS + " orange";
-      } else if (moment(today).isAfter(fecha)) {
+      } else if (moment(fecha).isSame(today)) {
         return defaultCSS + " red";
       } else {
         return defaultCSS + " green";
@@ -877,7 +877,7 @@ export default {
         });
     },
     moment: function (fecha) {
-      return moment(fecha).format("DD/MM/YYYY h:mm a");
+      return moment(fecha).format("DD/MM/YYYY");
     },
     verificarRol() {
       if (this.usuario.ou == "Profesor") {
@@ -1107,4 +1107,5 @@ export default {
 .red {
   color: red !important;
 }
+
 </style>
