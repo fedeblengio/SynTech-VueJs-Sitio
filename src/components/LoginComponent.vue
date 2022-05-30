@@ -153,7 +153,7 @@ export default {
       if (!this.camposVacios) {
         this.camposVacios = false;
         axios
-          .post(Global.urlBackOffice + "login", this.contacto, config)
+          .post(Global.urlSitio + "login", this.contacto, config)
           .then((response) => {
             if (response.status == 200) {
               localStorage.setItem("auth_token", response.data.datos);

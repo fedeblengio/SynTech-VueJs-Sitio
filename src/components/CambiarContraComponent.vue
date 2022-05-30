@@ -173,7 +173,7 @@ export default {
       );
       if (!this.camposVacios) {
         axios
-          .post(Global.urlBackOffice + "login", userActual, config)
+          .post(Global.urlSitio + "login", userActual, config)
           .then((response) => {
             if (response.status == 200) {
               this.procesar();
