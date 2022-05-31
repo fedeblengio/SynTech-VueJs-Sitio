@@ -95,7 +95,10 @@
                 />
               </div>
             </div>
-            <button class="boxText_btn" v-on:click="enviarArchivos()">
+            <button class="boxText_btn" style="background-color:grey" v-if=loading>
+              {{ language.enviar }}
+            </button>
+             <button  v-else class="boxText_btn" v-on:click="enviarArchivos()">
               {{ language.enviar }}
             </button>
           </div>

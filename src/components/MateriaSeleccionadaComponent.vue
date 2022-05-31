@@ -174,7 +174,15 @@
                 />
               </div>
             </div>
-            <button class="boxText_btn" v-on:click="enviarArchivos()">
+
+            <button
+              class="boxText_btn"
+              style="background-color: grey"
+              v-if="loading"
+            >
+              {{ language.enviar }}
+            </button>
+            <button v-else class="boxText_btn" v-on:click="enviarArchivos()">
               {{ language.enviar }}
             </button>
           </div>
@@ -184,8 +192,8 @@
       <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
       </div>
-  <div v-else-if="traerArchivos.length == 0" class="post">
-        <p class="text-muted ml-auto mr-auto mt-4">{{language.noPosts}}</p>
+      <div v-else-if="traerArchivos.length == 0" class="post">
+        <p class="text-muted ml-auto mr-auto mt-4">{{ language.noPosts }}</p>
       </div>
       <div
         v-else
@@ -266,7 +274,7 @@
         <p
           @click="cargarMasPost()"
           style="color: skyblue; cursor: pointer"
-          v-if="!loading&& traerArchivos.length !==0"
+          v-if="!loading && traerArchivos.length !== 0"
         >
           {{ language.cargarMas }}
         </p>
@@ -470,13 +478,14 @@ export default {
             "&ou=" +
             this.usuario.ou +
             "&idMateria=" +
-            this.$route.params.idMateria+"&limit=" +this.limit,
+            this.$route.params.idMateria +
+            "&limit=" +
+            this.limit,
           config
         )
         .then((res) => {
           if (res.status == 200) {
             this.traerArchivos = res.data;
-            
           }
           this.cargandoMasPublicaciones = false;
           this.loading = false;
