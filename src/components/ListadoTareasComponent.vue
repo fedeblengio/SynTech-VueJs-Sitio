@@ -6,8 +6,15 @@
       <div class="feed_header">
         <h2>{{ this.$route.params.materia }}</h2>
         <!--  <div class="moverBtnCrearTarea" > -->
+             <button
+              class="boxText_btn"
+              style="background-color: grey"
+              v-if="loading  && !this.$route.params.tareas_vencidas"
+            >
+               {{ language.crearTarea }}
+            </button>
         <button
-          v-if="usuario.ou == 'Profesor' && !this.$route.params.tareas_vencidas"
+          v-else-if="usuario.ou == 'Profesor' && !this.$route.params.tareas_vencidas"
           type="button"
           class="btn_crearTarea"
           data-toggle="modal"

@@ -113,12 +113,22 @@
       </div>
 
       <div class="agendaContenedor movimientoBtnAgenda">
+           <input
+          type="submit"
+          :value="language.crearClase"
+          v-on:click="crearClaseVirtual()"
+          class="btn_crearClase"
+          style="background-color: grey"
+          v-if="loading"
+        />
         <input
+        v-else
           type="submit"
           :value="language.crearClase"
           v-on:click="crearClaseVirtual()"
           class="btn_crearClase"
         />
+    
       </div>
       <div class="sub_header">
         <h3>{{ language.clasesProgramadas }}</h3>
@@ -317,8 +327,6 @@ export default {
           token: Global.token,
         },
       };
-
- 
 
       let data = {
         idProfesor: this.agenda.idProfesor,

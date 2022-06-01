@@ -17,7 +17,10 @@
           {{ language.listaAlumno }}
         </p>
 
-        <button class="btnGenerar" @click="downloadPDF()">
+           <button v-if=loading class="btnGenerar"   style="background-color: grey" @click="downloadPDF()">
+          {{ language.descargar }}
+        </button>
+        <button v-else class="btnGenerar" @click="downloadPDF()">
           {{ language.descargar }}
         </button>
       </div>
