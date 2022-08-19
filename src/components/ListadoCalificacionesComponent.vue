@@ -23,6 +23,23 @@
               <span class="input-group-text border-0" id="search-addon">
                 <i class="fas fa-search"></i>
               </span>
+
+              <select
+                v-on:change="filtarPorMateria()"
+                class="form-control ml-4"
+                v-model="selectedSub"
+              >
+                <option value="" disabled selected hidden>
+                  {{ language.seleccioneMat }}
+                </option>
+                <option
+                  v-for="todo in traerMaterias"
+                  :key="todo.id"
+                  v-bind:value="todo.idMateria"
+                >
+                  {{ todo.Materia }}
+                </option>
+              </select>
             </div>
           </div>
         </div>
@@ -40,7 +57,7 @@
           <div
             class="list-group-item-action item-registro"
             aria-current="true"
-            v-for="tareas in listadoTareas"
+            v-for="tareas in filtarPorMateria()"
             :key="tareas.id"
             style="border-bottom: 1px solid var(--background)"
           >
@@ -102,13 +119,49 @@ export default {
       listadoTareas: "",
       lang: localStorage.getItem("lang"),
       language: "",
+      selectedSub: "",
+      traerMaterias: "",
+      aux: "",
     };
   },
   mounted() {
     this.selectLanguage();
     this.cargarTareasEntregadas();
+    this.traerMateriasUser();
   },
   methods: {
+    filtarPorMateria() {
+      var listaTarea = [];
+      var selectedSub = this.selectedSub;
+      if (selectedSub.length != 0 && selectedSub.trim() !== "") {
+        this.listadoTareas.forEach(function (tarea) {
+          if (tarea.idMateria == selectedSub) listaTarea.push(tarea);
+        });
+      } else {
+        listaTarea = this.listadoTareas;
+      }
+
+      return listaTarea;
+    },
+
+    traerMateriasUser() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio + "listarMaterias?idUsuario=" + this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
+          }
+        });
+    },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;

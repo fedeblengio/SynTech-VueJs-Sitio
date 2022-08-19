@@ -6,7 +6,8 @@
         "buscarTareaInput": "Escriba nombre de tarea",
         "noSeEncontroTarea": "No se ha encontrado ninguna tarea segun los datos ingresados.",
         "vence": "Vence",
-        "algoSalioMal": "Parece que algo salio mal ..."
+        "algoSalioMal": "Parece que algo salio mal ...",
+        "seleccioneMat": "Filtrar por materia"
     },
     "en": {
         "title": "Delivery History",
@@ -15,6 +16,7 @@
         "buscarTareaInput": "Enter task name",
         "noSeEncontroTarea": "No task has been found according to the data entered.",
         "vence": "Expires",
-        "algoSalioMal": "It seems that something went wrong..."
+        "algoSalioMal": "It seems that something went wrong...",
+        "seleccioneMat": "Search by subject"
     }
 }

@@ -9,7 +9,7 @@
              <button
               class="boxText_btn"
               style="background-color: grey"
-              v-if="loading  && !this.$route.params.tareas_vencidas"
+              v-if="loading  && !this.$route.params.tareas_vencidas&& usuario.ou == 'Profesor'"
             >
                {{ language.crearTarea }}
             </button>
