@@ -95,10 +95,14 @@
                 />
               </div>
             </div>
-            <button class="boxText_btn" style="background-color:grey" v-if=loading>
+            <button
+              class="boxText_btn"
+              style="background-color: grey"
+              v-if="loading"
+            >
               {{ language.enviar }}
             </button>
-             <button  v-else class="boxText_btn" v-on:click="enviarArchivos()">
+            <button v-else class="boxText_btn" v-on:click="enviarArchivos()">
               {{ language.enviar }}
             </button>
           </div>
@@ -109,7 +113,7 @@
         <img :src="spinner" class="spinnerCSS" />
       </div>
       <div v-else-if="traerArchivos.length == 0" class="post">
-        <p class="text-muted ml-auto mr-auto mt-4">{{language.noPosts}}</p>
+        <p class="text-muted ml-auto mr-auto mt-4">{{ language.noPosts }}</p>
       </div>
       <div
         v-else
@@ -455,29 +459,12 @@ export default {
     },
 
     enviarArchivos() {
-      var hoy = new Date();
-      var fecha =
-        hoy.getDate() +
-        hoy.getMonth() +
-        hoy.getFullYear() +
-        hoy.getHours() +
-        hoy.getMinutes() +
-        hoy.getSeconds() +
-        "_";
-
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: Global.token,
-        },
-      };
-      let nombres = [];
       this.camposVacios = this.comprobarCamposVacios(
         this.selectedGroup,
         this.mensaje
       );
       if (!this.camposVacios) {
-        let timerInterval;
+      
         this.$swal.fire({
           title: this.language.enviando,
           html: this.language.enviandoTuPublicacion,
@@ -486,27 +473,16 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
+            this.enviarPost();
           },
           willClose: () => {
-            clearInterval(timerInterval);
+            clearInterval(5);
           },
         });
-
-        for (let i = 0; i < this.file.length; i++) {
-          nombres.push(fecha + this.file[i].name);
-          let formData = new FormData();
-
-          formData.append("archivo", this.file[i]);
-          formData.append("nombre", fecha + this.file[i].name);
-
-          axios.post(Global.urlSitio + "FTP", formData, config);
-        }
-
-        this.enviarPost(nombres);
       }
     },
 
-    enviarPost(nombres) {
+    enviarPost() {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -519,8 +495,12 @@ export default {
       formData.append("idForo", this.foro.idForo);
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
-      formData.append("nombre_archivos", nombres);
-
+      for (let archivo of this.file) {
+        formData.append("archivos[]", archivo);
+      }
+      for (let archivo of this.file) {
+        formData.append("nombresArchivo[]", archivo.name);
+      }
       axios
         .post(Global.urlSitio + "foro", formData, config)
         .then((response) => {
