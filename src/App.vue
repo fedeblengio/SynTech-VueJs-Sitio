@@ -9,6 +9,7 @@
       </div>
        <div v-else>
         <DashboardComponent> </DashboardComponent>
+    
       </div>
     </div>
     <FlashMessage></FlashMessage>
@@ -23,6 +24,7 @@
 <script>
 import vueHeadful from "vue-headful";
 import DashboardComponent from "./components/DashboardComponent.vue";
+
 export default {
   name: "App",
   components: {

@@ -12,6 +12,9 @@
           <a href="#">
             <i class="fa fa-home" aria-hidden="true"></i>
           </a>
+          <a href="#noticias">
+            <i class="fas fa-newspaper"></i>
+          </a>
           <a v-on:click="cambiarValorLocalStorage()" href="/login">
             {{ language.iniciarSesion }}</a
           >
@@ -94,6 +97,99 @@
         </div>
       </div>
     </section>
+    <div id="noticias">
+      <center>
+        <h2>Noticias</h2>
+      </center>
+      <div>
+        <div style="height: 30rem; background-color: lightgreen">
+          <div class="contenedor_principal_noticias">
+            <div
+              class="accordion"
+              id="accordionExample"
+              v-for="noticia in todasNoticias"
+              :key="noticia.data.id"
+              style="width: 85%; margin: auto"
+            >
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button
+                      class="btnCustom btn-block text-left atr"
+                      type="button"
+                      data-toggle="collapse"
+                      :data-target="'#col' + noticia.data.id"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      <div
+                        style="
+                          display: flex;
+                          flex-direction: row;
+                          position: relative;
+                        "
+                      >
+                        <div>
+                          <img
+                            :src="returnIMGB64(noticia.data.imagenEncabezado)"
+                            alt=""
+                            width="100px"
+                          />
+                        </div>
+                        <div
+                          style="
+                            margin-left: 1rem;
+                            display: flex;
+                            flex-direction: column;
+                          "
+                        >
+                          <p>{{ noticia.data.titulo }}</p>
+                          <small>
+                            Publicado por {{ noticia.data.nombreAutor }}</small
+                          >
+                        </div>
+                        <small style="position: absolute; right: 0">{{
+                          difforHumans(noticia.data.fecha)
+                        }}</small>
+                      </div>
+                    </button>
+                  </h2>
+                </div>
+
+                <div
+                  :id="'col' + noticia.data.id"
+                  class="collapse"
+                  aria-labelledby="headingOne"
+                  data-parent="#accordionExample"
+                >
+                  <div class="card-body" style="padding: 10px">
+                    <p>{{ noticia.data.mensaje }}</p>
+                    <div v-if="noticia.archivos != ''">
+                      <label style="display: flex; justify-content: center">
+                        Archivos
+                      </label>
+                      <div
+                        class="archivo"
+                        v-for="archivo in noticia.archivos"
+                        :key="archivo.id"
+                      >
+                        <span
+                          style="cursor: pointer"
+                          @click="descargarPDF(archivo)"
+                        >
+                          {{ simplificarNombre(archivo) }}
+                        </span>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -101,11 +197,14 @@
 import vueHeadful from "vue-headful";
 import language from "../assets/lang/dashboard.json";
 import CountryFlag from "vue-country-flag";
+import { Global } from "../Global";
+import moment from 'moment'
+import axios from "axios";
 export default {
   name: "homeComponent",
   components: {
     vueHeadful,
-    CountryFlag
+    CountryFlag,
   },
 
   data() {
@@ -113,12 +212,16 @@ export default {
       title: "",
       lang: localStorage.getItem("lang"),
       language: "",
+      todasNoticias: "",
     };
   },
   mounted() {
     this.selectLanguage();
   },
   methods: {
+    difforHumans(fecha) {
+      return moment(fecha).locale("es").fromNow();
+    },
     changeLanguage() {
       if (this.lang == "es") {
         localStorage.setItem("lang", "en");
@@ -139,6 +242,17 @@ export default {
     cambiarValorLocalStorage() {
       localStorage.setItem("logged", true);
     },
+    simplificarNombre(nombreArchivo) {
+      return nombreArchivo.replace(/^([\d_^)]+)/, "");
+    },
+    cargarListaCalificaciones() {
+      axios.get(Global.urlSitio + "/noticias").then((res) => {
+        if (res.status == 200) {
+          this.noticias = res.data;
+        }
+      });
+    },
+  
   },
 };
 </script>
