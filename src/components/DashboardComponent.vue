@@ -97,97 +97,61 @@
         </div>
       </div>
     </section>
-    <div id="noticias">
+    <div id="noticias" >
       <center>
-        <h2>Noticias</h2>
+        <h2 style="margin-bottom:2rem">Noticias</h2>
+
       </center>
-      <div>
-        <div style="height: 30rem; background-color: lightgreen">
-          <div class="contenedor_principal_noticias">
-            <div
-              class="accordion"
-              id="accordionExample"
-              v-for="noticia in todasNoticias"
-              :key="noticia.data.id"
-              style="width: 85%; margin: auto"
-            >
+       <div style="display:flex;justify-content: center;">
+      <div style="width:75%;">
+     
+               <div class="accordion" id="accordionExample"
+                 v-for="noticia in todasNoticias"
+                 :key="noticia.data.id"
+                 style="width: 85%; margin: auto;">
               <div class="card">
                 <div class="card-header" id="headingOne">
                   <h2 class="mb-0">
-                    <button
-                      class="btnCustom btn-block text-left atr"
-                      type="button"
-                      data-toggle="collapse"
-                      :data-target="'#col' + noticia.data.id"
-                      aria-expanded="true"
-                      aria-controls="collapseOne"
-                    >
-                      <div
-                        style="
-                          display: flex;
-                          flex-direction: row;
-                          position: relative;
-                        "
-                      >
+                    <button class="btnCustom btn-block text-left atr" type="button" data-toggle="collapse"
+                            :data-target="'#col'+noticia.data.id" aria-expanded="true" aria-controls="collapseOne">
+                      <div style="display: flex;flex-direction: row; position: relative">
                         <div>
-                          <img
-                            :src="returnIMGB64(noticia.data.imagenEncabezado)"
-                            alt=""
-                            width="100px"
-                          />
+                          <img :src="returnIMGB64(noticia.data.imagenEncabezado)" alt="" width="100px"/>
                         </div>
-                        <div
-                          style="
-                            margin-left: 1rem;
-                            display: flex;
-                            flex-direction: column;
-                          "
-                        >
-                          <p>{{ noticia.data.titulo }}</p>
-                          <small>
-                            Publicado por {{ noticia.data.nombreAutor }}</small
-                          >
+                        <div style="margin-left: 1rem;display: flex;flex-direction: column">
+                          <p> {{ noticia.data.titulo }}
+                          </p>
+                          <small> Publicado por {{ noticia.data.nombreAutor }}</small>
                         </div>
-                        <small style="position: absolute; right: 0">{{
-                          difforHumans(noticia.data.fecha)
-                        }}</small>
+                        <small style="position: absolute;right: 0;">{{difforHumans(noticia.data.fecha)}}</small>
                       </div>
                     </button>
                   </h2>
                 </div>
 
-                <div
-                  :id="'col' + noticia.data.id"
-                  class="collapse"
-                  aria-labelledby="headingOne"
-                  data-parent="#accordionExample"
-                >
-                  <div class="card-body" style="padding: 10px">
-                    <p>{{ noticia.data.mensaje }}</p>
+                <div :id="'col' + noticia.data.id" class="collapse " aria-labelledby="headingOne"
+                     data-parent="#accordionExample">
+                  <div class="card-body" style="padding: 10px;">
+                    <p> {{ noticia.data.mensaje }}</p>
                     <div v-if="noticia.archivos != ''">
-                      <label style="display: flex; justify-content: center">
+                      <label style="display: flex;justify-content: center;">
                         Archivos
                       </label>
-                      <div
-                        class="archivo"
-                        v-for="archivo in noticia.archivos"
-                        :key="archivo.id"
-                      >
-                        <span
-                          style="cursor: pointer"
-                          @click="descargarPDF(archivo)"
-                        >
-                          {{ simplificarNombre(archivo) }}
-                        </span>
+                      <div class="archivo"
+                           v-for="archivo in noticia.archivos"
+                           :key="archivo.id">
 
+                      <span style="cursor: pointer" @click="descargarPDF(archivo)">
+                       {{ simplificarNombre(archivo) }}
+                      </span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+      
+      </div>
       </div>
     </div>
   </div>
@@ -217,6 +181,7 @@ export default {
   },
   mounted() {
     this.selectLanguage();
+    this.cargarNoticias();
   },
   methods: {
     difforHumans(fecha) {
@@ -245,20 +210,82 @@ export default {
     simplificarNombre(nombreArchivo) {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
-    cargarListaCalificaciones() {
-      axios.get(Global.urlSitio + "/noticias").then((res) => {
+    cargarNoticias() {
+      axios.get(Global.urlSitio + "noticia").then((res) => {
         if (res.status == 200) {
-          this.noticias = res.data;
+          this.todasNoticias = res.data;
         }
       });
     },
-  
+   returnIMGB64(img) {
+      return "data:image/png;base64," + img;
+    },
   },
 };
 </script>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+
+.contenedor_archivos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.btn-block {
+    display: block;
+    width: 100%;
+}
+.btnCustom {
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.archivo {
+    background-color: blue;
+    padding: 10px;
+    color: white;
+    margin-bottom: 5px;
+    width: 50%;
+    margin: auto;
+    border-radius:12px;
+}
+.archivo:first-child{
+    margin-bottom: 0;
+}
 
 * {
   font-family: "Poppins", sans-serif;

@@ -279,28 +279,10 @@ export default {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
     enviarArchivos() {
-      var hoy = new Date();
-      var fecha =
-        hoy.getDate() +
-        hoy.getMonth() +
-        hoy.getFullYear() +
-        hoy.getHours() +
-        hoy.getMinutes() +
-        hoy.getSeconds() +
-        "_";
-
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: Global.token,
-        },
-      };
       this.camposVacios = this.comprobarCamposVacios(
         this.entregarTarea.mensaje
       );
       if (!this.camposVacios) {
-        let nombres = [];
-        let timerInterval;
         this.$swal.fire({
           title: this.language.cargando,
           html: this.language.estamosEnviando,
@@ -309,25 +291,15 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
+            this.enviarPost();
           },
           willClose: () => {
-            clearInterval(timerInterval);
+            clearInterval(5);
           },
         });
-
-        for (let i = 0; i < this.entregarTarea.file.length; i++) {
-          nombres.push(fecha + this.entregarTarea.file[i].name);
-          let formData = new FormData();
-
-          formData.append("archivo", this.entregarTarea.file[i]);
-          formData.append("nombre", fecha + this.entregarTarea.file[i].name);
-
-          axios.post(Global.urlSitio + "FTP", formData, config);
-        }
-        this.enviarPost(nombres);
       }
     },
-    enviarPost(nombres) {
+    enviarPost() {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -340,11 +312,17 @@ export default {
       formData.append("idTareas", this.tarea.idTarea);
       formData.append("idAlumnos", this.usuario.username);
       formData.append("mensaje", this.entregarTarea.mensaje);
-      formData.append("nombre_archivos", nombres);
+
       if (this.$route.params.re_hacer) {
         formData.append("re_hacer", 1);
       } else {
         formData.append("re_hacer", 0);
+      }
+      for (let archivo of this.entregarTarea.file) {
+        formData.append("archivos[]", archivo);
+      }
+      for (let archivo of this.entregarTarea.file) {
+        formData.append("nombresArchivo[]", archivo.name);
       }
 
       axios

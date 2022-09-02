@@ -36,6 +36,7 @@
             <div>
               <span>{{ tarea.nombreUsuario }}</span>
               <p>{{ tarea.fecha }}</p>
+            
             </div>
             <div>
               <div class="alumnoEntregaTarea_puntaje">

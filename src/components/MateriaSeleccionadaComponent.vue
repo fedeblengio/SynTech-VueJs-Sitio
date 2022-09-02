@@ -316,6 +316,7 @@ export default {
       traerArchivos: "",
       mensaje: "",
       foro: "",
+      idForo: "",
       value: 1,
       traerMaterias: "",
       index: null,
@@ -327,6 +328,7 @@ export default {
     };
   },
   mounted() {
+    this.traerIdForo();
     this.selectLanguage();
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
@@ -518,6 +520,7 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.foro = res.data;
+            this.idForo = res.data.idForo;
           }
         })
         .catch(() => {
@@ -569,27 +572,8 @@ export default {
       });
     },
     enviarArchivos() {
-      this.traerIdForo();
-      var hoy = new Date();
-      var fecha =
-        hoy.getDate() +
-        hoy.getMonth() +
-        hoy.getFullYear() +
-        hoy.getHours() +
-        hoy.getMinutes() +
-        hoy.getSeconds() +
-        "_";
-
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: Global.token,
-        },
-      };
       this.camposVacios = this.comprobarCamposVacios(this.mensaje);
       if (!this.camposVacios) {
-        let nombres = [];
-        let timerInterval;
         this.$swal.fire({
           title: this.language.enviando,
           html: this.language.enviandoTuPublicacion,
@@ -598,26 +582,16 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
+            this.enviarPost();
           },
           willClose: () => {
-            clearInterval(timerInterval);
+            clearInterval(5);
           },
         });
-
-        for (let i = 0; i < this.file.length; i++) {
-          nombres.push(fecha + this.file[i].name);
-          let formData = new FormData();
-
-          formData.append("archivo", this.file[i]);
-          formData.append("nombre", fecha + this.file[i].name);
-
-          axios.post(Global.urlSitio + "FTP", formData, config);
-        }
-        this.enviarPost(nombres);
       }
     },
 
-    enviarPost(nombres) {
+    enviarPost() {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -626,12 +600,15 @@ export default {
       };
 
       let formData = new FormData();
-
-      formData.append("idForo", this.foro.idForo);
+      for (let archivo of this.file) {
+        formData.append("archivos[]", archivo);
+      }
+      for (let archivo of this.file) {
+        formData.append("nombresArchivo[]", archivo.name);
+      }
+      formData.append("idForo", this.idForo);
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
-
-      formData.append("nombre_archivos", nombres);
 
       axios
         .post(Global.urlSitio + "foro", formData, config)

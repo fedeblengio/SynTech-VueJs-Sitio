@@ -6,15 +6,21 @@
       <div class="feed_header">
         <h2>{{ this.$route.params.materia }}</h2>
         <!--  <div class="moverBtnCrearTarea" > -->
-             <button
-              class="boxText_btn"
-              style="background-color: grey"
-              v-if="loading  && !this.$route.params.tareas_vencidas&& usuario.ou == 'Profesor'"
-            >
-               {{ language.crearTarea }}
-            </button>
         <button
-          v-else-if="usuario.ou == 'Profesor' && !this.$route.params.tareas_vencidas"
+          class="boxText_btn"
+          style="background-color: grey"
+          v-if="
+            loading &&
+            !this.$route.params.tareas_vencidas &&
+            usuario.ou == 'Profesor'
+          "
+        >
+          {{ language.crearTarea }}
+        </button>
+        <button
+          v-else-if="
+            usuario.ou == 'Profesor' && !this.$route.params.tareas_vencidas
+          "
           type="button"
           class="btn_crearTarea"
           data-toggle="modal"
@@ -709,7 +715,7 @@ export default {
       let nextDay = moment().add(1, "d").format("YYYY-MM-DD");
       let followNextDay = moment().add(2, "d").format("YYYY-MM-DD");
       let today = moment().format("YYYY-MM-DD");
-     
+
       if (moment(nextDay).isSame(fecha)) {
         return defaultCSS + " orange";
       } else if (moment(followNextDay).isSame(fecha)) {
@@ -903,30 +909,12 @@ export default {
       }
     },
     crearTarea() {
-      var hoy = new Date();
-      var fecha =
-        hoy.getDate() +
-        hoy.getMonth() +
-        hoy.getFullYear() +
-        hoy.getHours() +
-        hoy.getMinutes() +
-        hoy.getSeconds() +
-        "_";
-
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: Global.token,
-        },
-      };
       this.camposVacios = this.comprobarCamposVacios(
         this.tarea.titulo,
         this.tarea.descripcion,
         this.tarea.fecha_vencimiento
       );
       if (!this.camposVacios) {
-        let nombres = [];
-        let timerInterval;
         this.$swal.fire({
           title: this.language.cargando,
           html: this.language.creandoTarea,
@@ -935,25 +923,15 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
+            this.enviarCuerpoTarea();
           },
           willClose: () => {
-            clearInterval(timerInterval);
+            clearInterval(5);
           },
         });
-
-        for (let i = 0; i < this.tarea.file.length; i++) {
-          nombres.push(fecha + this.tarea.file[i].name);
-          let formData = new FormData();
-
-          formData.append("archivo", this.tarea.file[i]);
-          formData.append("nombre", fecha + this.tarea.file[i].name);
-
-          axios.post(Global.urlSitio + "FTP", formData, config);
-        }
-        this.enviarCuerpoTarea(nombres);
       }
     },
-    enviarCuerpoTarea(nombres) {
+    enviarCuerpoTarea() {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -968,10 +946,13 @@ export default {
       formData.append("fechaVencimiento", this.tarea.fecha_vencimiento);
       formData.append("idMateria", this.routerValues.idMateria);
       formData.append("idGrupo", this.routerValues.idGrupo);
-      formData.append("nombreArchivos", nombres);
       formData.append("idUsuario", this.usuario.username);
-      formData.append("ou", this.usuario.ou);
-
+      for (let archivo of this.tarea.file) {
+        formData.append("archivos[]", archivo);
+      }
+      for (let archivo of this.tarea.file) {
+        formData.append("nombresArchivo[]", archivo.name);
+      }
       axios
         .post(Global.urlSitio + "tarea", formData, config)
         .then((response) => {
@@ -1114,5 +1095,4 @@ export default {
 .red {
   color: red !important;
 }
-
 </style>
