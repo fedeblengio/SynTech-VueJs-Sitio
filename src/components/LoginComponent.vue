@@ -4,7 +4,7 @@
       <div class="sidenav">
         <form form name="form" id="form" v-on:submit.prevent="procesar()">
           <img src="../assets/images/LogoFinal.png" alt="" />
-          <h2>{{language.inicioSesion}}</h2>
+          <h2>{{ language.inicioSesion }}</h2>
 
           <div class="form-group">
             <div
@@ -12,7 +12,7 @@
               class="alert alert-warning alert-dismissible fade show"
               role="alert"
             >
-              <strong>Oops..</strong> {{language.inputVacio1}}
+              <strong>Oops..</strong> {{ language.inputVacio1 }}
               <button
                 type="button"
                 class="close"
@@ -23,7 +23,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <label>{{language.usuario}}</label>
+            <label>{{ language.usuario }}</label>
             <input
               type="text"
               class="form-control"
@@ -32,7 +32,7 @@
             />
           </div>
           <div class="form-group">
-            <label>{{language.contrasenia}}</label>
+            <label>{{ language.contrasenia }}</label>
             <input
               type="password"
               class="form-control"
@@ -40,16 +40,22 @@
               v-model="contacto.password"
             />
           </div>
-                <div class="events_icon">
-        <i v-if="lang == 'es'" v-on:click="changeLanguage()"
-          ><country-flag country="es" size="normal" style="margin-top: -4px"
-        /></i>
-        <i v-else v-on:click="changeLanguage()"
-          ><country-flag country="gb" size="normal" style="margin-top: -4px"
-        /></i>
-      </div>
+          <div class="events_icon">
+            <i v-if="lang == 'es'" v-on:click="changeLanguage()"
+              ><country-flag
+                country="es"
+                size="normal"
+                style="margin-top: -4px"
+            /></i>
+            <i v-else v-on:click="changeLanguage()"
+              ><country-flag
+                country="gb"
+                size="normal"
+                style="margin-top: -4px"
+            /></i>
+          </div>
           <button type="submit" class="btn session boxText_btn btn_login">
-            {{language.entrar}}
+            {{ language.entrar }}
           </button>
         </form>
       </div>
@@ -69,23 +75,22 @@ import language from "../assets/lang/login.json";
 import CountryFlag from "vue-country-flag";
 export default {
   name: "LoginComponent",
-   components: {
-    CountryFlag
+  components: {
+    CountryFlag,
   },
   data() {
     return {
       contacto: {
         username: "",
         password: "",
-           
       },
-       lang: localStorage.getItem("lang"),
+      lang: localStorage.getItem("lang"),
       language: "",
       camposVacios: false,
     };
   },
   mounted() {
-       this.selectLanguage();
+    this.selectLanguage();
     if (localStorage.getItem("auth_token")) {
       this.$router.push("/home");
       this.$swal.fire(this.language.yaTienesUnaSesion, "", "success");
@@ -100,7 +105,7 @@ export default {
   },
 
   methods: {
-        changeLanguage() {
+    changeLanguage() {
       if (this.lang == "es") {
         localStorage.setItem("lang", "en");
         location.reload();
@@ -109,7 +114,7 @@ export default {
         location.reload();
       }
     },
-      selectLanguage() {
+    selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
       } else {
@@ -152,6 +157,7 @@ export default {
 
       if (!this.camposVacios) {
         this.camposVacios = false;
+
         axios
           .post(Global.urlSitio + "login", this.contacto, config)
           .then((response) => {
@@ -161,14 +167,14 @@ export default {
             }
           })
           .catch(() => {
-      
+               localStorage.removeItem("auth_token");
               this.$swal.fire({
                 icon: "error",
                 title: "ERROR",
                 text: this.language.credencialesInvalidas,
               });
-            
           });
+  
       }
     },
   },

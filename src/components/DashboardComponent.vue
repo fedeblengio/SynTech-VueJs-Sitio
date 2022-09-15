@@ -97,7 +97,10 @@
         </div>
       </div>
     </section>
-    <div id="noticias" >
+        <div class="spinerCont" v-if="loading">
+          <img class="spinnerCSS" :src="spinner" />
+        </div>
+    <div id="noticias" v-else >
       <center>
         <h2 style="margin-bottom:2rem">Noticias</h2>
 
@@ -105,51 +108,107 @@
        <div style="display:flex;justify-content: center;">
       <div style="width:75%;">
      
-               <div class="accordion" id="accordionExample"
-                 v-for="noticia in todasNoticias"
-                 :key="noticia.data.id"
-                 style="width: 85%; margin: auto;">
-              <div class="card">
-                <div class="card-header" id="headingOne">
+              <div class="p-4" style="max-height: 650px; overflow-y: auto">
+          <div class="contenedor_principal_noticias">
+            <div
+              class="accordion"
+              id="accordionExample"
+              v-for="noticia in todasNoticias"
+              :key="noticia.data.id"
+              style="width: 85%; margin: auto"
+            >
+              <div class="card" style="padding: 0.5rem 1rem">
+                <div class="" id="headingOne">
                   <h2 class="mb-0">
-                    <button class="btnCustom btn-block text-left atr" type="button" data-toggle="collapse"
-                            :data-target="'#col'+noticia.data.id" aria-expanded="true" aria-controls="collapseOne">
-                      <div style="display: flex;flex-direction: row; position: relative">
+                    <button
+                      class="btnCustom btn-block text-left atr"
+                      type="button"
+                      data-toggle="collapse"
+                      :data-target="'#col' + noticia.data.id"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      <div
+                        style="
+                          display: flex;
+                          flex-direction: row;
+                          position: relative;
+                        "
+                      >
                         <div>
-                          <img :src="returnIMGB64(noticia.data.imagenEncabezado)" alt="" width="100px"/>
+                          <img
+                            :src="returnIMGB64(noticia.data.imagenEncabezado)"
+                            alt=""
+                            width="100px"
+                            height="86px"
+                            style="object-fit: cover"
+                          />
                         </div>
-                        <div style="margin-left: 1rem;display: flex;flex-direction: column">
-                          <p> {{ noticia.data.titulo }}
-                          </p>
-                          <small> Publicado por {{ noticia.data.nombreAutor }}</small>
+                        <div
+                          style="
+                            margin-left: 1rem;
+                            display: flex;
+                            flex-direction: column;
+                          "
+                        >
+                          <p>{{ noticia.data.titulo }}</p>
+                          <small style="margin-top: 24px">
+                            Publicado por {{ noticia.data.nombreAutor }}</small
+                          >
                         </div>
-                        <small style="position: absolute;right: 0;">{{difforHumans(noticia.data.fecha)}}</small>
+                        <small
+                          style="
+                            position: absolute;
+                            right: 0;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: end;
+                          "
+                        >
+                          {{ difforHumans(noticia.data.fecha) }}
+
+                   
+                        </small>
                       </div>
                     </button>
                   </h2>
                 </div>
 
-                <div :id="'col' + noticia.data.id" class="collapse " aria-labelledby="headingOne"
-                     data-parent="#accordionExample">
-                  <div class="card-body" style="padding: 10px;">
-                    <p> {{ noticia.data.mensaje }}</p>
+                <div
+                  :id="'col' + noticia.data.id"
+                  class="collapse"
+                  aria-labelledby="headingOne"
+                  data-parent="#accordionExample"
+                >
+                  <div class="card-body" style="padding: 10px">
+                    <p>{{ noticia.data.mensaje }}</p>
                     <div v-if="noticia.archivos != ''">
-                      <label style="display: flex;justify-content: center;">
-                        Archivos
-                      </label>
-                      <div class="archivo"
-                           v-for="archivo in noticia.archivos"
-                           :key="archivo.id">
-
-                      <span style="cursor: pointer" @click="descargarPDF(archivo)">
-                       {{ simplificarNombre(archivo) }}
-                      </span>
+                      <hr />
+                      <div style="display: flex">
+                        <div
+                          class="archivo eplipis"
+                          v-for="archivo in noticia.archivos"
+                          :key="archivo.id"
+                        >
+                          <span
+                            style="cursor: pointer"
+                            @click="descargarPDF(archivo)"
+                          >
+                            <img
+                              src="../assets/images/file.svg"
+                              alt="My Happy SVG"
+                            />
+                            {{ simplificarNombre(archivo) }}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
       
       </div>
       </div>
@@ -177,6 +236,8 @@ export default {
       lang: localStorage.getItem("lang"),
       language: "",
       todasNoticias: "",
+      spinner: Global.spinnerUrl,
+      loading: true,
     };
   },
   mounted() {
@@ -214,6 +275,7 @@ export default {
       axios.get(Global.urlSitio + "noticia").then((res) => {
         if (res.status == 200) {
           this.todasNoticias = res.data;
+          this.loading = false;
         }
       });
     },
@@ -275,18 +337,47 @@ export default {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 .archivo {
-    background-color: blue;
     padding: 10px;
-    color: white;
-    margin-bottom: 5px;
-    width: 50%;
-    margin: auto;
-    border-radius:12px;
+    border-radius: 12px;
+    max-width: 200px;
+}
+
+.archivo:hover {
+    color: blue;
+    cursor: pointer;
 }
 .archivo:first-child{
     margin-bottom: 0;
 }
+.contenedor_principal_noticias {
+    width: 100%;
+}
+.eplipis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.contenedor_noticia:first-child {
+    margin-top: 0px;
+}
 
+.scroller {
+    height: 38rem;
+    overflow-y: scroll;
+}
+
+.scroller_noticias {
+    height: 40rem;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: grey;
+}
 * {
   font-family: "Poppins", sans-serif;
 }
