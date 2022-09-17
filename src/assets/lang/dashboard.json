@@ -10,7 +10,9 @@
         "texto4": " Envía mensajes, comparte materiales de clase y haz que el aprendizaje sea accesible en cualquier lugar. Ahorra tiempo al reunir todas las herramientas de tu clase.",
         "paraEstudiantes": "PARA ESTUDIANTES",
         "texto5": "Una plataforma que los estudiantes aman",
-        "texto6": "Aumenta tu seguridad, encuentra tu voz y experimenta lo que significa ser un ciudadano digital. Potencia tu aprendizaje y forma parte de una vibrante comunidad de aulas."
+        "texto6": "Aumenta tu seguridad, encuentra tu voz y experimenta lo que significa ser un ciudadano digital. Potencia tu aprendizaje y forma parte de una vibrante comunidad de aulas.",
+        "noticias": "Noticias",
+        "publicadoPor": "Publicado por"
     },
     "en": {
         "title": "Main page",
@@ -23,6 +25,8 @@
         "texto4": " Send messages, share classroom materials and make learning accessible anywhere. Save time by bringing all your classroom tools together.",
         "paraEstudiantes": "FOR STUDENTS",
         "texto5": "A platform that students love",
-        "texto6": "Increase your confidence, find your voice and experience what it means to be a digital citizen. Empower your learning and be part of a vibrant classroom community."
+        "texto6": "Increase your confidence, find your voice and experience what it means to be a digital citizen. Empower your learning and be part of a vibrant classroom community.",
+        "noticias": "News",
+        "publicadoPor": "Published by"
     }
 }

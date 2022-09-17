@@ -54,7 +54,7 @@
 
                 <option
                   v-for="todo in traerMaterias"
-                  :key="todo.id"
+                  :key="todo.ids"
                   v-bind:value="[todo.idGrupo, todo.idMateria, todo.Materia]"
                 >
                   {{ todo.idGrupo }} - {{ todo.Materia }}
@@ -80,6 +80,17 @@
           </div>
           <div class="footer_post">
             <div class="select_file">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="flexSwitchCheckDefault"
+                  v-model="publico"
+                />
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                  {{ language.publico }}</label
+                >
+              </div>
               <div class="image-upload">
                 <label for="file-input">
                   <i class="fas fa-upload"></i>
@@ -250,6 +261,7 @@ export default {
       lang: localStorage.getItem("lang"),
       language: "",
       cargandoMasPublicaciones: false,
+      publico:false,
     };
   },
   mounted() {
@@ -464,7 +476,6 @@ export default {
         this.mensaje
       );
       if (!this.camposVacios) {
-      
         this.$swal.fire({
           title: this.language.enviando,
           html: this.language.enviandoTuPublicacion,
@@ -473,7 +484,11 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
-            this.enviarPost();
+            if (this.publico) {
+              this.publicarNoticia();
+            } else {
+               this.enviarPost();
+            }
           },
           willClose: () => {
             clearInterval(5);
@@ -482,6 +497,46 @@ export default {
       }
     },
 
+ publicarNoticia() {
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
+      let formData = new FormData();
+      formData.append("idUsuario", this.usuario.username);
+      formData.append("titulo", "Profesor "+this.usuario.nombre+" publico noticia desde sitio");
+      formData.append("mensaje", this.mensaje);
+ 
+      for (let archivo of this.file) {
+        formData.append("archivos[]", archivo);
+      }
+      for (let archivo of this.file) {
+        formData.append("nombresArchivo[]", archivo.name);
+      }
+
+      axios
+        .post(Global.urlSitio + "noticia", formData, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.$swal.fire({
+              icon: "success",
+              title: "Noticia publicada",
+            });
+            setTimeout(() => {
+              location.reload();
+            }, "3000");
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: "Algo salio mal",
+          });
+        });
+    },
     enviarPost() {
       let config = {
         headers: {
@@ -556,6 +611,7 @@ export default {
           });
         });
     },
+
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
 

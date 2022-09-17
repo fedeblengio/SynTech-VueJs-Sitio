@@ -102,7 +102,7 @@
         </div>
     <div id="noticias" v-else >
       <center>
-        <h2 style="margin-bottom:2rem">Noticias</h2>
+        <h2 style="margin-bottom:2rem">  {{ language.noticias }}</h2>
 
       </center>
        <div style="display:flex;justify-content: center;">
@@ -153,7 +153,7 @@
                         >
                           <p>{{ noticia.data.titulo }}</p>
                           <small style="margin-top: 24px">
-                            Publicado por {{ noticia.data.nombreAutor }}</small
+                            {{ language.publicadoPor }} {{ noticia.data.nombreAutor }}</small
                           >
                         </div>
                         <small
@@ -281,6 +281,27 @@ export default {
     },
    returnIMGB64(img) {
       return "data:image/png;base64," + img;
+    },
+        descargarPDF(label) {
+      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+
+      axios
+        .get(url, {
+          responseType: "blob",
+          headers: {
+            "Content-Type": "multipart/form-data",
+            token: Global.token,
+          },
+        })
+        .then((response) => {
+          const blob = new Blob([response.data], { type: "application/pdf" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = this.simplificarNombre(label);
+          link.click();
+          URL.revokeObjectURL(link.href);
+        })
+        .catch(console.error);
     },
   },
 };

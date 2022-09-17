@@ -17,7 +17,8 @@
         "btnCancelar": "Cancelar",
         "publicacionEliminada": "Publicacion eliminada",
         "cargarMas": "Cargar mas publicaciones",
-        "noPosts": "No hay publicaciones recientes."
+        "noPosts": "No hay publicaciones recientes.",
+        "publico": "Publico"
     },
     "en": {
         "title": "Home",
@@ -37,6 +38,7 @@
         "btnCancelar": "Abort",
         "publicacionEliminada": "Publication removed",
         "cargarMas": "Load more publications",
-        "noPosts": "There is no publication yet."
+        "noPosts": "There is no publication yet.",
+        "publico": "Public"
     }
 }

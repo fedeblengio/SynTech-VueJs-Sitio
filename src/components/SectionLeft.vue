@@ -56,7 +56,7 @@
       <div
         class="sidebarElement"
         v-for="todo in traerMaterias"
-        :key="todo.id"
+        :key="todo.idGrupo"
         v-else
       >
         <router-link
