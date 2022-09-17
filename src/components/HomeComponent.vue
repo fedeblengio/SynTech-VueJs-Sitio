@@ -80,7 +80,7 @@
           </div>
           <div class="footer_post">
             <div class="select_file">
-              <div class="form-check form-switch">
+              <div class="form-check form-switch" v-if='usuario.ou == "Profesor"'>
                 <input
                   class="form-check-input"
                   type="checkbox"

@@ -8,7 +8,8 @@
         "misClases": "Mis clases",
 
         "tituloTokenExpirado": "Saliendo ...",
-        "tokenExpirado": "Parece que tu sesion ha finalizado !"
+        "tokenExpirado": "Parece que tu sesion ha finalizado !",
+        "noticias": "Noticias"
     },
     "en": {
         "inicio": "Home",
@@ -19,6 +20,7 @@
         "misClases": "My classes",
 
         "tituloTokenExpirado": "Leaving ...",
-        "tokenExpirado": "Looks like your session is over !"
+        "tokenExpirado": "Looks like your session is over !",
+        "noticias": "News"
     }
 }

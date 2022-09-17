@@ -19,44 +19,50 @@
       <div class="sidebarOption">
         <i class="fas fa-home"></i>
         <router-link to="/home" class="router-link">
-          <h2>{{language.inicio}}</h2>
+          <h2>{{ language.inicio }}</h2>
         </router-link>
       </div>
       <div class="sidebarOption">
         <i class="fas fa-book"></i>
         <router-link to="/materias" class="router-link">
-          <h2>{{language.materias}}</h2>
+          <h2>{{ language.materias }}</h2>
         </router-link>
       </div>
       <div class="sidebarOption" v-if="profesor">
         <i class="fas fa-chalkboard-teacher"></i>
 
         <router-link to="/agenda-virtual" class="router-link">
-          <h2>{{language.agendaVirtual}}</h2>
+          <h2>{{ language.agendaVirtual }}</h2>
         </router-link>
       </div>
       <div class="sidebarOption" v-else>
         <i class="fas fa-pen"></i>
         <router-link to="/calificaciones" class="router-link">
-          <h2>{{language.calificaciones}}</h2>
+          <h2>{{ language.calificaciones }}</h2>
         </router-link>
       </div>
       <div class="sidebarOption">
         <i class="fas fa-calendar"></i>
         <router-link to="/calendario" class="router-link">
-          <h2>{{language.calendario}}</h2>
+          <h2>{{ language.calendario }}</h2>
+        </router-link>
+      </div>
+      <div class="sidebarOption" v-if='usuario.ou == "Profesor"'>
+         <i class="fas fa-newspaper"></i>
+        <router-link to="/noticias" class="router-link">
+          <h2>{{ language.noticias }}</h2>
         </router-link>
       </div>
     </div>
     <div class="sidebarClass">
-      <h3>{{language.misClases}}</h3>
+      <h3>{{ language.misClases }}</h3>
       <div class="sidebarElement" v-if="loading">
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
       <div
         class="sidebarElement"
         v-for="todo in traerMaterias"
-        :key="todo.idGrupo"
+        :key="todo.id2"
         v-else
       >
         <router-link
@@ -105,7 +111,7 @@ export default {
       this.traerMateriasUser();
     }
 
-      this.selectLanguage()
+    this.selectLanguage();
   },
   methods: {
     selectLanguage() {
@@ -180,7 +186,7 @@ export default {
         .catch(() => {
           let timerInterval;
           this.$swal.fire({
-             title: this.language.tituloTokenExpirado,
+            title: this.language.tituloTokenExpirado,
             html: this.language.tokenExpirado,
             timer: 2000,
             timerProgressBar: true,

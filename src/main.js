@@ -33,6 +33,7 @@ import PDFComponent from './components/PDFComponent.vue'
 import ListadoCalificacionesComponent from './components/ListadoCalificacionesComponent.vue'
 import RegistroDeFaltasComponent from './components/RegistroDeFaltasComponent.vue'
 import GenerarPromedioComponent from './components/GenerarPromedioComponent.vue'
+import NoticiasComponent from './components/NoticiasComponent.vue'
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
@@ -52,6 +53,7 @@ const routes = [
     { path: '/home', name: 'home', component: HomeComponent },
     { path: '/profile/:idUsuario', name: 'profile', component: ProfileComponent },
     { path: '/visitar-perfil/:idUsuario', name: 'visitar-perfil', component: VisitarPerfilComponent },
+    { path: '/noticias', name: 'listado-noticias', component: NoticiasComponent },
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria', name: 'listado-tareas', component: ListadoTareasComponent },
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria/:tareas_vencidas', name: 'listado-tareas-vencidas', component: ListadoTareasComponent },
     { path: '/tarea/:materia/:idTarea/:re_hacer', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent },

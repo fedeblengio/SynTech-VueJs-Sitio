@@ -246,7 +246,7 @@ export default {
   },
   methods: {
     difforHumans(fecha) {
-      return moment(fecha).locale("es").fromNow();
+      return moment(fecha).locale(this.lang).fromNow();
     },
     changeLanguage() {
       if (this.lang == "es") {
