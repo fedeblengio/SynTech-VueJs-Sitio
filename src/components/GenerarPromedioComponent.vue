@@ -1,6 +1,6 @@
 <template>
   <div class="contenedorDiv">
-    <vue-headful :title="title" />
+  
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div
@@ -58,7 +58,7 @@
   </div>
 </template>
 <script>
-import vueHeadful from "vue-headful";
+
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import axios from "axios";
@@ -69,7 +69,6 @@ import moment from "moment";
 export default {
   name: "error-component",
   components: {
-    vueHeadful,
     SectionLeft,
     SectionRight,
   },
@@ -80,6 +79,7 @@ export default {
       lang: localStorage.getItem("lang"),
       spinner: Global.spinnerUrl,
       loading: true,
+    
     };
   },
   mounted() {
