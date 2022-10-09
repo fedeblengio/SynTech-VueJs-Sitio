@@ -80,7 +80,10 @@
           </div>
           <div class="footer_post">
             <div class="select_file">
-              <div class="form-check form-switch" v-if='usuario.ou == "Profesor"'>
+              <div
+                class="form-check form-switch"
+                v-if="usuario.ou == 'Profesor'"
+              >
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -148,8 +151,9 @@
         </div>
 
         <div class="post_body">
+
           <i
-            v-if="post.data.idUsuario === usuario.username"
+            v-if="post.data.idUsuario == usuario.username"
             class="far fa-ellipsis-h menu-card-home ellipsis-home"
           >
             <div class="notiPostBody" :id="post.data.id">
@@ -261,7 +265,7 @@ export default {
       lang: localStorage.getItem("lang"),
       language: "",
       cargandoMasPublicaciones: false,
-      publico:false,
+      publico: false,
     };
   },
   mounted() {
@@ -293,6 +297,9 @@ export default {
       this.title = this.language.title;
     },
     comprobarCamposVacios(input1, input2) {
+      if (input1.length == 0 && this.publico) {
+        return input2.length == 0;
+      }
       return input1.length == 0 || input2.length == 0;
     },
     simplificarNombre(nombreArchivo) {
@@ -487,7 +494,7 @@ export default {
             if (this.publico) {
               this.publicarNoticia();
             } else {
-               this.enviarPost();
+              this.enviarPost();
             }
           },
           willClose: () => {
@@ -497,7 +504,7 @@ export default {
       }
     },
 
- publicarNoticia() {
+    publicarNoticia() {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -506,9 +513,12 @@ export default {
       };
       let formData = new FormData();
       formData.append("idUsuario", this.usuario.username);
-      formData.append("titulo", "Profesor "+this.usuario.nombre+" publico noticia desde sitio");
+      formData.append(
+        "titulo",
+        "Profesor " + this.usuario.nombre + " publico noticia desde sitio"
+      );
       formData.append("mensaje", this.mensaje);
- 
+
       for (let archivo of this.file) {
         formData.append("archivos[]", archivo);
       }
