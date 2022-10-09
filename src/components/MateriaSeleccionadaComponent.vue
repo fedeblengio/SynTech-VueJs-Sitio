@@ -205,7 +205,7 @@
         <div class="post_avatar">
           <img
             :src="returnImgB64()"
-            v-if="post.data.idUsuario === usuario.username"
+            v-if="post.data.idUsuario == usuario.username"
           />
 
           <img :src="returnImgProfile(post.data.profile_picture)" v-else />
@@ -213,7 +213,7 @@
 
         <div class="post_body">
           <i
-            v-if="post.data.idUsuario === usuario.username"
+            v-if="post.data.idUsuario == usuario.username"
             class="far fa-ellipsis-h menu-card-home ellipsis-home"
             v-on:click="showOptionBody(post.data.id)"
           >
