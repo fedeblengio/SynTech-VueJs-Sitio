@@ -32,6 +32,9 @@
                 style="margin-top: -8px"
             /></i>
           </a>
+            <a href="#footer">
+            <i class="fa fa-info" aria-hidden="true"></i>
+          </a>
         </nav>
       </div>
     </header>
@@ -213,6 +216,15 @@
       </div>
       </div>
     </div>
+    <footer class="py-3 my-4" id="footer">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="https://drive.google.com/file/d/1WKEajV8kPcKEBIStuU2x93odDBdYRPVN/view?usp=sharing" target="_blank" class="nav-link px-2 text-muted">{{language.MProfesores}}</a></li>
+      <li class="nav-item"><a href="https://drive.google.com/file/d/1WKEajV8kPcKEBIStuU2x93odDBdYRPVN/view?usp=sharing"  target="_blank" class="nav-link px-2 text-muted">{{language.MAlumnos}}</a></li>
+      <li class="nav-item"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"  target="_blank" class="nav-link px-2 text-muted">{{language.Tutorial}}</a></li>
+      
+    </ul>
+    <p class="text-center text-muted">© 2022 Syntech</p>
+  </footer>
   </div>
 </template>
 
