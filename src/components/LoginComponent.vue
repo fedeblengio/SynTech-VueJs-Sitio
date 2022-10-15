@@ -54,7 +54,11 @@
                 style="margin-top: -4px"
             /></i>
           </div>
-          <button type="submit" class="btn session boxText_btn btn_login">
+          <button
+            type="submit"
+            class="btn session boxText_btn btn_login"
+            style="background-color: #568dca; color: white; padding: 5px"
+          >
             {{ language.entrar }}
           </button>
         </form>
@@ -167,14 +171,13 @@ export default {
             }
           })
           .catch(() => {
-               localStorage.removeItem("auth_token");
-              this.$swal.fire({
-                icon: "error",
-                title: "ERROR",
-                text: this.language.credencialesInvalidas,
-              });
+            localStorage.removeItem("auth_token");
+            this.$swal.fire({
+              icon: "error",
+              title: "ERROR",
+              text: this.language.credencialesInvalidas,
+            });
           });
-  
       }
     },
   },
