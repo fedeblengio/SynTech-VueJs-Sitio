@@ -5,26 +5,26 @@
 
     <div class="feed" v-if="loading">
       <div class="feed_header linea_border_bottom">
-          <h2 style="margin-bottom: 2rem">{{ language.noticias }}</h2>
+        <h2 style="margin-bottom: 2rem">{{ language.noticias }}</h2>
       </div>
       <div class="spinerCont">
         <img :src="spinner" class="spinnerCSS" />
       </div>
     </div>
     <div class="feed" v-else>
-         <div class="feed_header linea_border_bottom">
-          <h2 style="margin-bottom: 2rem">{{ language.noticias }}</h2>
+      <div class="feed_header linea_border_bottom">
+        <h2 style="margin-bottom: 2rem">{{ language.noticias }}</h2>
       </div>
       <div style="display: flex; justify-content: center">
         <div>
-          <div  style="max-height: 850px; overflow-y: auto">
+          <div style="max-height: 850px; overflow-y: auto">
             <div class="contenedor_principal_noticias">
               <div
                 class="accordion"
                 id="accordionExample"
                 v-for="noticia in todasNoticias"
                 :key="noticia.data.id"
-                style=" margin: auto"
+                style="margin: auto"
               >
                 <div class="card" style="padding: 0.5rem 1rem">
                   <div class="" id="headingOne">
@@ -60,7 +60,19 @@
                               flex-direction: column;
                             "
                           >
-                            <p>{{ noticia.data.titulo }}</p>
+                            <div style="display: flex; flex-direction: row">
+                              <p>{{ noticia.data.titulo }}</p>
+                              <i
+                                class="fas fa-times"
+                                style="
+                                  margin-left: auto;
+
+                                  color: red;
+                                "
+                                @click="borrarNoticia(noticia.data)"
+                              ></i>
+                            </div>
+
                             <small style="margin-top: 24px">
                               {{ language.publicadoPor }}
                               {{ noticia.data.nombreAutor }}</small
@@ -70,7 +82,7 @@
                             style="
                               position: absolute;
                               right: 0;
-                              bottom:0;
+                              bottom: 0;
                               display: flex;
                               flex-direction: column;
                               align-items: end;
@@ -90,9 +102,7 @@
                     data-parent="#accordionExample"
                   >
                     <div class="card-body" style="padding: 10px">
-                        <i class="fas fa-trash" style="margin-left:auto;margin-top:auto;color:red" @click='borrarNoticia(noticia.data)'></i>
                       <p>{{ noticia.data.mensaje }}</p>
-                     
                       <div v-if="noticia.archivos != ''">
                         <hr />
                         <div style="display: flex">
@@ -112,9 +122,7 @@
                               {{ simplificarNombre(archivo) }}
                             </span>
                           </div>
-                         
                         </div>
-                        
                       </div>
                     </div>
                   </div>
@@ -155,23 +163,22 @@ export default {
       profesor: false,
       lang: localStorage.getItem("lang"),
       language: "",
-      todasNoticias:'',
+      todasNoticias: "",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
     };
   },
   mounted() {
-    if(this.usuario.ou != "Profesor"){
-    this.$router.push('home'); 
+    if (this.usuario.ou != "Profesor") {
+      this.$router.push("home");
     }
-     this.selectLanguage();
+    this.selectLanguage();
     this.cargarNoticias();
-   
   },
   methods: {
-     returnIMGB64(img) {
+    returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
-    borrarNoticia(noticia) { 
+    borrarNoticia(noticia) {
       axios
         .delete(Global.urlSitio + "noticia", {
           headers: {
@@ -196,13 +203,15 @@ export default {
           });
         });
     },
-     cargarNoticias() {
-      axios.get(Global.urlSitio + "noticia?idUsuario="+this.usuario.username).then((res) => {
-        if (res.status == 200) {
-          this.todasNoticias = res.data;
-          this.loading = false;
-        }
-      });
+    cargarNoticias() {
+      axios
+        .get(Global.urlSitio + "noticia?idUsuario=" + this.usuario.username)
+        .then((res) => {
+          if (res.status == 200) {
+            this.todasNoticias = res.data;
+            this.loading = false;
+          }
+        });
     },
     difforHumans(fecha) {
       return moment(fecha).locale(this.lang).fromNow();
