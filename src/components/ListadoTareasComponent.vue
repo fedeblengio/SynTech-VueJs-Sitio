@@ -431,7 +431,10 @@
                   "
                   class="trashTarea"
                 >
-                  <p class="btn btn-outline-danger">
+                  <p
+                    class="btn"
+                    style="background-color: #568dca; color: white"
+                  >
                     {{ language.eliminar }}
                   </p>
                 </div>
