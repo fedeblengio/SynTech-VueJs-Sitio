@@ -69,7 +69,7 @@
 
                                   color: red;
                                 "
-                                @click="borrarNoticia(noticia.data)"
+                                @click="comprobarOpcionEliminar(noticia.data)"
                               ></i>
                             </div>
 
@@ -175,6 +175,22 @@ export default {
     this.cargarNoticias();
   },
   methods: {
+    comprobarOpcionEliminar(id) {
+      this.$swal
+        .fire({
+          title: this.language.confirmacionEliminar,
+          showDenyButton: true,
+          confirmButtonText: this.language.eliminar,
+          denyButtonText: this.language.cancelar,
+        })
+        .then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            this.borrarNoticia(id);
+          }
+        });
+    },
+
     returnIMGB64(img) {
       return "data:image/png;base64," + img;
     },
@@ -191,7 +207,12 @@ export default {
         })
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire("Noticia Eliminada", "success");
+            this.$swal.fire({
+              icon: "success",
+              title: this.language.confimacionTitulo,
+              showConfirmButton: false,
+              timer: 1500,
+            });
             this.cargarNoticias();
           }
         })

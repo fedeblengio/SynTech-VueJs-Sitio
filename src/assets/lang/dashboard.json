@@ -13,9 +13,13 @@
         "texto6": "Aumenta tu seguridad, encuentra tu voz y experimenta lo que significa ser un ciudadano digital. Potencia tu aprendizaje y forma parte de una vibrante comunidad de aulas.",
         "noticias": "Noticias",
         "publicadoPor": "Publicado por",
-        "MAlumnos":"Manual Alumno",
-        "MProfesores":"Manual Profesor",
-        "Tutorial":"Tutorial"
+        "MAlumnos": "Manual Alumno",
+        "MProfesores": "Manual Profesor",
+        "Tutorial": "Tutorial",
+        "confirmacionEliminar": "Seguro que quieres eliminar la noticia?",
+        "eliminar": "Eliminar",
+        "cancelar": "Cancelar",
+        "confimacionTitulo": "Noticia eliminada"
     },
     "en": {
         "title": "Main page",
@@ -31,8 +35,12 @@
         "texto6": "Increase your confidence, find your voice and experience what it means to be a digital citizen. Empower your learning and be part of a vibrant classroom community.",
         "noticias": "News",
         "publicadoPor": "Published by",
-        "MAlumnos":"Students handbook",
-        "MProfesores":"Teachers handbook",
-        "Tutorial":"Tutorial"
+        "MAlumnos": "Students handbook",
+        "MProfesores": "Teachers handbook",
+        "Tutorial": "Tutorial",
+        "confirmacionEliminar": "Are you sure you want to delete the news?",
+        "eliminar": "Delete",
+        "cancelar": "Cancel",
+        "confimacionTitulo": "New deleted "
     }
 }

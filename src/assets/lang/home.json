@@ -18,7 +18,10 @@
         "publicacionEliminada": "Publicacion eliminada",
         "cargarMas": "Cargar mas publicaciones",
         "noPosts": "No hay publicaciones recientes.",
-        "publico": "Publico"
+        "publico": "Publico",
+        "NoticiaPublicada": "Noticia publicada",
+        "error": "Algo salio mal",
+        "usernamePublico": " publico noticia desde sitio"
     },
     "en": {
         "title": "Home",
@@ -39,6 +42,9 @@
         "publicacionEliminada": "Publication removed",
         "cargarMas": "Load more publications",
         "noPosts": "There is no publication yet.",
-        "publico": "Public"
+        "publico": "Public",
+        "NoticiaPublicada": "New published successfull",
+        "error": "Something went wrong",
+        "usernamePublico": " I publish news from site"
     }
 }

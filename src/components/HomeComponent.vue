@@ -151,7 +151,6 @@
         </div>
 
         <div class="post_body">
-
           <i
             v-if="post.data.idUsuario == usuario.username"
             class="far fa-ellipsis-h menu-card-home ellipsis-home"
@@ -515,7 +514,7 @@ export default {
       formData.append("idUsuario", this.usuario.username);
       formData.append(
         "titulo",
-        "Profesor " + this.usuario.nombre + " publico noticia desde sitio"
+        "Profesor " + this.usuario.nombre + this.language.usernamePublico
       );
       formData.append("mensaje", this.mensaje);
 
@@ -532,7 +531,7 @@ export default {
           if (res.status == 200) {
             this.$swal.fire({
               icon: "success",
-              title: "Noticia publicada",
+              title: this.language.NoticiaPublicada,
             });
             setTimeout(() => {
               location.reload();
@@ -543,7 +542,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text: "Algo salio mal",
+            text: this.language.error,
           });
         });
     },
