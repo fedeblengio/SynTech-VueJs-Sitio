@@ -72,11 +72,11 @@
               <table class="table tableFalta">
                 <thead class="thead-dark">
                   <tr class="text-center">
-                    <th scope="col">{{language.cedula}}</th>
-                    <th scope="col">{{language.nombre}}</th>
-                    <th scope="col">{{language.cantFaltas}}</th>
-                    <th scope="col">{{language.cantClases}}</th>
-                    <th scope="col">{{language.fechasAusencia}}</th>
+                    <th scope="col">{{ language.cedula }}</th>
+                    <th scope="col">{{ language.nombre }}</th>
+                    <th scope="col">{{ language.cantFaltas }}</th>
+                    <th scope="col">{{ language.cantClases }}</th>
+                    <th scope="col">{{ language.fechasAusencia }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -91,7 +91,7 @@
                     <td>{{ alumno.total_clases }}</td>
                     <td>
                       <div class="tooltip2">
-                        {{language.ver}} <i class="far fa-eye"></i>
+                        {{ language.ver }} <i class="far fa-eye"></i>
                         <span class="tooltiptext">
                           <p
                             v-for="fecha in alumno.fechas_ausencia"
@@ -112,7 +112,7 @@
                   class="btn btn-secondary"
                   data-dismiss="modal"
                 >
-                  {{ language.cerrar}}
+                  {{ language.cerrar }}
                 </button>
               </div>
             </div>
@@ -152,6 +152,9 @@ export default {
     };
   },
   mounted() {
+    if (this.usuario.ou == "Alumno") {
+      this.$router.push("/home");
+    }
     this.selectLanguage();
     this.traerGrupoProfesor();
   },
@@ -223,7 +226,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-             text: this.language.algoSalioMal,
+            text: this.language.algoSalioMal,
           });
         });
     },

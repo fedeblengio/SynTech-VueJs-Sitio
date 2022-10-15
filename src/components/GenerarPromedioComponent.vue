@@ -1,6 +1,5 @@
 <template>
   <div class="contenedorDiv">
-  
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div
@@ -17,7 +16,12 @@
           {{ language.listaAlumno }}
         </p>
 
-           <button v-if=loading class="btnGenerar"   style="background-color: grey" @click="downloadPDF()">
+        <button
+          v-if="loading"
+          class="btnGenerar"
+          style="background-color: grey"
+          @click="downloadPDF()"
+        >
           {{ language.descargar }}
         </button>
         <button v-else class="btnGenerar" @click="downloadPDF()">
@@ -58,7 +62,6 @@
   </div>
 </template>
 <script>
-
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import axios from "axios";
@@ -79,10 +82,13 @@ export default {
       lang: localStorage.getItem("lang"),
       spinner: Global.spinnerUrl,
       loading: true,
-    
+      usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
     };
   },
   mounted() {
+    if (this.usuario.ou == "Alumno") {
+      this.$router.push("/home");
+    }
     this.selectLanguage();
     this.traerPromedio();
   },
@@ -125,8 +131,12 @@ export default {
         unit: "in",
         format: "letter",
       });
-      let materia_fecha = this.language.promediosDe + " " + 
-        this.$route.params.Materia + " " + moment().format("DD/MM/YYYY h:mm a");
+      let materia_fecha =
+        this.language.promediosDe +
+        " " +
+        this.$route.params.Materia +
+        " " +
+        moment().format("DD/MM/YYYY h:mm a");
 
       let bodyAlumnos = [];
 

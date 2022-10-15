@@ -125,6 +125,9 @@ export default {
     };
   },
   mounted() {
+        if (this.usuario.ou == "Profesor") {
+      this.$router.push("/home");
+    }
     this.selectLanguage();
     this.cargarTareasEntregadas();
     this.traerMateriasUser();

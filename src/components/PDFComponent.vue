@@ -124,6 +124,9 @@ export default {
     };
   },
   mounted() {
+    if (this.usuario.ou == "Alumno") {
+      this.$router.push("/home");
+    }
     this.cargarLista();
     this.selectLanguage();
   },

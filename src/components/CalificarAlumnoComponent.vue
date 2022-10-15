@@ -156,6 +156,9 @@ export default {
     };
   },
   mounted() {
+        if(this.usuario.ou=="Alumno"){
+      this.$router.push("/home");
+    }
     this.cargarTareaSeleccionada();
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
     let textarea = document.getElementById("textarea");

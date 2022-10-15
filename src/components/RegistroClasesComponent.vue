@@ -44,9 +44,11 @@
           v-model="idMateria"
           name="grupos"
           required
-          :placeholder=language.placeholderSeleccioneGrupoYMateria
+          :placeholder="language.placeholderSeleccioneGrupoYMateria"
         >
-          <option value="" disabled selected hidden>{{ language.seleccioneGrupo }}</option>
+          <option value="" disabled selected hidden>
+            {{ language.seleccioneGrupo }}
+          </option>
           <option
             v-for="todo in traerMaterias"
             :key="todo.id"
@@ -103,7 +105,7 @@
         class="noResultadoRegistroComp"
         v-else-if="comprobarArrayVacio(registroListas)"
       >
-        <p>{{language.noEncontroDatos}}</p>
+        <p>{{ language.noEncontroDatos }}</p>
       </div>
       <div v-else>
         <div
@@ -126,7 +128,8 @@
                   },
                 }"
                 class="router-link"
-                >{{language.ver}}<i
+                >{{ language.ver
+                }}<i
                   class="fas fa-eye"
                   v-on:click="descargarLista(lista.idClase)"
                 >
@@ -135,7 +138,7 @@
             </small>
           </div>
           <p class="fechaRegistroComponent">
-            {{language.fecha}}: {{ moment(lista.created_at) }}
+            {{ language.fecha }}: {{ moment(lista.created_at) }}
           </p>
         </div>
       </div>
@@ -180,6 +183,9 @@ export default {
     };
   },
   mounted() {
+    if (this.usuario.ou == "Alumno") {
+      this.$router.push("/home");
+    }
     this.selectLanguage();
     this.traerListas();
     this.traerGrupoProfesor();
@@ -216,11 +222,7 @@ export default {
         this.opt = true;
       }
       if (!this.opt) {
-        this.$swal.fire(
-          this.language.inputVacio1,
-          "",
-          "info"
-        );
+        this.$swal.fire(this.language.inputVacio1, "", "info");
         this.loading = false;
       }
     },
@@ -304,7 +306,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text:this.language.algoSalioMal,
+            text: this.language.algoSalioMal,
           });
         });
     },
@@ -333,7 +335,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-            text:this.language.algoSalioMal,
+            text: this.language.algoSalioMal,
           });
         });
     },

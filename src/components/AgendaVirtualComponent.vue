@@ -217,6 +217,9 @@ export default {
     };
   },
   mounted() {
+    if(this.usuario.ou=="Alumno"){
+      this.$router.push("/home");
+    }
     this.today = moment().format("YYYY-MM-DDTHH:mm");
 
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
