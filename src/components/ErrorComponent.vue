@@ -4,8 +4,9 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <img
-        style="display: block; margin: 30px auto"
-        src="https://new.edmodo.com/static/media/oops_404.cd0dcfe0.png"
+      width="450px"
+        style="display: block; margin: 30px auto;"
+         src="../assets/images/404.png"
         alt=""
       />
       <h3 style="text-align: center">{{languages.paginaNoEncontrada}}</h3>
