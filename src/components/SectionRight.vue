@@ -256,7 +256,7 @@ export default {
   },
   mounted() {
     if (this.usuario.ou == "Profesor") {
-      this.traerGrupoProfesor();
+      this.traerMateriasUser();
       this.profesor = true;
       this.cargarTareasCorregir();
     } else {
@@ -393,9 +393,11 @@ export default {
       localStorage.removeItem("auth_token");
       localStorage.removeItem("perfil_img");
       localStorage.removeItem("logged");
+      localStorage.removeItem("idGrupo");
       location.reload();
     },
-    traerGrupoProfesor() {
+
+     traerMateriasUser() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -405,15 +407,17 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.usuario.username,
+            "listarMaterias?idGrupo=" +
+            localStorage.getItem("idGrupo"),
           config
         )
         .then((res) => {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
-        });
+          this.loading = false;
+        })
+        
     },
     cargarEventos() {
       let config = {

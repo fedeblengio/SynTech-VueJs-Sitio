@@ -265,19 +265,18 @@ export default {
       language: "",
       cargandoMasPublicaciones: false,
       publico: false,
-    };
+      grupoTemporaly:""    
+      };
   },
   mounted() {
     this.selectLanguage();
     this.loading = true;
     this.verificarLogueo();
-    if (this.usuario.ou == "Profesor") {
-      this.traerGrupoProfesor();
-    } else {
+ 
       this.traerMateriasUser();
-    }
+    
 
-    this.traerPostarchivos();
+    this.traerGrupo()
 
     let textarea = document.getElementById("textarea");
 
@@ -320,7 +319,7 @@ export default {
 
         if (this.usuario.ou == "Profesor") {
           this.profesor = true;
-          this.traerGrupoProfesor();
+         
         }
       }
     },
@@ -333,41 +332,26 @@ export default {
         confirmButtonText: false,
       });
     },
-    traerPost() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(Global.urlSitio + "foro?id=" + this.usuario.username, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.grupoProfesor = res.data;
-          }
-        });
-    },
-    traerGrupoProfesor() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.traerMaterias = res.data;
-          }
-        });
-    },
+    // traerGrupoProfesor() {
+    //   let config = {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       token: Global.token,
+    //     },
+    //   };
+    //   axios
+    //     .get(
+    //       Global.urlSitio +
+    //         "profesor-grupo?idProfesor=" +
+    //         this.usuario.username,
+    //       config
+    //     )
+    //     .then((res) => {
+    //       if (res.status == 200) {
+    //         this.traerMaterias = res.data;
+    //       }
+    //     });
+    // },
     traerMateriasUser() {
       let config = {
         headers: {
@@ -376,8 +360,10 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio + "listarMaterias?idUsuario=" + this.usuario.username,
+     .get(
+          Global.urlSitio +
+            "listarMaterias?idGrupo=" +
+            localStorage.getItem("idGrupo"),
           config
         )
         .then((res) => {
@@ -385,6 +371,8 @@ export default {
             this.traerMaterias = res.data;
           }
         });
+
+        
     },
     cargarImg(imagen) {
       let arrayImg = [];
@@ -396,7 +384,34 @@ export default {
     cargarMasPost() {
       this.cargandoMasPublicaciones = true;
       this.limit += 5;
-      this.traerPostarchivos();
+      
+      
+    },
+      traerGrupo() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+    
+      axios
+        .get(
+          Global.urlSitio + "traerGrupos?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+          config
+        )
+        .then((res) => {
+           
+          if (res.status == 200) {
+            if(!localStorage.getItem("idGrupo")){
+              localStorage.setItem('idGrupo',res.data[0].idGrupo)
+            }
+            
+            this.traerPostarchivos()
+          
+          }
+
+        });
     },
     traerPostarchivos() {
       let config = {
@@ -405,6 +420,7 @@ export default {
           token: Global.token,
         },
       };
+    
       axios
         .get(
           Global.urlSitio +
@@ -413,7 +429,7 @@ export default {
             "&ou=" +
             this.usuario.ou +
             "&limit=" +
-            this.limit,
+            this.limit+"&idGrupo="+localStorage.getItem('idGrupo'),
           config
         )
         .then((res) => {

@@ -482,7 +482,7 @@ export default {
             "&idMateria=" +
             this.$route.params.idMateria +
             "&limit=" +
-            this.limit,
+            this.limit+"&idGrupo="+localStorage.getItem('idGrupo'),
           config
         )
         .then((res) => {

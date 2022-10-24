@@ -6,7 +6,7 @@
         "calificaciones": "Calificaciones",
         "calendario": "Calendario",
         "misClases": "Mis clases",
-
+        "misGrupos":"Mis Grupos",
         "tituloTokenExpirado": "Saliendo ...",
         "tokenExpirado": "Parece que tu sesion ha finalizado !",
         "noticias": "Noticias"
@@ -18,7 +18,7 @@
         "calificaciones": "Marks",
         "calendario": "Calendar",
         "misClases": "My classes",
-
+        "misGrupos":"Groups",
         "tituloTokenExpirado": "Leaving ...",
         "tokenExpirado": "Looks like your session is over !",
         "noticias": "News"

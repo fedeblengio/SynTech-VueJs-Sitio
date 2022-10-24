@@ -15,6 +15,31 @@
         <p>{{ usuario.nombre }}</p>
       </div>
     </router-link>
+    <div class="sidebarClass">
+      <h3>{{ language.misGrupos }}</h3>
+      <div class="sidebarElement" v-if="loading">
+        <span class="clases"> <span class="sidebarDot"></span> . . .</span>
+      </div>
+      <div v-else>
+        <select
+          v-on:change="cambiarGrupo()"
+          class="form-control"
+          v-model="selectedGroup"
+          required
+        >
+          <option value="" disabled selected hidden>
+                {{ localStorageGroup}}
+                </option>
+          <option
+            v-for="todo in grupos"
+            :key="todo.ids"
+            v-bind:value="todo.idGrupo"
+          >
+            {{ todo.idGrupo }}
+          </option>
+        </select>
+      </div>
+    </div>
     <div class="contenedor-sidebar">
       <div class="sidebarOption">
         <i class="fas fa-home"></i>
@@ -47,8 +72,8 @@
           <h2>{{ language.calendario }}</h2>
         </router-link>
       </div>
-      <div class="sidebarOption" v-if='usuario.ou == "Profesor"'>
-         <i class="fas fa-newspaper"></i>
+      <div class="sidebarOption" v-if="usuario.ou == 'Profesor'">
+        <i class="fas fa-newspaper"></i>
         <router-link to="/noticias" class="router-link">
           <h2>{{ language.noticias }}</h2>
         </router-link>
@@ -101,15 +126,18 @@ export default {
       lang: localStorage.getItem("lang"),
       language: "",
       spinner: Global.spinnerUrl,
+      selectedGroup: "",
+      grupos: "",
+      localStorageGroup:''
     };
   },
   mounted() {
+    this.traerGrupo();
     if (this.usuario.ou == "Profesor") {
       this.profesor = true;
-      this.traerGrupoProfesor();
-    } else {
-      this.traerMateriasUser();
     }
+     
+   
 
     this.selectLanguage();
   },
@@ -124,8 +152,82 @@ export default {
     returnImgB64() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },
+    traerGrupo() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+    
+      axios
+        .get(
+          Global.urlSitio + "traerGrupos?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+          config
+        )
+        .then((res) => {
+           
+          if (res.status == 200) {
+            this.grupos = res.data;
+             this.traerMateriasUser();
+             if(!localStorage.getItem('idGrupo')){
+              localStorage.setItem("idGrupo", res.data[0].idGrupo);
+             }
+             
+          }
 
-    traerGrupoProfesor() {
+        });
+    },
+    cambiarGrupo() {
+      localStorage.setItem("idGrupo", this.selectedGroup);
+      this.$router.push({ name: 'home' })
+      location.reload();
+    },
+
+    // traerGrupoProfesor() {
+    //   let config = {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       token: Global.token,
+    //     },
+    //   };
+    //   axios
+    //     .get(
+    //       Global.urlSitio +
+    //         "profesor-grupo?idProfesor=" +
+    //         this.usuario.username,
+    //       config
+    //     )
+    //     .then((res) => {
+    //       if (res.status == 200) {
+    //         this.traerMaterias = res.data;
+    //       }
+    //       this.loading = false;
+    //     })
+    //     .catch(() => {
+    //       let timerInterval;
+    //       this.$swal.fire({
+    //         title: this.language.tituloTokenExpirado,
+    //         html: this.language.tokenExpirado,
+    //         timer: 2000,
+    //         timerProgressBar: true,
+    //         didOpen: () => {
+    //           this.$swal.showLoading();
+    //         },
+    //         willClose: () => {
+    //           clearInterval(timerInterval);
+    //         },
+    //       });
+    //       localStorage.removeItem("auth_token");
+    //       localStorage.removeItem("perfil_img");
+    //       localStorage.removeItem("logged");
+    //       localStorage.removeItem("idGrupo");
+    //       this.$router.push("/login");
+    //     });
+    // },
+    traerMateriasUser() {
+       
+       this.localStorageGroup= localStorage.getItem('idGrupo')
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -135,8 +237,8 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.usuario.username,
+            "listarMaterias?idGrupo=" +
+            this.localStorageGroup+"&idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
           config
         )
         .then((res) => {
@@ -162,44 +264,7 @@ export default {
           localStorage.removeItem("auth_token");
           localStorage.removeItem("perfil_img");
           localStorage.removeItem("logged");
-          this.$router.push("/login");
-        });
-    },
-    traerMateriasUser() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio + "listarMaterias?idUsuario=" + this.usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.traerMaterias = res.data;
-          }
-          this.loading = false;
-        })
-        .catch(() => {
-          let timerInterval;
-          this.$swal.fire({
-            title: this.language.tituloTokenExpirado,
-            html: this.language.tokenExpirado,
-            timer: 2000,
-            timerProgressBar: true,
-            didOpen: () => {
-              this.$swal.showLoading();
-            },
-            willClose: () => {
-              clearInterval(timerInterval);
-            },
-          });
-          localStorage.removeItem("auth_token");
-          localStorage.removeItem("perfil_img");
-          localStorage.removeItem("logged");
+          localStorage.removeItem("idGrupo");
           this.$router.push("/login");
         });
     },
