@@ -1,5 +1,6 @@
 <template>
   <div style="">
+     <vue-headful :title="title" />
     <div class="login_cont">
       <div class="sidenav">
         <form form name="form" id="form" v-on:submit.prevent="procesar()">
@@ -77,13 +78,16 @@ import { Global } from "../Global";
 import axios from "axios";
 import language from "../assets/lang/login.json";
 import CountryFlag from "vue-country-flag";
+import vueHeadful from "vue-headful";
 export default {
   name: "LoginComponent",
   components: {
     CountryFlag,
+    vueHeadful
   },
   data() {
     return {
+      title:"Login",
       contacto: {
         username: "",
         password: "",
