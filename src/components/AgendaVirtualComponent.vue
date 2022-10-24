@@ -255,7 +255,7 @@ export default {
           denyButtonText: this.language.cancelar,
         })
         .then((result) => {
-          /* Read more about isConfirmed, isDenied below */
+        
           if (result.isConfirmed) {
             this.borrarClase(idClase);
           }

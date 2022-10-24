@@ -339,25 +339,7 @@ export default {
       location.reload();
     },
 
-    /*     mostrarNoticacion(id) {
-      let noti = document.getElementById(id);
-      let campana = document.getElementById("campana");
-      let configuracion = document.getElementById("configuracion");
-
-      if (this.aux == 0) {
-        noti.style.display = "none";
-        this.aux = 1;
-      } else {
-        if (noti.id == campana.id) {
-          campana.style.display = "block";
-          configuracion.style.display = "none";
-        } else {
-          configuracion.style.display = "block";
-          campana.style.display = "none";
-        }
-        this.aux = 0;
-      }
-    }, */
+    
     cargarTareasCreadas() {
       let config = {
         headers: {

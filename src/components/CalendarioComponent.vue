@@ -68,7 +68,7 @@ import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
 import language from "../assets/lang/calendario.json";
-/* import $ from "jquery"; */
+
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
@@ -203,7 +203,7 @@ export default {
     },
     entrarJitsi(clase) {
       let habilitado = this.verificarHabilitacionEntrar(clase);
-      /* let habilitado = true; */
+    
 
       if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
@@ -257,7 +257,7 @@ export default {
         });
     },
     cargarCalendario() {
-      let arr = []; //    { title: "event 1", date: "2022-02-01" },
+      let arr = []; 
       for (let i = 0; i < this.listClasesVirtuales.length; i++) {
         let date = moment(this.listClasesVirtuales[i].fecha_inicio).format(
           "YYYY-MM-DD"

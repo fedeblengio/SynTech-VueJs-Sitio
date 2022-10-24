@@ -184,47 +184,7 @@ export default {
       location.reload();
     },
 
-    // traerGrupoProfesor() {
-    //   let config = {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       token: Global.token,
-    //     },
-    //   };
-    //   axios
-    //     .get(
-    //       Global.urlSitio +
-    //         "profesor-grupo?idProfesor=" +
-    //         this.usuario.username,
-    //       config
-    //     )
-    //     .then((res) => {
-    //       if (res.status == 200) {
-    //         this.traerMaterias = res.data;
-    //       }
-    //       this.loading = false;
-    //     })
-    //     .catch(() => {
-    //       let timerInterval;
-    //       this.$swal.fire({
-    //         title: this.language.tituloTokenExpirado,
-    //         html: this.language.tokenExpirado,
-    //         timer: 2000,
-    //         timerProgressBar: true,
-    //         didOpen: () => {
-    //           this.$swal.showLoading();
-    //         },
-    //         willClose: () => {
-    //           clearInterval(timerInterval);
-    //         },
-    //       });
-    //       localStorage.removeItem("auth_token");
-    //       localStorage.removeItem("perfil_img");
-    //       localStorage.removeItem("logged");
-    //       localStorage.removeItem("idGrupo");
-    //       this.$router.push("/login");
-    //     });
-    // },
+    
     traerMateriasUser() {
        
        this.localStorageGroup= localStorage.getItem('idGrupo')

@@ -332,26 +332,7 @@ export default {
         confirmButtonText: false,
       });
     },
-    // traerGrupoProfesor() {
-    //   let config = {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       token: Global.token,
-    //     },
-    //   };
-    //   axios
-    //     .get(
-    //       Global.urlSitio +
-    //         "profesor-grupo?idProfesor=" +
-    //         this.usuario.username,
-    //       config
-    //     )
-    //     .then((res) => {
-    //       if (res.status == 200) {
-    //         this.traerMaterias = res.data;
-    //       }
-    //     });
-    // },
+    
     traerMateriasUser() {
       let config = {
         headers: {

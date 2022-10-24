@@ -329,7 +329,7 @@ export default {
         .post(Global.urlSitio + "entregas-alumno", formData, config)
         .then((response) => {
           if (response.status == 200) {
-            /* REDIRECCIONAR AL MENU DE TAREAS , SACARLO DE LA TAREA ACTUAL */
+          
             this.$router.back();
             this.$swal.fire(this.language.tareaEntregada, "", "success");
           }

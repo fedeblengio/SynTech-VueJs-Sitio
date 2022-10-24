@@ -102,7 +102,7 @@ import SectionRight from "./SectionRight.vue";
 import jsPDF from "jspdf";
 import moment from "moment";
 import language from "../assets/lang/PDF.json";
-/* import html2canvas from "html2canvas"; */
+
 import "jspdf-autotable";
 export default {
   components: {
@@ -284,7 +284,7 @@ export default {
         body: bodyAlumnos,
         margin: { left: 0.5, top: 1.25 },
       });
-      /*   doc.text('Fecha : '+fecha, 20, 20); */
+     
       doc.save(materia_fecha + ".pdf");
     },
   },

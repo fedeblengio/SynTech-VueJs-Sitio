@@ -5,7 +5,7 @@
     <div class="feed">
       <div class="feed_header">
         <h2>{{ this.$route.params.materia }}</h2>
-        <!--  <div class="moverBtnCrearTarea" > -->
+       
         <button
           class="boxText_btn"
           style="background-color: grey"
@@ -28,7 +28,7 @@
         >
           {{ language.crearTarea }}
         </button>
-        <!--  </div> -->
+        
       </div>
       <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
@@ -862,7 +862,7 @@ export default {
           denyButtonText: this.language.cancelar,
         })
         .then((result) => {
-          /* Read more about isConfirmed, isDenied below */
+        
           if (result.isConfirmed) {
             this.borrarTarea(idTarea);
           }
