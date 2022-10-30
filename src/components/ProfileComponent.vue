@@ -274,6 +274,7 @@ export default {
     this.selectLanguage();
     if (this.usuario.ou == "Profesor") {
       this.profesor = true;
+      
       this.traerGrupoProfesor();
     } else {
       this.traerMateriasUser();
@@ -558,10 +559,10 @@ export default {
         },
       };
       axios
-        .get(
+     .get(
           Global.urlSitio +
-            "listarMaterias?idUsuario=" +
-            this.$route.params.idUsuario,
+            "listarMaterias?idGrupo=" +
+            localStorage.getItem("idGrupo"),
           config
         )
         .then((res) => {

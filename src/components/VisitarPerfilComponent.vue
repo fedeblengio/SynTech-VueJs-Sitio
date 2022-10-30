@@ -191,10 +191,10 @@ export default {
         },
       };
       axios
-        .get(
+          .get(
           Global.urlSitio +
-            "listarMaterias?idUsuario=" +
-            this.$route.params.idUsuario,
+            "listarMaterias?idGrupo=" +
+            localStorage.getItem("idGrupo"),
           config
         )
         .then((res) => {

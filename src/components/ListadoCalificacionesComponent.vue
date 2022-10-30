@@ -155,8 +155,10 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio + "listarMaterias?idUsuario=" + this.usuario.username,
+         .get(
+          Global.urlSitio +
+            "listarMaterias?idGrupo=" +
+            localStorage.getItem("idGrupo"),
           config
         )
         .then((res) => {
