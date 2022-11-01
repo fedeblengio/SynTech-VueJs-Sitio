@@ -1,0 +1,30 @@
+{
+    "es": {
+        "title": "Generar Promedios",
+        "titulo": "Promedio",
+        "listaAlumno": "Lista de Alumno",
+        "descargar": "Descargar",
+        "cedula": "Cedula",
+        "nombre": "Nombre",
+        "promedio": "Promedio",
+        "asis": "Inasistencia %",
+        "aprobado": "Aprobado",
+        "reprobado": "Reprobado",
+        "info": "Estos promedios fueron generados con la suma de todas los notas divido la cantidad de tareas creadas, pero recuerda que la nota final la marcas tu",
+        "promediosDe": "Promedios generados para"
+    },
+    "en": {
+        "info": "These averages were generated with the sum of all grades divided by the number of tasks created, but remember that the final grade is set by you.",
+        "title": "Generate Averages",
+        "titulo": "Average",
+        "listaAlumno": "Student List",
+        "descargar": "Download",
+        "cedula": "ID",
+        "nombre": "Name",
+        "promedio": "Mark",
+        "asis": "Absence %",
+        "aprobado": "Approved",
+        "reprobado": "Failed",
+        "promediosDe": "Averages generated for"
+    }
+}

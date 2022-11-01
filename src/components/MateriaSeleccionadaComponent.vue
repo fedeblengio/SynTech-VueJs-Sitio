@@ -1,15 +1,117 @@
 <template>
   <div class="contenedorDiv">
-    <vue-headful :title="language.title" />
+    <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
 
     <div class="feed">
-      <div class="feed_header linea_border_bottom">
-        <h2>{{ language.title }}</h2>
+      <div class="feed_header">
+        <h2>{{ this.$route.params.materia }}</h2>
       </div>
+      <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+          <router-link
+            style="text-decoration: none"
+            :to="{
+              name: 'materia-seleccionada',
+              params: {
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                materia: this.$route.params.materia,
+              },
+            }"
+            class="nav-link active"
+            >{{ language.navInicio }}
+          </router-link>
+        </li>
 
+        <li class="nav-item">
+          <router-link
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-usuarios',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+              },
+            }"
+            class="nav-link"
+          >
+            {{ language.navMiembros }}
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+            v-if="!this.$route.params.tareas_vencidas"
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-tareas',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                tareas_vencidas: false,
+              },
+            }"
+            class="nav-link"
+          >
+            {{ language.navTareas }}
+          </router-link>
+          <router-link
+            v-else
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-tareas',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                tareas_vencidas: false,
+              },
+            }"
+            class="nav-link"
+          >
+            {{ language.navTareas }}
+          </router-link>
+        </li>
+        <li class="nav-item" v-if="usuario.ou == 'Profesor'">
+          <router-link
+            v-if="this.$route.params.tareas_vencidas"
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-tareas-vencidas',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                tareas_vencidas: true,
+              },
+            }"
+            class="nav-link"
+          >
+            {{ language.navRegistro }}
+          </router-link>
+
+          <router-link
+            v-else
+            style="text-decoration: none"
+            :to="{
+              name: 'listado-tareas-vencidas',
+              params: {
+                materia: this.$route.params.materia,
+                idGrupo: this.$route.params.idGrupo,
+                idMateria: this.$route.params.idMateria,
+                tareas_vencidas: true,
+              },
+            }"
+            class="nav-link"
+          >
+            {{ language.navRegistro }}
+          </router-link>
+        </li>
+      </ul>
       <div
-        class="alert alert-danger alert-dismissible fade show"
+        class="alert alert-warning alert-dismissible fade show"
         role="alert"
         v-if="camposVacios"
       >
@@ -28,7 +130,6 @@
         <div class="form">
           <div class="boxText_input">
             <img :src="returnImgB64()" />
-
             <textarea
               id="textarea"
               :placeholder="language.escribeAlgo"
@@ -39,28 +140,6 @@
             <span class="float-right mt-2 text-muted ml-3 mr-2">
               {{ mensaje.length }} / 250</span
             >
-          </div>
-          <div class="addArchivos">
-            <div class="select_materia">
-              <select
-                v-on:change="traerIdForo()"
-                class="form-control"
-                v-model="selectedGroup"
-                required
-              >
-                <option value="" disabled selected hidden>
-                  {{ language.seleccioneGrupo }}
-                </option>
-
-                <option
-                  v-for="todo in traerMaterias"
-                  :key="todo.ids"
-                  v-bind:value="[todo.idGrupo, todo.idMateria, todo.Materia]"
-                >
-                  {{ todo.idGrupo }} - {{ todo.Materia }}
-                </option>
-              </select>
-            </div>
           </div>
           <div
             class="preview_contenedor"
@@ -80,20 +159,6 @@
           </div>
           <div class="footer_post">
             <div class="select_file">
-              <div
-                class="form-check form-switch"
-                v-if="usuario.ou == 'Profesor'"
-              >
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="flexSwitchCheckDefault"
-                  v-model="publico"
-                />
-                <label class="form-check-label" for="flexSwitchCheckDefault">
-                  {{ language.publico }}</label
-                >
-              </div>
               <div class="image-upload">
                 <label for="file-input">
                   <i class="fas fa-upload"></i>
@@ -101,14 +166,15 @@
 
                 <input
                   @change="getFile"
+                  accept=".jpg, .png, .jpeg,  .pdf"
                   id="file-input"
                   type="file"
-                  accept=".jpg, .png, .jpeg,.pdf"
                   v-on:onchange="previewFile(this)"
                   style="display: none"
                 />
               </div>
             </div>
+
             <button
               class="boxText_btn"
               style="background-color: grey"
@@ -138,22 +204,18 @@
       >
         <div class="post_avatar">
           <img
-            loading="lazy"
             :src="returnImgB64()"
-            v-if="post.data.idUsuario === usuario.username"
+            v-if="post.data.idUsuario == usuario.username"
           />
 
-          <img
-            :src="returnImgProfile(post.data.profile_picture)"
-            loading="lazy"
-            v-else
-          />
+          <img :src="returnImgProfile(post.data.profile_picture)" v-else />
         </div>
 
         <div class="post_body">
           <i
             v-if="post.data.idUsuario == usuario.username"
             class="far fa-ellipsis-h menu-card-home ellipsis-home"
+            v-on:click="showOptionBody(post.data.id)"
           >
             <div class="notiPostBody" :id="post.data.id">
               <p
@@ -180,7 +242,6 @@
             <div class="contenedorImg">
               <div class="imgPost" v-for="img in post.imagenes" :key="img.id">
                 <img
-                  loading="lazy"
                   :src="returnImgProfile(img)"
                   v-on:click="cargarImagenSweetAlert(img)"
                 />
@@ -196,7 +257,7 @@
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
                 <h3 v-on:click="descargarPDF(archivo)">
-                  <i class="fal fa-file-pdf file"></i>
+                  <i class="fal fa-file-alt file"></i>
                   <span>{{ simplificarNombre(archivo) }}</span>
                 </h3>
               </div>
@@ -233,8 +294,7 @@ import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import moment from "moment";
-import language from "../assets/lang/home.json";
-
+import language from "../assets/lang/materiaSeleccionada.json";
 window.$ = JQuery;
 
 export default {
@@ -250,33 +310,34 @@ export default {
       spinner: Global.spinnerUrl,
       usuario: "",
       profesor: false,
+      title: "Materias",
       selectedGroup: "",
       file: [],
       traerArchivos: "",
       mensaje: "",
       foro: "",
+      idForo: "",
       value: 1,
       traerMaterias: "",
       index: null,
-      aux: 1,
-      limit: 10,
       camposVacios: false,
       lang: localStorage.getItem("lang"),
       language: "",
       cargandoMasPublicaciones: false,
-      publico: false,
-      grupoTemporaly:""    
-      };
+      limit: 10,
+    };
   },
   mounted() {
+    this.traerIdForo();
     this.selectLanguage();
-    this.loading = true;
     this.verificarLogueo();
- 
+    if (this.usuario.ou == "Profesor") {
+      this.traerGrupoProfesor();
+    } else {
       this.traerMateriasUser();
-    
+    }
 
-    this.traerGrupo()
+    this.traerPostarchivos();
 
     let textarea = document.getElementById("textarea");
 
@@ -286,6 +347,11 @@ export default {
     };
   },
   methods: {
+    cargarMasPost() {
+      this.cargandoMasPublicaciones = true;
+      this.limit += 5;
+      this.traerPostarchivos();
+    },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
@@ -294,17 +360,11 @@ export default {
       }
       this.title = this.language.title;
     },
-    comprobarCamposVacios(input1, input2) {
-      if (input1.length == 0 && this.publico) {
-        return input2.length == 0;
-      }
-      return input1.length == 0 || input2.length == 0;
+    comprobarCamposVacios(input1) {
+      return input1.length == 0;
     },
     simplificarNombre(nombreArchivo) {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
-    },
-    returnImgB64() {
-      return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },
     moment: function (fecha) {
       return moment(fecha).format("DD/MM/YYYY h:mm a");
@@ -319,20 +379,60 @@ export default {
 
         if (this.usuario.ou == "Profesor") {
           this.profesor = true;
-         
+          this.traerGrupoProfesor();
         }
       }
     },
 
-    cargarImagenSweetAlert(img) {
-      this.$swal.fire({
-        imageUrl: this.returnImgProfile(img),
-        showCloseButton: true,
-        showConfirmButton: false,
-        confirmButtonText: false,
-      });
+    traerPost() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.urlSitio + "foro?id=" + this.usuario.username, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.grupoProfesor = res.data;
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: this.language.algoSalioMal,
+          });
+        });
     },
-    
+    traerGrupoProfesor() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "profesor-grupo?idProfesor=" +
+            this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: this.languages.algoSalioMal,
+          });
+        });
+    },
     traerMateriasUser() {
       let config = {
         headers: {
@@ -341,7 +441,7 @@ export default {
         },
       };
       axios
-     .get(
+       .get(
           Global.urlSitio +
             "listarMaterias?idGrupo=" +
             localStorage.getItem("idGrupo"),
@@ -351,9 +451,14 @@ export default {
           if (res.status == 200) {
             this.traerMaterias = res.data;
           }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: this.language.algoSalioMal,
+          });
         });
-
-        
     },
     cargarImg(imagen) {
       let arrayImg = [];
@@ -362,38 +467,6 @@ export default {
       }
       return arrayImg;
     },
-    cargarMasPost() {
-      this.cargandoMasPublicaciones = true;
-      this.limit += 5;
-      
-      
-    },
-      traerGrupo() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-    
-      axios
-        .get(
-          Global.urlSitio + "traerGrupos?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
-          config
-        )
-        .then((res) => {
-           
-          if (res.status == 200) {
-            if(!localStorage.getItem("idGrupo")){
-              localStorage.setItem('idGrupo',res.data[0].idGrupo)
-            }
-            
-            this.traerPostarchivos()
-          
-          }
-
-        });
-    },
     traerPostarchivos() {
       let config = {
         headers: {
@@ -401,7 +474,6 @@ export default {
           token: Global.token,
         },
       };
-    
       axios
         .get(
           Global.urlSitio +
@@ -409,6 +481,8 @@ export default {
             this.usuario.username +
             "&ou=" +
             this.usuario.ou +
+            "&idMateria=" +
+            this.$route.params.idMateria +
             "&limit=" +
             this.limit+"&idGrupo="+localStorage.getItem('idGrupo'),
           config
@@ -419,6 +493,13 @@ export default {
           }
           this.cargandoMasPublicaciones = false;
           this.loading = false;
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: this.language.algoSalioMal,
+          });
         });
     },
 
@@ -433,15 +514,23 @@ export default {
         .get(
           Global.urlSitio +
             "foros?idMateria=" +
-            this.selectedGroup[1] +
+            this.$route.params.idMateria +
             "&idGrupo=" +
-            this.selectedGroup[0],
+            this.$route.params.idGrupo,
           config
         )
         .then((res) => {
           if (res.status == 200) {
             this.foro = res.data;
+            this.idForo = res.data.idForo;
           }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: this.language.algoSalioMal,
+          });
         });
     },
     getFile(event) {
@@ -459,6 +548,9 @@ export default {
       }
     },
 
+    returnImgB64() {
+      return "data:image/png;base64," + localStorage.getItem("perfil_img");
+    },
     delateFile(nombre) {
       let i;
 
@@ -473,11 +565,16 @@ export default {
       return "data:image/png;base64," + img;
     },
 
+    cargarImagenSweetAlert(img) {
+      this.$swal.fire({
+        imageUrl: this.returnImgProfile(img),
+        showCloseButton: true,
+        showConfirmButton: false,
+        confirmButtonText: false,
+      });
+    },
     enviarArchivos() {
-      this.camposVacios = this.comprobarCamposVacios(
-        this.selectedGroup,
-        this.mensaje
-      );
+      this.camposVacios = this.comprobarCamposVacios(this.mensaje);
       if (!this.camposVacios) {
         this.$swal.fire({
           title: this.language.enviando,
@@ -487,11 +584,7 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
-            if (this.publico) {
-              this.publicarNoticia();
-            } else {
-              this.enviarPost();
-            }
+            this.enviarPost();
           },
           willClose: () => {
             clearInterval(5);
@@ -500,49 +593,6 @@ export default {
       }
     },
 
-    publicarNoticia() {
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: Global.token,
-        },
-      };
-      let formData = new FormData();
-      formData.append("idUsuario", this.usuario.username);
-      formData.append(
-        "titulo",
-        "Profesor " + this.usuario.nombre + this.language.usernamePublico
-      );
-      formData.append("mensaje", this.mensaje);
-
-      for (let archivo of this.file) {
-        formData.append("archivos[]", archivo);
-      }
-      for (let archivo of this.file) {
-        formData.append("nombresArchivo[]", archivo.name);
-      }
-
-      axios
-        .post(Global.urlSitio + "noticia", formData, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.$swal.fire({
-              icon: "success",
-              title: this.language.NoticiaPublicada,
-            });
-            setTimeout(() => {
-              location.reload();
-            }, "3000");
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: this.language.error,
-          });
-        });
-    },
     enviarPost() {
       let config = {
         headers: {
@@ -552,20 +602,25 @@ export default {
       };
 
       let formData = new FormData();
-
-      formData.append("idForo", this.foro.idForo);
-      formData.append("idUsuario", this.usuario.username);
-      formData.append("mensaje", this.mensaje);
       for (let archivo of this.file) {
         formData.append("archivos[]", archivo);
       }
       for (let archivo of this.file) {
         formData.append("nombresArchivo[]", archivo.name);
       }
+      formData.append("idForo", this.idForo);
+      formData.append("idUsuario", this.usuario.username);
+      formData.append("mensaje", this.mensaje);
+
       axios
         .post(Global.urlSitio + "foro", formData, config)
         .then((response) => {
           if (response.status == 200) {
+            this.$swal.fire(
+              this.language.publicadoCorrectamente,
+              "",
+              "success"
+            );
             location.reload();
           }
         })
@@ -577,14 +632,13 @@ export default {
           });
         });
     },
-
     comprobarOpcionEliminar(idPublicacion) {
       this.$swal
         .fire({
           title: this.language.confirmarEliminacion,
           showDenyButton: true,
-          confirmButtonText: "Eliminar",
-          denyButtonText: `Cancelar`,
+          confirmButtonText: this.language.btnEliminar,
+          denyButtonText: this.language.btnCancelar,
         })
         .then((result) => {
           if (result.isConfirmed) {
@@ -592,7 +646,6 @@ export default {
           }
         });
     },
-
     borrarPublicacion(idPublicacion) {
       let config = {
         headers: {
@@ -617,7 +670,6 @@ export default {
           });
         });
     },
-
     descargarPDF(label) {
       let url = Global.urlSitio + "traerArchivo?archivo=" + label;
 
@@ -637,7 +689,13 @@ export default {
           link.click();
           URL.revokeObjectURL(link.href);
         })
-        .catch(console.error);
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: this.language.algoSalioMal,
+          });
+        });
     },
   },
 };

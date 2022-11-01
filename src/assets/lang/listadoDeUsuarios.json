@@ -1,0 +1,26 @@
+{
+    "es": {
+        "title": "Miembros",
+        "navInicio": "Inicio",
+        "navMiembros": "Miembros",
+        "navTareas": "Tareas",
+        "navRegistro": "Registro",
+        "placeholderBuscar": "Buscar usuario",
+        "profesor": "Profesor/a",
+        "alumnos": "Alumnos",
+        "algoSalioMal": "Parece que algo salio mal ..."
+
+
+    },
+    "en": {
+        "title": "Members",
+        "navInicio": "Home",
+        "navMiembros": "Members",
+        "navTareas": "Tasks",
+        "navRegistro": "Registry",
+        "placeholderBuscar": "Search user",
+        "profesor": "Teacher",
+        "alumnos": "Students",
+        "algoSalioMal": "It seems that something went wrong..."
+    }
+}

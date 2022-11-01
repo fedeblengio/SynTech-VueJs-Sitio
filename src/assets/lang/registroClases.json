@@ -1,0 +1,32 @@
+{
+    "es": {
+        "title": "Registro Listas",
+        "registroClasesPasadas": "Registro de Listas pasadas",
+        "agendarClase": "Agendar clase",
+        "registroClases": "Registro de clases",
+        "historialFaltas": "Historial de faltas",
+        "placeholderSeleccioneGrupoYMateria": "Seleccione Grupo y Asignatura",
+        "seleccioneGrupo": "Seleccione grupo",
+        "noEncontroDatos": "No se ha encontrado ninguna lista segun los datos ingresados.",
+        "ver": "Ver",
+        "fecha": "Fecha",
+        "inputVacio1": "Debes ingresar algun dato antes de filtrar",
+        "algoSalioMal": "Parece que algo salio mal ..."
+
+    },
+    "en": {
+        "title": "Registration Lists",
+        "registroClasesPasadas": "Registration of Past Lists",
+        "agendarClase": "Schedule a class",
+        "registroClases": "Register of classes",
+        "historialFaltas": "Faults history",
+        "placeholderSeleccioneGrupoYMateria": "Select Group and Subject",
+        "seleccioneGrupo": "Choose group",
+        "noEncontroDatos": "No list has been found according to the data entered.",
+        "ver": "See",
+        "fecha": "Date",
+        "inputVacio1": "You must enter some data before filtering",
+        "algoSalioMal": "It seems that something went wrong..."
+
+    }
+}

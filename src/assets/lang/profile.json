@@ -1,0 +1,54 @@
+{
+    "es": {
+        "title": "Perfil",
+        "informacionPersonal": "Informacion Personal",
+        "cambiarFoto": "Cambiar foto",
+        "tipoDeUsuario": "Tipo de Usuario",
+        "profesor": "Profesor",
+        "alumno": "Alumno",
+        "ci": "CI",
+        "grupo": "Grupo",
+        "nombreCompleto": "Nombre Completo",
+        "placeholderNuevoNombre": "Escriba su nombre aqui ...",
+        "email": "Email",
+        "placeholderNuevoEmail": "Ejemplo: micorreo@gmail.com",
+        "genero": "Genero",
+        "placeholderNuevoGenero": "Ejemplo: Helicoptero Apache H-21",
+        "cambiarContrasenia": "cambiar contraseña",
+        "defaultGenero": "Ingresar Genero",
+        "defaultEmail": "Ingresar Email",
+        "noPuedeIngresar": "Dato ingresado invalido al actualizar ",
+        "vacio": "vacio",
+        "archivoMayor50": "El tamamaño del archivo es mayor a 50 mb",
+        "perfilActualizado": "Perfil Actualizado",
+        "tusDatosSeranActualizados": "Tus datos se actualizaran en unos minutos",
+        "algoSalioMal": "Parece que algo salio mal ..."
+
+
+    },
+    "en": {
+        "title": "Profile",
+        "informacionPersonal": "Personal Information",
+        "cambiarFoto": "Change Photo",
+        "tipoDeUsuario": "Type of User",
+        "profesor": "Teacher",
+        "alumno": "Student",
+        "ci": "ID",
+        "grupo": "Group",
+        "nombreCompleto": "Full Name",
+        "placeholderNuevoNombre": "Write here your new name",
+        "email": "E-mail",
+        "placeholderNuevoEmail": "Example: micorreo@gmail.com",
+        "genero": "Genre",
+        "placeholderNuevoGenero": "Example: Special Battleship",
+        "cambiarContrasenia": "update password",
+        "defaultGenero": "Enter Gender",
+        "defaultEmail": "Enter Email",
+        "noPuedeIngresar": "You cannot enter a empty",
+        "archivoMayor50": "File size is bigger than 50 mb",
+        "perfilActualizado": "Profile updated",
+        "tusDatosSeranActualizados": "Your data will be updated in a few minutes",
+        "algoSalioMal": "It seems that something went wrong..."
+
+    }
+}

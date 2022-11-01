@@ -1,0 +1,24 @@
+{
+    "es": {
+        "title": "Vizualizar Tarea",
+        "tareaCorregida": "Tarea Corregida",
+        "sapv": "Solo apta para visualizar ",
+        "correccionTarea": "Correccion de la tarea",
+        "juicio": "Juicio",
+        "segundoIntento": "Segundo intento",
+        "nota": "Nota : ",
+        "sinCalificar": "S / C",
+        "algoSalioMal": "Parece que algo salio mal ..."
+    },
+    "en": {
+        "title": "Visualise Task",
+        "tareaCorregida": "Corrected Task",
+        "sapv": "Viewing only ",
+        "correccionTarea": "Correction of the task",
+        "juicio": "Judgment",
+        "segundoIntento": "Second attempt",
+        "nota": "Mark : ",
+        "sinCalificar": "N / Q",
+        "algoSalioMal": "It seems that something went wrong..."
+    }
+}

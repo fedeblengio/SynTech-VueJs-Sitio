@@ -1,0 +1,26 @@
+{
+    "es": {
+        "title": "Perfil",
+        "informacionPersonal": "Informacion Personal",
+        "tipoDeUsuario": "Tipo de Usuario",
+        "profesor": "Profesor",
+        "alumno": "Alumno",
+        "ci": "CI",
+        "grupo": "Grupo",
+        "email": "Email",
+        "genero": "Genero",
+        "algoSalioMal": "Parece que algo salio mal ..."
+    },
+    "en": {
+        "title": "Profile",
+        "informacionPersonal": "Personal Information",
+        "tipoDeUsuario": "Type of User",
+        "profesor": "Teacher",
+        "alumno": "Student",
+        "ci": "ID",
+        "grupo": "Group",
+        "email": "E-mail",
+        "genero": "Genre",
+        "algoSalioMal": "It seems that something went wrong..."
+    }
+}

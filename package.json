@@ -1,52 +1,63 @@
 {
-  "name": "taller_practico",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^28.0.0",
-    "@ckeditor/ckeditor5-vue2": "^1.0.5",
-    "@smartweb/vue-flash-message": "^0.6.4",
-    "axios": "^0.21.1",
-    "ckeditor4-vue": "^1.3.1",
-    "core-js": "^3.6.5",
-    "jquery": "^3.6.0",
-    "v-file-input": "^0.1.2",
-    "vue": "^2.6.11",
-    "vue-headful": "^2.1.0",
-    "vue-router": "^3.3.4",
-    "vuelidate": "^0.7.5"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.4.0",
-    "@vue/cli-plugin-eslint": "~4.4.0",
-    "@vue/cli-service": "^4.1.1",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
+    "name": "taller_practico",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "serve": "vue-cli-service serve",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
     },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
+    "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^28.0.0",
+        "@ckeditor/ckeditor5-vue2": "^1.0.5",
+        "@fullcalendar/core": "^5.10.1",
+        "@fullcalendar/daygrid": "^5.10.1",
+        "@fullcalendar/vue": "^5.10.1",
+        "@smartweb/vue-flash-message": "^0.6.4",
+        "axios": "^0.21.1",
+        "ckeditor4-vue": "^1.3.1",
+        "core-js": "^3.6.5",
+        "html2canvas": "^1.4.1",
+        "jquery": "^3.6.0",
+        "jspdf": "^2.5.1",
+        "jspdf-autotable": "^3.5.23",
+        "moment": "^2.29.1",
+        "v-calendar": "^2.3.2",
+        "v-file-input": "^0.1.2",
+        "vue": "^2.6.14",
+        "vue-country-flag": "^2.3.2",
+        "vue-headful": "^2.1.0",
+        "vue-picture-swipe": "^2.1.0",
+        "vue-router": "^3.3.4",
+        "vue-sweetalert2": "^5.0.2",
+        "vuelidate": "^0.7.5"
     },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "devDependencies": {
+        "@vue/cli-plugin-babel": "~4.4.0",
+        "@vue/cli-plugin-eslint": "~4.4.0",
+        "@vue/cli-service": "^4.1.1",
+        "babel-eslint": "^10.1.0",
+        "eslint": "^6.7.2",
+        "eslint-plugin-vue": "^6.2.2",
+        "vue-template-compiler": "^2.6.14"
+    },
+    "eslintConfig": {
+        "root": true,
+        "env": {
+            "node": true
+        },
+        "extends": [
+            "plugin:vue/essential",
+            "eslint:recommended"
+        ],
+        "parserOptions": {
+            "parser": "babel-eslint"
+        },
+        "rules": {}
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead"
+    ]
 }

@@ -1,0 +1,10 @@
+{
+    "es": {
+        "title": "Error404",
+        "paginaNoEncontrada": "Pagina no encontrada"
+    },
+    "en": {
+        "title": "Error404",
+        "paginaNoEncontrada": "Page not found"
+    }
+}

@@ -1,0 +1,34 @@
+{
+    "es": {
+        "title": "Historial de Entregas",
+        "registroListasPasadas": "Registro de Listas pasadas",
+        "agendarClase": "Agendar clase",
+        "registroClases": "Registro de clases",
+        "historialFaltas": "Historial de faltas",
+        "cedula": "Cedula",
+        "nombre": "Nombre",
+        "ver": "Ver",
+        "cantFaltas": "Cantidad Faltas",
+        "cantClases": "Cantidad Clases",
+        "fechasAusencia": "Fechas de Ausencia",
+        "cerrar": "Cerrar",
+        "noHayFecha": "No hay fechas",
+        "algoSalioMal": "Parece que algo salio mal ..."
+    },
+    "en": {
+        "title": "Delivery History",
+        "registroListasPasadas": "Registration of Past Lists",
+        "agendarClase": "Schedule a class",
+        "registroClases": "Register of classes",
+        "historialFaltas": "Faults history",
+        "cedula": "ID",
+        "nombre": "Full Name",
+        "ver": "See",
+        "cantFaltas": "Number of faults",
+        "cantClases": "Number of Classes",
+        "fechasAusencia": "Dates of Absence",
+        "cerrar": "Close",
+        "noHayFecha": "No dates available",
+        "algoSalioMal": "It seems that something went wrong..."
+    }
+}

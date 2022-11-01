@@ -1,0 +1,34 @@
+{
+    "es": {
+        "title": "Perfil",
+        "cambiarContra": "Cambio contraseña",
+        "avisoContra": "   Estas a punto de cambiar la contraseña de acceso, asegurate de recordarla",
+        "inputVacio1": " Debes ingresar tu contraseña actual",
+        "contraActual": "Contraseña actual",
+        "inputVacio2": " Debes ingresar una contraseña nueva",
+        "nuevaContra": "Nueva contraseña",
+        "inputVacio3": " Debes repetir la contraseña ingresada previamente",
+        "confirmarContra": "Confirmar contraseña",
+        "btnEnviar": "Actualizar",
+        "contraIncorrecta": "La constraseña actual es incorrecta ...",
+        "contraNoCoinciden": "Las contraseñas ingresadas no coinciden ...",
+        "contraCambiada": "Contraseña actualizada correctamente",
+        "algoSalioMal": "Hubo un error al intentar actualizar su contraseña ..."
+    },
+    "en": {
+        "title": "Profile",
+        "cambiarContra": "Password change",
+        "avisoContra": "You are about to change your access password, make sure you remember it.",
+        "inputVacio1": "You must enter your current password",
+        "contraActual": "Current password",
+        "inputVacio2": "You must enter a new password",
+        "nuevaContra": "New password",
+        "inputVacio3": "You must repeat the previously entered password",
+        "confirmarContra": "Confirm password",
+        "btnEnviar": "Update",
+        "contraIncorrecta": "Your current password is incorrect ...",
+        "contraNoCoinciden": "Passwords entered do not match ...",
+        "contraCambiada": "Password updated correctly",
+        "algoSalioMal": "There was an error trying to update your password ..."
+    }
+}

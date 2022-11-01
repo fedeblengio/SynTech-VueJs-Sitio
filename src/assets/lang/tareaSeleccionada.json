@@ -1,0 +1,28 @@
+{
+    "es": {
+        "title": "Tarea",
+        "publicarTarea": "Entregar Tarea",
+        "inputVacio1": "Debes escribri algo antes de enviar tu tarea.",
+        "placeholderEntregaAlumno": "Escribe una  descripcion de tu entrega",
+        "enviar": "Enviar Tarea",
+        "archivoMayor50": "El tamamaño del archivo es mayor a 50 mb",
+        "maximo3Archivos": "Solo se permite 3 archivos por publicacion",
+        "cargando": "Cargando...",
+        "estamosEnviando": "Estamos enviando tu tarea !",
+        "tareaEntregada": "Tarea entregada",
+        "algoSalioMal": "Parece que algo salio mal ..."
+    },
+    "en": {
+        "title": "Task",
+        "publicarTarea": "Deliver Task",
+        "inputVacio1": "You must write something before submitting your assignment.",
+        "placeholderEntregaAlumno": "Write a description of about your delivery",
+        "enviar": "Submit Task",
+        "archivoMayor50": "File size is bigger than 50 mb",
+        "maximo3Archivos": "Only 3 files are allowed per publication",
+        "cargando": "Loading...",
+        "estamosEnviando": "We are sending your homework !",
+        "tareaEntregada": "Task delivered",
+        "algoSalioMal": "It seems that something went wrong..."
+    }
+}
