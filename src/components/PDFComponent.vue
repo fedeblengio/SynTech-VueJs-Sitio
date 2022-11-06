@@ -112,6 +112,7 @@ export default {
   },
   data() {
     return {
+        usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listado: "",
       title: "",
       loading: true,
@@ -129,6 +130,7 @@ export default {
     }
     this.cargarLista();
     this.selectLanguage();
+
   },
   methods: {
     selectLanguage() {
