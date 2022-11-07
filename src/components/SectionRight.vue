@@ -354,7 +354,8 @@ export default {
             "tareas?idUsuario=" +
             this.usuario.username +
             "&ou=" +
-            this.usuario.ou,
+            this.usuario.ou+
+            "&idGrupo="+localStorage.getItem('idGrupo'),
           config
         )
         .then((res) => {

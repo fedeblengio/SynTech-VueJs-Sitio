@@ -698,6 +698,7 @@ export default {
       camposVacios: false,
       lang: localStorage.getItem("lang"),
       language: "",
+      idGrupoStorage:localStorage.getItem('idGrupo'),
     };
   },
   mounted() {
@@ -1005,7 +1006,8 @@ export default {
             "&ou=" +
             this.usuario.ou +
             "&idMateria=" +
-            this.routerValues.idMateria,
+            this.routerValues.idMateria+
+            "&idGrupo="+this.idGrupoStorage,
           config
         )
         .then((res) => {
