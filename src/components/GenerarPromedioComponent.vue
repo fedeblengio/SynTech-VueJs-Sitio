@@ -1,5 +1,6 @@
 <template>
   <div class="contenedorDiv">
+     <vue-headful :title="title" />
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div
@@ -62,6 +63,7 @@
   </div>
 </template>
 <script>
+import vueHeadful from "vue-headful";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import axios from "axios";
@@ -74,9 +76,11 @@ export default {
   components: {
     SectionLeft,
     SectionRight,
+    vueHeadful
   },
   data() {
     return {
+      title: "",
       language: "",
       traerPromedios: "",
       lang: localStorage.getItem("lang"),
@@ -119,6 +123,7 @@ export default {
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
+        
       } else {
         this.language = language.en;
       }
