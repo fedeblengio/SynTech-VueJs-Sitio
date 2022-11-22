@@ -341,10 +341,10 @@ export default {
         },
       };
       axios
-     .get(
+       .get(
           Global.urlSitio +
             "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+            localStorage.getItem("idGrupo")+"&idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
           config
         )
         .then((res) => {
