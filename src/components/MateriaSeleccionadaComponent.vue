@@ -670,7 +670,7 @@ export default {
         });
     },
     descargarPDF(label) {
-      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+         let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {
