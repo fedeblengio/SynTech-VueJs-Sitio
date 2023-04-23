@@ -220,9 +220,10 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio + "usuario?idUsuario=" + this.$route.params.idUsuario,
+          Global.urlSitio + "usuario/"+ this.$route.params.idUsuario,
           config
         )
+        
         .then((res) => {
           if (res.status == 200) {
             this.usuarioPerfil = res.data;
