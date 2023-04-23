@@ -326,7 +326,7 @@ export default {
 
       axios
         .get(
-          Global.urlSitio + "imagen-perfil?username=" + this.usuario.username,
+          Global.urlSitio + "imagen-perfil/"+ this.usuario.username,
           config
         )
         .then((res) => {
