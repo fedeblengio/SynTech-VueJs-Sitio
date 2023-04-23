@@ -560,9 +560,8 @@ export default {
       };
       axios
      .get(
-          Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+             Global.urlSitio +
+            "grupo/"+localStorage.getItem("idGrupo") +"/materia",
           config
         )
         .then((res) => {

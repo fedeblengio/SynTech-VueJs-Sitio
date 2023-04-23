@@ -272,10 +272,7 @@ export default {
     this.selectLanguage();
     this.loading = true;
     this.verificarLogueo();
- 
-      this.traerMateriasUser();
-    
-
+    this.traerMateriasUser();
     this.traerGrupo()
 
     let textarea = document.getElementById("textarea");
@@ -343,8 +340,8 @@ export default {
       axios
        .get(
           Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo")+"&idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+            "grupo/"+localStorage.getItem("idGrupo") +"/materia"
+            +"?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
           config
         )
         .then((res) => {
