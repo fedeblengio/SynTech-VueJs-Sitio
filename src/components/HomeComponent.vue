@@ -414,9 +414,10 @@ export default {
           if (res.status == 200) {
             this.traerArchivos = res.data;
           }
-          this.cargandoMasPublicaciones = false;
+         
           this.loading = false;
         });
+        this.cargandoMasPublicaciones = false;
     },
 
     traerIdForo() {
@@ -426,14 +427,11 @@ export default {
           token: Global.token,
         },
       };
+      //
       axios
         .get(
           Global.urlSitio +
-            "foros?idMateria=" +
-            this.selectedGroup[1] +
-            "&idGrupo=" +
-            this.selectedGroup[0],
-          config
+            "foro/grupo/"+this.selectedGroup[0]+"/materia/"+this.selectedGroup[1],config
         )
         .then((res) => {
           if (res.status == 200) {
@@ -563,6 +561,7 @@ export default {
         .post(Global.urlSitio + "foro", formData, config)
         .then((response) => {
           if (response.status == 200) {
+          
             location.reload();
           }
         })

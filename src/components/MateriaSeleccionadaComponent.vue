@@ -510,13 +510,9 @@ export default {
         },
       };
       axios
-        .get(
+       .get(
           Global.urlSitio +
-            "foros?idMateria=" +
-            this.$route.params.idMateria +
-            "&idGrupo=" +
-            this.$route.params.idGrupo,
-          config
+            "foro/grupo/"+this.$route.params.idGrupo+"/materia/"+this.$route.params.idMateria,config
         )
         .then((res) => {
           if (res.status == 200) {
