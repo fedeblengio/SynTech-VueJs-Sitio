@@ -517,10 +517,9 @@ export default {
         },
       };
       axios
-        .get(
+    .get(
           Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.$route.params.idUsuario,
+          "usuario/"+this.usuario.username+"/grupo",
           config
         )
         .then((res) => {
