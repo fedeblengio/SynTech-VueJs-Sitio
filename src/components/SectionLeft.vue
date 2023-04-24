@@ -162,7 +162,7 @@ export default {
     
       axios
         .get(
-          Global.urlSitio + "traerGrupos?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+          Global.urlSitio + "usuario/"+this.usuario.username+"/grupo",
           config
         )
         .then((res) => {

@@ -377,10 +377,9 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "traerGrupos?idUsuario=" +
+            "usuario/" +
             this.usuario.username +
-            "&ou=" +
-            this.usuario.ou,
+            "/grupo",
           config
         )
         .then((res) => {
