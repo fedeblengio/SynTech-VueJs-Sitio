@@ -373,7 +373,7 @@ export default {
         .get(
           Global.urlSitio + 
             "agenda-clase/usuario/" +
-            this.usuario.username,
+            this.usuario.username+"/grupo/"+this.selectedGroup,
           config
         )
         .then((res) => {
