@@ -233,12 +233,10 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "agenda-clase?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou,
+          .get(
+          Global.urlSitio + 
+            "agenda-clase/usuario/" +
+            this.usuario.username,
           config
         )
         .then((res) => {
