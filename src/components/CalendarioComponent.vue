@@ -98,6 +98,7 @@ export default {
         timeZone: "GMT-3",
         events: [],
       },
+      selectedGroup: localStorage.getItem("idGrupo"),
       title: "",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       listClasesVirtuales: "",
@@ -203,7 +204,6 @@ export default {
     },
     entrarJitsi(clase) {
       let habilitado = this.verificarHabilitacionEntrar(clase);
-    
 
       if (habilitado) {
         let url = "https://meet.jit.si/" + window.btoa(clase);
@@ -217,11 +217,7 @@ export default {
           )
           .focus();
       } else {
-        this.$swal.fire(
-          this.language.infoAcceder,
-          "",
-          "info"
-        );
+        this.$swal.fire(this.language.infoAcceder, "", "info");
       }
     },
     clasesVirtualesCreadas() {
@@ -235,10 +231,10 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "agenda-clase?idUsuario=" +
+            "agenda-clase/usuario/" +
             this.usuario.username +
-            "&ou=" +
-            this.usuario.ou,
+            "/grupo/" +
+            this.selectedGroup,
           config
         )
         .then((res) => {
@@ -257,7 +253,7 @@ export default {
         });
     },
     cargarCalendario() {
-      let arr = []; 
+      let arr = [];
       for (let i = 0; i < this.listClasesVirtuales.length; i++) {
         let date = moment(this.listClasesVirtuales[i].fecha_inicio).format(
           "YYYY-MM-DD"

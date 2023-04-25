@@ -162,10 +162,9 @@ export default {
         },
       };
       axios
-        .get(
+      .get(
           Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.$route.params.idUsuario,
+          "usuario/"+this.usuario.username+"/grupo",
           config
         )
         .then((res) => {
@@ -192,9 +191,8 @@ export default {
       };
       axios
           .get(
-          Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+         Global.urlSitio +
+            "grupo/"+localStorage.getItem("idGrupo") +"/materia",
           config
         )
         .then((res) => {
@@ -221,9 +219,10 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio + "usuario?idUsuario=" + this.$route.params.idUsuario,
+          Global.urlSitio + "usuario/"+ this.$route.params.idUsuario,
           config
         )
+        
         .then((res) => {
           if (res.status == 200) {
             this.usuarioPerfil = res.data;

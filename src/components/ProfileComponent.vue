@@ -326,7 +326,7 @@ export default {
 
       axios
         .get(
-          Global.urlSitio + "imagen-perfil?username=" + this.usuario.username,
+          Global.urlSitio + "imagen-perfil/"+ this.usuario.username,
           config
         )
         .then((res) => {
@@ -350,14 +350,11 @@ export default {
       };
 
       let data = {
-        username: usuario.username,
-        genero: "",
-        nuevoNombre: "",
-        nuevoEmail: this.newEmail,
+        email: this.newEmail,
       };
       if (!this.comprobarInputVacio(this.newEmail, this.language.email)) {
         axios
-          .put(Global.urlSitio + "usuario-db", data, config)
+          .put(Global.urlSitio + "usuario/"+usuario.username, data, config)
           .then((response) => {
             if (response.status == 200) {
               this.actualizarJSON(response.data.token);
@@ -391,14 +388,11 @@ export default {
       };
 
       let data = {
-        username: usuario.username,
-        genero: "",
-        nuevoEmail: "",
-        nuevoNombre: this.newName,
+        nombre: this.newName,
       };
       if (!this.comprobarInputVacio(this.newName, this.language.nombreCompleto)) {
         axios
-          .put(Global.urlSitio + "usuario-db", data, config)
+          .put(Global.urlSitio + "usuario/"+usuario.username, data, config)
           .then((response) => {
             if (response.status == 200) {
               this.actualizarJSON(response.data.token);
@@ -433,14 +427,11 @@ export default {
       };
 
       let data = {
-        username: usuario.username,
         genero: this.newGenero,
-        nuevoEmail: "",
-        nuevoNombre: "",
       };
       if (!this.comprobarInputVacio(this.newGenero,this.language.genero)) {
         axios
-          .put(Global.urlSitio + "usuario-db", data, config)
+         .put(Global.urlSitio + "usuario/"+usuario.username, data, config)
           .then((response) => {
             if (response.status == 200) {
               this.actualizarJSON(response.data.token);
@@ -526,10 +517,9 @@ export default {
         },
       };
       axios
-        .get(
+    .get(
           Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.$route.params.idUsuario,
+          "usuario/"+this.usuario.username+"/grupo",
           config
         )
         .then((res) => {
@@ -560,9 +550,8 @@ export default {
       };
       axios
      .get(
-          Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+             Global.urlSitio +
+            "grupo/"+localStorage.getItem("idGrupo") +"/materia",
           config
         )
         .then((res) => {

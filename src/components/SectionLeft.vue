@@ -162,7 +162,7 @@ export default {
     
       axios
         .get(
-          Global.urlSitio + "traerGrupos?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+          Global.urlSitio + "usuario/"+this.usuario.username+"/grupo",
           config
         )
         .then((res) => {
@@ -196,9 +196,9 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            this.localStorageGroup+"&idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+           Global.urlSitio +
+            "grupo/"+localStorage.getItem("idGrupo") +"/materia"
+            +"?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
           config
         )
         .then((res) => {

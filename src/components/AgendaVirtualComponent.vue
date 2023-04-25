@@ -59,15 +59,12 @@
           v-model="agenda.idGrupo"
           name="grupos"
           required
-          placeholder="Seleccione Grupo y Asignatura"
-          v-on:change="filtrarMateria(agenda.idGrupo)"
+          placeholder="Seleccione Grupo"
         >
           <option
-            v-for="todo in traerGrupos"
-            :key="todo.id"
-            v-bind:value="todo.idGrupo"
+            v-bind:value="selectedGroup"
           >
-            {{ todo.idGrupo }}
+            {{ selectedGroup }}
           </option>
         </select>
       </div>
@@ -80,8 +77,8 @@
           required
           placeholder="Seleccione Grupo y Asignatura"
         >
-          <option v-for="todo in materias" :key="todo.id">
-            {{ todo }}
+          <option v-for="todo in materias" :key="todo.id" :value="todo.id">
+            {{ todo.nombre }}
           </option>
         </select>
       </div>
@@ -201,7 +198,7 @@ export default {
       title: "",
       today: "",
       usuario: "",
-      traerGrupos: "",
+      selectedGroup: localStorage.getItem('idGrupo'),
       materias: "",
       camposVacios: false,
       clasesVirtualesCreadas: "",
@@ -223,7 +220,7 @@ export default {
     this.today = moment().format("YYYY-MM-DDTHH:mm");
 
     this.usuario = JSON.parse(window.atob(localStorage.getItem("auth_token")));
-    this.traerGrupoProfesor(this.usuario.username);
+    this.getMateriasFromProfesorGrupo(this.usuario.username);
     this.agenda.idProfesor = this.usuario.username;
     this.listarClaseVirtual();
     this.selectLanguage();
@@ -276,7 +273,7 @@ export default {
       };
 
       axios
-        .delete(Global.urlSitio + "agenda-clase?idClase=" + idClase, config)
+        .delete(Global.urlSitio + "agenda-clase/"+idClase, config)
         .then((response) => {
           if (response.status == 200) {
             location.reload();
@@ -291,14 +288,9 @@ export default {
           });
         });
     },
-    filtrarMateria(idGrupo) {
-      for (var i = 0; i < this.traerGrupos.length; i++) {
-        if (this.traerGrupos[i].idGrupo == idGrupo) {
-          this.materias = this.traerGrupos[i].materias;
-        }
-      }
-    },
-    traerGrupoProfesor(idProfesor) {
+  
+    
+    getMateriasFromProfesorGrupo(idProfesor) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -307,12 +299,12 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio + "agenda-clase-grupos?idUsuario=" + idProfesor,
+          Global.urlSitio + "agenda-clase/profesor/" + idProfesor+"/grupo/"+this.selectedGroup+"/materia",
           config
         )
         .then((res) => {
           if (res.status == 200) {
-            this.traerGrupos = res.data;
+            this.materias = res.data;
           }
         })
         .catch(() => {
@@ -333,7 +325,7 @@ export default {
 
       let data = {
         idProfesor: this.agenda.idProfesor,
-        materia: this.agenda.materia,
+        idMateria: this.agenda.materia,
         idGrupo: this.agenda.idGrupo,
         fecha_inicio: this.agenda.fecha_inicio,
         fecha_fin: moment(
@@ -379,11 +371,9 @@ export default {
 
       axios
         .get(
-          Global.urlSitio +
-            "agenda-clase?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou,
+          Global.urlSitio + 
+            "agenda-clase/usuario/" +
+            this.usuario.username+"/grupo/"+this.selectedGroup,
           config
         )
         .then((res) => {

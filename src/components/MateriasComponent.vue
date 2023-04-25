@@ -109,8 +109,7 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.usuario.username,
+          "usuario/"+this.usuario.username+"/grupo",
           config
         )
         .then((res) => {
@@ -137,8 +136,7 @@ export default {
       axios
          .get(
           Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+            "grupo/"+localStorage.getItem("idGrupo") +"/materia",
           config
         )
         .then((res) => {

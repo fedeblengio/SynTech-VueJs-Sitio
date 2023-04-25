@@ -389,9 +389,8 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+         Global.urlSitio +
+            "grupo/"+localStorage.getItem("idGrupo") +"/materia",
           config
         )
         .then((res) => {
@@ -412,10 +411,8 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "agenda-clase-eventos?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou,
+            "evento/usuario/" +
+            this.usuario.username,
           config
         )
         .then((res) => {
