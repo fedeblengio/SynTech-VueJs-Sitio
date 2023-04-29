@@ -43,7 +43,6 @@
           <div class="addArchivos">
             <div class="select_materia">
               <select
-                v-on:change="traerIdForo()"
                 class="form-control"
                 v-model="selectedGroup"
                 required
@@ -84,15 +83,7 @@
                 class="form-check form-switch"
                 v-if="usuario.ou == 'Profesor'"
               >
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="flexSwitchCheckDefault"
-                  v-model="publico"
-                />
-                <label class="form-check-label" for="flexSwitchCheckDefault">
-                  {{ language.publico }}</label
-                >
+              
               </div>
               <div class="image-upload">
                 <label for="file-input">
@@ -254,7 +245,7 @@ export default {
       file: [],
       traerArchivos: "",
       mensaje: "",
-      foro: "",
+     
       value: 1,
       traerMaterias: "",
       index: null,
@@ -422,29 +413,6 @@ export default {
         });
     },
 
-    traerIdForo() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      //
-      axios
-        .get(
-          Global.urlSitio +
-            "foro/grupo/" +
-            this.selectedGroup[0] +
-            "/materia/" +
-            this.selectedGroup[1],
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.foro = res.data;
-          }
-        });
-    },
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
@@ -488,11 +456,7 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
-            if (this.publico) {
-              this.publicarNoticia();
-            } else {
               this.enviarPost();
-            }
           },
           willClose: () => {
             clearInterval(5);
@@ -553,8 +517,8 @@ export default {
       };
 
       let formData = new FormData();
-
-      formData.append("idForo", this.foro.idForo);
+      formData.append("idGrupo", this.selectedGroup[0]);
+      formData.append("idMateria", this.selectedGroup[1]);
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
       for (let archivo of this.file) {
@@ -607,7 +571,7 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.publicacionEliminada, "", "success");
-            location.reload();
+            this.traerPostarchivos();
           }
         })
         .catch(() => {
