@@ -21,6 +21,7 @@
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
       <div v-else>
+      
         <select
           v-on:change="cambiarGrupo()"
           class="form-control"
@@ -31,11 +32,11 @@
                 {{ localStorageGroup}}
                 </option>
           <option
-            v-for="todo in grupos"
+            v-for="todo in groupNames"
             :key="todo.ids"
-            v-bind:value="todo.idGrupo"
+            v-bind:value="todo"
           >
-            {{ todo.idGrupo }}
+            {{ todo }}
           </option>
         </select>
       </div>
@@ -102,7 +103,7 @@
           style="text-decoration: none"
         >
           <span class="clases">
-            <span class="sidebarDot"></span> {{ todo.idGrupo }} -
+            <span class="sidebarDot"></span>
             {{ todo.Materia }}</span
           ></router-link
         >
@@ -128,6 +129,7 @@ export default {
       spinner: Global.spinnerUrl,
       selectedGroup: "",
       grupos: "",
+      groupNames: [],
       localStorageGroup:''
     };
   },
@@ -136,9 +138,11 @@ export default {
     if (this.usuario.ou == "Profesor") {
       this.profesor = true;
     }
-     
-   
 
+    if (!localStorage.getItem("idGrupo")) {
+      localStorage.setItem("idGrupo", this.groupNames[0]);
+    } 
+     
     this.selectLanguage();
   },
   methods: {
@@ -169,6 +173,8 @@ export default {
            
           if (res.status == 200) {
             this.grupos = res.data;
+          
+            this.groupNames = this.getNotDuplicatedNames(res.data);
              this.traerMateriasUser();
              if(!localStorage.getItem('idGrupo')){
               localStorage.setItem("idGrupo", res.data[0].idGrupo);
@@ -177,6 +183,15 @@ export default {
           }
 
         });
+    },
+    getNotDuplicatedNames(groups){
+      let names = [];
+      for(let g of groups){
+        if(!names.includes(g.idGrupo)){
+          names.push(g.idGrupo);
+        }
+      }
+      return names;
     },
     cambiarGrupo() {
       localStorage.setItem("idGrupo", this.selectedGroup);
