@@ -12,7 +12,7 @@
       </div>
       <div class="card" v-for="clase in traerMaterias" :key="clase.id" v-else>
         <div class="card-header">{{ clase.idGrupo }} - {{ clase.Materia }}</div>
-        <div class="card-body">
+        <div class="card-body" style="padding-top:2rem">
           <h6>
             <i>{{language.profesor}}: {{ clase.Profesor }}</i>
           </h6>
@@ -114,7 +114,8 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.traerMaterias = res.data;
+            this.traerMaterias = this.getOnlyMateriasFromGrupo(res.data);
+            
           }
           this.loading = false;
         })
@@ -125,6 +126,15 @@ export default {
             text: this.language.algoSalioMal,
           });
         });
+    },
+    getOnlyMateriasFromGrupo(materias){
+      let materiasArray = [];
+      materias.forEach(materia => {
+        if(materia.idGrupo == localStorage.getItem("idGrupo")){
+          materiasArray.push(materia);
+        }
+      });
+      return materiasArray;
     },
     traerMateriasUser() {
       let config = {

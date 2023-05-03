@@ -19,7 +19,24 @@
         "confirmacionEliminar": "Seguro que quieres eliminar la noticia?",
         "eliminar": "Eliminar",
         "cancelar": "Cancelar",
-        "confimacionTitulo": "Noticia eliminada"
+        "confimacionTitulo": "Noticia eliminada",
+        "inputVacio1": " Debes completar todos los campos antes de enviar tu publicacion.",
+        "escribeAlgo": "Escribe Algo !",
+        "seleccioneGrupo": " Seleccione un grupo",
+        "enviar": "Publicar",
+        "publicoPara": "publicó para",
+        "archivoMayor50": "El tamamaño del archivo es mayor a 50 mb",
+        "maximo3Archivos": "Solo se permite 3 archivos por publicacion",
+        "enviando": "Enviando...",
+        "enviandoTuPublicacion": "Creando tu publicacion !",
+        "algoSalioMal": "Parece que algo salio mal ...",
+        "confirmarEliminacion": "¿ Estas seguro que quieres eliminar ?",
+        "btnEliminar": "Eliminar",
+        "btnCancelar": "Cancelar",
+        "publicacionEliminada": "Publicacion eliminada",
+        "NoticiaPublicada": "Noticia publicada",
+        "error": "Algo salio mal",
+        "usernamePublico": " publico noticia desde sitio"
     },
     "en": {
         "title": "Main page",
@@ -41,6 +58,24 @@
         "confirmacionEliminar": "Are you sure you want to delete the news?",
         "eliminar": "Delete",
         "cancelar": "Cancel",
-        "confimacionTitulo": "New deleted "
+        "confimacionTitulo": "New deleted ",
+        "inputVacio1": "You must fill in all the fields before submitting your publication.",
+        "escribeAlgo": "Write Something !",
+        "enviar": "Post",
+        "publicoPara": "published for",
+        "archivoMayor50": "File size is bigger than 50 mb",
+        "maximo3Archivos": "Only 3 files are allowed per publication",
+        "enviando": "Sending...",
+        "enviandoTuPublicacion": "Making your post !",
+        "algoSalioMal": "It seems that something went wrong...",
+        "confirmarEliminacion": "Are you sure you want to delete?",
+        "btnEliminar": "Delete",
+        "btnCancelar": "Abort",
+        "publicacionEliminada": "Publication removed",
+        "NoticiaPublicada": "New published successfull",
+        "error": "Something went wrong",
+        "usernamePublico": " publish news from site  "
     }
+
+  
 }
