@@ -21,24 +21,34 @@
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
       <div v-else>
-      
-        <select
-          v-on:change="cambiarGrupo()"
-          class="form-control"
-          v-model="selectedGroup"
-          required
-        >
-          <option value="" disabled selected hidden>
-                {{ localStorageGroup}}
-                </option>
-          <option
-            v-for="todo in groupNames"
-            :key="todo.ids"
-            v-bind:value="todo"
+        <span class="d-flex" v-if="!changeGroup">
+          <input
+            type="text"
+            class="form-control"
+            disabled
+            :value="localStorageGroup"
+          />
+          <i class="fas fa-pencil icon" @click="changeGroup = true"></i>
+        </span>
+        <span v-else class="d-flex">
+          <select
+            v-on:change="cambiarGrupo()"
+            class="form-control"
+            v-model="selectedGroup"
+            required
+            id="group-select"
           >
-            {{ todo }}
-          </option>
-        </select>
+            <option
+              v-for="todo in groupNames"
+              :key="todo.ids"
+              :id="todo"
+              v-bind:value="todo"
+            >
+              {{ todo }}
+            </option>
+          </select>
+          <i class="fas fa-times icon" @click="changeGroup = false"></i>
+        </span>
       </div>
     </div>
     <div class="contenedor-sidebar">
@@ -82,9 +92,11 @@
     </div>
     <div class="sidebarClass">
       <h3>{{ language.misClases }}</h3>
+   
       <div class="sidebarElement" v-if="loading">
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
+     
       <div
         class="sidebarElement"
         v-for="todo in traerMaterias"
@@ -128,9 +140,10 @@ export default {
       language: "",
       spinner: Global.spinnerUrl,
       selectedGroup: "",
+      changeGroup: false,
       grupos: "",
       groupNames: [],
-      localStorageGroup:''
+      localStorageGroup: "",
     };
   },
   mounted() {
@@ -139,10 +152,6 @@ export default {
       this.profesor = true;
     }
 
-    if (!localStorage.getItem("idGrupo")) {
-      localStorage.setItem("idGrupo", this.groupNames[0]);
-    } 
-     
     this.selectLanguage();
   },
   methods: {
@@ -163,31 +172,30 @@ export default {
           token: Global.token,
         },
       };
-    
+
       axios
         .get(
-          Global.urlSitio + "usuario/"+this.usuario.username+"/grupo",
+          Global.urlSitio + "usuario/" + this.usuario.username + "/grupo",
           config
         )
         .then((res) => {
-           
           if (res.status == 200) {
             this.grupos = res.data;
-          
             this.groupNames = this.getNotDuplicatedNames(res.data);
-             this.traerMateriasUser();
-             if(!localStorage.getItem('idGrupo')){
-              localStorage.setItem("idGrupo", res.data[0].idGrupo);
-             }
-             
+            if(localStorage.getItem("idGrupo") == null){
+              this.selectedGroup = this.groupNames[0];
+            }else{
+              this.selectedGroup = localStorage.getItem("idGrupo");
+            }
+            this.traerMateriasUser(this.selectedGroup);
           }
-
         });
     },
-    getNotDuplicatedNames(groups){
+
+    getNotDuplicatedNames(groups) {
       let names = [];
-      for(let g of groups){
-        if(!names.includes(g.idGrupo)){
+      for (let g of groups) {
+        if (!names.includes(g.idGrupo)) {
           names.push(g.idGrupo);
         }
       }
@@ -195,14 +203,13 @@ export default {
     },
     cambiarGrupo() {
       localStorage.setItem("idGrupo", this.selectedGroup);
-      this.$router.push({ name: 'home' })
+      this.localStorageGroup = this.selectedGroup;
+      this.$router.push({ name: "home" });
+
       location.reload();
     },
 
-    
-    traerMateriasUser() {
-       
-       this.localStorageGroup= localStorage.getItem('idGrupo')
+    traerMateriasUser(grupo) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -211,14 +218,24 @@ export default {
       };
       axios
         .get(
-           Global.urlSitio +
-            "grupo/"+localStorage.getItem("idGrupo") +"/materia"
-            +"?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+          Global.urlSitio +
+            "grupo/" +
+            grupo +
+            "/materia" +
+            "?idUsuario=" +
+            this.usuario.username +
+            "&ou=" +
+            this.usuario.ou,
           config
         )
         .then((res) => {
           if (res.status == 200) {
             this.traerMaterias = res.data;
+            if (localStorage.getItem("idGrupo") == null) {
+              this.localStorageGroup = grupo;
+            } else {
+              this.localStorageGroup = localStorage.getItem("idGrupo");
+            }
           }
           this.loading = false;
         })
@@ -246,3 +263,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.icon {
+  padding: 10px;
+}
+</style>

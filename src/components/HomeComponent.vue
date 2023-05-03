@@ -42,11 +42,7 @@
           </div>
           <div class="addArchivos">
             <div class="select_materia">
-              <select
-                class="form-control"
-                v-model="selectedGroup"
-                required
-              >
+              <select class="form-control" v-model="selectedGroup" required>
                 <option value="" disabled selected hidden>
                   {{ language.seleccioneGrupo }}
                 </option>
@@ -82,9 +78,7 @@
               <div
                 class="form-check form-switch"
                 v-if="usuario.ou == 'Profesor'"
-              >
-              
-              </div>
+              ></div>
               <div class="image-upload">
                 <label for="file-input">
                   <i class="fas fa-upload"></i>
@@ -245,7 +239,7 @@ export default {
       file: [],
       traerArchivos: "",
       mensaje: "",
-     
+
       value: 1,
       traerMaterias: "",
       index: null,
@@ -263,8 +257,11 @@ export default {
     this.selectLanguage();
     this.loading = true;
     this.verificarLogueo();
-    this.traerMateriasUser();
-    this.traerGrupo();
+
+    setTimeout(() => {
+      this.traerMateriasUser();
+      this.traerGrupo();
+    }, 1000);
 
     let textarea = document.getElementById("textarea");
 
@@ -367,18 +364,11 @@ export default {
 
       axios
         .get(
-          Global.urlSitio +
-            "usuario/" +
-            this.usuario.username +
-            "/grupo",
+          Global.urlSitio + "usuario/" + this.usuario.username + "/grupo",
           config
         )
         .then((res) => {
           if (res.status == 200) {
-            if (!localStorage.getItem("idGrupo")) {
-              localStorage.setItem("idGrupo", res.data[0].idGrupo);
-            }
-
             this.traerPostarchivos();
           }
         });
@@ -456,7 +446,7 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
-              this.enviarPost();
+            this.enviarPost();
           },
           willClose: () => {
             clearInterval(5);
