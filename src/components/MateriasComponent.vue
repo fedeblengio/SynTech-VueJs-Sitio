@@ -12,7 +12,7 @@
       </div>
       <div class="card" v-for="clase in traerMaterias" :key="clase.id" v-else>
         <div class="card-header">{{ clase.idGrupo }} - {{ clase.Materia }}</div>
-        <div class="card-body">
+        <div class="card-body" style="padding-top:2rem">
           <h6>
             <i>{{language.profesor}}: {{ clase.Profesor }}</i>
           </h6>
