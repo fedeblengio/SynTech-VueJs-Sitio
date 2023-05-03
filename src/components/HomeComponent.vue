@@ -261,7 +261,7 @@ export default {
     setTimeout(() => {
       this.traerMateriasUser();
       this.traerGrupo();
-    }, 1000);
+    }, 100);
 
     let textarea = document.getElementById("textarea");
 
@@ -455,49 +455,7 @@ export default {
       }
     },
 
-    publicarNoticia() {
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: Global.token,
-        },
-      };
-      let formData = new FormData();
-      formData.append("idUsuario", this.usuario.username);
-      formData.append(
-        "titulo",
-        "Profesor " + this.usuario.nombre + this.language.usernamePublico
-      );
-      formData.append("mensaje", this.mensaje);
 
-      for (let archivo of this.file) {
-        formData.append("archivos[]", archivo);
-      }
-      for (let archivo of this.file) {
-        formData.append("nombresArchivo[]", archivo.name);
-      }
-
-      axios
-        .post(Global.urlSitio + "noticia", formData, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.$swal.fire({
-              icon: "success",
-              title: this.language.NoticiaPublicada,
-            });
-            setTimeout(() => {
-              location.reload();
-            }, "3000");
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: this.language.error,
-          });
-        });
-    },
     enviarPost() {
       let config = {
         headers: {
