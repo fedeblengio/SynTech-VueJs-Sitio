@@ -17,6 +17,7 @@
     </router-link>
     <div class="sidebarClass">
       <h3>{{ language.misGrupos }}</h3>
+
       <div class="sidebarElement" v-if="loading">
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
@@ -92,11 +93,11 @@
     </div>
     <div class="sidebarClass">
       <h3>{{ language.misClases }}</h3>
-   
+
       <div class="sidebarElement" v-if="loading">
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
-     
+
       <div
         class="sidebarElement"
         v-for="todo in traerMaterias"
@@ -182,10 +183,13 @@ export default {
           if (res.status == 200) {
             this.grupos = res.data;
             this.groupNames = this.getNotDuplicatedNames(res.data);
-            if(localStorage.getItem("idGrupo") == null){
-              this.selectedGroup = this.groupNames[0];
-            }else{
+            if (localStorage.getItem("idGrupo")) {
               this.selectedGroup = localStorage.getItem("idGrupo");
+              this.localStorageGroup = this.selectedGroup;
+            } else {
+              this.localStorageGroup = this.selectedGroup;
+              this.selectedGroup = this.groupNames[0];
+              localStorage.setItem("idGrupo", this.groupNames[0]);
             }
             this.traerMateriasUser(this.selectedGroup);
           }
@@ -231,13 +235,9 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             this.traerMaterias = res.data;
-            if (localStorage.getItem("idGrupo") == null) {
-              this.localStorageGroup = grupo;
-            } else {
-              this.localStorageGroup = localStorage.getItem("idGrupo");
-            }
+            console.log(localStorage.getItem("idGrupo") == null);
+            this.loading = false;
           }
-          this.loading = false;
         })
         .catch(() => {
           let timerInterval;

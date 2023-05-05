@@ -328,7 +328,6 @@ export default {
     };
   },
   mounted() {
-    this.traerIdForo();
     this.selectLanguage();
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
@@ -414,9 +413,8 @@ export default {
         },
       };
       axios
-       .get(
-          Global.urlSitio +
-          "usuario/"+this.usuario.username+"/grupo",
+        .get(
+          Global.urlSitio + "usuario/" + this.usuario.username + "/grupo",
           config
         )
         .then((res) => {
@@ -440,9 +438,11 @@ export default {
         },
       };
       axios
-       .get(
-        Global.urlSitio +
-            "grupo/"+localStorage.getItem("idGrupo") +"/materia",
+        .get(
+          Global.urlSitio +
+            "grupo/" +
+            localStorage.getItem("idGrupo") +
+            "/materia",
           config
         )
         .then((res) => {
@@ -479,10 +479,12 @@ export default {
             this.usuario.username +
             "&ou=" +
             this.usuario.ou +
+            "&limit=" +
+            this.limit +
             "&idMateria=" +
             this.$route.params.idMateria +
-            "&limit=" +
-            this.limit+"&idGrupo="+localStorage.getItem('idGrupo'),
+            "&idGrupo=" +
+            localStorage.getItem("idGrupo"),
           config
         )
         .then((res) => {
@@ -501,32 +503,6 @@ export default {
         });
     },
 
-    traerIdForo() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-       .get(
-          Global.urlSitio +
-            "foro/grupo/"+this.$route.params.idGrupo+"/materia/"+this.$route.params.idMateria,config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.foro = res.data;
-            this.idForo = res.data.idForo;
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: this.language.algoSalioMal,
-          });
-        });
-    },
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
@@ -602,7 +578,9 @@ export default {
       for (let archivo of this.file) {
         formData.append("nombresArchivo[]", archivo.name);
       }
-      formData.append("idForo", this.idForo);
+      formData.append("idGrupo", localStorage.getItem("idGrupo"));
+      formData.append("idMateria", this.$route.params.idMateria);
+      
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
 
@@ -665,7 +643,7 @@ export default {
         });
     },
     descargarPDF(label) {
-         let url = Global.urlSitio + "archivo/" + label;
+      let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {

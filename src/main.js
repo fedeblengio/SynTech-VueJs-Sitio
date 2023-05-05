@@ -14,29 +14,29 @@ import auth_teacher from './middleware/auth_teacher';
 import auth from './middleware/auth'; 
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-import ListadoTareasEntregadasComponent from './components/ListadoTareasEntregadasComponent.vue';
-import ErrorComponent from './components/ErrorComponent';
 import LoginComponent from './components/LoginComponent.vue';
 import HomeComponent from './components/HomeComponent.vue';
-import TareaSeleccionadaComponent from './components/TareaSeleccionadaComponent.vue';
-import ProfileComponent from './components/ProfileComponent.vue';
-import CalificarAlumnoComponent from './components/CalificarAlumnoComponent.vue';
-import ListadoTareasComponent from './components/ListadoTareasComponent.vue';
-import AgendaVirtualComponent from './components/AgendaVirtualComponent.vue';
-import CalendarioComponent from './components/CalendarioComponent.vue';
-import CambiarContraComponent from './components/CambiarContraComponent.vue'
-import MateriasComponent from './components/MateriasComponent.vue'
-import MateriasSeleccionadaComponent from './components/MateriaSeleccionadaComponent.vue'
-import VisualizarTareaComponent from './components/VisualizarTareaComponent.vue'
-import ListadoUsuariosComponent from './components/ListadoUsuariosComponent.vue'
-import PasajeDeListaComponent from './components/PasajeDeListaComponent.vue'
-import RegistroClasesComponent from './components/RegistroClasesComponent.vue'
-import VisitarPerfilComponent from './components/VisitarPerfilComponent.vue'
-import PDFComponent from './components/PDFComponent.vue'
-import ListadoCalificacionesComponent from './components/ListadoCalificacionesComponent.vue'
-import RegistroDeFaltasComponent from './components/RegistroDeFaltasComponent.vue'
-import GenerarPromedioComponent from './components/GenerarPromedioComponent.vue'
-import NoticiasComponent from './components/NoticiasComponent.vue'
+const ListadoTareasEntregadasComponent = () => import('./components/ListadoTareasEntregadasComponent.vue')
+const ErrorComponent = () => import('./components/ErrorComponent.vue')
+const TareaSeleccionadaComponent = () => import('./components/TareaSeleccionadaComponent.vue')
+const ProfileComponent = () => import('./components/ProfileComponent.vue')
+const CalificarAlumnoComponent = () => import('./components/CalificarAlumnoComponent.vue')
+const ListadoTareasComponent = () => import('./components/ListadoTareasComponent.vue')
+const AgendaVirtualComponent = () => import('./components/AgendaVirtualComponent.vue')
+const CalendarioComponent = () => import('./components/CalendarioComponent.vue')
+const CambiarContraComponent = () => import('./components/CambiarContraComponent.vue')
+const MateriasComponent = () => import('./components/MateriasComponent.vue')
+const MateriasSeleccionadaComponent = () => import('./components/MateriaSeleccionadaComponent.vue')
+const VisualizarTareaComponent = () => import('./components/VisualizarTareaComponent.vue')
+const ListadoUsuariosComponent = () => import('./components/ListadoUsuariosComponent.vue')
+const PasajeDeListaComponent = () => import('./components/PasajeDeListaComponent.vue')
+const RegistroClasesComponent = () => import('./components/RegistroClasesComponent.vue')
+const VisitarPerfilComponent = () => import('./components/VisitarPerfilComponent.vue')
+const PDFComponent = () => import('./components/PDFComponent.vue')
+const ListadoCalificacionesComponent = () => import('./components/ListadoCalificacionesComponent.vue')
+const RegistroDeFaltasComponent = () => import('./components/RegistroDeFaltasComponent.vue')
+const GenerarPromedioComponent = () => import('./components/GenerarPromedioComponent.vue')
+const NoticiasComponent = () => import('./components/NoticiasComponent.vue')
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);

@@ -261,7 +261,7 @@ export default {
     setTimeout(() => {
       this.traerMateriasUser();
       this.traerGrupo();
-    }, 100);
+    }, 1000);
 
     let textarea = document.getElementById("textarea");
 
