@@ -1065,15 +1065,9 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio +
-            "listar-alumnos?idGrupo=" +
-            this.$route.params.idGrupo +
-            "&idMateria=" +
-            this.$route.params.idMateria,
-          config
-        )
-        .then((res) => {
+       .get(
+        Global.urlSitio+"grupo/"+this.$route.params.idGrupo+"/materia/"+this.$route.params.idMateria+"/usuarios", config
+      ).then((res) => {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;
