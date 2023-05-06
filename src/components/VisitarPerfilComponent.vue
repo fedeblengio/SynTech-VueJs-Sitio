@@ -164,7 +164,7 @@ export default {
       axios
       .get(
           Global.urlSitio +
-          "usuario/"+this.usuario.username+"/grupo",
+          "usuario/"+this.usuarioPerfil.username+"/grupo",
           config
         )
         .then((res) => {

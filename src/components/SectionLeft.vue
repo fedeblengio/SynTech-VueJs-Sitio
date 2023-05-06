@@ -234,8 +234,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.traerMaterias = res.data;
-            console.log(localStorage.getItem("idGrupo") == null);
+            this.traerMaterias = res.data;            
             this.loading = false;
           }
         })
