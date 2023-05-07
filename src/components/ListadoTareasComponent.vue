@@ -475,6 +475,7 @@
                 data-toggle="modal"
                 data-target="#exampleModal"
               >
+
                 {{ language.ver }}
               </p>
             </div>
@@ -494,6 +495,7 @@
               <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.materia }}</h5>
             </div>
           </router-link>
+         
           <p
             :class="
               tiempoDeVencimiento(
@@ -764,7 +766,7 @@ export default {
       };
 
       axios
-        .get(Global.urlSitio + "tarea?idTarea=" + idTarea, config)
+        .get(Global.urlSitio + "tarea/" + idTarea, config)
         .then((res) => {
           if (res.status == 200) {
             this.tareaSeleccionada.idTarea = res.data.datos.idTarea;
@@ -805,16 +807,7 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "notas-alumno?idAlumnos=" +
-            idAlumno +
-            "&idGrupo=" +
-            this.routerValues.idGrupo +
-            "&idMateria=" +
-            this.routerValues.idMateria,
-          config
-        )
+      .get(Global.urlSitio+"grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/alumno/"+idAlumno+"/notas",config)
         .then((res) => {
           if (res.status == 200) {
             this.listadoHistorialTareas = res.data;

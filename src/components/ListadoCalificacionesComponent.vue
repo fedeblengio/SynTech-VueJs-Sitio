@@ -125,7 +125,7 @@ export default {
     };
   },
   mounted() {
-        if (this.usuario.ou == "Profesor") {
+    if (this.usuario.ou == "Profesor") {
       this.$router.push("/home");
     }
     this.selectLanguage();
@@ -155,9 +155,11 @@ export default {
         },
       };
       axios
-         .get(
-            Global.urlSitio +
-            "grupo/"+localStorage.getItem("idGrupo") +"/materia",
+        .get(
+          Global.urlSitio +
+            "grupo/" +
+            localStorage.getItem("idGrupo") +
+            "/materia",
           config
         )
         .then((res) => {
@@ -200,7 +202,7 @@ export default {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
     descargarPDF(label) {
-       let url = Global.urlSitio + "archivo/" + label;
+      let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {
@@ -249,8 +251,9 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "entregas-alumnos?idAlumnos=" +
-            this.usuario.username,
+            "tarea/alumno/" +
+            this.usuario.username +
+            "/entregas",
           config
         )
         .then((res) => {
