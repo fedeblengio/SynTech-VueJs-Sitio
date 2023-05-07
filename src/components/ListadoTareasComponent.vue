@@ -878,7 +878,7 @@ export default {
       };
 
       axios
-        .delete(Global.urlSitio + "tarea?idTareas=" + idTarea, config)
+        .delete(Global.urlSitio + "tarea/" + idTarea, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.tareaEliminada, "", "success");
@@ -999,17 +999,9 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "tareas?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&idMateria=" +
-            this.routerValues.idMateria+
-            "&idGrupo="+this.idGrupoStorage,
-          config
-        )
+       .get(
+        Global.urlSitio+ "grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/usuarios/"+this.usuario.username+"/tarea",config
+      )
         .then((res) => {
           if (res.status == 200) {
             this.listadoTareas = res.data;
@@ -1026,18 +1018,9 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "tareas?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&idMateria=" +
-            this.routerValues.idMateria +
-            "&idGrupo=" +
-            this.routerValues.idGrupo,
-          config
-        )
+      .get(
+        Global.urlSitio+ "grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/usuarios/"+this.usuario.username+"/tarea",config
+      )
         .then((res) => {
           if (res.status == 200) {
             if (this.$route.params.tareas_vencidas) {

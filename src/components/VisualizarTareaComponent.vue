@@ -304,7 +304,7 @@ export default {
       };
 
       axios
-        .get(Global.urlSitio + "tarea?idTarea=" + idTarea, config)
+        .get(Global.urlSitio + "tarea/" + idTarea, config)
         .then((res) => {
           if (res.status == 200) {
             this.tarea.idTarea = res.data.datos.idTarea;
