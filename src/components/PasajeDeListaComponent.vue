@@ -162,21 +162,18 @@ export default {
       };
 
       let lista = {
-        idClase: this.$route.params.idClase,
         presentes : this.presentes,
         ausentes : this.ausentes
       }
 
-
-    
       axios
-        .post(Global.urlSitio + "lista-clase", lista, config)
+        .post(Global.urlSitio + "agenda-clase/"+this.$route.params.idClase+"/asistencia", lista, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.listaPublicada, "", "success");
              this.$router.back();
           }
-          
+     
         })
         .catch(() => {
           this.$swal.fire({

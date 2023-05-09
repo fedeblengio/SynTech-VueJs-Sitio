@@ -175,9 +175,9 @@ export default {
           token: Global.token,
         },
       };
-
+  
       axios
-        .get(Global.urlSitio + "registro-clase?idClase=" + clase.id, config)
+        .get(Global.urlSitio + "agenda-clase/" + clase.id+"/registro", config)
         .then((res) => {
           if (res.status == 200) {
             if (res.data.length == 0) {

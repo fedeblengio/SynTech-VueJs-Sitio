@@ -221,15 +221,13 @@ export default {
         },
       };
       axios
-        .get(
+         .get(
           Global.urlSitio +
             "grupo/" +
             grupo +
             "/materia" +
             "?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou,
+            this.usuario.username,
           config
         )
         .then((res) => {
