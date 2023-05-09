@@ -317,17 +317,14 @@ export default {
           token: Global.token,
         },
       };
-
+    
       axios
         .get(
-          Global.urlSitio +
-            "registro-listas?idProfesor=" +
-            this.usuario.username,
+          Global.urlSitio +"agenda-clase/registro/profesor/"+this.usuario.username,
           config
         )
         .then((res) => {
           this.registroListas = res.data;
-
           this.loading = false;
         })
         .catch(() => {

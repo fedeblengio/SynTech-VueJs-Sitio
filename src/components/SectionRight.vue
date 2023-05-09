@@ -1,92 +1,8 @@
 <template>
   <div class="events">
     <div class="events_header">
-      <div
-        class="events_icon dropdown"
-        style="cursor: pointer"
-        v-if="tareasPendientes && usuario.ou == 'Alumno'"
-      >
-        <i class="far fa-bell dropbtn" style="color: red"></i>
-        <div
-          class="dropdown-content"
-          style="
-            text-decoration: none;
-            width: 120px !important;
-            cursor: pointer;
-            text-align: center;
-            margin: 0;
-            z-index:1000;
-          "
-        >
-          <span style="padding-top: 10px !important">
-            <router-link
-              style="
-                text-decoration: none;
-                font-size: 14px;
-                padding: 0px !important;
-              "
-              class="router-link"
-              :to="{
-                name: 'listado-tareas',
-                params: {
-                  materia: tarea.Materia,
-                  idGrupo: tarea.idGrupo,
-                  idMateria: tarea.idMateria,
-                  tareas_vencidas: false,
-                },
-              }"
-              v-for="tarea in materiasTareasPendientes"
-              :key="tarea.id"
-            >
-              <p>{{ tarea.Materia }}</p>
-            </router-link>
-          </span>
-        </div>
-      </div>
-
-              <div
-        class="events_icon dropdown"
-        style="cursor: pointer"
-        v-else-if="tareasPendientes && usuario.ou == 'Profesor'"
-      >
-        <i class="far fa-bell dropbtn" style="color: red"></i>
-        <div
-          class="dropdown-content"
-          style="
-            text-decoration: none;
-            width: 120px !important;
-            cursor: pointer;
-            text-align: center;
-            margin: 0;
-            z-index:1000;
-          "
-        >
-          <span style="padding-top: 10px !important">
-            <router-link
-              style="
-                text-decoration: none;
-                font-size: 14px;
-                padding: 0px !important;
-              "
-              class="router-link"
-            :to="{
-              name: 'entregas',
-              params: {
-                idGrupo: tarea.idGrupo,
-                idMateria: tarea.idMateria,
-                idTareas: tarea.idTarea,
-              },
-            }"
-              v-for="tarea in cargarTareas"
-              :key="tarea.id"
-            >
-
-              <p>{{ tarea.titulo }}</p>
-            </router-link>
-          </span>
-        </div>
-      </div>
-      <div class="events_icon dropdown" style="cursor: pointer" v-else>
+    
+      <div class="events_icon dropdown" style="cursor: pointer">
         <i class="far fa-bell-slash dropbtn"></i>
         <div
           class="dropdown-content"
@@ -255,13 +171,7 @@ export default {
     };
   },
   mounted() {
-    if (this.usuario.ou == "Profesor") {
-      this.traerMateriasUser();
-      this.profesor = true;
-      this.cargarTareasCorregir();
-    } else {
-      this.cargarTareasCreadas();
-    }
+  
     this.cargarEventos();
     this.selectLanguage();
   },
@@ -282,31 +192,7 @@ export default {
         this.language = language.en;
       }
     },
-    cargarTareasCorregir() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio +
-            "tareas-corregir?idProfesor=" +
-            this.usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.cargarTareas = res.data;
-
-            if (res.data.length === 0) {
-              this.tareasPendientes = false;
-            }
-           
-          }
-        });
-    },
+ 
     tareaMateriasArray() {
       let array = [];
       const map = new Map();
@@ -340,38 +226,7 @@ export default {
     },
 
     
-    cargarTareasCreadas() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-
-      axios
-        .get(
-          Global.urlSitio +
-            "tareas?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou+
-            "&idGrupo="+localStorage.getItem('idGrupo'),
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.cargarTareas = res.data;
-            this.loading = false;
-            if (
-              res.data.re_hacer.length === 0 &&
-              res.data.tareas.length === 0
-            ) {
-              this.tareasPendientes = false;
-            }
-            this.materiasTareasPendientes = this.tareaMateriasArray();
-          }
-        });
-    },
+  
     cerrarSesion() {
       localStorage.removeItem("auth_token");
       localStorage.removeItem("perfil_img");

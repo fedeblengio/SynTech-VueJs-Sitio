@@ -475,6 +475,7 @@
                 data-toggle="modal"
                 data-target="#exampleModal"
               >
+
                 {{ language.ver }}
               </p>
             </div>
@@ -494,6 +495,7 @@
               <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.materia }}</h5>
             </div>
           </router-link>
+         
           <p
             :class="
               tiempoDeVencimiento(
@@ -764,7 +766,7 @@ export default {
       };
 
       axios
-        .get(Global.urlSitio + "tarea?idTarea=" + idTarea, config)
+        .get(Global.urlSitio + "tarea/" + idTarea, config)
         .then((res) => {
           if (res.status == 200) {
             this.tareaSeleccionada.idTarea = res.data.datos.idTarea;
@@ -805,16 +807,7 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "notas-alumno?idAlumnos=" +
-            idAlumno +
-            "&idGrupo=" +
-            this.routerValues.idGrupo +
-            "&idMateria=" +
-            this.routerValues.idMateria,
-          config
-        )
+      .get(Global.urlSitio+"grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/alumno/"+idAlumno+"/notas",config)
         .then((res) => {
           if (res.status == 200) {
             this.listadoHistorialTareas = res.data;
@@ -878,7 +871,7 @@ export default {
       };
 
       axios
-        .delete(Global.urlSitio + "tarea?idTareas=" + idTarea, config)
+        .delete(Global.urlSitio + "tarea/" + idTarea, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.tareaEliminada, "", "success");
@@ -999,17 +992,9 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "tareas?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&idMateria=" +
-            this.routerValues.idMateria+
-            "&idGrupo="+this.idGrupoStorage,
-          config
-        )
+       .get(
+        Global.urlSitio+ "grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/usuarios/"+this.usuario.username+"/tarea",config
+      )
         .then((res) => {
           if (res.status == 200) {
             this.listadoTareas = res.data;
@@ -1026,18 +1011,9 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "tareas?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&idMateria=" +
-            this.routerValues.idMateria +
-            "&idGrupo=" +
-            this.routerValues.idGrupo,
-          config
-        )
+      .get(
+        Global.urlSitio+ "grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/usuarios/"+this.usuario.username+"/tarea",config
+      )
         .then((res) => {
           if (res.status == 200) {
             if (this.$route.params.tareas_vencidas) {
@@ -1065,15 +1041,9 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio +
-            "listar-alumnos?idGrupo=" +
-            this.$route.params.idGrupo +
-            "&idMateria=" +
-            this.$route.params.idMateria,
-          config
-        )
-        .then((res) => {
+       .get(
+        Global.urlSitio+"grupo/"+this.$route.params.idGrupo+"/materia/"+this.$route.params.idMateria+"/usuarios", config
+      ).then((res) => {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;

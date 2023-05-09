@@ -212,10 +212,11 @@ export default {
           token: Global.token,
         },
       };
+      
 
       axios
         .get(
-          Global.urlSitio + "tarea?idTarea=" + this.$route.params.idTarea,
+          Global.urlSitio + "tarea/" + this.$route.params.idTarea,
           config
         )
         .then((res) => {
@@ -309,8 +310,7 @@ export default {
 
       let formData = new FormData();
 
-      formData.append("idTareas", this.tarea.idTarea);
-      formData.append("idAlumnos", this.usuario.username);
+   
       formData.append("mensaje", this.entregarTarea.mensaje);
 
       if (this.$route.params.re_hacer) {
@@ -326,7 +326,7 @@ export default {
       }
 
       axios
-        .post(Global.urlSitio + "entregas-alumno", formData, config)
+        .post(Global.urlSitio + "tarea/"+this.tarea.idTarea+"/alumno/"+this.usuario.username+"/entrega", formData, config)
         .then((response) => {
           if (response.status == 200) {
           

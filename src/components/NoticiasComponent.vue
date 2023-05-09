@@ -36,7 +36,6 @@
         <div class="form">
           <div class="boxText_input">
             <img :src="returnImgB64()" />
-
             <textarea
               id="textarea"
               :placeholder="language.escribeAlgo"
@@ -232,6 +231,7 @@ import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import language from "../assets/lang/dashboard.json";
+
 window.$ = JQuery;
 export default {
   name: "ProfileComponent",
@@ -312,6 +312,8 @@ export default {
               icon: "success",
               title: this.language.NoticiaPublicada,
             });
+            this.mensaje = "";
+            this.file = [];
             this.cargarNoticias();
           }
         })
@@ -367,16 +369,15 @@ export default {
       return "data:image/png;base64," + img;
     },
     borrarNoticia(noticia) {
+         let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
       axios
-        .delete(Global.urlSitio + "noticia", {
-          headers: {
-            "Content-Type": "application/json",
-            token: Global.token,
-          },
-          data: {
-            id: noticia.id,
-          },
-        })
+        .delete(Global.urlSitio + "noticia/"+noticia.id,config
+        )
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire({
@@ -397,8 +398,14 @@ export default {
         });
     },
     cargarNoticias() {
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
       axios
-        .get(Global.urlSitio + "noticia?idUsuario=" + this.usuario.username)
+        .get(Global.urlSitio + "noticia?idUsuario=" + this.usuario.username,config)
         .then((res) => {
           if (res.status == 200) {
             this.todasNoticias = res.data;

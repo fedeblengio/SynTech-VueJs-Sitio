@@ -194,8 +194,6 @@ export default {
         re_hacer = 1;
       }
       let data = {
-        idAlumnos: this.$route.params.idAlumnos,
-        idTareas: this.$route.params.idTareas,
         calificacion: this.calificar.nota,
         mensaje: this.calificar.mensaje,
         re_hacer: re_hacer,
@@ -209,7 +207,7 @@ export default {
 
       if (!this.camposVacios) {
         axios
-          .put(Global.urlSitio + "entregas-correccion", data, config)
+          .put(Global.urlSitio+"tarea/"+this.$route.params.idTareas+"/alumno/"+this.$route.params.idAlumnos+"/correccion",data,config)
           .then((res) => {
             if (res.status == 200) {
               this.$swal.fire(this.language.tareaCalificada, "", "success");
@@ -268,16 +266,13 @@ export default {
           token: Global.token,
         },
       };
-
-      axios
-        .get(
-          Global.urlSitio +
-            "entregas-alumno?idAlumnos=" +
-            this.$route.params.idAlumnos +
-            "&idTareas=" +
-            this.$route.params.idTareas,
-          config
-        )
+      
+      let url = Global.urlSitio + "tarea/" + this.$route.params.idTareas+ "/alumno/"+this.$route.params.idAlumnos+"/entrega";
+      if(this.$route.params.re_entrega){
+        url = Global.urlSitio + "tarea/" + this.$route.params.idTareas+ "/alumno/"+this.$route.params.idAlumnos+"/re-entrega";
+      }
+      axios 
+        .get(url,config)
         .then((res) => {
           if (res.status == 200) {
             this.prueba = res.data[0].data.mensaje;
