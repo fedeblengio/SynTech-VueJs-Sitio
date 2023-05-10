@@ -146,7 +146,7 @@ export default {
       axios
          .get(
           Global.urlSitio +
-            "grupo/"+localStorage.getItem("idGrupo") +"/materia",
+            "grupo/"+localStorage.getItem("idGrupo") +"/materia?idUsuario="+this.usuario.username,
           config
         )
         .then((res) => {

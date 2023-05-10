@@ -442,7 +442,8 @@ export default {
           Global.urlSitio +
             "grupo/" +
             localStorage.getItem("idGrupo") +
-            "/materia",
+            "/materia?idUsuario=" +
+            this.usuario.username,
           config
         )
         .then((res) => {
@@ -580,7 +581,7 @@ export default {
       }
       formData.append("idGrupo", localStorage.getItem("idGrupo"));
       formData.append("idMateria", this.$route.params.idMateria);
-      
+
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
 

@@ -1,8 +1,11 @@
 <template>
   <div class="events">
     <div class="events_header">
-    
-      <div class="events_icon dropdown" style="cursor: pointer">
+      <div
+        class="events_icon dropdown"
+        style="cursor: pointer"
+        v-if="notificaciones.length == 0"
+      >
         <i class="far fa-bell-slash dropbtn"></i>
         <div
           class="dropdown-content"
@@ -24,6 +27,32 @@
               "
             >
               {{ language.sinNotificaciones }}
+            </p>
+          </span>
+        </div>
+      </div>
+      <div class="events_icon dropdown" style="cursor: pointer" v-else>
+        <i class="far fa-bell dropbtn"></i>
+        <div
+          class="dropdown-content"
+          style="
+            text-decoration: none;
+            width: 240px !important;
+            cursor: pointer;
+            text-align: center;
+            margin: 0;
+          "
+        >
+          <span id="campana" style="padding: 0px !important">
+            <p
+              style="text-decoration: none; font-size: 14px; color: black"
+              v-for="notificacion in notificaciones"
+              :key="notificacion.id"
+              @click="marcarComoLeida(notificacion.id)"
+            >
+              <router-link :to="notificacion.data.deeplink" class="router-link">
+                {{ parsearNotificacion(notificacion) }}
+              </router-link>
             </p>
           </span>
         </div>
@@ -107,7 +136,6 @@
 
     <div class="calendarioElement">
       <v-date-picker
-    
         show-weeknumbers="right-outside"
         mode="date"
         :locale="language.calendario"
@@ -160,22 +188,74 @@ export default {
       loading: true,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       eventos: "",
-      cargarTareas: "",
-      tareasPendientes: true,
+
       profesor: false,
       aux: 1,
       date: new Date(),
       lang: localStorage.getItem("lang"),
       language: "",
-      materiasTareasPendientes: "",
+
+      notificaciones: "",
     };
   },
   mounted() {
-  
+    this.cargarNotificaciones();
     this.cargarEventos();
     this.selectLanguage();
   },
   methods: {
+    marcarComoLeida(notificacionId) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .put(Global.urlSitio + "notificacion/" + notificacionId, [], config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.cargarNotificaciones();
+          }
+        });
+    },
+    parsearNotificacion(noti) {
+      let notificacion = noti.data;
+      if (notificacion.tipo == "tarea") {
+        return (
+          this.language.nuevaTarea +
+          " " +
+          notificacion.nombreMateria +
+          " - " +
+          notificacion.grupo
+        );
+      }
+      if(notificacion.tipo == "entrega"){
+        return this.language.nuevaEntrega;
+      }
+        if(notificacion.tipo == "re-entrega"){
+        return this.language.nuevaReEntrega;
+      }
+    },
+    cargarNotificaciones() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio + "notificacion/usuario/" + this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.notificaciones = res.data;
+          }
+          this.loading = false;
+        });
+    },
     changeLanguage() {
       if (this.lang == "es") {
         localStorage.setItem("lang", "en");
@@ -192,24 +272,7 @@ export default {
         this.language = language.en;
       }
     },
- 
-    tareaMateriasArray() {
-      let array = [];
-      const map = new Map();
-      this.cargarTareas.tareas.forEach(function (tarea) {
-        if (!map.has(tarea.Materia)) {
-          map.set(tarea.Materia, "tarea");
-          array.push(tarea);
-        }
-      });
-      this.cargarTareas.re_hacer.forEach(function (tarea) {
-        if (!map.has(tarea.Materia)) {
-          map.set(tarea.Materia, "tarea");
-          array.push(tarea);
-        }
-      });
-      return array;
-    },
+
     evento(event) {
       return (
         event.idGrupo +
@@ -225,8 +288,6 @@ export default {
       location.reload();
     },
 
-    
-  
     cerrarSesion() {
       localStorage.removeItem("auth_token");
       localStorage.removeItem("perfil_img");
@@ -235,27 +296,6 @@ export default {
       location.reload();
     },
 
-     traerMateriasUser() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-         Global.urlSitio +
-            "grupo/"+localStorage.getItem("idGrupo") +"/materia",
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.traerMaterias = res.data;
-          }
-          this.loading = false;
-        })
-        
-    },
     cargarEventos() {
       let config = {
         headers: {
@@ -265,9 +305,7 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio +
-            "evento/usuario/" +
-            this.usuario.username,
+          Global.urlSitio + "evento/usuario/" + this.usuario.username,
           config
         )
         .then((res) => {

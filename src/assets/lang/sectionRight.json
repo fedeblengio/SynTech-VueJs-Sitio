@@ -6,7 +6,10 @@
         "eventosHoy": "Mis Eventos (Hoy)",
         "calendario": "es",
         "ingles": "ING",
-        "espaniol": "ESP"
+        "espaniol": "ESP",
+        "nuevaTarea": "Nueva tarea creada",
+        "nuevaReEntrega": "Nuevo re-entrega creada",
+        "nuevaEntrega": "Nueva entrega creada"
     },
     "en": {
         "sinNotificaciones": "No notifications",
@@ -15,6 +18,9 @@
         "miPerfil": "My Profile",
         "calendario": "en",
         "ingles": "ENG",
-        "espaniol": "SP"
+        "espaniol": "SP",
+        "nuevaTarea": "New task at",
+        "nuevaReEntrega": "New re-delivery at",
+        "nuevaEntrega": "New delivery at"
     }
 }
