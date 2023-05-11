@@ -628,7 +628,7 @@ export default {
       };
 
       axios
-        .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
+        .delete(Global.urlSitio + "foro/" + idPublicacion, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.publicacionEliminada, "", "success");
