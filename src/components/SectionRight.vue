@@ -1,6 +1,7 @@
 <template>
   <div class="events">
     <div class="events_header">
+     
       <div
         class="events_icon dropdown"
         style="cursor: pointer"
@@ -231,10 +232,20 @@ export default {
         );
       }
       if(notificacion.tipo == "entrega"){
-        return this.language.nuevaEntrega;
+        return  notificacion.alumno+" "+this.language.nuevaEntrega;
       }
         if(notificacion.tipo == "re-entrega"){
-        return this.language.nuevaReEntrega;
+        return notificacion.alumno+" "+this.language.nuevaReEntrega;
+      }
+
+      if(notificacion.tipo== "correccion"){
+        if(notificacion.re_entrega){
+          return this.language.soliciudReEntrega+" "+notificacion.materia;
+        }
+        return this.language.nuevaCorreccion;
+      }
+      if(notificacion.tipo== "re-correccion"){
+        return this.language.nuevaReCorreccion;
       }
     },
     cargarNotificaciones() {

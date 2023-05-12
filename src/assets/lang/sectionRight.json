@@ -8,8 +8,11 @@
         "ingles": "ING",
         "espaniol": "ESP",
         "nuevaTarea": "Nueva tarea creada",
-        "nuevaReEntrega": "Nuevo re-entrega creada",
-        "nuevaEntrega": "Nueva entrega creada"
+        "nuevaReEntrega": "re-entrego una tarea",
+        "nuevaEntrega": "entrego una tarea",
+        "nuevaReCorreccion": "Nueva re-corrección creada",
+        "nuevaCorreccion": "Nueva corrección creada",
+        "soliciudReEntrega": "Solicitud de re-entrega"
     },
     "en": {
         "sinNotificaciones": "No notifications",
@@ -20,7 +23,11 @@
         "ingles": "ENG",
         "espaniol": "SP",
         "nuevaTarea": "New task at",
-        "nuevaReEntrega": "New re-delivery at",
-        "nuevaEntrega": "New delivery at"
+        "nuevaReEntrega": "re-delivery a task",
+        "nuevaEntrega": "delivery a task",
+        "nuevaReCorreccion": "A new re-correction was register",
+        "nuevaCorreccion": "A new correction was register",
+        "soliciudReEntrega": "Re-delivery request"
+        
     }
 }
