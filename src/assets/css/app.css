@@ -1363,6 +1363,6 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .trashTarea {
-    display: flex;
-    flex-direction: row-reverse;
+    position: absolute;
+    right: 10px;
 }

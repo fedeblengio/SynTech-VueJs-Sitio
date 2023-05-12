@@ -5,7 +5,7 @@
     <div class="feed">
       <div class="feed_header">
         <h2>{{ this.$route.params.materia }}</h2>
-       
+
         <button
           class="boxText_btn"
           style="background-color: grey"
@@ -28,7 +28,6 @@
         >
           {{ language.crearTarea }}
         </button>
-        
       </div>
       <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
@@ -475,7 +474,6 @@
                 data-toggle="modal"
                 data-target="#exampleModal"
               >
-
                 {{ language.ver }}
               </p>
             </div>
@@ -495,7 +493,7 @@
               <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.materia }}</h5>
             </div>
           </router-link>
-         
+
           <p
             :class="
               tiempoDeVencimiento(
@@ -700,7 +698,7 @@ export default {
       camposVacios: false,
       lang: localStorage.getItem("lang"),
       language: "",
-      idGrupoStorage:localStorage.getItem('idGrupo'),
+      idGrupoStorage: localStorage.getItem("idGrupo"),
     };
   },
   mounted() {
@@ -807,7 +805,17 @@ export default {
       };
 
       axios
-      .get(Global.urlSitio+"grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/alumno/"+idAlumno+"/notas",config)
+        .get(
+          Global.urlSitio +
+            "grupo/" +
+            this.routerValues.idGrupo +
+            "/materia/" +
+            this.routerValues.idMateria +
+            "/alumno/" +
+            idAlumno +
+            "/notas",
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.listadoHistorialTareas = res.data;
@@ -818,7 +826,7 @@ export default {
         });
     },
     descargarPDF(label) {
-        let url = Global.urlSitio + "archivo/" + label;
+      let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {
@@ -856,7 +864,6 @@ export default {
           denyButtonText: this.language.cancelar,
         })
         .then((result) => {
-        
           if (result.isConfirmed) {
             this.borrarTarea(idTarea);
           }
@@ -992,9 +999,17 @@ export default {
       };
 
       axios
-       .get(
-        Global.urlSitio+ "grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/usuarios/"+this.usuario.username+"/tarea",config
-      )
+        .get(
+          Global.urlSitio +
+            "grupo/" +
+            this.routerValues.idGrupo +
+            "/materia/" +
+            this.routerValues.idMateria +
+            "/usuarios/" +
+            this.usuario.username +
+            "/tarea",
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.listadoTareas = res.data;
@@ -1011,9 +1026,17 @@ export default {
       };
 
       axios
-      .get(
-        Global.urlSitio+ "grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/usuarios/"+this.usuario.username+"/tarea",config
-      )
+        .get(
+          Global.urlSitio +
+            "grupo/" +
+            this.routerValues.idGrupo +
+            "/materia/" +
+            this.routerValues.idMateria +
+            "/usuarios/" +
+            this.usuario.username +
+            "/tarea",
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             if (this.$route.params.tareas_vencidas) {
@@ -1041,9 +1064,16 @@ export default {
         },
       };
       axios
-       .get(
-        Global.urlSitio+"grupo/"+this.$route.params.idGrupo+"/materia/"+this.$route.params.idMateria+"/usuarios", config
-      ).then((res) => {
+        .get(
+          Global.urlSitio +
+            "grupo/" +
+            this.$route.params.idGrupo +
+            "/materia/" +
+            this.$route.params.idMateria +
+            "/usuarios",
+          config
+        )
+        .then((res) => {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;
