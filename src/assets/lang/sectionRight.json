@@ -6,7 +6,13 @@
         "eventosHoy": "Mis Eventos (Hoy)",
         "calendario": "es",
         "ingles": "ING",
-        "espaniol": "ESP"
+        "espaniol": "ESP",
+        "nuevaTarea": "Nueva tarea creada",
+        "nuevaReEntrega": "re-entrego una tarea",
+        "nuevaEntrega": "entrego una tarea",
+        "nuevaReCorreccion": "Nueva re-corrección creada",
+        "nuevaCorreccion": "Nueva corrección creada",
+        "soliciudReEntrega": "Solicitud de re-entrega"
     },
     "en": {
         "sinNotificaciones": "No notifications",
@@ -15,6 +21,13 @@
         "miPerfil": "My Profile",
         "calendario": "en",
         "ingles": "ENG",
-        "espaniol": "SP"
+        "espaniol": "SP",
+        "nuevaTarea": "New task at",
+        "nuevaReEntrega": "re-delivery a task",
+        "nuevaEntrega": "delivery a task",
+        "nuevaReCorreccion": "A new re-correction was register",
+        "nuevaCorreccion": "A new correction was register",
+        "soliciudReEntrega": "Re-delivery request"
+        
     }
 }

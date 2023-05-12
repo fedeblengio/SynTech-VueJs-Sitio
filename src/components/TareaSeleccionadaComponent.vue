@@ -181,6 +181,15 @@ export default {
     };
   },
   methods: {
+       delateFile(nombre) {
+      let i;
+
+      for (i = 0; i < this.entregarTarea.file.length; i++) {
+        if (this.entregarTarea.file[i].name === nombre) {
+          this.entregarTarea.file.splice(i, 1);
+        }
+      }
+    },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;

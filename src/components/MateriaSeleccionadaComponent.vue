@@ -442,7 +442,8 @@ export default {
           Global.urlSitio +
             "grupo/" +
             localStorage.getItem("idGrupo") +
-            "/materia",
+            "/materia?idUsuario=" +
+            this.usuario.username,
           config
         )
         .then((res) => {
@@ -580,7 +581,7 @@ export default {
       }
       formData.append("idGrupo", localStorage.getItem("idGrupo"));
       formData.append("idMateria", this.$route.params.idMateria);
-      
+
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
 
@@ -627,7 +628,7 @@ export default {
       };
 
       axios
-        .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
+        .delete(Global.urlSitio + "foro/" + idPublicacion, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.publicacionEliminada, "", "success");
