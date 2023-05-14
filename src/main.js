@@ -16,6 +16,8 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 import LoginComponent from './components/LoginComponent.vue';
 import HomeComponent from './components/HomeComponent.vue';
+import PDFComponent from './components/PDFComponent.vue';
+
 const ListadoTareasEntregadasComponent = () => import('./components/ListadoTareasEntregadasComponent.vue')
 const ErrorComponent = () => import('./components/ErrorComponent.vue')
 const TareaSeleccionadaComponent = () => import('./components/TareaSeleccionadaComponent.vue')
@@ -32,7 +34,7 @@ const ListadoUsuariosComponent = () => import('./components/ListadoUsuariosCompo
 const PasajeDeListaComponent = () => import('./components/PasajeDeListaComponent.vue')
 const RegistroClasesComponent = () => import('./components/RegistroClasesComponent.vue')
 const VisitarPerfilComponent = () => import('./components/VisitarPerfilComponent.vue')
-const PDFComponent = () => import('./components/PDFComponent.vue')
+
 const ListadoCalificacionesComponent = () => import('./components/ListadoCalificacionesComponent.vue')
 const RegistroDeFaltasComponent = () => import('./components/RegistroDeFaltasComponent.vue')
 const GenerarPromedioComponent = () => import('./components/GenerarPromedioComponent.vue')
