@@ -69,7 +69,7 @@
               <input
                 type="text"
                 class="form-control"
-                :value="nombreGrupo"
+                :value="parseNombreGrupo(usuario.grupos)"
                 disabled
               />
             </div>
@@ -272,14 +272,29 @@ export default {
   },
   mounted() {
     this.selectLanguage();
-    if (this.usuario.ou == "Profesor") {
-      this.profesor = true;
-      this.traerGrupoProfesor();
-    } else {
-      this.traerMateriasUser();
-    }
+    this.getUserInfo();
   },
   methods: {
+    parseNombreGrupo(grupos){
+      return grupos.join(",");
+    },
+    getUserInfo() {
+         let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.urlSitio + "usuario/" + this.usuario.username,config)
+        .then((response) => {
+          this.usuario = response.data;
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
@@ -508,70 +523,7 @@ export default {
       }
     },
 
-    traerGrupoProfesor() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-    .get(
-          Global.urlSitio +
-          "usuario/"+this.usuario.username+"/grupo",
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.traerMaterias = res.data;
-            this.nombreGrupo = res.data[0].nombreCompleto;
-            this.loading = false;
-          }
-
-          setTimeout(() => {
-            this.tipoDeUser();
-          }, 100);
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-              text: this.language.algoSalioMal,
-          });
-        });
-    },
-    traerMateriasUser() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-     .get(
-             Global.urlSitio +
-             "grupo/"+localStorage.getItem("idGrupo") +"/materia?idUsuario="+this.usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.traerMaterias = res.data;
-            this.nombreGrupo = res.data[0].nombreCompleto;
-            this.loading = false;
-          }
-
-          setTimeout(() => {
-            this.tipoDeUser();
-          }, 100);
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-              text: this.language.algoSalioMal,
-          });
-        });
-    },
+  
   },
 };
 </script>

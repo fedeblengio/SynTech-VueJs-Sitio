@@ -144,7 +144,7 @@ export default {
       changeGroup: false,
       grupos: "",
       groupNames: [],
-      localStorageGroup: "",
+      localStorageGroup: localStorage.getItem("idGrupo"),
     };
   },
   mounted() {
@@ -185,10 +185,10 @@ export default {
             this.groupNames = this.getNotDuplicatedNames(res.data);
             if (localStorage.getItem("idGrupo")) {
               this.selectedGroup = localStorage.getItem("idGrupo");
-              this.localStorageGroup = this.selectedGroup;
+              this.localStorageGroup = localStorage.getItem("idGrupo");
             } else {
-              this.localStorageGroup = this.selectedGroup;
               this.selectedGroup = this.groupNames[0];
+              this.localStorageGroup = this.groupNames[0];
               localStorage.setItem("idGrupo", this.groupNames[0]);
             }
             this.traerMateriasUser(this.selectedGroup);
@@ -221,7 +221,7 @@ export default {
         },
       };
       axios
-         .get(
+        .get(
           Global.urlSitio +
             "grupo/" +
             grupo +
@@ -232,7 +232,7 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.traerMaterias = res.data;            
+            this.traerMaterias = res.data;
             this.loading = false;
           }
         })
