@@ -36,7 +36,9 @@
         "publicacionEliminada": "Publicacion eliminada",
         "NoticiaPublicada": "Noticia publicada",
         "error": "Algo salio mal",
-        "usernamePublico": " publico noticia desde sitio"
+        "usernamePublico": " publico noticia desde sitio",
+        "cargarMisNoticias":"Cargar mis noticias",
+        "cargarTodasNoticias":"Cargar todas las noticias"
     },
     "en": {
         "title": "Main page",
@@ -74,7 +76,9 @@
         "publicacionEliminada": "Publication removed",
         "NoticiaPublicada": "New published successfull",
         "error": "Something went wrong",
-        "usernamePublico": " publish news from site  "
+        "usernamePublico": " publish news from site  ",
+        "cargarMisNoticias": "Load my news",
+        "cargarTodasNoticias": "Load all news"
     }
 
   

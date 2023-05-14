@@ -101,8 +101,8 @@
         </div>
       </div>
       <div class="w-auto" v-if="usuario.ou == 'Profesor'">
-          <button v-if="!misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarMisNoticias()" type="button" class="btn btn-outline-primary">Cargar mis noticias</button>
-            <button v-if="misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarAllNoticias()" type="button" class="btn btn-outline-primary">Cargar todas las noticias</button>
+          <button v-if="!misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarMisNoticias()" type="button" class="btn btn-outline-primary">{{language.cargarMisNoticias}}</button>
+            <button v-if="misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarAllNoticias()" type="button" class="btn btn-outline-primary">{{language.cargarTodasNoticias}}</button>
         </div>
       <div style="display: flex; justify-content: center">
        
