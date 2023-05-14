@@ -1,32 +1,23 @@
 <template>
   <div class="events">
     <div class="events_header">
-     
-      <div
-        class="events_icon dropdown"
-        style="cursor: pointer"
-        v-if="notificaciones.length == 0"
-      >
+
+      <div class="events_icon dropdown" style="cursor: pointer" v-if="notificaciones.length == 0">
         <i class="far fa-bell-slash dropbtn"></i>
-        <div
-          class="dropdown-content"
-          style="
-            text-decoration: none;
-            width: 130px !important;
-            cursor: pointer;
-            text-align: center;
-            margin: 0;
-          "
-        >
-          <span id="campana" style="padding: 0px !important">
-            <p
-              style="
+        <div class="dropdown-content" style="
                 text-decoration: none;
-                font-size: 14px;
-                padding: 0px !important;
-                color: black;
-              "
-            >
+                width: 130px !important;
+                cursor: pointer;
+                text-align: center;
+                margin: 0;
+              ">
+          <span id="campana" style="padding: 0px !important">
+            <p style="
+                    text-decoration: none;
+                    font-size: 14px;
+                    padding: 0px !important;
+                    color: black;
+                  ">
               {{ language.sinNotificaciones }}
             </p>
           </span>
@@ -34,62 +25,45 @@
       </div>
       <div class="events_icon dropdown" style="cursor: pointer" v-else>
         <i class="far fa-bell dropbtn"></i>
-        <div
-          class="dropdown-content"
-          style="
-            text-decoration: none;
-            width: 240px !important;
-            cursor: pointer;
-            text-align: center;
-            margin: 0;
-          "
-        >
-          <span id="campana" style="padding: 0px !important">
-            <p
-              style="text-decoration: none; font-size: 14px; color: black"
-              v-for="notificacion in notificaciones"
-              :key="notificacion.id"
-              @click="marcarComoLeida(notificacion.id)"
-            >
+        <div class="dropdown-content" style="
+                text-decoration: none;
+                width: 240px !important;
+                cursor: pointer;
+                padding: 5px;
+                text-align: center;
+                margin: 0;
+                z-index: 2;
+                border-radius: 5px;
+              ">
+          <span id="campana" style="padding: 0px !important;margin: 0;">
+            <span v-for="notificacion in notificaciones" class="notification-site elipsis" :key="notificacion.id"
+              @click="marcarComoLeida(notificacion.id)" :title="parsearNotificacion(notificacion)">
               <router-link :to="notificacion.data.deeplink" class="router-link">
                 {{ parsearNotificacion(notificacion) }}
               </router-link>
-            </p>
+            </span>
           </span>
         </div>
       </div>
 
-      <div
-        class="events_icon dropdown"
-        style="cursor: pointer"
-        @click="mostrarNoticacion('configuracion')"
-      >
+      <div class="events_icon dropdown" style="cursor: pointer" @click="mostrarNoticacion('configuracion')">
         <i class="fal fa-cog dropbtn"></i>
         <div class="dropdown-content" style="cursor: pointer">
           <span>
-            <router-link
-              :to="{
-                name: 'profile',
-                params: {
-                  idUsuario: usuario.username,
-                },
-              }"
-              style="text-decoration: none; font-size: 14px; padding: 5px"
-              class="router-link"
-            >
-              {{ language.miPerfil }}</router-link
-            >
+            <router-link :to="{
+              name: 'profile',
+              params: {
+                idUsuario: usuario.username,
+              },
+            }" style="text-decoration: none; font-size: 14px; padding: 5px" class="router-link">
+              {{ language.miPerfil }}</router-link>
           </span>
           <span>
-            <router-link
-              to="/cambioPwd"
-              style="
-                text-decoration: none !important;
-                font-size: 14px;
-                padding: 5px;
-              "
-              class="router-link"
-            >
+            <router-link to="/cambioPwd" style="
+                    text-decoration: none !important;
+                    font-size: 14px;
+                    padding: 5px;
+                  " class="router-link">
               {{ language.cambiarContra }}
             </router-link>
           </span>
@@ -99,29 +73,19 @@
       <div class="events_icon dropdown" style="cursor: pointer">
         <i class="fal fa-globe dropbtn"></i>
 
-        <div
-          class="dropdown-content"
-          style="cursor: pointer; width: 55px !important"
-          v-if="lang == 'es'"
-        >
+        <div class="dropdown-content" style="cursor: pointer; width: 55px !important" v-if="lang == 'es'">
           <p class="iconBar active">
             <span><country-flag country="es" size="normal" /> </span>
           </p>
           <p class="iconBar">
-            <span v-on:click="changeLanguage()"
-              ><country-flag country="gb" size="normal" />
+            <span v-on:click="changeLanguage()"><country-flag country="gb" size="normal" />
             </span>
           </p>
         </div>
 
-        <div
-          class="dropdown-content"
-          style="cursor: pointer; width: 55px !important"
-          v-else
-        >
+        <div class="dropdown-content" style="cursor: pointer; width: 55px !important" v-else>
           <p class="iconBar">
-            <span v-on:click="changeLanguage()"
-              ><country-flag country="es" size="normal" />
+            <span v-on:click="changeLanguage()"><country-flag country="es" size="normal" />
             </span>
           </p>
           <p class="iconBar active">
@@ -136,14 +100,8 @@
     </div>
 
     <div class="calendarioElement">
-      <v-date-picker
-        show-weeknumbers="right-outside"
-        mode="date"
-        :locale="language.calendario"
-        v-model="date"
-        :valid-hours="{ min: 4, max: 17 }"
-        is24hr
-      />
+      <v-date-picker show-weeknumbers="right-outside" mode="date" :locale="language.calendario" v-model="date"
+        :valid-hours="{ min: 4, max: 17 }" is24hr />
     </div>
 
     <div class="currentEvent">
@@ -154,12 +112,7 @@
             <span class="sidebarDot_event"></span> . . .
           </span>
         </div>
-        <div
-          class="sidebarElement"
-          v-for="todo in eventos"
-          :key="todo.id"
-          v-else
-        >
+        <div class="sidebarElement" v-for="todo in eventos" :key="todo.id" v-else>
           <router-link to="/calendario" class="router-link">
             <span class="clases">
               <span class="sidebarDot_event"></span> {{ evento(todo) }}
@@ -231,20 +184,20 @@ export default {
           notificacion.grupo
         );
       }
-      if(notificacion.tipo == "entrega"){
-        return  notificacion.alumno+" "+this.language.nuevaEntrega;
+      if (notificacion.tipo == "entrega") {
+        return notificacion.alumno + " " + this.language.nuevaEntrega;
       }
-        if(notificacion.tipo == "re-entrega"){
-        return notificacion.alumno+" "+this.language.nuevaReEntrega;
+      if (notificacion.tipo == "re-entrega") {
+        return notificacion.alumno + " " + this.language.nuevaReEntrega;
       }
 
-      if(notificacion.tipo== "correccion"){
-        if(notificacion.re_entrega){
-          return this.language.soliciudReEntrega+" "+notificacion.materia;
+      if (notificacion.tipo == "correccion") {
+        if (notificacion.re_entrega) {
+          return this.language.soliciudReEntrega + " " + notificacion.materia;
         }
         return this.language.nuevaCorreccion;
       }
-      if(notificacion.tipo== "re-correccion"){
+      if (notificacion.tipo == "re-correccion") {
         return this.language.nuevaReCorreccion;
       }
     },
@@ -364,6 +317,7 @@ export default {
 .active {
   background-color: rgb(121, 172, 249);
 }
+
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;
