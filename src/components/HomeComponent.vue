@@ -259,7 +259,6 @@ export default {
     this.verificarLogueo();
 
     setTimeout(() => {
-      this.traerMateriasUser();
       this.traerGrupo();
     }, 1000);
 
@@ -317,7 +316,7 @@ export default {
       });
     },
 
-    traerMateriasUser() {
+    traerMateriasUser(grupo) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -328,7 +327,7 @@ export default {
         .get(
           Global.urlSitio +
             "grupo/" +
-            localStorage.getItem("idGrupo") +
+            grupo +
             "/materia" +
             "?idUsuario=" +
             this.usuario.username +
@@ -369,11 +368,18 @@ export default {
         )
         .then((res) => {
           if (res.status == 200) {
-            this.traerPostarchivos();
+            let grupo = "";
+            if (localStorage.getItem("idGrupo") == null) {
+              grupo = res.data[0].idGrupo;
+            } else {
+              grupo = localStorage.getItem("idGrupo");
+            }
+            this.traerPostarchivos(grupo);
+            this.traerMateriasUser(grupo);
           }
         });
     },
-    traerPostarchivos() {
+    traerPostarchivos(grupo) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -391,7 +397,7 @@ export default {
             "&limit=" +
             this.limit +
             "&idGrupo=" +
-            localStorage.getItem("idGrupo"),
+            grupo,
           config
         )
         .then((res) => {
@@ -454,7 +460,6 @@ export default {
         });
       }
     },
-
 
     enviarPost() {
       let config = {
