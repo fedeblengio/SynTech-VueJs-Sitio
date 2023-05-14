@@ -18,7 +18,7 @@
         <div
         class="alert alert-danger alert-dismissible fade show"
         role="alert"
-        v-if="camposVacios"
+        v-if="camposVacios && usuario.ou == 'Profesor'"
       >
         {{ language.inputVacio1 }}
         <button
@@ -32,7 +32,7 @@
         </button>
       </div>
 
-    <div class="boxText">
+    <div class="boxText" v-if="usuario.ou == 'Profesor'">
         <div class="form">
           <div class="boxText_input">
             <img :src="returnImgB64()" />
@@ -100,8 +100,12 @@
           </div>
         </div>
       </div>
-
+      <div class="w-auto" v-if="usuario.ou == 'Profesor'">
+          <button v-if="!misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarMisNoticias()" type="button" class="btn btn-outline-primary">Cargar mis noticias</button>
+            <button v-if="misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarAllNoticias()" type="button" class="btn btn-outline-primary">Cargar todas las noticias</button>
+        </div>
       <div style="display: flex; justify-content: center">
+       
         <div>
           <div style="max-height: 850px; overflow-y: auto">
             <div class="contenedor_principal_noticias">
@@ -149,6 +153,7 @@
                             <div style="display: flex; flex-direction: row">
                               <p>{{ noticia.data.titulo }}</p>
                               <i
+                                v-if="noticia.data.idUsuario == usuario.username"
                                 class="fas fa-times"
                                 style="
                                   margin-left: auto;
@@ -255,14 +260,12 @@ export default {
       camposVacios: false,
        file: [],
       mensaje: "",
+      misNoticias:false,
     };
   },
   mounted() {
-    if (this.usuario.ou != "Profesor") {
-      this.$router.push("home");
-    }
     this.selectLanguage();
-    this.cargarNoticias();
+    this.cargarAllNoticias();
   },
   methods: {
        comprobarCamposVacios(input1) {
@@ -314,7 +317,7 @@ export default {
             });
             this.mensaje = "";
             this.file = [];
-            this.cargarNoticias();
+            this.cargarAllNoticias();
           }
         })
         .catch(() => {
@@ -386,7 +389,7 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             });
-            this.cargarNoticias();
+            this.cargarMisNoticias();
           }
         })
         .catch(() => {
@@ -397,7 +400,27 @@ export default {
           });
         });
     },
-    cargarNoticias() {
+    cargarAllNoticias(){
+      this.loading=true;
+       this.misNoticias = false; 
+       let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.urlSitio + "noticia",config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.todasNoticias = res.data;
+            this.loading = false;
+          }
+        });
+    },
+    cargarMisNoticias() {
+      this.misNoticias= true;
+      this.loading=true;
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",

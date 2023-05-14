@@ -58,7 +58,7 @@ const routes = [
     { path: '/home', name: 'home', component: HomeComponent , meta: { middleware: auth}},
     { path: '/profile/:idUsuario', name: 'profile', component: ProfileComponent , meta: { middleware: auth} },
     { path: '/visitar-perfil/:idUsuario', name: 'visitar-perfil', component: VisitarPerfilComponent , meta: { middleware: auth}},
-    { path: '/noticias', name: 'listado-noticias', component: NoticiasComponent , meta: { middleware: auth_teacher} },
+    { path: '/noticias', name: 'listado-noticias', component: NoticiasComponent , meta: { middleware: auth} },
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria', name: 'listado-tareas', component: ListadoTareasComponent , meta: { middleware: auth} },
     { path: '/listado-tareas/:idGrupo/:materia/:idMateria/:tareas_vencidas', name: 'listado-tareas-vencidas', component: ListadoTareasComponent , meta: { middleware: auth} },
     { path: '/tarea/:materia/:idTarea/:re_hacer', name: 'tarea-seleccionada', component: TareaSeleccionadaComponent , meta: { middleware: auth} },

@@ -84,7 +84,7 @@
           <h2>{{ language.calendario }}</h2>
         </router-link>
       </div>
-      <div class="sidebarOption" v-if="usuario.ou == 'Profesor'">
+      <div class="sidebarOption">
         <i class="fas fa-newspaper"></i>
         <router-link to="/noticias" class="router-link">
           <h2>{{ language.noticias }}</h2>
