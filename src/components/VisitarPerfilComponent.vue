@@ -54,7 +54,7 @@
               <input
                 type="text"
                 class="form-control"
-                :value="nombreGrupo"
+                :value="parseNombreGrupo(usuarioPerfil.grupos)"
                 disabled
               />
             </div>
@@ -120,6 +120,10 @@ export default {
     this.cargarInfoUser();
   },
   methods: {
+        parseNombreGrupo(grupos){
+      return grupos.join(",");
+    },
+    
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
