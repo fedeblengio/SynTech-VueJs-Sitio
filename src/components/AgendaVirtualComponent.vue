@@ -343,7 +343,7 @@ export default {
         axios
           .post(Global.urlSitio + "agenda-clase", data, config)
           .then((res) => {
-            if (res.status == 200) {
+            if (res.status == 201) {
               location.reload();
               this.$swal.fire({
                 icon: "success",
