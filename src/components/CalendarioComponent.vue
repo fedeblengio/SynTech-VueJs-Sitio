@@ -177,7 +177,7 @@ export default {
       };
   
       axios
-        .get(Global.urlSitio + "agenda-clase/" + clase.id+"/registro", config)
+        .get(Global.urlSitio + "agenda-clase/" + clase.id+"/asistencia", config)
         .then((res) => {
           if (res.status == 200) {
             if (res.data.length == 0) {

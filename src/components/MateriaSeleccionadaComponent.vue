@@ -382,29 +382,6 @@ export default {
         }
       }
     },
-
-    traerPost() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(Global.urlSitio + "foro?id=" + this.usuario.username, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.grupoProfesor = res.data;
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: this.language.algoSalioMal,
-          });
-        });
-    },
     traerGrupoProfesor() {
       let config = {
         headers: {
@@ -474,21 +451,8 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio +
-            "foro?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&limit=" +
-            this.limit +
-            "&idMateria=" +
-            this.$route.params.idMateria +
-            "&idGrupo=" +
-            localStorage.getItem("idGrupo"),
-          config
-        )
-        .then((res) => {
+       .get(Global.urlSitio+"foro/grupo/"+localStorage.getItem("idGrupo")+"/usuario/"+this.usuario.username+"/materia/"+this.$route.params.idMateria+"/"+this.limit,config)
+       .then((res) => {
           if (res.status == 200) {
             this.traerArchivos = res.data;
           }

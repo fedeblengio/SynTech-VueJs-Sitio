@@ -388,18 +388,7 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "foro?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&limit=" +
-            this.limit +
-            "&idGrupo=" +
-            grupo,
-          config
-        )
+      .get(Global.urlSitio+"foro/grupo/"+grupo+"/usuario/"+this.usuario.username+"/"+this.limit,config)
         .then((res) => {
           if (res.status == 200) {
             this.traerArchivos = res.data;
