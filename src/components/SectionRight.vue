@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <div class="events_icon dropdown" style="cursor: pointer" @click="mostrarNoticacion('configuracion')">
+      <div class="events_icon dropdown" style="cursor: pointer">
         <i class="fal fa-cog dropbtn"></i>
         <div class="dropdown-content" style="cursor: pointer">
           <span>
