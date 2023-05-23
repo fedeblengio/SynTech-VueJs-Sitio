@@ -238,11 +238,10 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-import JQuery from "jquery";
+import $ from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import language from "../assets/lang/profile.json";
-window.$ = JQuery;
 export default {
   name: "ProfileComponent",
   components: {
@@ -350,10 +349,10 @@ export default {
           }
         });
     },
-    actualizarJSON(newToken) {
-      localStorage.setItem("auth_token", newToken);
-      this.usuario = JSON.parse(window.atob(newToken));
-      Global.token = newToken;
+    actualizarJSON(data) {
+      localStorage.setItem("auth_token", data.token);
+      this.usuario = data.user;
+      Global.token = data.token;
     },
     modificarE(usuario) {
       let config = {
@@ -371,7 +370,7 @@ export default {
           .put(Global.urlSitio + "usuario/"+usuario.username, data, config)
           .then((response) => {
             if (response.status == 200) {
-              this.actualizarJSON(response.data.token);
+              this.actualizarJSON(response.data);
               this.$swal.fire({
                 icon: "success",
                 title: this.language.perfilActualizado,
@@ -409,7 +408,7 @@ export default {
           .put(Global.urlSitio + "usuario/"+usuario.username, data, config)
           .then((response) => {
             if (response.status == 200) {
-              this.actualizarJSON(response.data.token);
+              this.actualizarJSON(response.data);
               this.$swal.fire({
                 icon: "success",
                 title: this.language.perfilActualizado,
@@ -448,7 +447,7 @@ export default {
          .put(Global.urlSitio + "usuario/"+usuario.username, data, config)
           .then((response) => {
             if (response.status == 200) {
-              this.actualizarJSON(response.data.token);
+              this.actualizarJSON(response.data);
               this.$swal.fire({
                 icon: "success",
                 title: this.language.perfilActualizado,

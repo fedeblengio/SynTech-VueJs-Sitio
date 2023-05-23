@@ -12,7 +12,7 @@
     >
       <div class="sidebarUser">
         <img :src="returnImgB64()" />
-        <p>{{ usuario.nombre }}</p>
+        <p id="nameUser">{{ usuario.nombre }}</p>
       </div>
     </router-link>
     <div class="sidebarClass">
