@@ -25,6 +25,7 @@
       </div>
       <div class="events_icon dropdown" style="cursor: pointer" v-else>
         <i class="far fa-bell dropbtn"></i>
+        <div class="punto-rojo"></div>
         <div class="dropdown-content" style="
                   text-decoration: none;
                   width: 240px !important;

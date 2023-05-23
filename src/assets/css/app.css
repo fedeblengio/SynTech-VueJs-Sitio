@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100&display=swap');
-
 * {
     margin: 0;
     padding: 0;
@@ -1373,11 +1372,20 @@ input[type="number"]::-webkit-inner-spin-button {
     border-bottom: 1px solid var(--background);
     width: 230px;
     text-align: left;
-
 }
 
 .elipsis {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.punto-rojo {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    right: -2px;
 }
