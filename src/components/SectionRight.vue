@@ -5,19 +5,19 @@
       <div class="events_icon dropdown" style="cursor: pointer" v-if="notificaciones.length == 0">
         <i class="far fa-bell-slash dropbtn"></i>
         <div class="dropdown-content" style="
-                text-decoration: none;
-                width: 130px !important;
-                cursor: pointer;
-                text-align: center;
-                margin: 0;
-              ">
+                  text-decoration: none;
+                  width: 130px !important;
+                  cursor: pointer;
+                  text-align: center;
+                  margin: 0;
+                ">
           <span id="campana" style="padding: 0px !important">
             <p style="
-                    text-decoration: none;
-                    font-size: 14px;
-                    padding: 0px !important;
-                    color: black;
-                  ">
+                      text-decoration: none;
+                      font-size: 14px;
+                      padding: 0px !important;
+                      color: black;
+                    ">
               {{ language.sinNotificaciones }}
             </p>
           </span>
@@ -26,15 +26,15 @@
       <div class="events_icon dropdown" style="cursor: pointer" v-else>
         <i class="far fa-bell dropbtn"></i>
         <div class="dropdown-content" style="
-                text-decoration: none;
-                width: 240px !important;
-                cursor: pointer;
-                padding: 5px;
-                text-align: center;
-                margin: 0;
-                z-index: 2;
-                border-radius: 5px;
-              ">
+                  text-decoration: none;
+                  width: 240px !important;
+                  cursor: pointer;
+                  padding: 5px;
+                  text-align: center;
+                  margin: 0;
+                  z-index: 2;
+                  border-radius: 5px;
+                ">
           <span id="campana" style="padding: 0px !important;margin: 0;">
             <span v-for="notificacion in notificaciones" class="notification-site elipsis" :key="notificacion.id"
               @click="marcarComoLeida(notificacion.id)" :title="parsearNotificacion(notificacion)">
@@ -60,10 +60,10 @@
           </span>
           <span>
             <router-link to="/cambioPwd" style="
-                    text-decoration: none !important;
-                    font-size: 14px;
-                    padding: 5px;
-                  " class="router-link">
+                      text-decoration: none !important;
+                      font-size: 14px;
+                      padding: 5px;
+                    " class="router-link">
               {{ language.cambiarContra }}
             </router-link>
           </span>
@@ -258,6 +258,21 @@ export default {
       localStorage.removeItem("logged");
       localStorage.removeItem("idGrupo");
       location.reload();
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .post(
+          Global.urlSitio + "logout",
+          config
+        )
+        .then(() => {
+          console.log("Sesion cerrada");
+  
+        })
     },
 
     cargarEventos() {
@@ -277,6 +292,9 @@ export default {
             this.eventos = res.data;
           }
           this.loading = false;
+        })
+        .catch(() => {
+          this.cerrarSesion();
         });
     },
   },

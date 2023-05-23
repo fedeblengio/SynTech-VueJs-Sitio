@@ -193,7 +193,7 @@ export default {
             }
             this.traerMateriasUser(this.selectedGroup);
           }
-        });
+        })
     },
 
     getNotDuplicatedNames(groups) {
