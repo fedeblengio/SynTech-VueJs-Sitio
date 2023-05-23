@@ -43,11 +43,11 @@
         <div class="contenedorPerfil">
           <h5>{{ language.tipoDeUsuario }}:</h5>
           <div class="tipoDeUser">
-            <div class="contenidoUser" id="profesor">
+            <div class="contenidoUser" id="profesor" :class="{ 'background-profile-active': this.usuario.ou == 'Profesor' }">
               <h4>{{ language.profesor }}</h4>
               <i class="fal fa-chalkboard-teacher"></i>
             </div>
-            <div class="contenidoUser" id="alumno">
+            <div class="contenidoUser" id="alumno" :class="{'background-profile-active': this.usuario.ou == 'Alumno' }">
               <h4>{{ language.alumno }}</h4>
               <i class="fal fa-users-class"></i>
             </div>
