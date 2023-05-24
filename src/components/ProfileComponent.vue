@@ -43,11 +43,11 @@
         <div class="contenedorPerfil">
           <h5>{{ language.tipoDeUsuario }}:</h5>
           <div class="tipoDeUser">
-            <div class="contenidoUser" id="profesor">
+            <div class="contenidoUser" id="profesor" :class="{ 'background-profile-active': this.usuario.ou == 'Profesor' }">
               <h4>{{ language.profesor }}</h4>
               <i class="fal fa-chalkboard-teacher"></i>
             </div>
-            <div class="contenidoUser" id="alumno">
+            <div class="contenidoUser" id="alumno" :class="{'background-profile-active': this.usuario.ou == 'Alumno' }">
               <h4>{{ language.alumno }}</h4>
               <i class="fal fa-users-class"></i>
             </div>
@@ -69,7 +69,7 @@
               <input
                 type="text"
                 class="form-control"
-                :value="nombreGrupo"
+                :value="parseNombreGrupo(usuario.grupos)"
                 disabled
               />
             </div>
@@ -238,11 +238,9 @@
 import vueHeadful from "vue-headful";
 import { Global } from "../Global";
 import axios from "axios";
-import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import language from "../assets/lang/profile.json";
-window.$ = JQuery;
 export default {
   name: "ProfileComponent",
   components: {
@@ -272,15 +270,29 @@ export default {
   },
   mounted() {
     this.selectLanguage();
-    if (this.usuario.ou == "Profesor") {
-      this.profesor = true;
-      
-      this.traerGrupoProfesor();
-    } else {
-      this.traerMateriasUser();
-    }
+    this.getUserInfo();
   },
   methods: {
+    parseNombreGrupo(grupos){
+      return grupos.join(",");
+    },
+    getUserInfo() {
+         let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.urlSitio + "usuario/" + this.usuario.username,config)
+        .then((response) => {
+          this.usuario = response.data;
+          this.loading = false;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
@@ -326,7 +338,7 @@ export default {
 
       axios
         .get(
-          Global.urlSitio + "imagen-perfil?username=" + this.usuario.username,
+          Global.urlSitio + "imagen-perfil/"+ this.usuario.username,
           config
         )
         .then((res) => {
@@ -336,10 +348,10 @@ export default {
           }
         });
     },
-    actualizarJSON(newToken) {
-      localStorage.setItem("auth_token", newToken);
-      this.usuario = JSON.parse(window.atob(newToken));
-      Global.token = newToken;
+    actualizarJSON(data) {
+      localStorage.setItem("auth_token", data.token);
+      this.usuario = data.user;
+      Global.token = data.token;
     },
     modificarE(usuario) {
       let config = {
@@ -350,17 +362,14 @@ export default {
       };
 
       let data = {
-        username: usuario.username,
-        genero: "",
-        nuevoNombre: "",
-        nuevoEmail: this.newEmail,
+        email: this.newEmail,
       };
       if (!this.comprobarInputVacio(this.newEmail, this.language.email)) {
         axios
-          .put(Global.urlSitio + "usuario-db", data, config)
+          .put(Global.urlSitio + "usuario/"+usuario.username, data, config)
           .then((response) => {
             if (response.status == 200) {
-              this.actualizarJSON(response.data.token);
+              this.actualizarJSON(response.data);
               this.$swal.fire({
                 icon: "success",
                 title: this.language.perfilActualizado,
@@ -391,17 +400,14 @@ export default {
       };
 
       let data = {
-        username: usuario.username,
-        genero: "",
-        nuevoEmail: "",
-        nuevoNombre: this.newName,
+        nombre: this.newName,
       };
       if (!this.comprobarInputVacio(this.newName, this.language.nombreCompleto)) {
         axios
-          .put(Global.urlSitio + "usuario-db", data, config)
+          .put(Global.urlSitio + "usuario/"+usuario.username, data, config)
           .then((response) => {
             if (response.status == 200) {
-              this.actualizarJSON(response.data.token);
+              this.actualizarJSON(response.data);
               this.$swal.fire({
                 icon: "success",
                 title: this.language.perfilActualizado,
@@ -433,17 +439,14 @@ export default {
       };
 
       let data = {
-        username: usuario.username,
         genero: this.newGenero,
-        nuevoEmail: "",
-        nuevoNombre: "",
       };
       if (!this.comprobarInputVacio(this.newGenero,this.language.genero)) {
         axios
-          .put(Global.urlSitio + "usuario-db", data, config)
+         .put(Global.urlSitio + "usuario/"+usuario.username, data, config)
           .then((response) => {
             if (response.status == 200) {
-              this.actualizarJSON(response.data.token);
+              this.actualizarJSON(response.data);
               this.$swal.fire({
                 icon: "success",
                 title: this.language.perfilActualizado,
@@ -518,72 +521,7 @@ export default {
       }
     },
 
-    traerGrupoProfesor() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.$route.params.idUsuario,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.traerMaterias = res.data;
-            this.nombreGrupo = res.data[0].nombreCompleto;
-            this.loading = false;
-          }
-
-          setTimeout(() => {
-            this.tipoDeUser();
-          }, 100);
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-              text: this.language.algoSalioMal,
-          });
-        });
-    },
-    traerMateriasUser() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-     .get(
-          Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.traerMaterias = res.data;
-            this.nombreGrupo = res.data[0].nombreCompleto;
-            this.loading = false;
-          }
-
-          setTimeout(() => {
-            this.tipoDeUser();
-          }, 100);
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-              text: this.language.algoSalioMal,
-          });
-        });
-    },
+  
   },
 };
 </script>

@@ -42,12 +42,7 @@
           </div>
           <div class="addArchivos">
             <div class="select_materia">
-              <select
-                v-on:change="traerIdForo()"
-                class="form-control"
-                v-model="selectedGroup"
-                required
-              >
+              <select class="form-control" v-model="selectedGroup" required>
                 <option value="" disabled selected hidden>
                   {{ language.seleccioneGrupo }}
                 </option>
@@ -83,17 +78,7 @@
               <div
                 class="form-check form-switch"
                 v-if="usuario.ou == 'Profesor'"
-              >
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="flexSwitchCheckDefault"
-                  v-model="publico"
-                />
-                <label class="form-check-label" for="flexSwitchCheckDefault">
-                  {{ language.publico }}</label
-                >
-              </div>
+              ></div>
               <div class="image-upload">
                 <label for="file-input">
                   <i class="fas fa-upload"></i>
@@ -254,7 +239,7 @@ export default {
       file: [],
       traerArchivos: "",
       mensaje: "",
-      foro: "",
+
       value: 1,
       traerMaterias: "",
       index: null,
@@ -265,18 +250,17 @@ export default {
       language: "",
       cargandoMasPublicaciones: false,
       publico: false,
-      grupoTemporaly:""    
-      };
+      grupoTemporaly: "",
+    };
   },
   mounted() {
     this.selectLanguage();
     this.loading = true;
     this.verificarLogueo();
- 
-      this.traerMateriasUser();
-    
 
-    this.traerGrupo()
+    setTimeout(() => {
+      this.traerGrupo();
+    }, 1000);
 
     let textarea = document.getElementById("textarea");
 
@@ -319,7 +303,6 @@ export default {
 
         if (this.usuario.ou == "Profesor") {
           this.profesor = true;
-         
         }
       }
     },
@@ -332,8 +315,8 @@ export default {
         confirmButtonText: false,
       });
     },
-    
-    traerMateriasUser() {
+
+    traerMateriasUser(grupo) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -341,10 +324,15 @@ export default {
         },
       };
       axios
-       .get(
+        .get(
           Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo")+"&idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+            "grupo/" +
+            grupo +
+            "/materia" +
+            "?idUsuario=" +
+            this.usuario.username +
+            "&ou=" +
+            this.usuario.ou,
           config
         )
         .then((res) => {
@@ -352,8 +340,6 @@ export default {
             this.traerMaterias = res.data;
           }
         });
-
-        
     },
     cargarImg(imagen) {
       let arrayImg = [];
@@ -365,54 +351,44 @@ export default {
     cargarMasPost() {
       this.cargandoMasPublicaciones = true;
       this.limit += 5;
-      
-      
+      this.traerPostarchivos();
     },
-      traerGrupo() {
+    traerGrupo() {
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-    
+
       axios
         .get(
-          Global.urlSitio + "traerGrupos?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+          Global.urlSitio + "usuario/" + this.usuario.username + "/grupo",
           config
         )
         .then((res) => {
-           
           if (res.status == 200) {
-            if(!localStorage.getItem("idGrupo")){
-              localStorage.setItem('idGrupo',res.data[0].idGrupo)
+            let grupo = "";
+            if (localStorage.getItem("idGrupo") == null) {
+              grupo = res.data[0].idGrupo;
+            } else {
+              grupo = localStorage.getItem("idGrupo");
             }
-            
-            this.traerPostarchivos()
-          
+            this.traerPostarchivos(grupo);
+            this.traerMateriasUser(grupo);
           }
-
         });
     },
-    traerPostarchivos() {
+    traerPostarchivos(grupo) {
       let config = {
         headers: {
           "Content-Type": "application/json",
           token: Global.token,
         },
       };
-    
+
       axios
-        .get(
-          Global.urlSitio +
-            "foro?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&limit=" +
-            this.limit+"&idGrupo="+localStorage.getItem('idGrupo'),
-          config
-        )
+      .get(Global.urlSitio+"foro/grupo/"+grupo+"/usuario/"+this.usuario.username+"/"+this.limit,config)
         .then((res) => {
           if (res.status == 200) {
             this.traerArchivos = res.data;
@@ -422,28 +398,6 @@ export default {
         });
     },
 
-    traerIdForo() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio +
-            "foros?idMateria=" +
-            this.selectedGroup[1] +
-            "&idGrupo=" +
-            this.selectedGroup[0],
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.foro = res.data;
-          }
-        });
-    },
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
@@ -487,11 +441,7 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
-            if (this.publico) {
-              this.publicarNoticia();
-            } else {
-              this.enviarPost();
-            }
+            this.enviarPost();
           },
           willClose: () => {
             clearInterval(5);
@@ -500,49 +450,6 @@ export default {
       }
     },
 
-    publicarNoticia() {
-      let config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          token: Global.token,
-        },
-      };
-      let formData = new FormData();
-      formData.append("idUsuario", this.usuario.username);
-      formData.append(
-        "titulo",
-        "Profesor " + this.usuario.nombre + this.language.usernamePublico
-      );
-      formData.append("mensaje", this.mensaje);
-
-      for (let archivo of this.file) {
-        formData.append("archivos[]", archivo);
-      }
-      for (let archivo of this.file) {
-        formData.append("nombresArchivo[]", archivo.name);
-      }
-
-      axios
-        .post(Global.urlSitio + "noticia", formData, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.$swal.fire({
-              icon: "success",
-              title: this.language.NoticiaPublicada,
-            });
-            setTimeout(() => {
-              location.reload();
-            }, "3000");
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: this.language.error,
-          });
-        });
-    },
     enviarPost() {
       let config = {
         headers: {
@@ -552,8 +459,8 @@ export default {
       };
 
       let formData = new FormData();
-
-      formData.append("idForo", this.foro.idForo);
+      formData.append("idGrupo", this.selectedGroup[0]);
+      formData.append("idMateria", this.selectedGroup[1]);
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
       for (let archivo of this.file) {
@@ -602,11 +509,11 @@ export default {
       };
 
       axios
-        .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
+        .delete(Global.urlSitio + "foro/" + idPublicacion, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.publicacionEliminada, "", "success");
-            location.reload();
+            this.traerPostarchivos();
           }
         })
         .catch(() => {
@@ -619,7 +526,7 @@ export default {
     },
 
     descargarPDF(label) {
-      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+      let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {

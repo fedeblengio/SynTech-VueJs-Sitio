@@ -142,7 +142,7 @@ export default {
       };
 
       axios
-        .get(Global.urlSitio + "imagen-perfil?username=" + username, config)
+        .get(Global.urlSitio + "imagen-perfil/"+username, config)
         .then((res) => {
           if (res.status == 200) {
             let url_imagen = res.data;

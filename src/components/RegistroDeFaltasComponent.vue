@@ -42,20 +42,21 @@
       </div>
 
       <div v-else>
+        
         <div
           class="list-group-item-action item-registro"
           aria-current="true"
           v-for="materia in traerMaterias"
-          :key="materia.id"
+          :key="materia.idMateria"
           style="border-bottom: 1px solid var(--background)"
         >
           <div
             style="cursor: pointer"
             data-toggle="modal"
             data-target=".bd-example-modal-lg"
-            @click="traerFaltasTotales(materia.idGrupo, materia.idMateria)"
+            @click="traerFaltasTotales(materia.idMateria)"
           >
-            <h5>{{ materia.idGrupo }} {{ materia.Materia }}</h5>
+            <h5>{{ materia.Materia }}</h5>
           </div>
         </div>
         <!-- MODAL FALTAS GRUPO  -->
@@ -156,7 +157,7 @@ export default {
       this.$router.push("/home");
     }
     this.selectLanguage();
-    this.traerGrupoProfesor();
+    this.traerMateriasUser();
   },
   methods: {
     selectLanguage() {
@@ -172,7 +173,7 @@ export default {
         ? this.language.noHayFecha
         : moment(fecha.fecha_clase).format("DD/MM/YYYY HH:mm a");
     },
-    traerGrupoProfesor() {
+    traerMateriasUser() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -182,25 +183,22 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
+            "grupo/" +
+            localStorage.getItem('idGrupo') +
+            "/materia" +
+            "?idUsuario=" +
             this.usuario.username,
           config
         )
         .then((res) => {
           if (res.status == 200) {
-            this.traerMaterias = res.data;
+            this.traerMaterias = res.data;            
+            this.loading = false;
           }
-          this.loading = false;
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: this.language.algoSalioMal,
-          });
         });
     },
-    traerFaltasTotales(idGrupo, idMateria) {
+
+    traerFaltasTotales(idMateria) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -208,14 +206,7 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio +
-            "lista-clase?idGrupo=" +
-            idGrupo +
-            "&idMateria=" +
-            idMateria,
-          config
-        )
+      .get(Global.urlSitio+"grupo/"+localStorage.getItem('idGrupo')+"/materia/"+idMateria+"/registro-faltas",config)
         .then((res) => {
           if (res.status == 200) {
             this.tablaData = res.data;

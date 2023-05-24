@@ -137,15 +137,9 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio +
-            "listar-alumnos?idGrupo=" +
-            this.$route.params.idGrupo +
-            "&idMateria=" +
-            this.$route.params.idMateria,
-          config
-        )
-        .then((res) => {
+      .get(
+        Global.urlSitio+"grupo/"+this.$route.params.idGrupo+"/materia/"+this.$route.params.idMateria+"/usuarios", config
+      ).then((res) => {
           this.listadoUsuarios.Alumnos = res.data.Alumnos;
           this.listadoUsuarios.Profesor = res.data.Profesor;
           this.loading = false;
@@ -168,21 +162,18 @@ export default {
       };
 
       let lista = {
-        idClase: this.$route.params.idClase,
         presentes : this.presentes,
         ausentes : this.ausentes
       }
 
-
-    
       axios
-        .post(Global.urlSitio + "lista-clase", lista, config)
+        .post(Global.urlSitio + "agenda-clase/"+this.$route.params.idClase+"/asistencia", lista, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.listaPublicada, "", "success");
              this.$router.back();
           }
-          
+     
         })
         .catch(() => {
           this.$swal.fire({

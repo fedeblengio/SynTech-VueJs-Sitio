@@ -15,7 +15,97 @@
       <div class="feed_header linea_border_bottom">
         <h2 style="margin-bottom: 2rem">{{ language.noticias }}</h2>
       </div>
+        <div
+        class="alert alert-danger alert-dismissible fade show"
+        role="alert"
+        v-if="camposVacios && usuario.ou == 'Profesor'"
+      >
+        {{ language.inputVacio1 }}
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+          v-on:click="camposVacios = false"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+    <div class="boxText" v-if="usuario.ou == 'Profesor'">
+        <div class="form">
+          <div class="boxText_input">
+            <img :src="returnImgB64()" />
+            <textarea
+              id="textarea"
+              :placeholder="language.escribeAlgo"
+              required
+              v-model="mensaje"
+              maxlength="250"
+            ></textarea>
+            <span class="float-right mt-2 text-muted ml-3 mr-2">
+              {{ mensaje.length }} / 250</span
+            >
+          </div>
+       
+          <div
+            class="preview_contenedor"
+            v-for="file in file"
+            :key="file.id"
+            :value="file.name"
+          >
+            <i class="fal fa-file-alt file"></i>
+
+            <h3 class="preview">
+              {{ file.name }}
+            </h3>
+            <i
+              class="fas fa-times equis"
+              v-on:click="delateFile(file.name)"
+            ></i>
+          </div>
+          <div class="footer_post">
+            <div class="select_file">
+              <div
+                class="form-check form-switch"
+                v-if="usuario.ou == 'Profesor'"
+              >
+            
+              </div>
+              <div class="image-upload">
+                <label for="file-input">
+                  <i class="fas fa-upload"></i>
+                </label>
+
+                <input
+                  @change="getFile"
+                  id="file-input"
+                  type="file"
+                  accept=".jpg, .png, .jpeg,.pdf"
+                  v-on:onchange="previewFile(this)"
+                  style="display: none"
+                />
+              </div>
+            </div>
+            <button
+              class="boxText_btn"
+              style="background-color: grey"
+              v-if="loading"
+            >
+              {{ language.enviar }}
+            </button>
+            <button v-else class="boxText_btn" v-on:click="enviarArchivos()">
+              {{ language.enviar }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="w-auto" v-if="usuario.ou == 'Profesor'">
+          <button v-if="!misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarMisNoticias()" type="button" class="btn btn-outline-primary">{{language.cargarMisNoticias}}</button>
+            <button v-if="misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarAllNoticias()" type="button" class="btn btn-outline-primary">{{language.cargarTodasNoticias}}</button>
+        </div>
       <div style="display: flex; justify-content: center">
+       
         <div>
           <div style="max-height: 850px; overflow-y: auto">
             <div class="contenedor_principal_noticias">
@@ -63,6 +153,7 @@
                             <div style="display: flex; flex-direction: row">
                               <p>{{ noticia.data.titulo }}</p>
                               <i
+                                v-if="noticia.data.idUsuario == usuario.username"
                                 class="fas fa-times"
                                 style="
                                   margin-left: auto;
@@ -145,6 +236,7 @@ import JQuery from "jquery";
 import SectionLeft from "./SectionLeft.vue";
 import SectionRight from "./SectionRight.vue";
 import language from "../assets/lang/dashboard.json";
+
 window.$ = JQuery;
 export default {
   name: "ProfileComponent",
@@ -165,16 +257,101 @@ export default {
       language: "",
       todasNoticias: "",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
+      camposVacios: false,
+       file: [],
+      mensaje: "",
+      misNoticias:false,
     };
   },
   mounted() {
-    if (this.usuario.ou != "Profesor") {
-      this.$router.push("home");
-    }
     this.selectLanguage();
-    this.cargarNoticias();
+    this.cargarAllNoticias();
   },
   methods: {
+       comprobarCamposVacios(input1) {
+        return input1.length == 0;
+    },
+     getFile(event) {
+      let size = event.target.files[0].size;
+      let res = size * 0.000001;
+
+      if (this.file.length <= 2) {
+        if (res <= 50) {
+          this.file.push(event.target.files[0]);
+        } else {
+          this.$swal.fire(this.language.archivoMayor50, "", "info");
+        }
+      } else {
+        this.$swal.fire(this.language.maximo3Archivos, "", "info");
+      }
+    },
+       publicarNoticia() {
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
+      let formData = new FormData();
+      formData.append("idUsuario", this.usuario.username);
+      formData.append(
+        "titulo",
+        "Profesor " + this.usuario.nombre + this.language.usernamePublico
+      );
+      formData.append("mensaje", this.mensaje);
+
+      for (let archivo of this.file) {
+        formData.append("archivos[]", archivo);
+      }
+      for (let archivo of this.file) {
+        formData.append("nombresArchivo[]", archivo.name);
+      }
+
+      axios
+        .post(Global.urlSitio + "noticia", formData, config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.$swal.fire({
+              icon: "success",
+              title: this.language.NoticiaPublicada,
+            });
+            this.mensaje = "";
+            this.file = [];
+            this.cargarAllNoticias();
+          }
+        })
+        .catch(() => {
+          this.$swal.fire({
+            icon: "error",
+            title: "ERROR",
+            text: this.language.error,
+          });
+        });
+    },
+     returnImgB64() {
+      return "data:image/png;base64," + localStorage.getItem("perfil_img");
+    },
+       enviarArchivos() {
+      this.camposVacios = this.comprobarCamposVacios(
+        this.mensaje
+      );
+      if (!this.camposVacios) {
+        this.$swal.fire({
+          title: this.language.enviando,
+          html: this.language.enviandoTuPublicacion,
+          allowOutsideClick: false,
+          timerProgressBar: true,
+          allowEscapeKey: false,
+          didOpen: () => {
+            this.$swal.showLoading();
+              this.publicarNoticia();
+          },
+          willClose: () => {
+            clearInterval(5);
+          },
+        });
+      }
+    },
     comprobarOpcionEliminar(id) {
       this.$swal
         .fire({
@@ -195,16 +372,15 @@ export default {
       return "data:image/png;base64," + img;
     },
     borrarNoticia(noticia) {
+         let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
       axios
-        .delete(Global.urlSitio + "noticia", {
-          headers: {
-            "Content-Type": "application/json",
-            token: Global.token,
-          },
-          data: {
-            id: noticia.id,
-          },
-        })
+        .delete(Global.urlSitio + "noticia/"+noticia.id,config
+        )
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire({
@@ -213,7 +389,7 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             });
-            this.cargarNoticias();
+            this.cargarMisNoticias();
           }
         })
         .catch(() => {
@@ -224,9 +400,35 @@ export default {
           });
         });
     },
-    cargarNoticias() {
+    cargarAllNoticias(){
+      this.loading=true;
+       this.misNoticias = false; 
+       let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
       axios
-        .get(Global.urlSitio + "noticia?idUsuario=" + this.usuario.username)
+        .get(Global.urlSitio + "noticia",config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.todasNoticias = res.data;
+            this.loading = false;
+          }
+        });
+    },
+    cargarMisNoticias() {
+      this.misNoticias= true;
+      this.loading=true;
+      let config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(Global.urlSitio + "noticia?idUsuario=" + this.usuario.username,config)
         .then((res) => {
           if (res.status == 200) {
             this.todasNoticias = res.data;
@@ -241,7 +443,7 @@ export default {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
     descargarPDF(label) {
-      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+         let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {
@@ -260,6 +462,16 @@ export default {
           URL.revokeObjectURL(link.href);
         })
         .catch(console.error);
+    },
+
+     delateFile(nombre) {
+      let i;
+
+      for (i = 0; i < this.file.length; i++) {
+        if (this.file[i].name === nombre) {
+          this.file.splice(i, 1);
+        }
+      }
     },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {

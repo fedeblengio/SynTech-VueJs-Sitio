@@ -12,32 +12,44 @@
     >
       <div class="sidebarUser">
         <img :src="returnImgB64()" />
-        <p>{{ usuario.nombre }}</p>
+        <p id="nameUser">{{ usuario.nombre }}</p>
       </div>
     </router-link>
     <div class="sidebarClass">
       <h3>{{ language.misGrupos }}</h3>
+
       <div class="sidebarElement" v-if="loading">
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
       <div v-else>
-        <select
-          v-on:change="cambiarGrupo()"
-          class="form-control"
-          v-model="selectedGroup"
-          required
-        >
-          <option value="" disabled selected hidden>
-                {{ localStorageGroup}}
-                </option>
-          <option
-            v-for="todo in grupos"
-            :key="todo.ids"
-            v-bind:value="todo.idGrupo"
+        <span class="d-flex" v-if="!changeGroup">
+          <input
+            type="text"
+            class="form-control"
+            disabled
+            :value="localStorageGroup"
+          />
+          <i class="fas fa-pencil icon" @click="changeGroup = true"></i>
+        </span>
+        <span v-else class="d-flex">
+          <select
+            v-on:change="cambiarGrupo()"
+            class="form-control"
+            v-model="selectedGroup"
+            required
+            id="group-select"
           >
-            {{ todo.idGrupo }}
-          </option>
-        </select>
+            <option
+              v-for="todo in groupNames"
+              :key="todo.ids"
+              :id="todo"
+              v-bind:value="todo"
+            >
+              {{ todo }}
+            </option>
+          </select>
+          <i class="fas fa-times icon" @click="changeGroup = false"></i>
+        </span>
       </div>
     </div>
     <div class="contenedor-sidebar">
@@ -72,7 +84,7 @@
           <h2>{{ language.calendario }}</h2>
         </router-link>
       </div>
-      <div class="sidebarOption" v-if="usuario.ou == 'Profesor'">
+      <div class="sidebarOption">
         <i class="fas fa-newspaper"></i>
         <router-link to="/noticias" class="router-link">
           <h2>{{ language.noticias }}</h2>
@@ -81,9 +93,11 @@
     </div>
     <div class="sidebarClass">
       <h3>{{ language.misClases }}</h3>
+
       <div class="sidebarElement" v-if="loading">
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>
+
       <div
         class="sidebarElement"
         v-for="todo in traerMaterias"
@@ -102,7 +116,7 @@
           style="text-decoration: none"
         >
           <span class="clases">
-            <span class="sidebarDot"></span> {{ todo.idGrupo }} -
+            <span class="sidebarDot"></span>
             {{ todo.Materia }}</span
           ></router-link
         >
@@ -127,8 +141,10 @@ export default {
       language: "",
       spinner: Global.spinnerUrl,
       selectedGroup: "",
+      changeGroup: false,
       grupos: "",
-      localStorageGroup:''
+      groupNames: [],
+      localStorageGroup: localStorage.getItem("idGrupo"),
     };
   },
   mounted() {
@@ -136,8 +152,6 @@ export default {
     if (this.usuario.ou == "Profesor") {
       this.profesor = true;
     }
-     
-   
 
     this.selectLanguage();
   },
@@ -159,35 +173,47 @@ export default {
           token: Global.token,
         },
       };
-    
+
       axios
         .get(
-          Global.urlSitio + "traerGrupos?idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+          Global.urlSitio + "usuario/" + this.usuario.username + "/grupo",
           config
         )
         .then((res) => {
-           
           if (res.status == 200) {
             this.grupos = res.data;
-             this.traerMateriasUser();
-             if(!localStorage.getItem('idGrupo')){
-              localStorage.setItem("idGrupo", res.data[0].idGrupo);
-             }
-             
+            this.groupNames = this.getNotDuplicatedNames(res.data);
+            if (localStorage.getItem("idGrupo")) {
+              this.selectedGroup = localStorage.getItem("idGrupo");
+              this.localStorageGroup = localStorage.getItem("idGrupo");
+            } else {
+              this.selectedGroup = this.groupNames[0];
+              this.localStorageGroup = this.groupNames[0];
+              localStorage.setItem("idGrupo", this.groupNames[0]);
+            }
+            this.traerMateriasUser(this.selectedGroup);
           }
+        })
+    },
 
-        });
+    getNotDuplicatedNames(groups) {
+      let names = [];
+      for (let g of groups) {
+        if (!names.includes(g.idGrupo)) {
+          names.push(g.idGrupo);
+        }
+      }
+      return names;
     },
     cambiarGrupo() {
       localStorage.setItem("idGrupo", this.selectedGroup);
-      this.$router.push({ name: 'home' })
+      this.localStorageGroup = this.selectedGroup;
+      this.$router.push({ name: "home" });
+
       location.reload();
     },
 
-    
-    traerMateriasUser() {
-       
-       this.localStorageGroup= localStorage.getItem('idGrupo')
+    traerMateriasUser(grupo) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -197,15 +223,18 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            this.localStorageGroup+"&idUsuario="+this.usuario.username+"&ou="+this.usuario.ou,
+            "grupo/" +
+            grupo +
+            "/materia" +
+            "?idUsuario=" +
+            this.usuario.username,
           config
         )
         .then((res) => {
           if (res.status == 200) {
             this.traerMaterias = res.data;
+            this.loading = false;
           }
-          this.loading = false;
         })
         .catch(() => {
           let timerInterval;
@@ -231,3 +260,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.icon {
+  padding: 10px;
+}
+</style>

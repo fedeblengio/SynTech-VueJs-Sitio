@@ -1,149 +1,70 @@
 <template>
   <div class="events">
     <div class="events_header">
-      <div
-        class="events_icon dropdown"
-        style="cursor: pointer"
-        v-if="tareasPendientes && usuario.ou == 'Alumno'"
-      >
-        <i class="far fa-bell dropbtn" style="color: red"></i>
-        <div
-          class="dropdown-content"
-          style="
-            text-decoration: none;
-            width: 120px !important;
-            cursor: pointer;
-            text-align: center;
-            margin: 0;
-            z-index:1000;
-          "
-        >
-          <span style="padding-top: 10px !important">
-            <router-link
-              style="
-                text-decoration: none;
-                font-size: 14px;
-                padding: 0px !important;
-              "
-              class="router-link"
-              :to="{
-                name: 'listado-tareas',
-                params: {
-                  materia: tarea.Materia,
-                  idGrupo: tarea.idGrupo,
-                  idMateria: tarea.idMateria,
-                  tareas_vencidas: false,
-                },
-              }"
-              v-for="tarea in materiasTareasPendientes"
-              :key="tarea.id"
-            >
-              <p>{{ tarea.Materia }}</p>
-            </router-link>
-          </span>
-        </div>
-      </div>
 
-              <div
-        class="events_icon dropdown"
-        style="cursor: pointer"
-        v-else-if="tareasPendientes && usuario.ou == 'Profesor'"
-      >
-        <i class="far fa-bell dropbtn" style="color: red"></i>
-        <div
-          class="dropdown-content"
-          style="
-            text-decoration: none;
-            width: 120px !important;
-            cursor: pointer;
-            text-align: center;
-            margin: 0;
-            z-index:1000;
-          "
-        >
-          <span style="padding-top: 10px !important">
-            <router-link
-              style="
-                text-decoration: none;
-                font-size: 14px;
-                padding: 0px !important;
-              "
-              class="router-link"
-            :to="{
-              name: 'entregas',
-              params: {
-                idGrupo: tarea.idGrupo,
-                idMateria: tarea.idMateria,
-                idTareas: tarea.idTarea,
-              },
-            }"
-              v-for="tarea in cargarTareas"
-              :key="tarea.id"
-            >
-
-              <p>{{ tarea.titulo }}</p>
-            </router-link>
-          </span>
-        </div>
-      </div>
-      <div class="events_icon dropdown" style="cursor: pointer" v-else>
+      <div class="events_icon dropdown" style="cursor: pointer" v-if="notificaciones.length == 0">
         <i class="far fa-bell-slash dropbtn"></i>
-        <div
-          class="dropdown-content"
-          style="
-            text-decoration: none;
-            width: 130px !important;
-            cursor: pointer;
-            text-align: center;
-            margin: 0;
-          "
-        >
+        <div class="dropdown-content" style="
+                  text-decoration: none;
+                  width: 130px !important;
+                  cursor: pointer;
+                  text-align: center;
+                  margin: 0;
+                ">
           <span id="campana" style="padding: 0px !important">
-            <p
-              style="
-                text-decoration: none;
-                font-size: 14px;
-                padding: 0px !important;
-                color: black;
-              "
-            >
+            <p style="
+                      text-decoration: none;
+                      font-size: 14px;
+                      padding: 0px !important;
+                      color: black;
+                    ">
               {{ language.sinNotificaciones }}
             </p>
           </span>
         </div>
       </div>
+      <div class="events_icon dropdown" style="cursor: pointer" v-else>
+        <i class="far fa-bell dropbtn"></i>
+        <div class="punto-rojo"></div>
+        <div class="dropdown-content" style="
+                  text-decoration: none;
+                  width: 240px !important;
+                  cursor: pointer;
+                  padding: 5px;
+                  text-align: center;
+                  margin: 0;
+                  z-index: 2;
+                  border-radius: 5px;
+                ">
+          <span id="campana" style="padding: 0px !important;margin: 0;">
+            <span v-for="notificacion in notificaciones" class="notification-site elipsis" :key="notificacion.id"
+              @click="marcarComoLeida(notificacion.id)" :title="parsearNotificacion(notificacion)">
+              <router-link :to="notificacion.data.deeplink" class="router-link">
+                {{ parsearNotificacion(notificacion) }}
+              </router-link>
+            </span>
+          </span>
+        </div>
+      </div>
 
-      <div
-        class="events_icon dropdown"
-        style="cursor: pointer"
-        @click="mostrarNoticacion('configuracion')"
-      >
+      <div class="events_icon dropdown" style="cursor: pointer">
         <i class="fal fa-cog dropbtn"></i>
         <div class="dropdown-content" style="cursor: pointer">
           <span>
-            <router-link
-              :to="{
-                name: 'profile',
-                params: {
-                  idUsuario: usuario.username,
-                },
-              }"
-              style="text-decoration: none; font-size: 14px; padding: 5px"
-              class="router-link"
-            >
-              {{ language.miPerfil }}</router-link
-            >
+            <router-link :to="{
+              name: 'profile',
+              params: {
+                idUsuario: usuario.username,
+              },
+            }" style="text-decoration: none; font-size: 14px; padding: 5px" class="router-link">
+              {{ language.miPerfil }}</router-link>
           </span>
           <span>
-            <router-link
-              to="/cambioPwd"
-              style="
-                text-decoration: none !important;
-                font-size: 14px;
-                padding: 5px;
-              "
-              class="router-link"
-            >
+            <router-link to="/cambioPwd" style="
+                      text-decoration: none !important;
+                      font-size: 14px;
+                      padding: 5px;
+                    " class="router-link">
               {{ language.cambiarContra }}
             </router-link>
           </span>
@@ -153,29 +74,19 @@
       <div class="events_icon dropdown" style="cursor: pointer">
         <i class="fal fa-globe dropbtn"></i>
 
-        <div
-          class="dropdown-content"
-          style="cursor: pointer; width: 55px !important"
-          v-if="lang == 'es'"
-        >
+        <div class="dropdown-content" style="cursor: pointer; width: 55px !important" v-if="lang == 'es'">
           <p class="iconBar active">
             <span><country-flag country="es" size="normal" /> </span>
           </p>
           <p class="iconBar">
-            <span v-on:click="changeLanguage()"
-              ><country-flag country="gb" size="normal" />
+            <span v-on:click="changeLanguage()"><country-flag country="gb" size="normal" />
             </span>
           </p>
         </div>
 
-        <div
-          class="dropdown-content"
-          style="cursor: pointer; width: 55px !important"
-          v-else
-        >
+        <div class="dropdown-content" style="cursor: pointer; width: 55px !important" v-else>
           <p class="iconBar">
-            <span v-on:click="changeLanguage()"
-              ><country-flag country="es" size="normal" />
+            <span v-on:click="changeLanguage()"><country-flag country="es" size="normal" />
             </span>
           </p>
           <p class="iconBar active">
@@ -190,15 +101,8 @@
     </div>
 
     <div class="calendarioElement">
-      <v-date-picker
-    
-        show-weeknumbers="right-outside"
-        mode="date"
-        :locale="language.calendario"
-        v-model="date"
-        :valid-hours="{ min: 4, max: 17 }"
-        is24hr
-      />
+      <v-date-picker show-weeknumbers="right-outside" mode="date" :locale="language.calendario" v-model="date"
+        :valid-hours="{ min: 4, max: 17 }" is24hr />
     </div>
 
     <div class="currentEvent">
@@ -209,12 +113,7 @@
             <span class="sidebarDot_event"></span> . . .
           </span>
         </div>
-        <div
-          class="sidebarElement"
-          v-for="todo in eventos"
-          :key="todo.id"
-          v-else
-        >
+        <div class="sidebarElement" v-for="todo in eventos" :key="todo.id" v-else>
           <router-link to="/calendario" class="router-link">
             <span class="clases">
               <span class="sidebarDot_event"></span> {{ evento(todo) }}
@@ -244,28 +143,84 @@ export default {
       loading: true,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       eventos: "",
-      cargarTareas: "",
-      tareasPendientes: true,
+
       profesor: false,
       aux: 1,
       date: new Date(),
       lang: localStorage.getItem("lang"),
       language: "",
-      materiasTareasPendientes: "",
+
+      notificaciones: "",
     };
   },
   mounted() {
-    if (this.usuario.ou == "Profesor") {
-      this.traerMateriasUser();
-      this.profesor = true;
-      this.cargarTareasCorregir();
-    } else {
-      this.cargarTareasCreadas();
-    }
+    this.cargarNotificaciones();
     this.cargarEventos();
     this.selectLanguage();
   },
   methods: {
+    marcarComoLeida(notificacionId) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .put(Global.urlSitio + "notificacion/" + notificacionId, [], config)
+        .then((res) => {
+          if (res.status == 200) {
+            this.cargarNotificaciones();
+          }
+        });
+    },
+    parsearNotificacion(noti) {
+      let notificacion = noti.data;
+      if (notificacion.tipo == "tarea") {
+        return (
+          this.language.nuevaTarea +
+          " " +
+          notificacion.nombreMateria +
+          " - " +
+          notificacion.grupo
+        );
+      }
+      if (notificacion.tipo == "entrega") {
+        return notificacion.alumno + " " + this.language.nuevaEntrega;
+      }
+      if (notificacion.tipo == "re-entrega") {
+        return notificacion.alumno + " " + this.language.nuevaReEntrega;
+      }
+
+      if (notificacion.tipo == "correccion") {
+        if (notificacion.re_entrega) {
+          return this.language.soliciudReEntrega + " " + notificacion.materia;
+        }
+        return this.language.nuevaCorreccion;
+      }
+      if (notificacion.tipo == "re-correccion") {
+        return this.language.nuevaReCorreccion;
+      }
+    },
+    cargarNotificaciones() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio + "notificacion/usuario/" + this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.notificaciones = res.data;
+          }
+          this.loading = false;
+        });
+    },
     changeLanguage() {
       if (this.lang == "es") {
         localStorage.setItem("lang", "en");
@@ -282,48 +237,7 @@ export default {
         this.language = language.en;
       }
     },
-    cargarTareasCorregir() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio +
-            "tareas-corregir?idProfesor=" +
-            this.usuario.username,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.cargarTareas = res.data;
 
-            if (res.data.length === 0) {
-              this.tareasPendientes = false;
-            }
-           
-          }
-        });
-    },
-    tareaMateriasArray() {
-      let array = [];
-      const map = new Map();
-      this.cargarTareas.tareas.forEach(function (tarea) {
-        if (!map.has(tarea.Materia)) {
-          map.set(tarea.Materia, "tarea");
-          array.push(tarea);
-        }
-      });
-      this.cargarTareas.re_hacer.forEach(function (tarea) {
-        if (!map.has(tarea.Materia)) {
-          map.set(tarea.Materia, "tarea");
-          array.push(tarea);
-        }
-      });
-      return array;
-    },
     evento(event) {
       return (
         event.idGrupo +
@@ -339,48 +253,12 @@ export default {
       location.reload();
     },
 
-    
-    cargarTareasCreadas() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-
-      axios
-        .get(
-          Global.urlSitio +
-            "tareas?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou+
-            "&idGrupo="+localStorage.getItem('idGrupo'),
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.cargarTareas = res.data;
-            this.loading = false;
-            if (
-              res.data.re_hacer.length === 0 &&
-              res.data.tareas.length === 0
-            ) {
-              this.tareasPendientes = false;
-            }
-            this.materiasTareasPendientes = this.tareaMateriasArray();
-          }
-        });
-    },
     cerrarSesion() {
       localStorage.removeItem("auth_token");
       localStorage.removeItem("perfil_img");
       localStorage.removeItem("logged");
       localStorage.removeItem("idGrupo");
       location.reload();
-    },
-
-     traerMateriasUser() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -388,20 +266,16 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+        .post(
+          Global.urlSitio + "logout",
           config
         )
-        .then((res) => {
-          if (res.status == 200) {
-            this.traerMaterias = res.data;
-          }
-          this.loading = false;
+        .then(() => {
+          console.log("Sesion cerrada");
+  
         })
-        
     },
+
     cargarEventos() {
       let config = {
         headers: {
@@ -411,11 +285,7 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio +
-            "agenda-clase-eventos?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou,
+          Global.urlSitio + "evento/usuario/" + this.usuario.username,
           config
         )
         .then((res) => {
@@ -423,6 +293,9 @@ export default {
             this.eventos = res.data;
           }
           this.loading = false;
+        })
+        .catch(() => {
+          this.cerrarSesion();
         });
     },
   },
@@ -463,6 +336,7 @@ export default {
 .active {
   background-color: rgb(121, 172, 249);
 }
+
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
   display: block;

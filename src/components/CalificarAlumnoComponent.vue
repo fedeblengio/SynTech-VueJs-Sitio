@@ -4,14 +4,14 @@
     <SectionLeft></SectionLeft>
     <div class="feed">
       <div class="feed_header linea_border_bottom">
-        <h2>{{language.tareaEntregada}}</h2>
+        <h2>{{ language.tareaEntregada }}</h2>
       </div>
       <div
         class="alert alert-warning alert-dismissible fade show"
         role="alert"
         v-if="camposVacios"
       >
-      {{language.camposVaciosAlert}}
+        {{ language.camposVaciosAlert }}
         <button
           type="button"
           class="close"
@@ -36,7 +36,6 @@
             <div>
               <span>{{ tarea.nombreUsuario }}</span>
               <p>{{ tarea.fecha }}</p>
-            
             </div>
             <div>
               <div class="alumnoEntregaTarea_puntaje">
@@ -45,7 +44,8 @@
                   id="nota"
                   name="nota"
                   v-model="calificar.nota"
-                  max="12"
+                  v-on:keyup="validarNota"
+                  max="2"
                 />
                 <label for="nota"> / 12 </label>
               </div>
@@ -58,7 +58,7 @@
               <div class="previw_archivosPost">
                 <h3 v-on:click="descargarPDF(img)">
                   <i class="fal fa-file-alt file"></i>
-                  <span>{{simplificarNombre(img) }}</span>
+                  <span>{{ simplificarNombre(img) }}</span>
                 </h3>
               </div>
             </div>
@@ -74,7 +74,7 @@
           <div class="previw_archivosPost archivoTarea">
             <h3 v-on:click="descargarPDF(archivo)">
               <i class="fal fa-file-alt file"></i>
-              <span>{{simplificarNombre(archivo) }} </span>
+              <span>{{ simplificarNombre(archivo) }} </span>
             </h3>
           </div>
         </div>
@@ -87,10 +87,10 @@
             name="re_hacer"
             v-model="calificar.re_hacer"
           />
-          <label for="re_hacer"> {{language.solicitarReEntrega}}</label>
+          <label for="re_hacer"> {{ language.solicitarReEntrega }}</label>
         </div>
         <div class="entregaTareaCont">
-          <h2>{{language.juicio}} :</h2>
+          <h2>{{ language.juicio }} :</h2>
           <div class="">
             <textarea
               id="textarea"
@@ -103,7 +103,7 @@
             class="boxText_btn alumnoEntregaTareaBtn"
             v-on:click="calificarEntrega()"
           >
-            <p>{{language.calificarEntrega}}</p>
+            <p>{{ language.calificarEntrega }}</p>
           </button>
         </div>
       </div>
@@ -156,7 +156,7 @@ export default {
     };
   },
   mounted() {
-        if(this.usuario.ou=="Alumno"){
+    if (this.usuario.ou == "Alumno") {
       this.$router.push("/home");
     }
     this.cargarTareaSeleccionada();
@@ -170,13 +170,18 @@ export default {
     this.selectLanguage();
   },
   methods: {
+    validarNota(e) {
+      if (!/^[1-9]$|^1[0-2]$/.test(e.target.value)) {
+        e.target.value = "";
+      }
+    },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
       } else {
         this.language = language.en;
       }
-      this.title =  this.language.title;
+      this.title = this.language.title;
     },
     comprobarCamposVacios(input1, input2) {
       return input1 == "" || input2 == 0;
@@ -194,12 +199,10 @@ export default {
         re_hacer = 1;
       }
       let data = {
-        idAlumnos: this.$route.params.idAlumnos,
-        idTareas: this.$route.params.idTareas,
         calificacion: this.calificar.nota,
         mensaje: this.calificar.mensaje,
         re_hacer: re_hacer,
-        re_entrega : this.re_entrega,
+        re_entrega: this.re_entrega,
       };
 
       this.camposVacios = this.comprobarCamposVacios(
@@ -209,7 +212,16 @@ export default {
 
       if (!this.camposVacios) {
         axios
-          .put(Global.urlSitio + "entregas-correccion", data, config)
+          .put(
+            Global.urlSitio +
+              "tarea/" +
+              this.$route.params.idTareas +
+              "/alumno/" +
+              this.$route.params.idAlumnos +
+              "/correccion",
+            data,
+            config
+          )
           .then((res) => {
             if (res.status == 200) {
               this.$swal.fire(this.language.tareaCalificada, "", "success");
@@ -231,7 +243,7 @@ export default {
     },
 
     descargarPDF(label) {
-      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+      let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {
@@ -253,11 +265,11 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-             text: this.language.algoSalioMal,
+            text: this.language.algoSalioMal,
           });
         });
     },
-        simplificarNombre(nombreArchivo) {
+    simplificarNombre(nombreArchivo) {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
 
@@ -269,15 +281,24 @@ export default {
         },
       };
 
-      axios
-        .get(
+      let url =
+        Global.urlSitio +
+        "tarea/" +
+        this.$route.params.idTareas +
+        "/alumno/" +
+        this.$route.params.idAlumnos +
+        "/entrega";
+      if (this.$route.params.re_entrega) {
+        url =
           Global.urlSitio +
-            "entregas-alumno?idAlumnos=" +
-            this.$route.params.idAlumnos +
-            "&idTareas=" +
-            this.$route.params.idTareas,
-          config
-        )
+          "tarea/" +
+          this.$route.params.idTareas +
+          "/alumno/" +
+          this.$route.params.idAlumnos +
+          "/re-entrega";
+      }
+      axios
+        .get(url, config)
         .then((res) => {
           if (res.status == 200) {
             this.prueba = res.data[0].data.mensaje;
@@ -297,7 +318,7 @@ export default {
           this.$swal.fire({
             icon: "error",
             title: "ERROR",
-             text: this.language.algoSalioMal,
+            text: this.language.algoSalioMal,
           });
         });
     },

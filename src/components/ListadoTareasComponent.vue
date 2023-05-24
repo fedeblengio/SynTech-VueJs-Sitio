@@ -5,7 +5,7 @@
     <div class="feed">
       <div class="feed_header">
         <h2>{{ this.$route.params.materia }}</h2>
-       
+
         <button
           class="boxText_btn"
           style="background-color: grey"
@@ -28,7 +28,6 @@
         >
           {{ language.crearTarea }}
         </button>
-        
       </div>
       <ul class="nav nav-tabs justify-content-center">
         <li class="nav-item">
@@ -494,6 +493,7 @@
               <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.materia }}</h5>
             </div>
           </router-link>
+
           <p
             :class="
               tiempoDeVencimiento(
@@ -698,7 +698,7 @@ export default {
       camposVacios: false,
       lang: localStorage.getItem("lang"),
       language: "",
-      idGrupoStorage:localStorage.getItem('idGrupo'),
+      idGrupoStorage: localStorage.getItem("idGrupo"),
     };
   },
   mounted() {
@@ -764,7 +764,7 @@ export default {
       };
 
       axios
-        .get(Global.urlSitio + "tarea?idTarea=" + idTarea, config)
+        .get(Global.urlSitio + "tarea/" + idTarea, config)
         .then((res) => {
           if (res.status == 200) {
             this.tareaSeleccionada.idTarea = res.data.datos.idTarea;
@@ -807,12 +807,13 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "notas-alumno?idAlumnos=" +
-            idAlumno +
-            "&idGrupo=" +
+            "grupo/" +
             this.routerValues.idGrupo +
-            "&idMateria=" +
-            this.routerValues.idMateria,
+            "/materia/" +
+            this.routerValues.idMateria +
+            "/alumno/" +
+            idAlumno +
+            "/notas",
           config
         )
         .then((res) => {
@@ -825,7 +826,7 @@ export default {
         });
     },
     descargarPDF(label) {
-      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+      let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {
@@ -863,7 +864,6 @@ export default {
           denyButtonText: this.language.cancelar,
         })
         .then((result) => {
-        
           if (result.isConfirmed) {
             this.borrarTarea(idTarea);
           }
@@ -878,7 +878,7 @@ export default {
       };
 
       axios
-        .delete(Global.urlSitio + "tarea?idTareas=" + idTarea, config)
+        .delete(Global.urlSitio + "tarea/" + idTarea, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.tareaEliminada, "", "success");
@@ -1001,13 +1001,13 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "tareas?idUsuario=" +
+            "grupo/" +
+            this.routerValues.idGrupo +
+            "/materia/" +
+            this.routerValues.idMateria +
+            "/usuarios/" +
             this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&idMateria=" +
-            this.routerValues.idMateria+
-            "&idGrupo="+this.idGrupoStorage,
+            "/tarea",
           config
         )
         .then((res) => {
@@ -1028,14 +1028,13 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "tareas?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&idMateria=" +
+            "grupo/" +
+            this.routerValues.idGrupo +
+            "/materia/" +
             this.routerValues.idMateria +
-            "&idGrupo=" +
-            this.routerValues.idGrupo,
+            "/usuarios/" +
+            this.usuario.username +
+            "/tarea",
           config
         )
         .then((res) => {
@@ -1067,10 +1066,11 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "listar-alumnos?idGrupo=" +
+            "grupo/" +
             this.$route.params.idGrupo +
-            "&idMateria=" +
-            this.$route.params.idMateria,
+            "/materia/" +
+            this.$route.params.idMateria +
+            "/usuarios",
           config
         )
         .then((res) => {
