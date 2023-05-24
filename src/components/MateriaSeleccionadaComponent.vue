@@ -328,7 +328,6 @@ export default {
     };
   },
   mounted() {
-    this.traerIdForo();
     this.selectLanguage();
     this.verificarLogueo();
     if (this.usuario.ou == "Profesor") {
@@ -383,29 +382,6 @@ export default {
         }
       }
     },
-
-    traerPost() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(Global.urlSitio + "foro?id=" + this.usuario.username, config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.grupoProfesor = res.data;
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: this.language.algoSalioMal,
-          });
-        });
-    },
     traerGrupoProfesor() {
       let config = {
         headers: {
@@ -415,9 +391,7 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.usuario.username,
+          Global.urlSitio + "usuario/" + this.usuario.username + "/grupo",
           config
         )
         .then((res) => {
@@ -441,10 +415,12 @@ export default {
         },
       };
       axios
-       .get(
+        .get(
           Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+            "grupo/" +
+            localStorage.getItem("idGrupo") +
+            "/materia?idUsuario=" +
+            this.usuario.username,
           config
         )
         .then((res) => {
@@ -475,19 +451,8 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio +
-            "foro?idUsuario=" +
-            this.usuario.username +
-            "&ou=" +
-            this.usuario.ou +
-            "&idMateria=" +
-            this.$route.params.idMateria +
-            "&limit=" +
-            this.limit+"&idGrupo="+localStorage.getItem('idGrupo'),
-          config
-        )
-        .then((res) => {
+       .get(Global.urlSitio+"foro/grupo/"+localStorage.getItem("idGrupo")+"/usuario/"+this.usuario.username+"/materia/"+this.$route.params.idMateria+"/"+this.limit,config)
+       .then((res) => {
           if (res.status == 200) {
             this.traerArchivos = res.data;
           }
@@ -503,36 +468,6 @@ export default {
         });
     },
 
-    traerIdForo() {
-      let config = {
-        headers: {
-          "Content-Type": "application/json",
-          token: Global.token,
-        },
-      };
-      axios
-        .get(
-          Global.urlSitio +
-            "foros?idMateria=" +
-            this.$route.params.idMateria +
-            "&idGrupo=" +
-            this.$route.params.idGrupo,
-          config
-        )
-        .then((res) => {
-          if (res.status == 200) {
-            this.foro = res.data;
-            this.idForo = res.data.idForo;
-          }
-        })
-        .catch(() => {
-          this.$swal.fire({
-            icon: "error",
-            title: "ERROR",
-            text: this.language.algoSalioMal,
-          });
-        });
-    },
     getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
@@ -608,7 +543,9 @@ export default {
       for (let archivo of this.file) {
         formData.append("nombresArchivo[]", archivo.name);
       }
-      formData.append("idForo", this.idForo);
+      formData.append("idGrupo", localStorage.getItem("idGrupo"));
+      formData.append("idMateria", this.$route.params.idMateria);
+
       formData.append("idUsuario", this.usuario.username);
       formData.append("mensaje", this.mensaje);
 
@@ -655,7 +592,7 @@ export default {
       };
 
       axios
-        .delete(Global.urlSitio + "foro?id=" + idPublicacion, config)
+        .delete(Global.urlSitio + "foro/" + idPublicacion, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.publicacionEliminada, "", "success");
@@ -671,7 +608,7 @@ export default {
         });
     },
     descargarPDF(label) {
-      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+      let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {

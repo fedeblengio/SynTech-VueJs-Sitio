@@ -295,16 +295,7 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "entregas-grupo?idGrupo=" +
-            this.routerValues.idGrupo +
-            "&idMateria=" +
-            this.routerValues.idMateria +
-            "&idTareas=" +
-            this.routerValues.idTareas,
-          config
-        )
+      .get(Global.urlSitio+"grupo/"+this.routerValues.idGrupo+"/materia/"+this.routerValues.idMateria+"/tarea/"+ this.routerValues.idTareas+"/entrega",config)
         .then((res) => {
           if (res.status == 200) {
             this.listadoEntregasGrupo.entregas_totalesNoCorregidas.entregas_tareas_no_corregidas =

@@ -12,7 +12,7 @@
       </div>
       <div class="card" v-for="clase in traerMaterias" :key="clase.id" v-else>
         <div class="card-header">{{ clase.idGrupo }} - {{ clase.Materia }}</div>
-        <div class="card-body">
+        <div class="card-body" style="padding-top:2rem">
           <h6>
             <i>{{language.profesor}}: {{ clase.Profesor }}</i>
           </h6>
@@ -109,13 +109,13 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.usuario.username,
+          "usuario/"+this.usuario.username+"/grupo",
           config
         )
         .then((res) => {
           if (res.status == 200) {
-            this.traerMaterias = res.data;
+            this.traerMaterias = this.getOnlyMateriasFromGrupo(res.data);
+            
           }
           this.loading = false;
         })
@@ -127,6 +127,15 @@ export default {
           });
         });
     },
+    getOnlyMateriasFromGrupo(materias){
+      let materiasArray = [];
+      materias.forEach(materia => {
+        if(materia.idGrupo == localStorage.getItem("idGrupo")){
+          materiasArray.push(materia);
+        }
+      });
+      return materiasArray;
+    },
     traerMateriasUser() {
       let config = {
         headers: {
@@ -137,8 +146,7 @@ export default {
       axios
          .get(
           Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+            "grupo/"+localStorage.getItem("idGrupo") +"/materia?idUsuario="+this.usuario.username,
           config
         )
         .then((res) => {

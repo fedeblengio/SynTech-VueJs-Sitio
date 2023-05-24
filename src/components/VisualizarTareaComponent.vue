@@ -266,7 +266,7 @@ export default {
     },
 
     descargarPDF(label) {
-      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+         let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {
@@ -304,7 +304,7 @@ export default {
       };
 
       axios
-        .get(Global.urlSitio + "tarea?idTarea=" + idTarea, config)
+        .get(Global.urlSitio + "tarea/" + idTarea, config)
         .then((res) => {
           if (res.status == 200) {
             this.tarea.idTarea = res.data.datos.idTarea;
@@ -338,14 +338,7 @@ export default {
       };
 
       axios
-        .get(
-          Global.urlSitio +
-            "visualizar-entrega?idAlumnos=" +
-            this.$route.params.idAlumnos +
-            "&idTareas=" +
-            this.$route.params.idTareas,
-          config
-        )
+      .get(Global.urlSitio+ "tarea/"+this.$route.params.idTareas+"/alumno/"+this.$route.params.idAlumnos+"/registro", config)
         .then((res) => {
           if (res.status == 200) {
             if (!$.isEmptyObject(res.data.primera_entrega.entrega)) {

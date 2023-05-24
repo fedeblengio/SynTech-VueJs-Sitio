@@ -159,8 +159,8 @@ export default {
       axios
         .get(
           Global.urlSitio +
-            "registro-clase?idClase=" +
-            this.$route.params.idClase,
+            "agenda-clase/" +
+            this.$route.params.idClase+"/registro",
           config
         )
         .then((res) => {
@@ -215,12 +215,11 @@ export default {
         presentes: this.presentes,
         ausentes: this.ausentes,
       };
-
       axios
-        .put(Global.urlSitio + "lista-clase", data, config)
+        .put(Global.urlSitio + "agenda-clase/"+this.$route.params.idClase+"/asistencia", data, config)
         .then((response) => {
           if (response.status == 200) {
-            this.$swal.fire(this.language.listaActualizada, "", "success");
+            this.$swal.fire(this.language.listaActualizada,"", "success");
             this.cargarLista();
             this.modificar = false;
           }

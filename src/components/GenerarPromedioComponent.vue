@@ -105,14 +105,8 @@ export default {
         },
       };
       axios
-        .get(
-          Global.urlSitio +
-            "promedio?idMateria=" +
-            this.$route.params.idMateria +
-            "&idGrupo=" +
-            this.$route.params.idGrupo,
-          config
-        )
+      .get(Global.urlSitio+ "grupo/"+this.$route.params.idGrupo+"/materia/"+this.$route.params.idMateria+"/promedio", config)
+    
         .then((res) => {
           if (res.status == 200) {
             this.traerPromedios = res.data;

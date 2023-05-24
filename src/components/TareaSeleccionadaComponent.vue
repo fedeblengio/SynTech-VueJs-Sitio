@@ -33,11 +33,7 @@
               </div>
             </div>
           </div>
-          <div
-            class="post_footer"
-            v-for="archivo in tarea.archivos"
-            :key="archivo.id"
-          >
+          <div class="post_footer" v-for="archivo in tarea.archivos" :key="archivo.id">
             <div class="contenedor_pdf">
               <div class="previw_archivosPost">
                 <h3 v-on:click="descargarPDF(archivo.archivo)">
@@ -49,53 +45,29 @@
           </div>
         </div>
       </div>
-      <div
-        class="tareaSeleccionadaCont"
-        style="border-bottom: 1px solid var(--background)"
-      >
+      <div class="tareaSeleccionadaCont" style="border-bottom: 1px solid var(--background)">
         <h3>{{ language.publicarTarea }}</h3>
         <div class="form">
-          <div
-            class="alert alert-warning alert-dismissible fade show"
-            role="alert"
-            v-if="camposVacios"
-          >
+          <div class="alert alert-warning alert-dismissible fade show" role="alert" v-if="camposVacios">
             {{ language.inputVacio1 }}
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
-              v-on:click="camposVacios = false"
-            >
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" v-on:click="camposVacios = false">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="boxText_input">
             <img :src="returnImgLocalStorage()" />
-            <textarea
-              id="textarea"
-              :placeholder="language.placeholderEntregaAlumno"
-              required
-              v-model="entregarTarea.mensaje"
-            ></textarea>
+            <textarea id="textarea" :placeholder="language.placeholderEntregaAlumno" required
+              v-model="entregarTarea.mensaje"></textarea>
           </div>
 
-          <div
-            class="preview_contenedor"
-            v-for="file in entregarTarea.file"
-            :key="file.id"
-            :value="file.name"
-          >
+          <div class="preview_contenedor" v-for="file in entregarTarea.file" :key="file.id" :value="file.name"
+            style="width: 410px;margin-right: 10px;">
             <i class="fal fa-file-alt file"></i>
 
-            <h3 class="preview">
+            <h3 class="preview" style="text-decoration: none;margin-left: 3px;font-weight: 500;">
               {{ file.name }}
             </h3>
-            <i
-              class="fas fa-times equis"
-              v-on:click="delateFile(file.name)"
-            ></i>
+            <i class="fas fa-times equis" v-on:click="delateFile(file.name)"></i>
           </div>
           <div class="footer_post">
             <div class="select_file">
@@ -104,14 +76,8 @@
                   <i class="fas fa-upload"></i>
                 </label>
 
-                <input
-                  @change="getFile"
-                  accept=".jpg, .png, .jpeg,  .pdf"
-                  id="file-input"
-                  type="file"
-                  v-on:onchange="previewFile(this)"
-                  style="display: none"
-                />
+                <input @change="getFile" accept=".jpg, .png, .jpeg,  .pdf" id="file-input" type="file"
+                  v-on:onchange="previewFile(this)" style="display: none" />
               </div>
             </div>
             <button class="boxText_btn" v-on:click="enviarArchivos()">
@@ -181,6 +147,15 @@ export default {
     };
   },
   methods: {
+    delateFile(nombre) {
+      let i;
+
+      for (i = 0; i < this.entregarTarea.file.length; i++) {
+        if (this.entregarTarea.file[i].name === nombre) {
+          this.entregarTarea.file.splice(i, 1);
+        }
+      }
+    },
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
@@ -213,9 +188,10 @@ export default {
         },
       };
 
+
       axios
         .get(
-          Global.urlSitio + "tarea?idTarea=" + this.$route.params.idTarea,
+          Global.urlSitio + "tarea/" + this.$route.params.idTarea,
           config
         )
         .then((res) => {
@@ -249,7 +225,7 @@ export default {
       return "data:image/png;base64," + img;
     },
     descargarPDF(label) {
-      let url = Global.urlSitio + "traerArchivo?archivo=" + label;
+      let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {
@@ -309,8 +285,7 @@ export default {
 
       let formData = new FormData();
 
-      formData.append("idTareas", this.tarea.idTarea);
-      formData.append("idAlumnos", this.usuario.username);
+
       formData.append("mensaje", this.entregarTarea.mensaje);
 
       if (this.$route.params.re_hacer) {
@@ -326,10 +301,10 @@ export default {
       }
 
       axios
-        .post(Global.urlSitio + "entregas-alumno", formData, config)
+        .post(Global.urlSitio + "tarea/" + this.tarea.idTarea + "/alumno/" + this.usuario.username + "/entrega", formData, config)
         .then((response) => {
           if (response.status == 200) {
-          
+
             this.$router.back();
             this.$swal.fire(this.language.tareaEntregada, "", "success");
           }

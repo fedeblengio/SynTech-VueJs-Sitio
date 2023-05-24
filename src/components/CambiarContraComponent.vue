@@ -233,7 +233,7 @@ export default {
         },
       };
       axios
-        .put(Global.urlSitio + "usuario", parametros, config)
+        .put(Global.urlSitio + "usuario/"+parametros.username+"/contrasenia", parametros, config)
         .then((response) => {
           if (response.status == 200) {
             localStorage.removeItem("auth_token");

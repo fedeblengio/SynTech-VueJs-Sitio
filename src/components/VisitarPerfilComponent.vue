@@ -54,7 +54,7 @@
               <input
                 type="text"
                 class="form-control"
-                :value="nombreGrupo"
+                :value="parseNombreGrupo(usuarioPerfil.grupos)"
                 disabled
               />
             </div>
@@ -120,6 +120,10 @@ export default {
     this.cargarInfoUser();
   },
   methods: {
+        parseNombreGrupo(grupos){
+      return grupos.join(",");
+    },
+    
     selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
@@ -162,10 +166,9 @@ export default {
         },
       };
       axios
-        .get(
+      .get(
           Global.urlSitio +
-            "profesor-grupo?idProfesor=" +
-            this.$route.params.idUsuario,
+          "usuario/"+this.usuarioPerfil.username+"/grupo",
           config
         )
         .then((res) => {
@@ -192,9 +195,8 @@ export default {
       };
       axios
           .get(
-          Global.urlSitio +
-            "listarMaterias?idGrupo=" +
-            localStorage.getItem("idGrupo"),
+         Global.urlSitio +
+               "grupo/"+localStorage.getItem("idGrupo") +"/materia?idUsuario="+this.usuarioPerfil.username,
           config
         )
         .then((res) => {
@@ -221,9 +223,10 @@ export default {
       };
       axios
         .get(
-          Global.urlSitio + "usuario?idUsuario=" + this.$route.params.idUsuario,
+          Global.urlSitio + "usuario/"+ this.$route.params.idUsuario,
           config
         )
+        
         .then((res) => {
           if (res.status == 200) {
             this.usuarioPerfil = res.data;
