@@ -7,7 +7,7 @@
         "noSeEncontroTarea": "No se ha encontrado ninguna tarea segun los datos ingresados.",
         "vence": "Vence",
         "algoSalioMal": "Parece que algo salio mal ...",
-        "seleccioneMat": "Filtrar por materia"
+        "seleccioneMat": "Todas las materias"
     },
     "en": {
         "title": "Delivery History",
@@ -17,6 +17,6 @@
         "noSeEncontroTarea": "No task has been found according to the data entered.",
         "vence": "Expires",
         "algoSalioMal": "It seems that something went wrong...",
-        "seleccioneMat": "Search by subject"
+        "seleccioneMat": "All subjects"
     }
 }
