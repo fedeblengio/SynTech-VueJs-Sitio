@@ -120,7 +120,8 @@ export default {
     this.cargarInfoUser();
   },
   methods: {
-        parseNombreGrupo(grupos){
+    parseNombreGrupo(grupos){
+      grupos = grupos.filter((item, index) => grupos.indexOf(item) === index);
       return grupos.join(",");
     },
     

@@ -274,6 +274,7 @@ export default {
   },
   methods: {
     parseNombreGrupo(grupos){
+        grupos = grupos.filter((item, index) => grupos.indexOf(item) === index);
       return grupos.join(",");
     },
     getUserInfo() {
