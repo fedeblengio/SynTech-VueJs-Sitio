@@ -160,7 +160,7 @@ export default {
         .get(
           Global.urlSitio +
             "agenda-clase/" +
-            this.$route.params.idClase+"/registro",
+            this.$route.params.idClase+"/asistencia",
           config
         )
         .then((res) => {
