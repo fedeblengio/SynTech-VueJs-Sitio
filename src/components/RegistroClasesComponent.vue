@@ -41,7 +41,7 @@
       <div class="registroContFiltro">
         <select
           class="form-control inputFiltrogrande"
-          v-model="idMateria"
+          v-model="grupo"
           name="grupos"
           required
           :placeholder="language.placeholderSeleccioneGrupoYMateria"
@@ -51,14 +51,13 @@
           </option>
           <option
             v-for="todo in traerMaterias"
-            :key="todo.id"
-            v-bind:value="todo.idMateria"
+            :key="todo.idMateria+todo.idGrupo"
+            v-bind:value="todo"
           >
             {{ todo.idGrupo }} -
             {{ todo.Materia }}
           </option>
         </select>
-
         <input
           type="text"
           class="form-control inpuntRegistro"
@@ -112,9 +111,11 @@
           class="list-group-item-action item-registro"
           aria-current="true"
           v-for="lista in registroListas"
-          :key="lista.id"
+          :key="lista.idClase"
           style="border-bottom: 1px solid var(--background)"
-        >
+        > 
+
+       
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ lista.idGrupo }} {{ lista.materia }}</h5>
             <small class="text-muted ojoRegistro">
@@ -131,7 +132,6 @@
                 >{{ language.ver
                 }}<i
                   class="fas fa-eye"
-                  v-on:click="descargarLista(lista.idClase)"
                 >
                 </i>
               </router-link>
@@ -172,7 +172,7 @@ export default {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       registroListas: "",
       traerMaterias: "",
-      idMateria: "",
+      grupo: null,
       dia: "",
       mes: "",
       anio: "",
@@ -205,8 +205,8 @@ export default {
 
     filtrar() {
       this.loading = true;
-      if (this.idMateria > 0) {
-        this.filtarPorMateria(this.registroListas, this.idMateria);
+      if (this.grupo !== null) {
+        this.filtarPorMateria(this.registroListas, this.grupo);
         this.opt = true;
       }
       if (this.dia.length !== 0) {
@@ -238,10 +238,10 @@ export default {
     comprobarArrayVacio(array) {
       return $.isEmptyObject(array);
     },
-    filtarPorMateria(array, idMateria) {
+    filtarPorMateria(array, grupo) {
       let arrayRegistroMaterias = [];
       array.forEach(function (registro) {
-        if (registro.idMateria === idMateria) {
+        if (registro.idMateria === grupo.idMateria && registro.idGrupo === grupo.idGrupo) {
           arrayRegistroMaterias.push(registro);
         }
       });
