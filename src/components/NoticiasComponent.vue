@@ -15,7 +15,7 @@
       <div class="feed_header linea_border_bottom">
         <h2 style="margin-bottom: 2rem">{{ language.noticias }}</h2>
       </div>
-        <div
+      <div
         class="alert alert-danger alert-dismissible fade show"
         role="alert"
         v-if="camposVacios && usuario.ou == 'Profesor'"
@@ -32,7 +32,7 @@
         </button>
       </div>
 
-    <div class="boxText" v-if="usuario.ou == 'Profesor'">
+      <div class="boxText" v-if="usuario.ou == 'Profesor'">
         <div class="form">
           <div class="boxText_input">
             <img :src="returnImgB64()" />
@@ -47,7 +47,7 @@
               {{ mensaje.length }} / 250</span
             >
           </div>
-       
+
           <div
             class="preview_contenedor"
             v-for="file in file"
@@ -69,9 +69,7 @@
               <div
                 class="form-check form-switch"
                 v-if="usuario.ou == 'Profesor'"
-              >
-            
-              </div>
+              ></div>
               <div class="image-upload">
                 <label for="file-input">
                   <i class="fas fa-upload"></i>
@@ -101,22 +99,42 @@
         </div>
       </div>
       <div class="w-auto" v-if="usuario.ou == 'Profesor'">
-          <button v-if="!misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarMisNoticias()" type="button" class="btn btn-outline-primary">{{language.cargarMisNoticias}}</button>
-            <button v-if="misNoticias" style="width:100%;border:1px skyblue solid" @click="cargarAllNoticias()" type="button" class="btn btn-outline-primary">{{language.cargarTodasNoticias}}</button>
-        </div>
-      <div style="display: flex; justify-content: center">
-       
+        <button
+          v-if="!misNoticias"
+          style="width: 100%; border: 1px skyblue solid"
+          @click="cargarMisNoticias()"
+          type="button"
+          class="btn btn-outline-primary"
+        >
+          {{ language.cargarMisNoticias }}
+        </button>
+        <button
+          v-if="misNoticias"
+          style="width: 100%; border: 1px skyblue solid"
+          @click="cargarAllNoticias()"
+          type="button"
+          class="btn btn-outline-primary"
+        >
+          {{ language.cargarTodasNoticias }}
+        </button>
+      </div>
+      <div style="display: flex; width: 100%; justify-content: center">
         <div>
           <div style="max-height: 850px; overflow-y: auto">
             <div class="contenedor_principal_noticias">
+              <div v-if="todasNoticias.length == 0" class="mt-4">
+                {{ language.noHayNoticias }}
+              </div>
               <div
+                v-else
                 class="accordion"
                 id="accordionExample"
                 v-for="noticia in todasNoticias"
                 :key="noticia.data.id"
                 style="margin: auto"
               >
-                <div class="card" style="padding: 0.5rem 1rem">
+
+                <div class="card" style="padding: 0.5rem 1rem; width: 530px">
                   <div class="" id="headingOne">
                     <h2 class="mb-0">
                       <button
@@ -153,7 +171,9 @@
                             <div style="display: flex; flex-direction: row">
                               <p>{{ noticia.data.titulo }}</p>
                               <i
-                                v-if="noticia.data.idUsuario == usuario.username"
+                                v-if="
+                                  noticia.data.idUsuario == usuario.username
+                                "
                                 class="fas fa-times"
                                 style="
                                   margin-left: auto;
@@ -224,6 +244,7 @@
         </div>
       </div>
     </div>
+
     <SectionRight></SectionRight>
   </div>
 </template>
@@ -258,9 +279,9 @@ export default {
       todasNoticias: "",
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       camposVacios: false,
-       file: [],
+      file: [],
       mensaje: "",
-      misNoticias:false,
+      misNoticias: false,
     };
   },
   mounted() {
@@ -268,10 +289,10 @@ export default {
     this.cargarAllNoticias();
   },
   methods: {
-       comprobarCamposVacios(input1) {
-        return input1.length == 0;
+    comprobarCamposVacios(input1) {
+      return input1.length == 0;
     },
-     getFile(event) {
+    getFile(event) {
       let size = event.target.files[0].size;
       let res = size * 0.000001;
 
@@ -285,7 +306,7 @@ export default {
         this.$swal.fire(this.language.maximo3Archivos, "", "info");
       }
     },
-       publicarNoticia() {
+    publicarNoticia() {
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -328,13 +349,11 @@ export default {
           });
         });
     },
-     returnImgB64() {
+    returnImgB64() {
       return "data:image/png;base64," + localStorage.getItem("perfil_img");
     },
-       enviarArchivos() {
-      this.camposVacios = this.comprobarCamposVacios(
-        this.mensaje
-      );
+    enviarArchivos() {
+      this.camposVacios = this.comprobarCamposVacios(this.mensaje);
       if (!this.camposVacios) {
         this.$swal.fire({
           title: this.language.enviando,
@@ -344,7 +363,7 @@ export default {
           allowEscapeKey: false,
           didOpen: () => {
             this.$swal.showLoading();
-              this.publicarNoticia();
+            this.publicarNoticia();
           },
           willClose: () => {
             clearInterval(5);
@@ -372,15 +391,14 @@ export default {
       return "data:image/png;base64," + img;
     },
     borrarNoticia(noticia) {
-         let config = {
+      let config = {
         headers: {
           "Content-Type": "multipart/form-data",
           token: Global.token,
         },
       };
       axios
-        .delete(Global.urlSitio + "noticia/"+noticia.id,config
-        )
+        .delete(Global.urlSitio + "noticia/" + noticia.id, config)
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire({
@@ -389,7 +407,7 @@ export default {
               showConfirmButton: false,
               timer: 1500,
             });
-            this.cargarMisNoticias();
+            this.cargarAllNoticias();
           }
         })
         .catch(() => {
@@ -400,27 +418,25 @@ export default {
           });
         });
     },
-    cargarAllNoticias(){
-      this.loading=true;
-       this.misNoticias = false; 
-       let config = {
+    cargarAllNoticias() {
+      this.loading = true;
+      this.misNoticias = false;
+      let config = {
         headers: {
           "Content-Type": "multipart/form-data",
           token: Global.token,
         },
       };
-      axios
-        .get(Global.urlSitio + "noticia",config)
-        .then((res) => {
-          if (res.status == 200) {
-            this.todasNoticias = res.data;
-            this.loading = false;
-          }
-        });
+      axios.get(Global.urlSitio + "noticia", config).then((res) => {
+        if (res.status == 200) {
+          this.todasNoticias = res.data;
+          this.loading = false;
+        }
+      });
     },
     cargarMisNoticias() {
-      this.misNoticias= true;
-      this.loading=true;
+      this.misNoticias = true;
+      this.loading = true;
       let config = {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -428,7 +444,10 @@ export default {
         },
       };
       axios
-        .get(Global.urlSitio + "noticia?idUsuario=" + this.usuario.username,config)
+        .get(
+          Global.urlSitio + "noticia?idUsuario=" + this.usuario.username,
+          config
+        )
         .then((res) => {
           if (res.status == 200) {
             this.todasNoticias = res.data;
@@ -443,7 +462,7 @@ export default {
       return nombreArchivo.replace(/^([\d_^)]+)/, "");
     },
     descargarPDF(label) {
-         let url = Global.urlSitio + "archivo/" + label;
+      let url = Global.urlSitio + "archivo/" + label;
 
       axios
         .get(url, {
@@ -464,7 +483,7 @@ export default {
         .catch(console.error);
     },
 
-     delateFile(nombre) {
+    delateFile(nombre) {
       let i;
 
       for (i = 0; i < this.file.length; i++) {
