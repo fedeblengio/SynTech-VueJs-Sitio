@@ -104,7 +104,6 @@
       <v-date-picker show-weeknumbers="right-outside" mode="date" :locale="language.calendario" v-model="date"
         :valid-hours="{ min: 4, max: 17 }" is24hr />
     </div>
-
     <div class="currentEvent">
       <div class="currentEvent_contenedor">
         <h3>{{ language.eventosHoy }}</h3>
@@ -113,7 +112,7 @@
             <span class="sidebarDot_event"></span> . . .
           </span>
         </div>
-        <div class="sidebarElement" v-for="todo in eventos" :key="todo.id" v-else>
+        <div class="sidebarElement " v-for="todo in eventos" :key="todo.id" v-else>
           <router-link to="/calendario" class="router-link">
             <span class="clases">
               <span class="sidebarDot_event"></span> {{ evento(todo) }}
@@ -121,6 +120,38 @@
           </router-link>
         </div>
         {{ language.prueba1 }}
+      </div>
+    </div>
+      <div class="currentEvent ">
+      <h3>{{ language.misClases }}</h3>
+      <div class="currentEvent_contenedor">
+      <div class="sidebarElement" v-if="loadingMaterias">
+        <span class="clases"> <span class="sidebarDot"></span> . . .</span>
+      </div>
+
+      <div
+        class="sidebarElement"
+        v-for="todo in traerMaterias"
+        :key="todo.id2"
+        v-else
+      >
+        <router-link
+          :to="{
+            name: 'materia-seleccionada',
+            params: {
+              idGrupo: todo.idGrupo,
+              idMateria: todo.idMateria,
+              materia: todo.Materia,
+            },
+          }"
+          style="text-decoration: none"
+        >
+          <span class="clases">
+            <span class="sidebarDot"></span>
+            {{ todo.Materia }}</span
+          ></router-link
+        >
+      </div>
       </div>
     </div>
   </div>
@@ -143,22 +174,106 @@ export default {
       loading: true,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       eventos: "",
-
+    traerMaterias: "",
       profesor: false,
       aux: 1,
       date: new Date(),
       lang: localStorage.getItem("lang"),
       language: "",
+      loadingMaterias: true,
 
       notificaciones: "",
     };
   },
   mounted() {
+        this.traerGrupo();
     this.cargarNotificaciones();
     this.cargarEventos();
     this.selectLanguage();
   },
   methods: {
+        getNotDuplicatedNames(groups) {
+      let names = [];
+      for (let g of groups) {
+        if (!names.includes(g.idGrupo)) {
+          names.push(g.idGrupo);
+        }
+      }
+      return names;
+    },
+      traerGrupo() {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+
+      axios
+        .get(
+          Global.urlSitio + "usuario/" + this.usuario.username + "/grupo",
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.grupos = res.data;
+            this.groupNames = this.getNotDuplicatedNames(res.data);
+            if (localStorage.getItem("idGrupo")) {
+              this.selectedGroup = localStorage.getItem("idGrupo");
+              this.localStorageGroup = localStorage.getItem("idGrupo");
+            } else {
+              this.selectedGroup = this.groupNames[0];
+              this.localStorageGroup = this.groupNames[0];
+              localStorage.setItem("idGrupo", this.groupNames[0]);
+            }
+            this.traerMateriasUser(this.selectedGroup);
+          }
+        })
+    },
+      traerMateriasUser(grupo) {
+      let config = {
+        headers: {
+          "Content-Type": "application/json",
+          token: Global.token,
+        },
+      };
+      axios
+        .get(
+          Global.urlSitio +
+            "grupo/" +
+            grupo +
+            "/materia" +
+            "?idUsuario=" +
+            this.usuario.username,
+          config
+        )
+        .then((res) => {
+          if (res.status == 200) {
+            this.traerMaterias = res.data;
+            this.loadingMaterias = false;
+          }
+        })
+        .catch(() => {
+          let timerInterval;
+          this.$swal.fire({
+            title: this.language.tituloTokenExpirado,
+            html: this.language.tokenExpirado,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: () => {
+              this.$swal.showLoading();
+            },
+            willClose: () => {
+              clearInterval(timerInterval);
+            },
+          });
+          localStorage.removeItem("auth_token");
+          localStorage.removeItem("perfil_img");
+          localStorage.removeItem("logged");
+          localStorage.removeItem("idGrupo");
+          this.$router.push("/login");
+        });
+    },
     marcarComoLeida(notificacionId) {
       let config = {
         headers: {

@@ -1,7 +1,4 @@
 <template>
-<div>
-  <navbar-component></navbar-component>
-
   <div class="contenedorDiv">
     <vue-headful :title="language.title" />
     
@@ -211,7 +208,7 @@
 
     <SectionRight></SectionRight>
   </div>
-   </div>
+
 </template>
 
 

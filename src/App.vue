@@ -4,7 +4,7 @@
 
     <div class="ContenedorAppVue">
       <div v-if=logged>
-        
+        <navbar-component></navbar-component>
         <router-view :key="$route.fullPath"> </router-view>
       </div>
        <div v-else>
