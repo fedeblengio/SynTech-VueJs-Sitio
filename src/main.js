@@ -17,6 +17,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import LoginComponent from './components/LoginComponent.vue';
 import HomeComponent from './components/HomeComponent.vue';
 import PDFComponent from './components/PDFComponent.vue';
+import NavBarComponent from './components/NavBarComponent.vue';
 
 const ListadoTareasEntregadasComponent = () => import('./components/ListadoTareasEntregadasComponent.vue')
 const ErrorComponent = () => import('./components/ErrorComponent.vue')
@@ -39,9 +40,11 @@ const ListadoCalificacionesComponent = () => import('./components/ListadoCalific
 const RegistroDeFaltasComponent = () => import('./components/RegistroDeFaltasComponent.vue')
 const GenerarPromedioComponent = () => import('./components/GenerarPromedioComponent.vue')
 const NoticiasComponent = () => import('./components/NoticiasComponent.vue')
+
 Vue.config.productionTip = false
 Vue.use(VueSweetalert2);
 Vue.use(FlashMessage);
+Vue.component('navbar-component', NavBarComponent);
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
 Vue.use(CKEditor);

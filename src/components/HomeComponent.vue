@@ -1,6 +1,10 @@
 <template>
+<div>
+  <navbar-component></navbar-component>
+
   <div class="contenedorDiv">
     <vue-headful :title="language.title" />
+    
     <SectionLeft></SectionLeft>
 
     <div class="feed">
@@ -207,6 +211,7 @@
 
     <SectionRight></SectionRight>
   </div>
+   </div>
 </template>
 
 
