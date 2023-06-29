@@ -1,15 +1,15 @@
 <template>
   <nav
     class="navbar navbar-expand-lg navbar-light"
-    style="width: 75% !important; margin: auto"
+    style=" !important; margin: auto"
   >
-    <a class="navbar-brand" href="#"
-      ><img
+    <router-link to="/home" class="router-link navbar-brand">
+      <img
         src="../assets/images/LogoFinal.png"
         alt="Logo"
         width="60px"
         height="50px"
-    /></a>
+    /></router-link>
     <button
       class="navbar-toggler"
       type="button"
@@ -26,39 +26,36 @@
       id="navbarNav"
     >
       <ul class="navbar-nav">
-        <li class="nav-item active">
+        <li class="nav-item active hover">
           <router-link to="/home" class="router-link nav-link">
             <span>{{ language.inicio }}</span>
           </router-link>
         </li>
-        <li class="nav-item">
+        <li class="nav-item hover">
           <router-link to="/materias" class="router-link nav-link">
             <span>{{ language.materias }}</span>
           </router-link>
         </li>
-        <li class="nav-item"  v-if="profesor">
-          <router-link
-            to="/agenda-virtual"
-            class="router-link nav-link"
-          >
+        <li class="nav-item hover" v-if="profesor">
+          <router-link to="/agenda-virtual" class="router-link nav-link">
             <span>{{ language.agendaVirtual }}</span>
           </router-link>
         </li>
-        <li class="nav-item" v-else>
+        <li class="nav-item hover" v-else>
           <router-link to="/calificaciones" class="router-link nav-link">
             <span>{{ language.calificaciones }}</span>
           </router-link>
         </li>
 
-        <li class="nav-item">
-             <router-link to="/calendario" class="router-link nav-link">
-          <span>{{ language.calendario }}</span>
-        </router-link>
+        <li class="nav-item hover">
+          <router-link to="/calendario" class="router-link nav-link">
+            <span>{{ language.calendario }}</span>
+          </router-link>
         </li>
-          <li class="nav-item">
-         <router-link to="/noticias" class="router-link nav-link">
-          <span>{{ language.noticias }}</span>
-        </router-link>
+        <li class="nav-item hover">
+          <router-link to="/noticias" class="router-link nav-link">
+            <span>{{ language.noticias }}</span>
+          </router-link>
         </li>
       </ul>
     </div>
@@ -102,5 +99,9 @@ export default {
 <style scoped>
 .icon {
   padding: 10px;
+}
+.hover:hover {
+  color: #636363;
+  border-bottom: 0.5px solid #636363;
 }
 </style>
