@@ -119,12 +119,11 @@
             </span>
           </router-link>
         </div>
-        {{ language.prueba1 }}
       </div>
     </div>
       <div class="currentEvent ">
-      <h3>{{ language.misClases }}</h3>
       <div class="currentEvent_contenedor">
+      <h3>{{ language.misClases }}</h3>
       <div class="sidebarElement" v-if="loadingMaterias">
         <span class="clases"> <span class="sidebarDot"></span> . . .</span>
       </div>

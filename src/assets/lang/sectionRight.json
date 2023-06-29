@@ -12,7 +12,8 @@
         "nuevaEntrega": "entrego una tarea",
         "nuevaReCorreccion": "Nueva re-corrección creada",
         "nuevaCorreccion": "Nueva corrección creada",
-        "soliciudReEntrega": "Solicitud de re-entrega"
+        "soliciudReEntrega": "Solicitud de re-entrega",
+        "misClases": "Mis clases"
     },
     "en": {
         "sinNotificaciones": "No notifications",
@@ -27,7 +28,7 @@
         "nuevaEntrega": "delivery a task",
         "nuevaReCorreccion": "A new re-correction was register",
         "nuevaCorreccion": "A new correction was register",
-        "soliciudReEntrega": "Re-delivery request"
-        
+        "soliciudReEntrega": "Re-delivery request",
+        "misClases": "My subjects"
     }
 }
