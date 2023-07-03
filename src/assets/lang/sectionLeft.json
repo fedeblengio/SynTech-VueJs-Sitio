@@ -12,7 +12,15 @@
         "noticias": "Noticias",
         "sinNotificaciones": "Sin notificaciones",
         "miPerfil": "Mi Perfil",
-        "cambiarContra": "Cambiar contraseña"
+        "cambiarContra": "Cambiar contraseña",
+        "ingles": "ING",
+        "espaniol": "ESP",
+        "nuevaTarea": "Nueva tarea creada",
+        "nuevaReEntrega": "re-entrego una tarea",
+        "nuevaEntrega": "entrego una tarea",
+        "nuevaReCorreccion": "Nueva re-corrección creada",
+        "nuevaCorreccion": "Nueva corrección creada",
+        "soliciudReEntrega": "Solicitud de re-entrega"
     },
     "en": {
         "cambiarContra": "Change password",
@@ -27,6 +35,14 @@
         "tituloTokenExpirado": "Leaving ...",
         "tokenExpirado": "Looks like your session is over !",
         "noticias": "News",
-        "sinNotificaciones": "No notifications"
+        "sinNotificaciones": "No notifications",
+        "ingles": "ENG",
+        "espaniol": "SP",
+        "nuevaTarea": "New task at",
+        "nuevaReEntrega": "re-delivery a task",
+        "nuevaEntrega": "delivery a task",
+        "nuevaReCorreccion": "A new re-correction was register",
+        "nuevaCorreccion": "A new correction was register",
+        "soliciudReEntrega": "Re-delivery request"
     }
 }
