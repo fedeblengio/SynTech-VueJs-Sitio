@@ -1,7 +1,7 @@
 <template>
   <div class="events">
     <!-- <div class="events_header"> -->
-    <div class="currentEvent" style="margin-top:20px !important">
+    <div class="currentEvent maxWidth" style="margin-top:20px !important">
       <router-link
         :to="{
           name: 'profile',
@@ -18,7 +18,7 @@
         </div>
       </router-link>
     </div>
-      <div class="sidebarClass"  style="margin-left:20px !important">
+      <div class="sidebarClass maxWidth"  style="margin-left:20px !important">
       <h3>{{ language.misGrupos }}</h3>
 
       <div class="sidebarElement" v-if="loading">
@@ -55,105 +55,14 @@
         </span>
       </div>
     </div>
-    <!-- <div class="events_icon dropdown" style="cursor: pointer" v-if="notificaciones.length == 0">
-        <i class="far fa-bell-slash dropbtn"></i>
-        <div class="dropdown-content" style="
-                  text-decoration: none;
-                  width: 130px !important;
-                  cursor: pointer;
-                  text-align: center;
-                  margin: 0;
-                ">
-          <span id="campana" style="padding: 0px !important">
-            <p style="
-                      text-decoration: none;
-                      font-size: 14px;
-                      padding: 0px !important;
-                      color: black;
-                    ">
-              {{ language.sinNotificaciones }}
-            </p>
-          </span>
-        </div>
-      </div>
-      <div class="events_icon dropdown" style="cursor: pointer" v-else>
-        <i class="far fa-bell dropbtn"></i>
-        <div class="punto-rojo"></div>
-        <div class="dropdown-content" style="
-                  text-decoration: none;
-                  width: 240px !important;
-                  cursor: pointer;
-                  padding: 5px;
-                  text-align: center;
-                  margin: 0;
-                  z-index: 2;
-                  border-radius: 5px;
-                ">
-          <span id="campana" style="padding: 0px !important;margin: 0;">
-            <span v-for="notificacion in notificaciones" class="notification-site elipsis" :key="notificacion.id"
-              @click="marcarComoLeida(notificacion.id)" :title="parsearNotificacion(notificacion)">
-              <router-link :to="notificacion.data.deeplink" class="router-link">
-                {{ parsearNotificacion(notificacion) }}
-              </router-link>
-            </span>
-          </span>
-        </div>
-      </div> -->
 
-    <!-- <div class="events_icon dropdown" style="cursor: pointer">
-        <i class="fal fa-cog dropbtn"></i>
-        <div class="dropdown-content" style="cursor: pointer">
-          <span>
-            <router-link :to="{
-              name: 'profile',
-              params: {
-                idUsuario: usuario.username,
-              },
-            }" style="text-decoration: none; font-size: 14px; padding: 5px" class="router-link">
-              {{ language.miPerfil }}</router-link>
-          </span>
-          <span>
-            <router-link to="/cambioPwd" style="
-                      text-decoration: none !important;
-                      font-size: 14px;
-                      padding: 5px;
-                    " class="router-link">
-              {{ language.cambiarContra }}
-            </router-link>
-          </span>
-        </div>
-      </div> -->
-    <!-- 
-      <div class="events_icon dropdown" style="cursor: pointer">
-        <i class="fal fa-globe dropbtn"></i>
 
-        <div class="dropdown-content" style="cursor: pointer; width: 55px !important" v-if="lang == 'es'">
-          <p class="iconBar active">
-            <span><country-flag country="es" size="normal" /> </span>
-          </p>
-          <p class="iconBar">
-            <span v-on:click="changeLanguage()"><country-flag country="gb" size="normal" />
-            </span>
-          </p>
-        </div>
+ 
+    
 
-        <div class="dropdown-content" style="cursor: pointer; width: 55px !important" v-else>
-          <p class="iconBar">
-            <span v-on:click="changeLanguage()"><country-flag country="es" size="normal" />
-            </span>
-          </p>
-          <p class="iconBar active">
-            <span><country-flag country="gb" size="normal" /> </span>
-          </p>
-        </div>
-      </div> -->
+    
 
-    <!-- <div class="events_icon" style="cursor: pointer">
-        <i class="fal fa-door-open" v-on:click="cerrarSesion()"></i>
-      </div> -->
-    <!-- </div> -->
-
-    <div class="calendarioElement">
+    <div class="calendarioElement maxWidth">
       <v-date-picker
         show-weeknumbers="right-outside"
         mode="date"
@@ -163,7 +72,7 @@
         is24hr
       />
     </div>
-    <div class="currentEvent">
+    <div class="currentEvent maxWidth">
       <div class="currentEvent_contenedor">
         <h3>{{ language.eventosHoy }}</h3>
         <div class="sidebarElement" v-if="loading">
@@ -185,7 +94,7 @@
         </div>
       </div>
     </div>
-    <div class="currentEvent">
+    <div class="currentEvent maxWidth">
       <div class="currentEvent_contenedor">
         <h3>{{ language.misClases }}</h3>
         <div class="sidebarElement" v-if="loadingMaterias">
@@ -226,12 +135,10 @@ import axios from "axios";
 /* import $ from "jquery"; */
 import moment from "moment";
 import language from "../assets/lang/sectionRight.json";
-// import CountryFlag from "vue-country-flag";
+
 export default {
   name: "SectionRight",
-  components: {
-    // CountryFlag,
-  },
+
   data() {
     return {
       loading: true,
@@ -241,7 +148,7 @@ export default {
       profesor: false,
       aux: 1,
       date: new Date(),
-      lang: localStorage.getItem("lang"),
+     
       language: "",
       loadingMaterias: true,
 
@@ -499,6 +406,9 @@ export default {
 .dropdown {
   position: relative;
   display: inline-block;
+}
+.maxWidth{
+  max-width: 280px;
 }
 
 /* Dropdown Content (Hidden by Default) */

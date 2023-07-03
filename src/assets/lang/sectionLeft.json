@@ -9,9 +9,14 @@
         "misGrupos":"Mis Grupos",
         "tituloTokenExpirado": "Saliendo ...",
         "tokenExpirado": "Parece que tu sesion ha finalizado !",
-        "noticias": "Noticias"
+        "noticias": "Noticias",
+        "sinNotificaciones": "Sin notificaciones",
+        "miPerfil": "Mi Perfil",
+        "cambiarContra": "Cambiar contraseña"
     },
     "en": {
+        "cambiarContra": "Change password",
+        "miPerfil": "My Profile",
         "inicio": "Home",
         "materias": "Subjects",
         "agendaVirtual": "Virtual Schedule",
@@ -21,6 +26,7 @@
         "misGrupos":"Groups",
         "tituloTokenExpirado": "Leaving ...",
         "tokenExpirado": "Looks like your session is over !",
-        "noticias": "News"
+        "noticias": "News",
+        "sinNotificaciones": "No notifications"
     }
 }

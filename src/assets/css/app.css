@@ -90,7 +90,7 @@ body {
 .contenedorDiv {
     display: flex;
     height: 100%;
-    max-width: 1100px;
+    max-width: 1700px;
     margin-right: auto;
     margin-left: auto;
     padding: 0 10px;
@@ -565,6 +565,7 @@ em {
 
 .events_icon {
     margin: auto;
+    margin-left:20px;
 }
 
 .noticont {

@@ -134,7 +134,7 @@
                 style="margin: auto"
               >
 
-                <div class="card" style="padding: 0.5rem 1rem; width: 530px">
+                <div class="card" style="padding: 0.5rem 1rem; width:100% !important">
                   <div class="" id="headingOne">
                     <h2 class="mb-0">
                       <button
