@@ -1,8 +1,61 @@
 <template>
   <div class="events">
-    <div class="events_header">
+    <!-- <div class="events_header"> -->
+    <div class="currentEvent" style="margin-top:20px !important">
+      <router-link
+        :to="{
+          name: 'profile',
+          params: {
+            idUsuario: usuario.username,
+          },
+        }"
+        style="text-decoration: none"
+        class="router-link"
+      >
+        <div class="sidebarUser">
+          <img :src="returnImgB64()" />
+          <p id="nameUser">{{ usuario.nombre }}</p>
+        </div>
+      </router-link>
+    </div>
+      <div class="sidebarClass"  style="margin-left:20px !important">
+      <h3>{{ language.misGrupos }}</h3>
 
-      <div class="events_icon dropdown" style="cursor: pointer" v-if="notificaciones.length == 0">
+      <div class="sidebarElement" v-if="loading">
+        <span class="clases"> <span class="sidebarDot"></span> . . .</span>
+      </div>
+      <div v-else>
+        <span class="d-flex" v-if="!changeGroup">
+          <input
+            type="text"
+            class="form-control"
+            disabled
+            :value="localStorageGroup"
+          />
+          <i class="fas fa-pencil icon" style="padding:10px" @click="changeGroup = true"></i>
+        </span>
+        <span v-else class="d-flex">
+          <select
+            v-on:change="cambiarGrupo()"
+            class="form-control"
+            v-model="selectedGroup"
+            required
+            id="group-select"
+          >
+            <option
+              v-for="todo in groupNames"
+              :key="todo.ids"
+              :id="todo"
+              v-bind:value="todo"
+            >
+              {{ todo }}
+            </option>
+          </select>
+          <i class="fas fa-times icon" style="padding:10px" @click="changeGroup = false"></i>
+        </span>
+      </div>
+    </div>
+    <!-- <div class="events_icon dropdown" style="cursor: pointer" v-if="notificaciones.length == 0">
         <i class="far fa-bell-slash dropbtn"></i>
         <div class="dropdown-content" style="
                   text-decoration: none;
@@ -45,9 +98,9 @@
             </span>
           </span>
         </div>
-      </div>
+      </div> -->
 
-      <div class="events_icon dropdown" style="cursor: pointer">
+    <!-- <div class="events_icon dropdown" style="cursor: pointer">
         <i class="fal fa-cog dropbtn"></i>
         <div class="dropdown-content" style="cursor: pointer">
           <span>
@@ -69,8 +122,8 @@
             </router-link>
           </span>
         </div>
-      </div>
-
+      </div> -->
+    <!-- 
       <div class="events_icon dropdown" style="cursor: pointer">
         <i class="fal fa-globe dropbtn"></i>
 
@@ -93,16 +146,22 @@
             <span><country-flag country="gb" size="normal" /> </span>
           </p>
         </div>
-      </div>
+      </div> -->
 
-      <div class="events_icon" style="cursor: pointer">
+    <!-- <div class="events_icon" style="cursor: pointer">
         <i class="fal fa-door-open" v-on:click="cerrarSesion()"></i>
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
 
     <div class="calendarioElement">
-      <v-date-picker show-weeknumbers="right-outside" mode="date" :locale="language.calendario" v-model="date"
-        :valid-hours="{ min: 4, max: 17 }" is24hr />
+      <v-date-picker
+        show-weeknumbers="right-outside"
+        mode="date"
+        :locale="language.calendario"
+        v-model="date"
+        :valid-hours="{ min: 4, max: 17 }"
+        is24hr
+      />
     </div>
     <div class="currentEvent">
       <div class="currentEvent_contenedor">
@@ -112,7 +171,12 @@
             <span class="sidebarDot_event"></span> . . .
           </span>
         </div>
-        <div class="sidebarElement " v-for="todo in eventos" :key="todo.id" v-else>
+        <div
+          class="sidebarElement"
+          v-for="todo in eventos"
+          :key="todo.id"
+          v-else
+        >
           <router-link to="/calendario" class="router-link">
             <span class="clases">
               <span class="sidebarDot_event"></span> {{ evento(todo) }}
@@ -121,36 +185,36 @@
         </div>
       </div>
     </div>
-      <div class="currentEvent ">
+    <div class="currentEvent">
       <div class="currentEvent_contenedor">
-      <h3>{{ language.misClases }}</h3>
-      <div class="sidebarElement" v-if="loadingMaterias">
-        <span class="clases"> <span class="sidebarDot"></span> . . .</span>
-      </div>
+        <h3>{{ language.misClases }}</h3>
+        <div class="sidebarElement" v-if="loadingMaterias">
+          <span class="clases"> <span class="sidebarDot"></span> . . .</span>
+        </div>
 
-      <div
-        class="sidebarElement"
-        v-for="todo in traerMaterias"
-        :key="todo.id2"
-        v-else
-      >
-        <router-link
-          :to="{
-            name: 'materia-seleccionada',
-            params: {
-              idGrupo: todo.idGrupo,
-              idMateria: todo.idMateria,
-              materia: todo.Materia,
-            },
-          }"
-          style="text-decoration: none"
+        <div
+          class="sidebarElement"
+          v-for="todo in traerMaterias"
+          :key="todo.id2"
+          v-else
         >
-          <span class="clases">
-            <span class="sidebarDot"></span>
-            {{ todo.Materia }}</span
-          ></router-link
-        >
-      </div>
+          <router-link
+            :to="{
+              name: 'materia-seleccionada',
+              params: {
+                idGrupo: todo.idGrupo,
+                idMateria: todo.idMateria,
+                materia: todo.Materia,
+              },
+            }"
+            style="text-decoration: none"
+          >
+            <span class="clases">
+              <span class="sidebarDot"></span>
+              {{ todo.Materia }}</span
+            ></router-link
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -162,18 +226,18 @@ import axios from "axios";
 /* import $ from "jquery"; */
 import moment from "moment";
 import language from "../assets/lang/sectionRight.json";
-import CountryFlag from "vue-country-flag";
+// import CountryFlag from "vue-country-flag";
 export default {
   name: "SectionRight",
   components: {
-    CountryFlag,
+    // CountryFlag,
   },
   data() {
     return {
       loading: true,
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
       eventos: "",
-    traerMaterias: "",
+      traerMaterias: "",
       profesor: false,
       aux: 1,
       date: new Date(),
@@ -182,16 +246,34 @@ export default {
       loadingMaterias: true,
 
       notificaciones: "",
+
+      spinner: Global.spinnerUrl,
+      selectedGroup: "",
+      changeGroup: false,
+      grupos: "",
+      groupNames: [],
+      localStorageGroup: localStorage.getItem("idGrupo"),
     };
   },
   mounted() {
-        this.traerGrupo();
+    this.traerGrupo();
     this.cargarNotificaciones();
     this.cargarEventos();
     this.selectLanguage();
+    
   },
   methods: {
-        getNotDuplicatedNames(groups) {
+    returnImgB64() {
+      return "data:image/png;base64," + localStorage.getItem("perfil_img");
+    },
+      cambiarGrupo() {
+      localStorage.setItem("idGrupo", this.selectedGroup);
+      this.localStorageGroup = this.selectedGroup;
+      this.$router.push({ name: "home" });
+
+      location.reload();
+    },
+    getNotDuplicatedNames(groups) {
       let names = [];
       for (let g of groups) {
         if (!names.includes(g.idGrupo)) {
@@ -200,7 +282,7 @@ export default {
       }
       return names;
     },
-      traerGrupo() {
+    traerGrupo() {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -227,9 +309,9 @@ export default {
             }
             this.traerMateriasUser(this.selectedGroup);
           }
-        })
+        });
     },
-      traerMateriasUser(grupo) {
+    traerMateriasUser(grupo) {
       let config = {
         headers: {
           "Content-Type": "application/json",
@@ -379,15 +461,9 @@ export default {
           token: Global.token,
         },
       };
-      axios
-        .post(
-          Global.urlSitio + "logout",
-          config
-        )
-        .then(() => {
-          console.log("Sesion cerrada");
-  
-        })
+      axios.post(Global.urlSitio + "logout", config).then(() => {
+        console.log("Sesion cerrada");
+      });
     },
 
     cargarEventos() {

@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <router-link
+    <!-- <router-link
       :to="{
         name: 'profile',
         params: {
@@ -15,7 +15,7 @@
         <p id="nameUser">{{ usuario.nombre }}</p>
       </div>
     </router-link>
-    <div class="sidebarClass">
+    <div class="sidebarClass" style="margin-left:20px !important">
       <h3>{{ language.misGrupos }}</h3>
 
       <div class="sidebarElement" v-if="loading">
@@ -51,7 +51,7 @@
           <i class="fas fa-times icon" @click="changeGroup = false"></i>
         </span>
       </div>
-    </div>
+    </div> -->
 
  
   </div>
@@ -80,12 +80,12 @@ export default {
     };
   },
   mounted() {
-    this.traerGrupo();
-    if (this.usuario.ou == "Profesor") {
-      this.profesor = true;
-    }
+    // this.traerGrupo();
+    // if (this.usuario.ou == "Profesor") {
+    //   this.profesor = true;
+    // }
 
-    this.selectLanguage();
+    // this.selectLanguage();
   },
   methods: {
     selectLanguage() {
