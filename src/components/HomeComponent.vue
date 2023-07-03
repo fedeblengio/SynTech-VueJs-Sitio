@@ -353,7 +353,7 @@ export default {
     cargarMasPost() {
       this.cargandoMasPublicaciones = true;
       this.limit += 5;
-      this.traerPostarchivos();
+      this.traerPostarchivos(localStorage.getItem("idGrupo"));
     },
     traerGrupo() {
       let config = {
@@ -515,7 +515,7 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.publicacionEliminada, "", "success");
-            this.traerPostarchivos();
+            this.traerPostarchivos(localStorage.getItem("idGrupo"));
           }
         })
         .catch(() => {
