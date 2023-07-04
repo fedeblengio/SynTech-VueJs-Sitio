@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar navbar-expand-lg navbar-light"
+    class="navbar navbar-expand-lg navbar-dark bg-dark"
     style=" !important; margin: auto"
   >
     <router-link to="/home" class="router-link navbar-brand">
@@ -59,7 +59,7 @@
         </li>
       </ul>
     </div>
-    <div class="d-flex justify-content-center" style="margin-left:5vh;margin-right:-2vh">
+    <div class="d-flex justify-content-center" style="margin-left:5vh;margin-right:-2vh;color:whitesmoke">
         <div
           class="events_icon dropdown"
           style="cursor: pointer"
