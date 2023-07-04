@@ -53,7 +53,7 @@
         </button>
       </div>
       <div class="agendaContenedor">
-        <label>{{ language.grupos }} <em>*</em></label>
+       <span>  <label>{{ language.grupos }} <em>*</em></label> </span>
         <select
           class="form-control"
           v-model="agenda.idGrupo"
@@ -70,7 +70,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label> {{ language.materias }} <em>*</em></label>
+        <span>  <label> {{ language.materias }} <em>*</em></label> </span>
         <select
           class="form-control"
           v-model="agenda.materia"
@@ -84,7 +84,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label>{{ language.fecha }} <em>*</em></label>
+      <span> <label>{{ language.fecha }} <em>*</em></label></span> 
         <input
           type="datetime-local"
           id="meeting-time"
@@ -96,7 +96,7 @@
       </div>
 
       <div class="agendaContenedor">
-        <label>{{ language.duracion }} <em>*</em></label>
+      <span>   <label>{{ language.duracion }} <em>*</em></label> </span>
 
         <div class="contenedorDuracion">
           <select name="meeting-hrs" v-model="agenda.duracionHrs" required>
@@ -393,3 +393,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+span{
+  display:flex;
+
+  width: 100px;
+}
+</style>

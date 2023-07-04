@@ -798,25 +798,23 @@ textarea {
 }
 
 .agendaContenedor {
+    margin-top:10px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .agendaContenedor label {
     margin-top: 10px;
-    margin-left: 20px;
 }
 
 .agendaContenedor select {
     max-width: 200px;
-    margin-right: 80px;
     margin-top: 5px;
 }
 
 .imput_fechaAgenda {
     max-width: 200px;
-    margin-right: 80px;
     margin-top: 5px;
     border: 1px solid var(--background);
     border-radius: 3px;
@@ -829,7 +827,6 @@ textarea {
 
 .contenedorDuracion select {
     width: 200px;
-    margin-right: 80px;
     margin-top: 5px;
     border: 1px solid var(--background);
     border-radius: 3px;
