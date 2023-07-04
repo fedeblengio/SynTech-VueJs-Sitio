@@ -118,11 +118,11 @@
           {{ language.cargarTodasNoticias }}
         </button>
       </div>
-      <div style="display: flex; width: 100%; justify-content: center">
-        <div>
-          <div style="max-height: 850px; overflow-y: auto">
+      <div style="display: flex; width: 100%;">
+   
+          <div style="overflow-y: auto;width: 100%;">
             <div class="contenedor_principal_noticias">
-              <div v-if="todasNoticias.length == 0" class="mt-4">
+              <div v-if="todasNoticias.length == 0" class="mt-4 text-center">
                 {{ language.noHayNoticias }}
               </div>
               <div
@@ -131,7 +131,7 @@
                 id="accordionExample"
                 v-for="noticia in todasNoticias"
                 :key="noticia.data.id"
-                style="margin: auto"
+                style="margin: auto;width:100% !important"
               >
 
                 <div class="card" style="padding: 0.5rem 1rem; width:100% !important">
@@ -177,7 +177,8 @@
                                 class="fas fa-times"
                                 style="
                                   margin-left: auto;
-
+                                  position:absolute;
+                                  right:0;
                                   color: red;
                                 "
                                 @click="comprobarOpcionEliminar(noticia.data)"
@@ -212,7 +213,7 @@
                     aria-labelledby="headingOne"
                     data-parent="#accordionExample"
                   >
-                    <div class="card-body" style="padding: 10px">
+                    <div class="card-body" style="padding: 20px">
                       <p>{{ noticia.data.mensaje }}</p>
                       <div v-if="noticia.archivos != ''">
                         <hr />
@@ -241,7 +242,7 @@
               </div>
             </div>
           </div>
-        </div>
+
       </div>
     </div>
 
