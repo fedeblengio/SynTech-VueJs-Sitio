@@ -61,7 +61,7 @@
           </div>
 
           <div class="preview_contenedor" v-for="file in entregarTarea.file" :key="file.id" :value="file.name"
-            style="width: 410px;margin-right: 10px;">
+            style="width: 700px;margin-right: 30px;padding:10px">
             <i class="fal fa-file-alt file"></i>
 
             <h3 class="preview" style="text-decoration: none;margin-left: 3px;font-weight: 500;">
