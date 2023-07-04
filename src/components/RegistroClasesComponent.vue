@@ -58,11 +58,13 @@
             {{ todo.Materia }}
           </option>
         </select>
+        <span style="display:flex">
         <input
           type="text"
           class="form-control inpuntRegistro"
           id="Dia"
           placeholder="04"
+          style="margin-left:5px"
           v-model="dia"
         />
 
@@ -70,6 +72,7 @@
           type="text"
           class="form-control inpuntRegistro"
           id="mes"
+          style="margin-left:5px"
           placeholder="08"
           v-model="mes"
         />
@@ -79,23 +82,26 @@
           class="form-control inpuntRegistro"
           id="anio"
           placeholder="2022"
+          style="margin-left:5px"
           v-model="anio"
         />
-        <div>
+        <div style="margin-left:5px">
           <i
             class="fas fa-search btn-lupa-registro"
             type="button"
             value="Filtrar"
+            
             v-on:click="filtrar()"
           ></i>
         </div>
-        <div>
+        <div style="margin-left:5px">
           <i
             class="fas fa-sync btn-lupa-registro"
-            style="background-color: green"
+            style="background-color: green;"
             v-on:click="limpiarFiltro()"
           ></i>
         </div>
+        </span>
       </div>
       <div class="spinerCont" v-if="loading">
         <img :src="spinner" class="spinnerCSS" />
@@ -233,6 +239,7 @@ export default {
       this.dia = "";
       this.mes = "";
       this.anio = "";
+      this.grupo="";
     },
 
     comprobarArrayVacio(array) {

@@ -1189,12 +1189,13 @@ input[type="number"]::-webkit-inner-spin-button {
 .registroContFiltro {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     margin: 15px auto;
+    width: 95%;
 }
 
 .inputFiltrogrande {
-    width: 170px;
+    width: 300px;
 }
 
 .inpuntRegistro {
