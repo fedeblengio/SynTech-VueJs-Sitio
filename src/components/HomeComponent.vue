@@ -122,7 +122,7 @@
         :key="post.id"
         :id="post.id"
       >
-        <div class="post_avatar">
+        <div class="post_avatar" style="margin-top:1rem">
           <img
             loading="lazy"
             :src="returnImgB64()"
@@ -136,7 +136,7 @@
           />
         </div>
 
-        <div class="post_body">
+        <div class="post_body" style="width:90%">
           <i
             v-if="post.data.idUsuario == usuario.username"
             class="far fa-ellipsis-h menu-card-home ellipsis-home"

@@ -63,9 +63,19 @@
               </div>
             </div>
           </div>
+            <div class="post_footer" v-for="archivo in tarea.archivos" :key="archivo.id">
+            <div class="contenedor_pdf">
+              <div class="previw_archivosPost">
+                <h3 v-on:click="descargarPDF(archivo)">
+                  <i class="fal fa-file-alt file"></i>
+                  <span>{{ simplificarNombre(archivo) }}</span>
+                </h3>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div
+      <!-- <div
         class="clificarTareaCss"
         v-for="archivo in tarea.archivos"
         :key="archivo.id"
@@ -78,7 +88,7 @@
             </h3>
           </div>
         </div>
-      </div>
+      </div> -->
       <div class="alumnoEntregaTareaContenedor">
         <div class="alumnoEntregaTarea_checkbox" v-if="!re_entrega">
           <input

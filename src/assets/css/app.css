@@ -408,8 +408,8 @@ details {
 }
 
 .post_body {
-   width: 90%;
-   padding: 10px;
+    min-width: 700px;
+    padding: 10px;
 }
 
 .post_body img {
