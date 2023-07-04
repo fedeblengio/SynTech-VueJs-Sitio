@@ -777,6 +777,7 @@ textarea {
 }
 
 .infoUserContenedor {
+    margin: auto;
     width: 95%;
 }
 
@@ -793,7 +794,6 @@ textarea {
 }
 
 .infoUser {
-    width: 500px;
     margin-top: 5px;
 }
 
