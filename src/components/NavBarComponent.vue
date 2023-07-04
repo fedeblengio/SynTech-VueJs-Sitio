@@ -58,7 +58,8 @@
           </router-link>
         </li>
       </ul>
-      <div class="d-flex justify-content-center" style="margin-left:5vh">
+    </div>
+    <div class="d-flex justify-content-center" style="margin-left:5vh;margin-right:-2vh">
         <div
           class="events_icon dropdown"
           style="cursor: pointer"
@@ -193,7 +194,6 @@
           <i class="fal fa-door-open" v-on:click="cerrarSesion()"></i>
         </div>
       </div>
-    </div>
   </nav>
 </template>
 <script>
