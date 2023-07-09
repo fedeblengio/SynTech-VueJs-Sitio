@@ -185,7 +185,7 @@
                   </small>
                 </div>
                 <div>
-                  <label for="titulo" style="margin-left: 24px"
+                  <label for="titulo" style="margin-left: 24px;"
                     >{{ language.tituloTarea }} :
                   </label>
                   <input
@@ -489,12 +489,13 @@
             }"
             class="router-link"
           >
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tarea.titulo }} {{ tarea.materia }}</h5>
+            <div class="d-flex w-100 justify-content-between" style="color:black !important"> 
+              <h5 class="mb-1" style="color:black !important">{{ tarea.titulo }} {{ tarea.materia }}</h5>
             </div>
           </router-link>
 
           <p
+          style="color:black !important"
             :class="
               tiempoDeVencimiento(
                 tarea.fecha_vencimiento,
@@ -531,7 +532,7 @@
             class="router-link"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tareas.titulo }}</h5>
+              <h5 class="mb-1" style="color:#4f5468 !important">{{ tareas.titulo }}</h5>
             </div>
           </router-link>
           <p
@@ -568,7 +569,7 @@
             class="router-link"
           >
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">{{ tareas.titulo }}</h5>
+              <h5 class="mb-1" style="color:#4f5468 !important">{{ tareas.titulo }}</h5>
             </div>
           </router-link>
           <p

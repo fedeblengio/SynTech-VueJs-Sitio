@@ -118,6 +118,7 @@
                 <router-link
                   :to="notificacion.data.deeplink"
                   class="router-link"
+                  style="color:black !important"
                 >
                   {{ parsearNotificacion(notificacion) }}
                 </router-link>
