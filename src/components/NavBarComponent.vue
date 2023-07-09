@@ -104,6 +104,7 @@
               margin: 0;
               z-index: 2;
               border-radius: 5px;
+             
             "
           >
             <span id="campana" style="padding: 0px !important; margin: 0">
@@ -135,7 +136,7 @@
                     idUsuario: usuario.username,
                   },
                 }"
-                style="text-decoration: none; font-size: 14px; padding: 5px"
+                style="text-decoration: none; font-size: 14px;  color:black !important; padding: 5px"
                 class="router-link"
               >
                 {{ language.miPerfil }}</router-link
@@ -148,6 +149,7 @@
                   text-decoration: none !important;
                   font-size: 14px;
                   padding: 5px;
+                   color:black !important;
                 "
                 class="router-link"
               >
