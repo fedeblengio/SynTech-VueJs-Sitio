@@ -207,7 +207,7 @@
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
         <li class="nav-item">
           <a
-            href="https://drive.google.com/file/d/1JMc-NRePJJkZsmtGIYG92ePS7UHmJBbr/view?usp=sharing"
+            href="https://drive.google.com/file/d/1TV8Z_xSm62r14Z09rGHtR2uYBzWF01Nf/view?usp=sharing"
             target="_blank"
             class="nav-link px-2 text-muted"
             >{{ language.MProfesores }}</a
@@ -215,22 +215,15 @@
         </li>
         <li class="nav-item">
           <a
-            href="https://drive.google.com/file/d/1JMc-NRePJJkZsmtGIYG92ePS7UHmJBbr/view?usp=sharing"
+            href="https://drive.google.com/file/d/1JeNw27cqvLLp2NuSip084ULB18w83eNH/view?usp=sharing"
             target="_blank"
             class="nav-link px-2 text-muted"
             >{{ language.MAlumnos }}</a
           >
         </li>
-        <li class="nav-item">
-          <a
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley"
-            target="_blank"
-            class="nav-link px-2 text-muted"
-            >{{ language.Tutorial }}</a
-          >
-        </li>
+     
       </ul>
-      <p class="text-center text-muted">© 2022 Syntech</p>
+      <p class="text-center text-muted">© 2023 Syntech</p>
     </footer>
   </div>
 </template>

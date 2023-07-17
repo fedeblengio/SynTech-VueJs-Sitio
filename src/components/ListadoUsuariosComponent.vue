@@ -155,12 +155,12 @@
                   alt=""
                 />
               </div>
-              <div class="textUser">
+              <div class="textUser" style="color:black !important">
                 {{ language.profesor }} - {{ listadoUsuarios.Profesor.nombre }}
               </div>
             </router-link>
           </div>
-          <div class="usuariosComponentSeparacion">
+          <div class="usuariosComponentSeparacion " style="color:black !important"> 
             <p>{{ language.alumnos }}</p>
           </div>
           <div
@@ -176,13 +176,13 @@
                   idUsuario: alumno.idAlumnos,
                 },
               }"
-              style="text-decoration: none"
+              style="text-decoration: none;"
               class="router-link usuariosComponentlistado"
             >
               <div class="post_avatar">
                 <img :src="returnImgProfile(alumno.imagen_perfil)" alt="" />
               </div>
-              <div class="textUser">
+              <div class="textUser" style="color:black !important">
                 {{ alumno.nombre }}
               </div>
             </router-link>

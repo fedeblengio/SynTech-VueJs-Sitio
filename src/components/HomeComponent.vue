@@ -1,6 +1,7 @@
 <template>
   <div class="contenedorDiv">
     <vue-headful :title="language.title" />
+    
     <SectionLeft></SectionLeft>
 
     <div class="feed">
@@ -121,7 +122,7 @@
         :key="post.id"
         :id="post.id"
       >
-        <div class="post_avatar">
+        <div class="post_avatar" style="margin-top:1rem">
           <img
             loading="lazy"
             :src="returnImgB64()"
@@ -135,7 +136,7 @@
           />
         </div>
 
-        <div class="post_body">
+        <div class="post_body" style="width:90%">
           <i
             v-if="post.data.idUsuario == usuario.username"
             class="far fa-ellipsis-h menu-card-home ellipsis-home"
@@ -207,6 +208,7 @@
 
     <SectionRight></SectionRight>
   </div>
+
 </template>
 
 
@@ -351,7 +353,7 @@ export default {
     cargarMasPost() {
       this.cargandoMasPublicaciones = true;
       this.limit += 5;
-      this.traerPostarchivos();
+      this.traerPostarchivos(localStorage.getItem("idGrupo"));
     },
     traerGrupo() {
       let config = {
@@ -513,7 +515,7 @@ export default {
         .then((response) => {
           if (response.status == 200) {
             this.$swal.fire(this.language.publicacionEliminada, "", "success");
-            this.traerPostarchivos();
+            this.traerPostarchivos(localStorage.getItem("idGrupo"));
           }
         })
         .catch(() => {

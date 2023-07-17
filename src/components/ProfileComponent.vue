@@ -54,7 +54,7 @@
           </div>
 
           <div class="infoUserContenedor">
-            <div class="infoUser">
+            <div class="infoUser" style="width:95%">
               <span>{{ language.ci }}:</span>
               <input
                 type="text"
@@ -64,7 +64,7 @@
               />
             </div>
 
-            <div class="infoUser">
+            <div class="infoUser" style="width:95%">
               <span>{{ language.grupo }}:</span>
               <input
                 type="text"
@@ -72,6 +72,7 @@
                 :value="parseNombreGrupo(usuario.grupos)"
                 disabled
               />
+             
             </div>
 
             <div class="infoUser">
@@ -223,11 +224,12 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <router-link to="/cambioPwd">
+            <router-link to="/cambioPwd">
             {{ language.cambiarContrasenia }}
           </router-link>
+          </div>
+
+          
         </div>
       </div>
     </div>
@@ -274,6 +276,7 @@ export default {
   },
   methods: {
     parseNombreGrupo(grupos){
+        grupos = grupos.filter((item, index) => grupos.indexOf(item) === index);
       return grupos.join(",");
     },
     getUserInfo() {
