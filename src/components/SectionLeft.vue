@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar">
-    <router-link
+    <!-- <router-link
       :to="{
         name: 'profile',
         params: {
@@ -15,7 +15,7 @@
         <p id="nameUser">{{ usuario.nombre }}</p>
       </div>
     </router-link>
-    <div class="sidebarClass">
+    <div class="sidebarClass" style="margin-left:20px !important">
       <h3>{{ language.misGrupos }}</h3>
 
       <div class="sidebarElement" v-if="loading">
@@ -51,77 +51,9 @@
           <i class="fas fa-times icon" @click="changeGroup = false"></i>
         </span>
       </div>
-    </div>
-    <div class="contenedor-sidebar">
-      <div class="sidebarOption">
-        <i class="fas fa-home"></i>
-        <router-link to="/home" class="router-link">
-          <h2>{{ language.inicio }}</h2>
-        </router-link>
-      </div>
-      <div class="sidebarOption">
-        <i class="fas fa-book"></i>
-        <router-link to="/materias" class="router-link">
-          <h2>{{ language.materias }}</h2>
-        </router-link>
-      </div>
-      <div class="sidebarOption" v-if="profesor">
-        <i class="fas fa-chalkboard-teacher"></i>
+    </div> -->
 
-        <router-link to="/agenda-virtual" class="router-link">
-          <h2>{{ language.agendaVirtual }}</h2>
-        </router-link>
-      </div>
-      <div class="sidebarOption" v-else>
-        <i class="fas fa-pen"></i>
-        <router-link to="/calificaciones" class="router-link">
-          <h2>{{ language.calificaciones }}</h2>
-        </router-link>
-      </div>
-      <div class="sidebarOption">
-        <i class="fas fa-calendar"></i>
-        <router-link to="/calendario" class="router-link">
-          <h2>{{ language.calendario }}</h2>
-        </router-link>
-      </div>
-      <div class="sidebarOption">
-        <i class="fas fa-newspaper"></i>
-        <router-link to="/noticias" class="router-link">
-          <h2>{{ language.noticias }}</h2>
-        </router-link>
-      </div>
-    </div>
-    <div class="sidebarClass">
-      <h3>{{ language.misClases }}</h3>
-
-      <div class="sidebarElement" v-if="loading">
-        <span class="clases"> <span class="sidebarDot"></span> . . .</span>
-      </div>
-
-      <div
-        class="sidebarElement"
-        v-for="todo in traerMaterias"
-        :key="todo.id2"
-        v-else
-      >
-        <router-link
-          :to="{
-            name: 'materia-seleccionada',
-            params: {
-              idGrupo: todo.idGrupo,
-              idMateria: todo.idMateria,
-              materia: todo.Materia,
-            },
-          }"
-          style="text-decoration: none"
-        >
-          <span class="clases">
-            <span class="sidebarDot"></span>
-            {{ todo.Materia }}</span
-          ></router-link
-        >
-      </div>
-    </div>
+ 
   </div>
 </template>
 <script>
@@ -134,7 +66,7 @@ export default {
   data() {
     return {
       usuario: JSON.parse(window.atob(localStorage.getItem("auth_token"))),
-      traerMaterias: "",
+  
       profesor: false,
       loading: true,
       lang: localStorage.getItem("lang"),
@@ -148,12 +80,12 @@ export default {
     };
   },
   mounted() {
-    this.traerGrupo();
-    if (this.usuario.ou == "Profesor") {
-      this.profesor = true;
-    }
+    // this.traerGrupo();
+    // if (this.usuario.ou == "Profesor") {
+    //   this.profesor = true;
+    // }
 
-    this.selectLanguage();
+    // this.selectLanguage();
   },
   methods: {
     selectLanguage() {

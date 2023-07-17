@@ -29,7 +29,7 @@
                 class="form-control ml-4"
                 v-model="selectedSub"
               >
-                <option value="" disabled selected hidden>
+                <option value="0">
                   {{ language.seleccioneMat }}
                 </option>
                 <option
@@ -53,6 +53,8 @@
         >
           <p>{{ language.noSeEncontroTarea }}</p>
         </div>
+
+
         <div class="contLisCalif" v-else>
           <div
             class="list-group-item-action item-registro"
@@ -73,6 +75,7 @@
             >
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{ tareas.titulo }}</h5>
+                <small><b>{{ tareas.materia }}</b></small>
               </div>
               <small class="text-muted float-right">
                 {{ language.ver }}<i class="fas fa-eye"> </i>
@@ -119,7 +122,7 @@ export default {
       listadoTareas: "",
       lang: localStorage.getItem("lang"),
       language: "",
-      selectedSub: "",
+      selectedSub: 0,
       traerMaterias: "",
       aux: "",
     };
@@ -136,7 +139,7 @@ export default {
     filtarPorMateria() {
       var listaTarea = [];
       var selectedSub = this.selectedSub;
-      if (selectedSub.length != 0 && selectedSub.trim() !== "") {
+      if (selectedSub != 0) {
         this.listadoTareas.forEach(function (tarea) {
           if (tarea.idMateria == selectedSub) listaTarea.push(tarea);
         });
@@ -159,7 +162,7 @@ export default {
           Global.urlSitio +
             "grupo/" +
             localStorage.getItem("idGrupo") +
-            "/materia",
+            "/materia?idUsuario=" + this.usuario.username,
           config
         )
         .then((res) => {

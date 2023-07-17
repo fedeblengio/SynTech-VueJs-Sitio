@@ -38,7 +38,8 @@
         "error": "Algo salio mal",
         "usernamePublico": " publico noticia desde sitio",
         "cargarMisNoticias":"Cargar mis noticias",
-        "cargarTodasNoticias":"Cargar todas las noticias"
+        "cargarTodasNoticias":"Cargar todas las noticias",
+        "noHayNoticias":"No hay noticias para mostrar"
     },
     "en": {
         "title": "Main page",
@@ -78,7 +79,8 @@
         "error": "Something went wrong",
         "usernamePublico": " publish news from site  ",
         "cargarMisNoticias": "Load my news",
-        "cargarTodasNoticias": "Load all news"
+        "cargarTodasNoticias": "Load all news",
+        "noHayNoticias": "There are no news to show"
     }
 
   
