@@ -5,19 +5,19 @@
 
     <div class="feed">
       <div class="feed_header">
-        <h2>{{language.cambiarContra}}</h2>
+        <h2>{{ language.cambiarContra }}</h2>
       </div>
 
       <div class="cambioPwdContenedor">
         <div class="alert alert-secondary" role="alert">
-          {{language.avisoContra}}
+          {{ language.avisoContra }}
         </div>
         <div
           class="alert alert-danger alert-dismissible fade show"
           role="alert"
           v-if="camposVacios && password.actual == ''"
         >
-         {{language.inputVacio1}}
+          {{ language.inputVacio1 }}
           <button
             type="button"
             class="close"
@@ -29,7 +29,7 @@
           </button>
         </div>
         <div class="inputsPwd">
-          <span>{{language.contraActual}} <em>*</em></span>
+          <span>{{ language.contraActual }} <em>*</em></span>
           <input
             type="password"
             id="password"
@@ -48,7 +48,7 @@
           role="alert"
           v-if="camposVacios && password.nueva == ''"
         >
-         {{language.inputVacio2}}
+          {{ language.inputVacio2 }}
           <button
             type="button"
             class="close"
@@ -60,7 +60,7 @@
           </button>
         </div>
         <div class="inputsPwd">
-          <span>{{language.nuevaContra}} <em>*</em></span>
+          <span>{{ language.nuevaContra }} <em>*</em></span>
           <input
             type="password"
             id="password2"
@@ -76,7 +76,7 @@
           role="alert"
           v-if="camposVacios && password.confirmacion == ''"
         >
-         {{language.inputVacio3}}
+          {{ language.inputVacio3 }}
           <button
             type="button"
             class="close"
@@ -88,7 +88,7 @@
           </button>
         </div>
         <div class="inputsPwd">
-          <span>{{language.confirmarContra}} <em>*</em></span>
+          <span>{{ language.confirmarContra }} <em>*</em></span>
           <input
             type="password"
             id="password1"
@@ -101,7 +101,7 @@
         </div>
         <div class="cambioPwdBtn">
           <button class="boxText_btn" v-on:click="verificarContraseniaActual()">
-           {{language.btnEnviar}}
+            {{ language.btnEnviar }}
           </button>
         </div>
       </div>
@@ -136,8 +136,8 @@ export default {
         confirmacion: "",
       },
       camposVacios: false,
-         lang: localStorage.getItem("lang"),
-      language: ""
+      lang: localStorage.getItem("lang"),
+      language: "",
     };
   },
   mounted() {
@@ -145,13 +145,13 @@ export default {
   },
 
   methods: {
-        selectLanguage() {
+    selectLanguage() {
       if (localStorage.getItem("lang") == "es") {
         this.language = language.es;
       } else {
         this.language = language.en;
       }
-      this.title =  this.language.title;
+      this.title = this.language.title;
     },
     comprobarCamposVacios(input1, input2, input3) {
       return input1.length == 0 || input2.length == 0 || input3.length == 0;
@@ -233,18 +233,21 @@ export default {
         },
       };
       axios
-        .put(Global.urlSitio + "usuario/"+parametros.username+"/contrasenia", parametros, config)
+        .put(
+          Global.urlSitio + "usuario/" + parametros.username + "/contrasenia",
+          parametros,
+          config
+        )
         .then((response) => {
           if (response.status == 200) {
             localStorage.removeItem("auth_token");
             localStorage.removeItem("perfil_img");
             localStorage.removeItem("logged");
-            this.$router.push("/login");
-            this.$swal.fire(
-            this.language.contraCambiada,
-              "",
-              "success"
-            );
+
+            this.$swal.fire(this.language.contraCambiada, "", "success");
+            setTimeout(() => {
+              location.reload();
+            }, 1000);
           }
         })
         .catch(() => {
