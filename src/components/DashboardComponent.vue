@@ -207,7 +207,7 @@
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
         <li class="nav-item">
           <a
-            href="https://drive.google.com/file/d/1TV8Z_xSm62r14Z09rGHtR2uYBzWF01Nf/view?usp=sharing"
+            href="https://drive.google.com/file/d/1vxx4RIk4-hlocvUuxQUG3iAYYXCNQv6A/view?usp=sharing"
             target="_blank"
             class="nav-link px-2 text-muted"
             >{{ language.MProfesores }}</a
@@ -215,7 +215,7 @@
         </li>
         <li class="nav-item">
           <a
-            href="https://drive.google.com/file/d/1JeNw27cqvLLp2NuSip084ULB18w83eNH/view?usp=sharing"
+            href="https://drive.google.com/file/d/1EvPxt71YohUJpLHS4yKfMqQW_c86Oerf/view?usp=sharing"
             target="_blank"
             class="nav-link px-2 text-muted"
             >{{ language.MAlumnos }}</a
